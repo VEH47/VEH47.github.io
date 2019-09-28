@@ -263,52 +263,40 @@
 <p>alias ur=undelfile</p>
 
 <p>undelfile()</p>
+
+<p>{</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">{
+<pre class="chroma">  mv -i ~/.trash/$@ ./</pre></td></tr></table>
+</div>
+</div>
+<p>}</p>
 
-     mv -i ~/.trash/$@ ./
-}</pre></td></tr></table>
-</div>
-</div>
 <p>trash()</p>
+
+<p>{</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma"> {
+<pre class="chroma"> mv -i $@ ~/.trash/</pre></td></tr></table>
+</div>
+</div>
+<p>}</p>
 
-     mv -i $@ ~/.trash/
- }</pre></td></tr></table>
-</div>
-</div>
 <p>cleartrash()</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">{
 
-    read -p &#34;clear sure?[n]&#34; confirm
-    [ $confirm == &#39;y&#39; ] || [ $confirm == &#39;Y&#39; ] &amp;&amp; /bin/rm -rf ~/.trash/*
-}</pre></td></tr></table>
-</div>
-</div>
+<p>{</p>
+
+<p>read -p &ldquo;clear sure?[n]&rdquo; confirm
+   [ $confirm == &lsquo;y&rsquo; ] || [ $confirm == &lsquo;Y&rsquo; ] &amp;&amp; /bin/rm -rf ~/.trash</p>
+
+<p>}</p>
+
 <p>在这里，我们是在家目录下建立一个 .trash 的隐藏文件夹，作为回收站。然后，我们对 rm 命令进行重定义。当我们执行 rm 或者 r 的时候，将执行 trash 函数。而在 trash 函数里，只做一件事：</p>
 
 <p>mv -i $@ ~/.trash/</p>

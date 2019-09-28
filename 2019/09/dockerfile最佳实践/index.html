@@ -416,7 +416,7 @@ FROM busybox</p>
 
 <h5 id="installtools-required-for-project">Installtools required for project</h5>
 
-<h5 id="run-dockerbuild-no-cache-to-update-dependencies">Run <code>dockerbuild --no-cache .</code> to update dependencies</h5>
+<p>Run <code>dockerbuild --no-cache .</code> to update dependencies</p>
 
 <p>RUN apk add &ndash;no-cache git</p>
 
@@ -434,7 +434,7 @@ FROM busybox</p>
 
 <p>RUN depensure -vendor-only</p>
 
-<h4 id="copy-theentire-project-and-build-it">Copy theentire project and build it</h4>
+<p>Copy theentire project and build it</p>
 
 <h4 id="this-layeris-rebuilt-when-a-file-changes-in-the-project-directory">This layeris rebuilt when a file changes in the project directory</h4>
 
@@ -456,8 +456,9 @@ FROM busybox</p>
 
 <p>为了降低复杂性，依赖性，文件大小和构建时间，请避免安装额外的或不必要的软件包，即便它们可能“很好”。例如，您不需要在数据库映像中包含文本编辑器。</p>
 
-<p>### 7.解耦应用程序
-每个容器应该只有一个关系。 将应用程序分离到多个容器中可以更容易地水平扩展和重用容器。例如，Web应用程序堆栈可能包含三个独立的容器，每个容器都有自己独特的映像，以分离的方式管理Web应用程序，数据库和缓存。</p>
+<h3 id="7-解耦应用程序">7.解耦应用程序</h3>
+
+<p>每个容器应该只有一个关系。 将应用程序分离到多个容器中可以更容易地水平扩展和重用容器。例如，Web应用程序堆栈可能包含三个独立的容器，每个容器都有自己独特的映像，以分离的方式管理Web应用程序，数据库和缓存。</p>
 
 <p>将每个容器限制为一个进程是一个很好的经验法则，但它不是一个硬性规则。例如，不仅可以使用init进程生成容器，而且某些程序可能会自行生成其他进程。 例如，Celery可以生成多个工作进程，Apache可以为每个请求创建一个进程。</p>
 
@@ -542,26 +543,15 @@ FROM busybox</p>
 <h5 id="一次设置多个标签-使用行连续符进行换行">一次设置多个标签，使用行连续符进行换行</h5>
 
 <p>LABELvendor=ACME Incorporated</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">com.example.is-beta=      
 
-com.example.is-production=&#34;&#34;     
+<p>com.example.is-beta=</p>
 
-com.example.version=&#34;0.0.1-beta&#34;
+<p>com.example.is-production=&ldquo;&rdquo;</p>
 
-com.example.release-date=&#34;2015-02-12&#34;</pre></td></tr></table>
-</div>
-</div>
+<p>com.example.version=&ldquo;0.0.1-beta&rdquo;</p>
+
+<p>com.example.release-date=&ldquo;2015-02-12&rdquo;</p>
+
 <h3 id="14-run">14.RUN</h3>
 
 <p>在使用反斜杠分隔的多行拆分长或复杂的RUN语句，以使Dockerfile更具可读性，可理解性和可维护性。</p>
@@ -575,22 +565,13 @@ com.example.release-date=&#34;2015-02-12&#34;</pre></td></tr></table>
 <p>始终将RUNapt-get update与apt-get install结合在同一个RUN语句中。例如：</p>
 
 <p>RUN apt-get update &amp;&amp; apt-get install -y</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma"> package-bar
 
- package-baz
+<p>package-bar</p>
 
- package-foo</pre></td></tr></table>
-</div>
-</div>
+<p>package-baz</p>
+
+<p>package-foo</p>
+
 <p>在RUN语句中单独使用apt-get update会导致缓存问题和后续的apt-get install失败。例如，假设你有一个Dockerfile：</p>
 
 <p>以上也可以写成：</p>
@@ -612,79 +593,43 @@ RUN apt-getinstall -y curl
 <p>使用RUNapt-get update &amp;&amp; apt-get install -y可确保您的Dockerfile安装最新的软件包版本，无需进一步编码或手动干预。这种技术被称为“缓存破坏”。您还可以通过指定包版本来实现缓存清除。这称为版本固定，例如：</p>
 
 <p>RUN apt-getupdate &amp;&amp; apt-get install -y</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma"> package-bar
 
- package-baz
+<p>package-bar</p>
 
- package-foo=1.3.*</pre></td></tr></table>
-</div>
-</div>
+<p>package-baz</p>
+
+<p>package-foo=1.3.*</p>
+
 <p>版本固定强制构建以检索特定版本，而不管缓存中的内容是什么。此技术还可以减少由于所需包中意外更改而导致的故障。</p>
 
 <p>如下是一个结构良好的RUN指令，它演示了所有apt-get建议。</p>
 
 <p>RUN apt-getupdate &amp;&amp; apt-get install -y</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma"> aufs-tools
 
- automake 
+<p>aufs-tools</p>
 
-build-essential
+<p>automake</p>
 
- curl
+<p>build-essential</p>
 
- dpkg-sig
+<p>curl</p>
 
- libcap-dev
+<p>dpkg-sig</p>
 
- libsqlite3-dev
+<p>libcap-dev</p>
 
- mercurial
+<p>libsqlite3-dev</p>
 
- reprepro 
+<p>mercurial</p>
 
-ruby1.9.1 
+<p>reprepro</p>
 
-ruby1.9.1-dev
+<p>ruby1.9.1</p>
 
- s3cmd=1.1.*</pre></td></tr></table>
-</div>
-</div>
+<p>ruby1.9.1-dev</p>
+
+<p>s3cmd=1.1.*</p>
+
 <p>&amp;&amp; rm -rf /var/lib/apt/lists/*</p>
 
 <p>s3cmd参数指定版本1.1*。如果镜像使用以前的旧版本，则指定新版本会导致apt-get update缓存失效，并确保安装新版本。列出每行的包也可以防止包重复中的错误。</p>
@@ -755,18 +700,11 @@ ruby1.9.1-dev
 <p>FROM alpine</p>
 
 <p>RUN export ADMIN_USER=&ldquo;mark&rdquo;</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">&amp;&amp; echo $ADMIN_USER &gt; ./mark
 
- &amp;&amp; unset ADMIN_USER</pre></td></tr></table>
-</div>
-</div>
+<p>&amp;&amp; echo $ADMIN_USER &gt; ./mark</p>
+
+<p>&amp;&amp; unset ADMIN_USER</p>
+
 <p>CMD sh</p>
 
 <p>$ docker run&ndash;rm test sh -c &lsquo;echo $ADMIN_USER&rsquo;</p>
