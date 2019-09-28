@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Eleven</title>
-    <link>https://veh47.github.io/</link>
-    <description>Recent content on Eleven</description>
+    <title>运维 on Eleven</title>
+    <link>https://veh47.github.io/tags/%E8%BF%90%E7%BB%B4/</link>
+    <description>Recent content in 运维 on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 28 Sep 2019 17:00:55 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 28 Sep 2019 17:00:36 +0800</lastBuildDate>
     
-	<atom:link href="https://veh47.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://veh47.github.io/tags/%E8%BF%90%E7%BB%B4/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Dockerfile最佳实践</title>
-      <link>https://veh47.github.io/2019/09/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</link>
-      <pubDate>Sat, 28 Sep 2019 17:00:55 +0800</pubDate>
-      
-      <guid>https://veh47.github.io/2019/09/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</guid>
-      <description>&lt;p&gt;Docker通过读取Dockerfile中的指令自动构建镜像，一个文本文件包含构建镜像的所有指令。Dockerfile遵循特定的格式和指令集，您可以在Dockerfile中引用它们。&lt;/p&gt;</description>
-    </item>
     
     <item>
       <title>Redis&#43;keepalive</title>
@@ -36,17 +27,6 @@
       
       <guid>https://veh47.github.io/2019/09/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/</guid>
       <description>&lt;p&gt;Linux 下 rm 命令是表示删除一个文件，而Linux是没有回收站机制，所以文件一旦删除的话，就彻底从磁盘上删除了。而很多人喜欢加上 -f 选项，是代表强制的意思，更暴力的是删除文件夹的时候使用 rm -rf 命令，这样一来，文件夹本身，以及文件夹下的子子孙孙，都一了百了了。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>技术人员必经9个阶段</title>
-      <link>https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/</link>
-      <pubDate>Mon, 23 Sep 2019 23:26:09 +0800</pubDate>
-      
-      <guid>https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/</guid>
-      <description>&lt;p&gt;1.&lt;/p&gt;
-
-&lt;p&gt;刚接触编程的时候，会觉得这是个很神奇东西，平淡的英文字母，再加上标点符号，竟然可以有这么大魔力。会觉得编程是很有自豪感的事情，因为在我们看来，它就是在创造，用这些跳动的字符，创造我们想要的效果&lt;/p&gt;</description>
     </item>
     
   </channel>

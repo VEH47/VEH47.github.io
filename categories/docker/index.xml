@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker on Eleven</title>
+    <link>https://veh47.github.io/categories/docker/</link>
+    <description>Recent content in docker on Eleven</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 28 Sep 2019 17:00:55 +0800</lastBuildDate>
+    
+	<atom:link href="https://veh47.github.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dockerfile最佳实践</title>
+      <link>https://veh47.github.io/2019/09/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Sat, 28 Sep 2019 17:00:55 +0800</pubDate>
+      
+      <guid>https://veh47.github.io/2019/09/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</guid>
+      <description>&lt;p&gt;Docker通过读取Dockerfile中的指令自动构建镜像，一个文本文件包含构建镜像的所有指令。Dockerfile遵循特定的格式和指令集，您可以在Dockerfile中引用它们。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

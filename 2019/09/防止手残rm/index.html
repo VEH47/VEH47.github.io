@@ -8,43 +8,35 @@
 <meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Eleven">
 <meta name="keywords" content="">
-<meta name="description" content="1.
-
-刚接触编程的时候，会觉得这是个很神奇东西，平淡的英文字母，再加上标点符号，竟然可以有这么大魔力。会觉得编程是很有自豪感的事情，因为在我们看来，它就是在创造，用这些跳动的字符，创造我们想要的效果">
+<meta name="description" content="Linux 下 rm 命令是表示删除一个文件，而Linux是没有回收站机制，所以文件一旦删除的话，就彻底从磁盘上删除了。而很多人喜欢加上 -f 选项，是代表强制的意思，更暴力的是删除文件夹的时候使用 rm -rf 命令，这样一来，文件夹本身，以及文件夹下的子子孙孙，都一了百了了。">
 
 
-<meta property="og:description" content="1.
-
-刚接触编程的时候，会觉得这是个很神奇东西，平淡的英文字母，再加上标点符号，竟然可以有这么大魔力。会觉得编程是很有自豪感的事情，因为在我们看来，它就是在创造，用这些跳动的字符，创造我们想要的效果">
+<meta property="og:description" content="Linux 下 rm 命令是表示删除一个文件，而Linux是没有回收站机制，所以文件一旦删除的话，就彻底从磁盘上删除了。而很多人喜欢加上 -f 选项，是代表强制的意思，更暴力的是删除文件夹的时候使用 rm -rf 命令，这样一来，文件夹本身，以及文件夹下的子子孙孙，都一了百了了。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="技术人员必经9个阶段">
-<meta name="twitter:title" content="技术人员必经9个阶段">
-<meta property="og:url" content="https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/">
-<meta property="twitter:url" content="https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/">
+<meta property="og:title" content="防止手残rm">
+<meta name="twitter:title" content="防止手残rm">
+<meta property="og:url" content="https://veh47.github.io/2019/09/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/09/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/">
 <meta property="og:site_name" content="Eleven">
-<meta property="og:description" content="1.
-
-刚接触编程的时候，会觉得这是个很神奇东西，平淡的英文字母，再加上标点符号，竟然可以有这么大魔力。会觉得编程是很有自豪感的事情，因为在我们看来，它就是在创造，用这些跳动的字符，创造我们想要的效果">
-<meta name="twitter:description" content="1.
-
-刚接触编程的时候，会觉得这是个很神奇东西，平淡的英文字母，再加上标点符号，竟然可以有这么大魔力。会觉得编程是很有自豪感的事情，因为在我们看来，它就是在创造，用这些跳动的字符，创造我们想要的效果">
+<meta property="og:description" content="Linux 下 rm 命令是表示删除一个文件，而Linux是没有回收站机制，所以文件一旦删除的话，就彻底从磁盘上删除了。而很多人喜欢加上 -f 选项，是代表强制的意思，更暴力的是删除文件夹的时候使用 rm -rf 命令，这样一来，文件夹本身，以及文件夹下的子子孙孙，都一了百了了。">
+<meta name="twitter:description" content="Linux 下 rm 命令是表示删除一个文件，而Linux是没有回收站机制，所以文件一旦删除的话，就彻底从磁盘上删除了。而很多人喜欢加上 -f 选项，是代表强制的意思，更暴力的是删除文件夹的时候使用 rm -rf 命令，这样一来，文件夹本身，以及文件夹下的子子孙孙，都一了百了了。">
 <meta property="og:locale" content="zh-cn">
 
   
-    <meta property="article:published_time" content="2019-09-23T23:26:09">
+    <meta property="article:published_time" content="2019-09-28T16:59:57">
   
   
-    <meta property="article:modified_time" content="2019-09-23T23:26:09">
+    <meta property="article:modified_time" content="2019-09-28T16:59:57">
   
-  
-  
-    
-      <meta property="article:section" content="思悟">
-    
   
   
     
-      <meta property="article:tag" content="blog">
+      <meta property="article:section" content="运维">
+    
+  
+  
+    
+      <meta property="article:tag" content="运维">
     
   
 
@@ -65,14 +57,14 @@
   <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
 
 
-    <title>技术人员必经9个阶段</title>
+    <title>防止手残rm</title>
 
     <link rel="icon" href="https://veh47.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/">
+    <link rel="canonical" href="https://veh47.github.io/2019/09/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -222,15 +214,15 @@
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      技术人员必经9个阶段
+      防止手残rm
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-09-23T23:26:09&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-09-28T16:59:57&#43;08:00">
         
-  九月 23, 2019
+  九月 28, 2019
 
       </time>
     
@@ -239,7 +231,7 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://veh47.github.io/categories/%e6%80%9d%e6%82%9f">思悟</a>
+      <a class="category-link" href="https://veh47.github.io/categories/%e8%bf%90%e7%bb%b4">运维</a>
     
   
 
@@ -249,95 +241,147 @@
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>1.</p>
+              <p>Linux 下 rm 命令是表示删除一个文件，而Linux是没有回收站机制，所以文件一旦删除的话，就彻底从磁盘上删除了。而很多人喜欢加上 -f 选项，是代表强制的意思，更暴力的是删除文件夹的时候使用 rm -rf 命令，这样一来，文件夹本身，以及文件夹下的子子孙孙，都一了百了了。</p>
 
-<p>刚接触编程的时候，会觉得这是个很神奇东西，平淡的英文字母，再加上标点符号，竟然可以有这么大魔力。会觉得编程是很有自豪感的事情，因为在我们看来，它就是在创造，用这些跳动的字符，创造我们想要的效果</p>
+<p>由于没有回收站机制，很多人吃过这个亏，良许也是，曾经辛苦写的几个月的代码，一个 rm 命令全部化为乌有，搞得每次执行 rm 命令的时候，手都是颤抖的……</p>
 
-<p>我当时第一次看到编程的时候，就是这种感觉，我也不知道它是什么，如何做到的，但是就是感觉这很神奇，是一种不懂但是觉得很酷的感觉，然后就会着迷，开始想学。</p>
+<p>既然Linux没有回收站，那我们能否自己实现一个？答案当然是肯定的。下面，我们就自己动手做一个回收站，给自己一个后悔的机会。</p>
 
-<p>2.</p>
+<p>既然罪魁祸首是 rm 命令，那我们就对这个命令进行改造。在Linux下对命令进行重定义是使用 alias 命令，修改的是 .bashrc 文件，即：</p>
 
-<p>走上了编程之路后，学习得方式主要看语法，这个是为了入门，但是并不太知道为什么会这样，但是能用，能模仿，这时候算是入门了。</p>
+<p>vim ~/.bashrc
+在文件尾部，我们添加以下几句代码：</p>
 
-<p>入门后，会迫不及待的，使用实验各种效果，而且这些结果可能都不是自己写出来的，因为入门了，环境可以搭建，会运行，就会从很多地方拷贝一些代码，运行试试，然后感受成功后的自豪感。</p>
+<p>mkdir -p ~/.trash</p>
 
-<p>我真正做出来东西的语言是VB，可以通过拖动生成界面，然后再填充需要的逻辑代码，就可以实现一些功能，比如MP3后缀名处理，HTML转TXT，那时候主要的目的，还是满足自己的需要，可以做一些酷的东西，并不是真的把它当成一门用于工作的技能系统的学习它，但是即使这样，已经够我在同学面前自豪了。</p>
+<p>alias rm=trash</p>
 
-<p>3.</p>
+<p>alias r=trash</p>
 
-<p>真正的在走向工作之前，这时候的学习，就开始系统性，毕竟要决定靠这个谋生了。这时候我们会看一些实战类的书籍，比如如何做网站，通过什么框架，用到哪些数据库、服务器等等，这时候基本上已经走向正路了。</p>
+<p>alias rl=&lsquo;ls ~/.trash/&rsquo;</p>
 
-<p>但是这个时候，我们只是会用阶段，大部分人还不知道为什么，比如Spring框架，我们知道这么配置可以用，可以IoC反转，但是不知道怎么实现的，原理是什么。</p>
+<p>alias ur=undelfile</p>
 
-<p>这个时候最大的特点就是，给分配的工作都能做，不太会的，也可以通过Google、百度解决，大不了拷贝别人的一份，改改即可。</p>
+<p>undelfile()</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">{
 
-<p>不管怎么样，现在已经初步具备框架系统体系了，可以谋生了。</p>
+     mv -i ~/.trash/$@ ./
+}</pre></td></tr></table>
+</div>
+</div>
+<p>trash()</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"> {
 
-<p>4.</p>
+     mv -i $@ ~/.trash/
+ }</pre></td></tr></table>
+</div>
+</div>
+<p>cleartrash()</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">{
 
-<p>随着工作时间的加长，经验的增加，你会渐渐的发展，很多常用的知识，自己只会用，但是并不懂，比如内存的分配，类的加载顺序，IoC的原理等等。</p>
+    read -p &#34;clear sure?[n]&#34; confirm
+    [ $confirm == &#39;y&#39; ] || [ $confirm == &#39;Y&#39; ] &amp;&amp; /bin/rm -rf ~/.trash/*
+}</pre></td></tr></table>
+</div>
+</div>
+<p>在这里，我们是在家目录下建立一个 .trash 的隐藏文件夹，作为回收站。然后，我们对 rm 命令进行重定义。当我们执行 rm 或者 r 的时候，将执行 trash 函数。而在 trash 函数里，只做一件事：</p>
 
-<p>这时候大概是工作2年左右，如果快的话，可能会在工作第一年就意识到。这时候你会刻意的去买了一些讲解基础类的书籍，比如以前从来没有认真读完的《Thinking In Java》又开始重读了，并且读的很仔细，还会配合例子测试一下，俨然像一个刚入门的，但是你知道你很清楚你缺少的是什么，想从中学到什么。</p>
+<p>mv -i $@ ~/.trash/</p>
 
-<p>然后你可能还会尝试买一些比较深入的书籍，比如讲解原理的，高级特性分析得等等，这时候你会逐步的在你现在的这门语言开始深入，要跨过不光会用，还要懂为什么的阶段，这个阶段是孤独的，因为大部分都是语言特性、原理的学习。</p>
+<p>就是将 rm 之后所有的文件移动到 .trash 目录下（即模拟丢进回收站）。-i 选项表示如果 .trash 目录有同名文件的话，将提示是否覆盖。</p>
 
-<p>跨过去，就是鱼跃龙门，过不去，就是一个重复的螺丝钉。</p>
+<p>我们将 rl 定义为 ls ~/.trash/ ，也就是说，我们可以通过 rl 来查看 .trash 目录下的文件，即被「删除」的文件。</p>
 
-<p>5.</p>
+<p>如果要还原文件，可以执行 ur ，而 ur 将执行 undelfile 函数。在 undelfile 里，又将 ur 之后的文件从 .trash 目录移回到原目录，从而实现文件删除还原。</p>
 
-<p>恭喜你能来到这个阶段，你不光会用，还知道原理。这个时候可能你已经工作3年以上了，这时候你开始独立负责一些项目，设计都是你来做。这时候对你的考验不光是编程语言本身了，你还会考虑如何让你的项目具备更好的扩展性，如何提高性能，如何和数据库、服务器、缓存等配合，设计出更好的系统。</p>
+<p>当过了一段时间后，回收站里文件太多了，我们可以使用 cleartrash 命令清空回收站。它将执行同名函数，调用 /bin/rm 命令将 .trash 目录清空。</p>
 
-<p>这时候你可能开始看设计模式，也会研究数据库的优化，可能还会对Nginx研究，以便更好的使用。</p>
+<p>.bashrc 文件修改完毕之后，我们要让它生效：</p>
 
-<p>这时候的主要特征，就是抽象能力、复用能力、组件化、模块化的提升，同时可以和编程周边（数据库、服务器等）进行更好的协调和搭配，以完成自己的项目设计。</p>
+<p>source ~/.bashrc</p>
 
-<p>这就是成为高级工程师之路。</p>
+<p>我们来实际体会一下：</p>
 
-<p>6.</p>
+<p>删除文件</p>
 
-<p>现在你来了第7段，这一段是资深工程师，是第6段的加强，并不会有质的突破。</p>
+<p>alvin@alvin-pc:~/test$ touch file1 file2 file3</p>
 
-<p>在这个阶段，你会对抽象、架构的理解更深。开始积累更多的模块，形成一个SDK或者一个微服务，你开始深入研究安全，并发，监控。如果你是服务端，你可能会考虑服务双活甚至多活，考虑网关等等。</p>
+<p>alvin@alvin-pc:~/test$ ls</p>
 
-<p>并且你可能已经开始跨多个端了解业务和架构设计，比如服务端和前端的分离，服务端和终端的协作，开始逐步的从全局（不限于自己的技术栈）思考问题、设计系统。</p>
+<p>file1  file2  file3</p>
 
-<p>这个阶段，就是第6段的继续深入，积累，扩展，然后积累到可以突破到架构师。</p>
+<p>alvin@alvin-pc:~/test$ rm file1 file2</p>
 
-<p>7.</p>
+<p>alvin@alvin-pc:~/test$ r</p>
 
-<p>现在你终于突破到架构师了，你的眼界不在局限在你的技术栈，其他的语言你可能不懂，但是你知道如何使用他们，甚至你自己开始学习另外一门语言。</p>
+<p>查看回收站文件</p>
 
-<p>你设计的系统，不会只考虑自己的技术栈，你可能会选择更合适的技术栈来实现。</p>
+<p>alvin@alvin-pc:~/test$ rl</p>
 
-<p>你会跨语言、技术栈思考问题，并且可以提出好的方案，比如负责的一个项目，横跨服务端、Android、iOS和前端，你会通盘考虑，兼顾哥哥技术栈，协调大家完成这个项目。</p>
+<p>file1  file2  file3</p>
 
-<p>你不光可能完成分配的任务，还能对现有的系统提出更多有建设性的建议，进行优化，改进，甚至提前积累我们业务需要的技术、平台、知识，为我们未来的使用和扩展做准备。</p>
+<p>还原被删除的文件</p>
 
-<p>你还会熟悉业务，可能比其他更多的人对业务更熟悉，因为只有这样，才能设计出更适合业务的架构。</p>
+<p>alvin@alvin-pc:~/test$ rl</p>
 
-<p>你会借助技术负责人的能力，帮你推动协调事情，让你的想法更好的开展和实现。</p>
+<p>file1  file2  file3</p>
 
-<p>你的考虑角度，永远都是整个技术部门，而不是再局限在某个项目，某个组，某个技术栈。</p>
+<p>alvin@alvin-pc:~/test$ ur file1</p>
 
-<p>那么恭喜你，现在你是一个合格的架构师了。</p>
+<p>alvin@alvin-pc:~/test$ ur file2</p>
 
-<p>8.</p>
+<p>alvin@alvin-pc:~/test$ ur file3</p>
 
-<p>现在，到了第8段，现在可能你已经做了10年了，你发现，所有的一切技术，都是实现业务的工具。业务才是根本，技术是为业务服务的，如果买个系统就能达到目的，那么是不需要自己开发的。</p>
+<p>alvin@alvin-pc:~/test$ ls</p>
 
-<p>这时候，你具备了再一次横向扩展的能力，可以横向到产品、市场、运营、设计、测试、运维等，这时候，你就不是一个单单的技术人了。</p>
+<p>file1  file2  file3</p>
 
-<p>如果有一个称呼的话，可以是技术总监、技术VP等等。</p>
+<p>alvin@alvin-pc:~/test$ rl</p>
 
-<p>9.</p>
+<p>alvin@alvin-pc:~/test$</p>
 
-<p>以上8段，其中第4段是比较重要的，也是一个槛，第5，6段是一个积累的阶段，也是培养抽象、架构能力的阶段，这两个阶段，决定了你是否可以到第8段的架构师，所以第7段也是一个槛。</p>
+<p>清空回收站</p>
 
-<p>有些人，可能5年多就可以到第7段，但是可能需要10年才能到第7段，这是一个非常困难的过程，需要长期的积累，思想的蜕变，才能成长到第8段。</p>
+<p>alvin@alvin-pc:~/test$ rm file1 file2 file3</p>
 
-<p>从第5段开始，你就不能只顾自己了，要更多的考虑协调、协作、体系、多角度。只有做的事情是让整个团队受益的，才能逐渐的突破第6段，进入第7段的架构师。</p>
+<p>alvin@alvin-pc:~/test$ rl</p>
 
-<p>每一步，都踩实，多思考、多学习，在每个段位，都做一些超出这个段位的事情，很自然的就进入了下一个段位。</p>
+<p>file1  file2  file3</p>
+
+<p>alvin@alvin-pc:~/test$ cleartrash</p>
+
+<p>clear sure?[n]y</p>
+
+<p>alvin@alvin-pc:~/test$ rl</p>
+
+<p>alvin@alvin-pc:~/test$</p>
+
+<p>通过以上这些步骤，我们虽然可以实现一个回收站的功能，但实际的工作中，我们还是要养成定时备份的习惯，这样即使有误操作，我们也可以将损失降到最低。</p>
               
             </div>
           </div>
@@ -349,7 +393,7 @@
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">标签</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/blog/">blog</a>
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
 
                   </div>
                 
@@ -362,7 +406,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/" data-tooltip="技术人员必经9个阶段">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -370,7 +414,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/" data-tooltip="防止手残rm">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/redis-keepalive/" data-tooltip="Redis&#43;keepalive">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -420,7 +464,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/" data-tooltip="技术人员必经9个阶段">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -428,7 +472,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/" data-tooltip="防止手残rm">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/redis-keepalive/" data-tooltip="Redis&#43;keepalive">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>

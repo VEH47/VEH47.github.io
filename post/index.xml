@@ -6,10 +6,37 @@
     <description>Recent content in Posts on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 23 Sep 2019 23:26:09 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 28 Sep 2019 17:00:55 +0800</lastBuildDate>
     
 	<atom:link href="https://veh47.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Dockerfile最佳实践</title>
+      <link>https://veh47.github.io/2019/09/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Sat, 28 Sep 2019 17:00:55 +0800</pubDate>
+      
+      <guid>https://veh47.github.io/2019/09/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</guid>
+      <description>&lt;p&gt;Docker通过读取Dockerfile中的指令自动构建镜像，一个文本文件包含构建镜像的所有指令。Dockerfile遵循特定的格式和指令集，您可以在Dockerfile中引用它们。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Redis&#43;keepalive</title>
+      <link>https://veh47.github.io/2019/09/redis-keepalive/</link>
+      <pubDate>Sat, 28 Sep 2019 17:00:36 +0800</pubDate>
+      
+      <guid>https://veh47.github.io/2019/09/redis-keepalive/</guid>
+      <description>&lt;p&gt;Keepalived 实现VRRP（虚拟路由冗余）协议，从路由级别实现VIP切换，可以完全避免类似heartbeat脑裂问题，可以很好的实现主从、主备、互备方案，尤其是无状态业务，有状态业务就需要额外花些功夫了。既然Mysql可以使用Keepalived很好的做到主从切换，那么Redis自然可以使用这种方式实现高可用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>防止手残rm</title>
+      <link>https://veh47.github.io/2019/09/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/</link>
+      <pubDate>Sat, 28 Sep 2019 16:59:57 +0800</pubDate>
+      
+      <guid>https://veh47.github.io/2019/09/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/</guid>
+      <description>&lt;p&gt;Linux 下 rm 命令是表示删除一个文件，而Linux是没有回收站机制，所以文件一旦删除的话，就彻底从磁盘上删除了。而很多人喜欢加上 -f 选项，是代表强制的意思，更暴力的是删除文件夹的时候使用 rm -rf 命令，这样一来，文件夹本身，以及文件夹下的子子孙孙，都一了百了了。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>技术人员必经9个阶段</title>
