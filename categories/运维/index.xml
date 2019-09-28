@@ -29,14 +29,5 @@
       <description>&lt;p&gt;Linux 下 rm 命令是表示删除一个文件，而Linux是没有回收站机制，所以文件一旦删除的话，就彻底从磁盘上删除了。而很多人喜欢加上 -f 选项，是代表强制的意思，更暴力的是删除文件夹的时候使用 rm -rf 命令，这样一来，文件夹本身，以及文件夹下的子子孙孙，都一了百了了。&lt;/p&gt;</description>
     </item>
     
-    <item>
-      <title>防止手残rm</title>
-      <link>https://veh47.github.io/2019/09/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/</link>
-      <pubDate>Sat, 28 Sep 2019 16:59:57 +0800</pubDate>
-      
-      <guid>https://veh47.github.io/2019/09/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/</guid>
-      <description>&lt;p&gt;Linux 下 rm 命令是表示删除一个文件，而Linux是没有回收站机制，所以文件一旦删除的话，就彻底从磁盘上删除了。而很多人喜欢加上 -f 选项，是代表强制的意思，更暴力的是删除文件夹的时候使用 rm -rf 命令，这样一来，文件夹本身，以及文件夹下的子子孙孙，都一了百了了。&lt;/p&gt;</description>
-    </item>
-    
   </channel>
 </rss>
