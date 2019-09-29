@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Eleven">
+<meta name="keywords" content="">
+<meta name="description" content="Docker是通过内核虚拟化技术（namespaces及cgroups cpu、内存、磁盘io等）来提供容器的资源隔离与安全保障等。
+由于Docker通过操作系统层的虚拟化实现隔离，所以Docker容器在运行时，不需要类似虚拟机（VM）额外的操作系统开销，
+提高资源利用率。">
+
+
+<meta property="og:description" content="Docker是通过内核虚拟化技术（namespaces及cgroups cpu、内存、磁盘io等）来提供容器的资源隔离与安全保障等。
+由于Docker通过操作系统层的虚拟化实现隔离，所以Docker容器在运行时，不需要类似虚拟机（VM）额外的操作系统开销，
+提高资源利用率。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker容器的部署管理">
+<meta name="twitter:title" content="Docker容器的部署管理">
+<meta property="og:url" content="https://veh47.github.io/2019/09/docker%E5%AE%B9%E5%99%A8%E7%9A%84%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/09/docker%E5%AE%B9%E5%99%A8%E7%9A%84%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86/">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="Docker是通过内核虚拟化技术（namespaces及cgroups cpu、内存、磁盘io等）来提供容器的资源隔离与安全保障等。
+由于Docker通过操作系统层的虚拟化实现隔离，所以Docker容器在运行时，不需要类似虚拟机（VM）额外的操作系统开销，
+提高资源利用率。">
+<meta name="twitter:description" content="Docker是通过内核虚拟化技术（namespaces及cgroups cpu、内存、磁盘io等）来提供容器的资源隔离与安全保障等。
+由于Docker通过操作系统层的虚拟化实现隔离，所以Docker容器在运行时，不需要类似虚拟机（VM）额外的操作系统开销，
+提高资源利用率。">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-09-29T10:48:50">
+  
+  
+    <meta property="article:modified_time" content="2019-09-29T10:48:50">
+  
+  
+  
+    
+      <meta property="article:section" content="docker">
+    
+  
+  
+    
+      <meta property="article:tag" content="docker">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://veh47.github.io/images/coffice.png">
+  <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
+
+
+    <title>Docker容器的部署管理</title>
+
+    <link rel="icon" href="https://veh47.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://veh47.github.io/2019/09/docker%E5%AE%B9%E5%99%A8%E7%9A%84%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://veh47.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="3">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://veh47.github.io/">Eleven</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://veh47.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="3">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://veh47.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Eleven</h4>
+        
+          <h5 class="sidebar-profile-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/VEH47/veh47.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="3"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Docker容器的部署管理
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-29T10:48:50&#43;08:00">
+        
+  九月 29, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://veh47.github.io/categories/docker">docker</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>Docker是通过内核虚拟化技术（namespaces及cgroups cpu、内存、磁盘io等）来提供容器的资源隔离与安全保障等。
+由于Docker通过操作系统层的虚拟化实现隔离，所以Docker容器在运行时，不需要类似虚拟机（VM）额外的操作系统开销，
+提高资源利用率。</p>
+
+<h3 id="1-docker容器">1. docker容器</h3>
+
+<p>docker的主要目标是&rdquo;Build,Ship and Run any App,Angwhere&rdquo;,构建，运输，处处运行
+构建：做一个docker镜像
+运输：docker pull
+运行：启动一个容器
+每一个容器，他都有自己的文件系统rootfs.</p>
+
+<p>docker解决了软件和操作系统环境之间的依赖，能够让独立服务或应用程序在不同的环境中，得到相同的运行结果。
+docker容器是一种轻量级、可移植、自包含的软件打包技术，使应用程序可以在几乎任何地方以相同的方式运行。开发人员
+在自己笔记本上创建并测试好的容器，无需任何修改就能够在生产系统的虚拟机、物理服务器或公有云主机上运行。</p>
+
+<h3 id="2-docker的安装">2. docker的安装</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">wget -O /etc/yum.repos.d/docker-ce.repo https://mirrors.ustc.edu.cn/docker-ce/linux/centos/docker-ce.repo
+sed -i &#39;s#download.docker.com#mirrors.ustc.edu.cn/docker-ce#g&#39; /etc/yum.repos.d/docker-ce.repo</pre></td></tr></table>
+</div>
+</div>
+<hr />
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">vi /etc/yum.repos.d/docker-ce.repo
+[docker-ce-stable]
+name=Docker CE Stable - $basearch
+baseurl=https://mirrors.ustc.edu.cn/docker-ce/linux/centos/7/$basearch/stable
+enabled=1
+gpgcheck=0
+gpgkey=https://mirrors.ustc.edu.cn/docker-ce/linux/centos/gpg
+yum install docker-ce -y
+systemctl start docker.service</pre></td></tr></table>
+</div>
+</div>
+<hr />
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">vim /etc/sysctl.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+sysctl -p</pre></td></tr></table>
+</div>
+</div>
+<h3 id="3-docker的主要组成部分">3. docker的主要组成部分</h3>
+
+<p>docker是传统的CS架构分为docker client和docker server,像mysql一样</p>
+
+<p>命令：docker version</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@controller ~]# docker version
+Client:
+Version: 17.12.0-ce
+API version: 1.35
+Go version: go1.9.2
+Git commit: c97c6d6
+Built: Wed Dec 27 20:10:14 2017
+OS/Arch: linux/amd64
+Server:
+    Engine:
+     Version: 17.12.0-ce
+    API version: 1.35 (minimum version 1.12)
+    Go version: go1.9.2
+    Git commit: c97c6d6
+    Built: Wed Dec 27 20:12:46 2017
+    OS/Arch: linux/amd64
+    Experimental: false
+docker  info   </pre></td></tr></table>
+</div>
+</div>
+<h3 id="4-docker的镜像管理">4. docker的镜像管理</h3>
+
+<p>配置docker镜像加速
+    vim /etc/docker/daemon.json</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">{
+
+    &#34;registry-mirrors&#34;: [&#34;https://registry.docker-cn.com&#34;]
+
+}</pre></td></tr></table>
+</div>
+</div>
+<p>搜索镜像: docker search</p>
+
+<p>下载镜像: docker pull + 镜像:镜像版本</p>
+
+<p>镜像加速器：阿里云加速器，daocloud加速器，中科大加速器，Docker 中国官方镜像加速：<a href="https://registry.docker-cn.com">https://registry.docker-cn.com</a></p>
+
+<p>第三方docker镜像仓库，使用方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker pull index.tenxcloud.com/tenxcloud/httpd:latest</pre></td></tr></table>
+</div>
+</div>
+<p>查看镜像:  docker images</p>
+
+<p>删除镜像:  docker rmi</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">例子：docker image rm centos:latest 或者docker  rmi centos:latest</pre></td></tr></table>
+</div>
+</div>
+<p>导出镜像:  docker save</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">例子：docker image save centos &gt; docker-centos7.4.tar.gz</pre></td></tr></table>
+</div>
+</div>
+<p>导入镜像:   docker load</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">例子：docker image load -i docker-centos7.4.tar.gz</pre></td></tr></table>
+</div>
+</div>
+<p>手动将容器保存为镜像:  docker commit</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">例:docker commit b511b0a19f4a  kodexplorer4:v3
+                  容器ID         新镜像名称</pre></td></tr></table>
+</div>
+</div>
+<h3 id="5-docker的容器管理">5. docker的容器管理</h3>
+
+<p>启动容器</p>
+
+<p>docker   run        -d         -p 80:80  (可以指定多个端口) &ndash;restart=always     centos6-ssh-httpd:v1 /init.sh<br />
+      创建带运行   后台运行    宿主端口:容器端口            总是重启                     容器名称</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker run -it image_name:版本号  分配交互式终端进入容器
+
+docker run -it --name 名字 image_name:版本号   给容器取名</pre></td></tr></table>
+</div>
+</div>
+<p>停止容器:  docker stop 容器名字或者ID</p>
+
+<p>杀死容器:  docker kill  容器名字或者ID</p>
+
+<p>查看容器:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker ps  查看在运行的容器
+
+docker ps –a  查看所有容器</pre></td></tr></table>
+</div>
+</div>
+<p>进入容器:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+
+docker exec -it be5f71a4356d /bin/bash
+       分配一个终端 +容器id+ 前台进程</pre></td></tr></table>
+</div>
+</div>
+<p>删除容器: docker rm -f be5f71a4356d</p>
+
+<p><em>总结：docker容器内的第一个进程必须一直处于前台运行的状态，否则这个容器，就会处于退出状态！</em></p>
+
+<h3 id="6-docker容器的网络访问">6. docker容器的网络访问</h3>
+
+<p>指定映射:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">-p hostPort:containerPort
+-p ip:hostPort:containerPort 
+-p ip::containerPort
+-p hostPort:containerPort:udp
+-p 81:80 –p 443:443</pre></td></tr></table>
+</div>
+</div>
+<p>随机映射:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker run -P</pre></td></tr></table>
+</div>
+</div>
+<h3 id="7-docker的数据卷管理">7. docker的数据卷管理</h3>
+
+<p>数据卷(文件或目录)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">-v /data
+-v src:dst</pre></td></tr></table>
+</div>
+</div>
+<p>数据卷容器</p>
+
+<p>&ndash;volumes-from</p>
+
+<p>挂载</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"> -v /opt/myregistry:/var/lib/registry  
+ -v       宿主机目录:容器里的目录</pre></td></tr></table>
+</div>
+</div>
+<h3 id="8-dockerfile自动构建docker镜像">8. dockerfile自动构建docker镜像</h3>
+
+<p>dockerfile主要组成部分：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">基础镜像信息       FROM：centos:6.8
+制作镜像操作指令   RUN yum install openssh-server -y
+容器启动时执行指令 CMD [&#34;/bin/bash&#34;]</pre></td></tr></table>
+</div>
+</div>
+<p>dockerfile常用指令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">FROM 这个镜像的妈妈是谁？（指定基础镜像）
+RUN 你想让它干啥（在命令前面加上RUN即可）
+ADD 给它点创业资金（COPY文件，会自动解压只能解压tar包）
+WORKDIR 我是cd,今天刚化了妆（设置当前工作目录）
+VOLUME 给它一个存放行李的地方（设置卷，挂载主机目录）
+EXPOSE 它要打开的门是啥（指定对外的端口）    
+COPY 复制文件
+ENV  环境变量  (设置时,需要在执行脚本里设置环境变量)
+ENTRYPOINT  容器启动后执行的命令(不管加什么都不会被替换)
+CMD 奔跑吧，兄弟！（指定容器启动后的要干的事情,命令容易被替换）
+MAINTAINER 告诉别人，谁负责养它？（指定维护者信息，可以没有）</pre></td></tr></table>
+</div>
+</div>
+<p>例:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@docker01 /Dockerfile]# cat Dockerfile        ####必须这个名字
+FROM centos:6.8                                ####指定镜像
+COPY  CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo   ####把宿主机当前目录的文件复制到容器里的目录下
+RUN yum install openssh-server -y             ####下载软件  
+RUN yum install httpd -y                     #### 下载软件
+RUN yum install php* unzip -y
+WORKDIR  /var/www/html                         ####进入这个目录,以后的操作都在这个目录下
+RUN curl -o kodexplorer.zip http://static.kodcloud.com/update/download/kodexplorer4.25.zip   ####下载这个软件
+RUN unzip kodexplorer.zip                     #### 解压这个软件
+RUN chmod -R 777 ./                          ####  授予当前目录777权限
+RUN /etc/init.d/sshd start                    #### 启动ssh服务     
+ADD init.sh /init.sh                           ####在当前目录下的脚本 cp到容器中的根下生成脚本
+ENTRYPOINT [&#34;/bin/bash&#34;,&#34;/init.sh&#34;]           #### 执行脚本并且首次启动容器命令不变</pre></td></tr></table>
+</div>
+</div>
+<hr />
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@docker01 /Dockerfile<span class="o">]</span><span class="c1"># cat init.sh       ####上边的脚本</span>
+<span class="c1">#!/bin/bash</span> 
+/etc/init.d/httpd start                        <span class="c1">####启动服务</span>
+<span class="nb">echo</span> <span class="s2">&#34;root:</span><span class="si">${</span><span class="nv">ssh_passwd</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">|</span>chpasswd            <span class="c1">#### (用环境变量给设置密码)</span>
+/usr/sbin/sshd -D                              <span class="c1">####夯住容器</span></pre></td></tr></table>
+</div>
+</div>
+<p>创建镜像</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker build -t centos6-sshd:v5 .              ####指定当前目录下的 Dockerfile  </pre></td></tr></table>
+</div>
+</div>
+<p>创建容器(生成容器 指定密码)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker run -d -p 10062:22 -p 82:80 --restart=always  --env &#34;ssh_passwd=qwer1234&#34; centos6-ssh-httpd:v4 </pre></td></tr></table>
+</div>
+</div>
+<h3 id="9-容器间的互联">9. 容器间的互联</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker run -d -p 80:80 nginx
+docker run -it --link quirky_brown:web01 qstack/centos-ssh /bin/bash
+ping web01</pre></td></tr></table>
+</div>
+</div>
+<p>使用docker运行zabbix-server</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"> docker run --name mysql-server -t \
+  -e MYSQL_DATABASE=&#34;zabbix&#34; \
+  -e MYSQL_USER=&#34;zabbix&#34; \
+  -e MYSQL_PASSWORD=&#34;zabbix_pwd&#34; \
+  -e MYSQL_ROOT_PASSWORD=&#34;root_pwd&#34; \
+  -d mysql:5.7 \
+  --character-set-server=utf8 --collation-server=utf8_bin</pre></td></tr></table>
+</div>
+</div>
+<hr />
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker run --name zabbix-java-gateway -t \
+  -d zabbix/zabbix-java-gateway:latest</pre></td></tr></table>
+</div>
+</div>
+<hr />
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker run --name zabbix-server-mysql -t \
+  -e DB_SERVER_HOST=&#34;mysql-server&#34; \
+  -e MYSQL_DATABASE=&#34;zabbix&#34; \
+  -e MYSQL_USER=&#34;zabbix&#34; \
+  -e MYSQL_PASSWORD=&#34;zabbix_pwd&#34; \
+  -e MYSQL_ROOT_PASSWORD=&#34;root_pwd&#34; \
+  -e ZBX_JAVAGATEWAY=&#34;zabbix-java-gateway&#34; \
+  --link mysql-server:mysql \
+  --link zabbix-java-gateway:zabbix-java-gateway \
+  -p 10051:10051 \
+  -d zabbix/zabbix-server-mysql:latest</pre></td></tr></table>
+</div>
+</div>
+<hr />
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker run --name zabbix-web-nginx-mysql -t \
+  -e DB_SERVER_HOST=&#34;mysql-server&#34; \
+  -e MYSQL_DATABASE=&#34;zabbix&#34; \
+  -e MYSQL_USER=&#34;zabbix&#34; \
+  -e MYSQL_PASSWORD=&#34;zabbix_pwd&#34; \
+  -e MYSQL_ROOT_PASSWORD=&#34;root_pwd&#34; \
+  --link mysql-server:mysql \
+  --link zabbix-server-mysql:zabbix-server \
+  -p 80:80 \
+  -d zabbix/zabbix-web-nginx-mysql:latest</pre></td></tr></table>
+</div>
+</div>
+<h3 id="10-docker-registry-镜像仓库">10. docker registry(镜像仓库)</h3>
+
+<p>##普通的registry</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker run -d -p 5000:5000 --restart=always --name registry -v /opt/myregistry:/var/lib/registry  registry</pre></td></tr></table>
+</div>
+</div>
+<p>&ndash;restart=always    总是重启(docker服务重启后,这个容器依然重启)</p>
+
+<p>-v /opt/myregistry:/var/lib/registry  挂载 -v   宿主机目录:容器里的目录</p>
+
+<p>例:
+打成tag包作标签</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker tag centos6-sshd:v6 10.0.0.11:5000/centos6-sshd:v6  
+[root@docker01 ~]# cat -A /etc/docker/daemon.json  ####修改文件
+{$
+&#34;registry-mirrors&#34;: [&#34;https://registry.docker-cn.com&#34;],$
+&#34;insecure-registries&#34; : [&#34;10.0.0.11:5000&#34;]$
+}$</pre></td></tr></table>
+</div>
+</div>
+<p>systemctl restart docker.service            ####重启docker服务</p>
+
+<p>docker push 10.0.0.11:5000/centos6-sshd:v6  ####推送到本地库</p>
+
+<p>其他服务器下载</p>
+
+<p>修改文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@docker02 ~]# cat -A /etc/docker/daemon.json  
+{$
+&#34;registry-mirrors&#34;: [&#34;https://registry.docker-cn.com&#34;],$
+&#34;insecure-registries&#34; : [&#34;10.0.0.11:5000&#34;]$
+}$</pre></td></tr></table>
+</div>
+</div>
+<p>systemctl restart docker.service           重启docker服务</p>
+
+<p>docker pull 10.0.0.11:5000/centos6-sshd:v6  下载镜像</p>
+
+<p>##带basic认证的registry</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum install httpd-tools -y   
+mkdir /opt/registry-var/auth/ -p
+htpasswd  -Bbn oldboy 123456  &gt;&gt; /opt/registry-var/auth/htpasswd
+docker run -d -p 5000:5000 --name registry- -v /opt/registry-var/auth/:/auth/ -v /opt/myregistry:/var/lib/registry -e &#34;REGISTRY_AUTH=htpasswd&#34; -e &#34;REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm&#34; -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd registry:latest
+docker commit fa676343be50 registry           ####将容器做成镜像
+docker tag registry 10.0.0.11:5000/reistry    ####将镜像打成tag包标签(需要指定ip)
+docker login http://10.0.0.11:5000            ####登录仓库
+docker push 10.0.0.11:5000/reistry           #### 推送到本地库</pre></td></tr></table>
+</div>
+</div>
+<p>在其他服务器</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@docker02 ~]# docker login http://10.0.0.11:5000
+Username: oldboy
+Password: 123456
+Login Succeeded
+
+拉镜像 docker pull 10.0.0.11:5000/reistry</pre></td></tr></table>
+</div>
+</div>
+<h3 id="17-docker-compose-单机版的容器编排工具">17. docker-compose(单机版的容器编排工具)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum install -y python2-pip
+
+pip install docker-compose</pre></td></tr></table>
+</div>
+</div>
+<p>##pip 加速
+    pip install -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>  docker-compose</p>
+
+<p>##详细指令: <a href="http://www.jianshu.com/p/2217cfed29d7">http://www.jianshu.com/p/2217cfed29d7</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">cd my_wordpress/
+vi docker-compose.yml
+version: &#39;3&#39;
+services:
+ db:
+ image: mysql:5.7
+ volumes:
+   - db_data:/var/lib/mysql
+ restart: always
+ environment:
+   MYSQL_ROOT_PASSWORD: somewordpress
+   MYSQL_DATABASE: wordpress
+   MYSQL_USER: wordpress
+   MYSQL_PASSWORD: wordpress
+
+wordpress:
+ depends_on:
+   - db
+ image: wordpress:latest
+ ports:
+   - &#34;80&#34;
+ restart: always
+ environment:
+   WORDPRESS_DB_HOST: db:3306
+   WORDPRESS_DB_USER: wordpress
+   WORDPRESS_DB_PASSWORD: wordpress
+volumes:
+db_data:</pre></td></tr></table>
+</div>
+</div>
+<p>#启动</p>
+
+<p>docker-compose up</p>
+
+<p>#后台启动</p>
+
+<p>docker-compose up -d</p>
+
+<p>docker-compose scale wordpress=3</p>
+
+<p>###haproxy</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum install haproxy -y
+
+vi /etc/haproxy/haproxy.cfg
+global
+log         127.0.0.1 local2
+chroot      /var/lib/haproxy
+pidfile     /var/run/haproxy.pid
+maxconn     4000
+user        haproxy
+group       haproxy
+daemon
+stats socket /var/lib/haproxy/stats level admin
+defaults
+    mode                    http
+    log                     global
+    option                  httplog
+    option                  dontlognull
+    option http-server-close
+    option forwardfor       except 127.0.0.0/8
+    option                  redispatch
+    retries                 3
+    timeout http-request    10s
+    timeout queue           1m
+    timeout connect         10s
+    timeout client          1m
+    timeout server          1m
+    timeout http-keep-alive 10s
+    timeout check           10s
+    maxconn                 3000
+listen stats
+    mode http
+    bind 0.0.0.0:8888
+    stats enable
+    stats uri     /haproxy-status 
+    stats auth    admin:123456
+frontend frontend_www_example_com
+    bind 10.0.0.11:8000
+    mode http
+    option httplog
+    log global
+    default_backend backend_www_example_com
+backend backend_www_example_com
+    option forwardfor header X-REAL-IP
+    option httpchk HEAD / HTTP/1.0
+    balance roundrobin
+    server web-node1  10.0.0.11:32768 check inter 2000 rise 30 fall 15
+    server web-node2  10.0.0.11:32769 check inter 2000 rise 30 fall 15
+    server web-node3  10.0.0.11:32770 check inter 2000 rise 30 fall 15
+
+systemctl start haproxy </pre></td></tr></table>
+</div>
+</div>
+<p>访问 10.0.0.11:8888/haproxy-status</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">  10.0.0.11:8000</pre></td></tr></table>
+</div>
+</div>
+<p>##安装socat</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum install socat.x86_64 -y
+echo &#34;disable server backend_www_example_com/web-node3&#34;|socat stdio /var/lib/haproxy/stats
+echo &#34;enable server backend_www_example_com/web-node3&#34;|socat stdio /var/lib/haproxy/stats</pre></td></tr></table>
+</div>
+</div>
+<p>##测试页</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">cat &gt;test.php &lt;&lt;&#39;EOF&#39;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;PHP测试&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;?php  echo &#39;&lt;p&gt;Hello World &lt;/p&gt;&#39;; ?&gt;
+        &lt;?php  echo &#34;访问的服务器地址是:&#34;.&#34;&lt;fontcolor=red&gt;&#34;.$_SERVER[&#39;SERVER_ADDR&#39;].&#34;&lt;/font&gt;&#34;.&#34;&lt;br&gt;&#34;;
+        echo&#34;访问的服务器域名是:&#34;.&#34;&lt;fontcolor=red&gt;&#34;.$_SERVER[&#39;SERVER_NAME&#39;].&#34;&lt;/font&gt;&#34;.&#34;&lt;br&gt;&#34;;
+        ?&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+EOF</pre></td></tr></table>
+</div>
+</div>
+<h3 id="18-重启docker服务-容器全部退出的解决办法">18. 重启docker服务，容器全部退出的解决办法</h3>
+
+<p>方法一：docker run  &ndash;restart=always</p>
+
+<p>方法二：&rdquo;live-restore&rdquo;: true</p>
+
+<p>docker server配置文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">vim /etc/docker/daemon.json
+
+{
+    &#34;registry-mirrors&#34;: [&#34;http://b7a9017d.m.daocloud.io&#34;],
+    &#34;graph&#34;: &#34;/opt/mydocker&#34;,
+     &#34;insecure-registries&#34;:[&#34;10.0.0.11:5000&#34;],
+    &#34;live-restore&#34;: true
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="20-docker网络类型">20. Docker网络类型</h3>
+
+<p>None：不为容器配置任何网络功能，&ndash;net=none</p>
+
+<p>Container：与另一个运行中的容器共享Network Namespace，&ndash;net=container:containerID</p>
+
+<p>Host：与主机共享Network Namespace，&ndash;net=host</p>
+
+<p>Bridge：Docker设计的NAT网络模型</p>
+
+<p>Docker跨主机通信之macvlan</p>
+
+<p>##创建macvlan网络</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker network create --driver macvlan --subnet 10.1.0.0/24 --gateway 10.1.0.254 -o parent=eth1 macvlan_1</pre></td></tr></table>
+</div>
+</div>
+<p>##设置eth0的网卡为混杂模式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ip link set eth1 promisc on</pre></td></tr></table>
+</div>
+</div>
+<p>##创建使用macvlan网络的容器</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker run -it --network macvlan_1 --ip=10.1.0.210 busybox:latest /bin/sh</pre></td></tr></table>
+</div>
+</div>
+<p>作业2：用PIPEWORK为docker容器配置独立IP</p>
+
+<h3 id="22-dcoker跨主机通信之overlay">22. Dcoker跨主机通信之overlay</h3>
+
+<p><a href="http://www.cnblogs.com/CloudMan6/p/7270551.html">http://www.cnblogs.com/CloudMan6/p/7270551.html</a></p>
+
+<p>1)准备工作</p>
+
+<p>docker01上：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker run -d -p 8500:8500 -h consul --name consul progrium/consul -server -bootstrap</pre></td></tr></table>
+</div>
+</div>
+<p>docker02、03上：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">vim  /etc/docker/daemon.json
+{
+    &#34;hosts&#34;:[&#34;tcp://0.0.0.0:2376&#34;,&#34;unix:///var/run/docker.sock&#34;],
+    &#34;registry-mirrors&#34;: [&#34;https://registry.docker-cn.com&#34;],
+    &#34;cluster-store&#34;: &#34;consul://10.0.0.11:8500&#34;,
+    &#34;cluster-advertise&#34;: &#34;10.0.0.12:2376&#34;,
+    &#34;insecure-registries&#34;: [&#34;10.0.0.11:5000&#34;]
+}</pre></td></tr></table>
+</div>
+</div>
+<p>2）创建overlay网络</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker network create -d overlay ol1</pre></td></tr></table>
+</div>
+</div>
+<p>3）启动容器测试
+    docker run -it &ndash;network ol1 &ndash;name oldboy02  busybox:latest /bin/sh</p>
+
+<h3 id="23-docker企业级镜像仓库harbor">23. docker企业级镜像仓库harbor</h3>
+
+<p>第一步：安装docker和docker-compose</p>
+
+<p>第二步：下载harbor-offline-installer-v1.3.0.tgz</p>
+
+<p>第三步：上传到/opt,并解压</p>
+
+<p>第四步：修改harbor.cfg配置文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">hostname = 10.0.0.11
+harbor_admin_password = 123456</pre></td></tr></table>
+</div>
+</div>
+<p>第五步：执行install.sshd</p>
+
+<p>第六步: 登录仓库 docker login  10.0.0.11</p>
+
+<p>第七步: 把镜像打成tag包并推送 docker tag centos:6.8 10.0.0.11/eleven/centos6 (注意格式 ip/项目/名称)</p>
+
+<p>第八步: 推送 docker push 10.0.0.11/eleven/centos6:latest</p>
+
+<p>设置docker远程执行</p>
+
+<p>systemd详解：<a href="http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-part-two.html">http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-part-two.html</a></p>
+
+<p>####在linux-node1：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">vim /usr/lib/systemd/system/docker.service
+ExecStart=/usr/bin/dockerd -H unix:///var/run/docker.sock -H tcp://10.0.0.11:2375
+systemctl daemon-reload
+systemctl restart docker.service</pre></td></tr></table>
+</div>
+</div>
+<p>ps -ef检查</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/docker/">docker</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" data-tooltip="Dockerfile最佳实践">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Eleven. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" data-tooltip="Dockerfile最佳实践">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Eleven</h4>
+    
+      <div id="about-card-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        SRE
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        BeiJing
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://veh47.github.io/images/cover-v1.2.0.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://veh47.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
