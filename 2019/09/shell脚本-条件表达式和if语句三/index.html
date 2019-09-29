@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Eleven">
+<meta name="keywords" content="">
+<meta name="description" content="条件表达式和if语句">
+
+
+<meta property="og:description" content="条件表达式和if语句">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell脚本 条件表达式和if语句(三)">
+<meta name="twitter:title" content="shell脚本 条件表达式和if语句(三)">
+<meta property="og:url" content="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8Cif%E8%AF%AD%E5%8F%A5%E4%B8%89/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8Cif%E8%AF%AD%E5%8F%A5%E4%B8%89/">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="条件表达式和if语句">
+<meta name="twitter:description" content="条件表达式和if语句">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-09-29T17:16:02">
+  
+  
+    <meta property="article:modified_time" content="2019-09-29T17:16:02">
+  
+  
+  
+    
+      <meta property="article:section" content="shell">
+    
+  
+  
+    
+      <meta property="article:tag" content="运维">
+    
+      <meta property="article:tag" content="shell">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://veh47.github.io/images/coffice.png">
+  <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
+
+
+    <title>shell脚本 条件表达式和if语句(三)</title>
+
+    <link rel="icon" href="https://veh47.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8Cif%E8%AF%AD%E5%8F%A5%E4%B8%89/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://veh47.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="3">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://veh47.github.io/">Eleven</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://veh47.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="3">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://veh47.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Eleven</h4>
+        
+          <h5 class="sidebar-profile-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/VEH47/veh47.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="3"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      shell脚本 条件表达式和if语句(三)
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-29T17:16:02&#43;08:00">
+        
+  九月 29, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://veh47.github.io/categories/shell">shell</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>条件表达式和if语句</p>
+
+<p>文件判断操作符</p>
+
+<p>判断文件表达式 -f</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# [ -f /etc/hosts ] &amp;&amp; echo “ok” || echo “no”</pre></td></tr></table>
+</div>
+</div>
+<p>ok 判断文件的表达式
+正确显示ok 不正确显示no</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# [ -f /etc/host ] &amp;&amp; echo “ok” || echo “no”
+
+no</pre></td></tr></table>
+</div>
+</div>
+<p>判断目录表达式 -d</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# [ -d /etc/host ] &amp;&amp; echo “ok” || echo “no”</pre></td></tr></table>
+</div>
+</div>
+<p>no 判断目录的表达式
+正确显示ok 不正确显示no</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# [ -d /etc/ ] &amp;&amp; echo “ok” || echo “no”
+
+ok</pre></td></tr></table>
+</div>
+</div>
+<p>判断文件存在与否且不为0,则表达式成立 -s</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# touch 3306.txt
+
+[root@node3 /server/scripts]# [ -s /server/scripts/3306.txt ] &amp;&amp; echo “ok” || echo “no”
+
+no
+
+[root@node3 /server/scripts]# echo 6606 &gt;3306.txt
+
+[root@node3 /server/scripts]# [ -s /server/scripts/3306.txt ] &amp;&amp; echo “ok” || echo “no”
+
+ok</pre></td></tr></table>
+</div>
+</div>
+<p>字符串判断操作符</p>
+
+<p>判断字符串长度是否为0 -z</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# [ -z “$z” ] &amp;&amp; echo “ok” || echo “no”</pre></td></tr></table>
+</div>
+</div>
+<p>ok 判断$z的字符串长度
+若为0则显示ok 若不为0 则显示no</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# echo $z
+
+[root@node3 /server/scripts]# z=123
+
+[root@node3 /server/scripts]# [ -z “$z” ] &amp;&amp; echo “ok” || echo “no”
+
+no</pre></td></tr></table>
+</div>
+</div>
+<p>####将z的变量值设置为一个空格, 空格也算一个字符串</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# z=” ”
+
+[root@node3 /server/scripts]# [ -z “$z” ] &amp;&amp; echo “ok” || echo “no”
+
+no</pre></td></tr></table>
+</div>
+</div>
+<p>若字符串长度不为0 -n</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# z=” ”
+
+[root@node3 /server/scripts]# [ -n “$z” ] &amp;&amp; echo “ok” || echo “no”</pre></td></tr></table>
+</div>
+</div>
+<p>ok 若变量z的字符串长度不是0 则显示ok 反之则显示no</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# z=
+
+[root@node3 /server/scripts]# [ -n “$z” ] &amp;&amp; echo “ok” || echo “no”
+
+no
+
+[root@node3 /server/scripts]# z=1
+
+[root@node3 /server/scripts]# [ -n “$z” ] &amp;&amp; echo “ok” || echo “no”
+
+ok</pre></td></tr></table>
+</div>
+</div>
+<p>判断两个字符是否相同 == 或者 = 不等于用!=  字符串比较必须加双引号,且与对比符号间必须有空格</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# z=1
+
+[root@node3 /server/scripts]# echo $z
+
+1
+
+[root@node3 /server/scripts]# y=$z
+
+[root@node3 /server/scripts]# [ “$y” = “$z” ] &amp;&amp; echo “ok” || echo “no”
+
+ok   ####y与变量z相同时显示ok 不同显示no
+
+[root@node3 /server/scripts]# echo $y
+
+1
+
+[root@node3 /server/scripts]# y=z
+
+[root@node3 /server/scripts]# [ “$y” = “$z” ] &amp;&amp; echo “ok” || echo “no”
+
+no
+
+[root@node3 /server/scripts]# y=a
+
+[root@node3 /server/scripts]# [ “$y” != “$z” ] &amp;&amp; echo “ok” || echo “no”
+
+ok    ####y与变量z不同时显示ok 相同显示no</pre></td></tr></table>
+</div>
+</div>
+<p>整数判断操作符</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# [ 1 -eq 1 ] &amp;&amp; echo “ok” || echo “no”
+
+ok    等于
+
+[root@node3 /server/scripts]# [ 1 -ne 2 ] &amp;&amp; echo “ok” || echo “no”
+
+ok    不等于
+
+[root@node3 /server/scripts]# [ 2 -gt 1 ] &amp;&amp; echo “ok” || echo “no”
+
+ok    大于
+
+[root@node3 /server/scripts]# [ 2 -ge 1 ] &amp;&amp; echo “ok” || echo “no”
+
+ok    大于等于(或的关系)
+
+[root@node3 /server/scripts]# [ 2 -ge 2 ] &amp;&amp; echo “ok” || echo “no”
+
+ok    大于等于(或的关系)
+
+[root@node3 /server/scripts]# [ 1 -lt 2 ] &amp;&amp; echo “ok” || echo “no”
+
+ok    小于
+
+[root@node3 /server/scripts]# [ 1 -le 2 ] &amp;&amp; echo “ok” || echo “no”
+
+ok    小于等于
+
+[root@node3 /server/scripts]# [ 1 -le 1 ] &amp;&amp; echo “ok” || echo “no”
+
+ok    小于等于</pre></td></tr></table>
+</div>
+</div>
+<p>逻辑操作符   -a  -o  !
+说明  “和” 的关系,都要满足    “或” 的关系 非:排除改这个参数</p>
+
+<p>练习题</p>
+
+<p>使用if语句定义变量对比两个整数 的大小</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># vim Dv.sh</span>
+
+<span class="c1">#!/bin/bash</span>
+
+    <span class="nv">numa</span><span class="o">=</span><span class="m">1</span>    可以修改数字
+
+    <span class="nv">numb</span><span class="o">=</span><span class="m">2</span>
+
+    expr <span class="m">1</span> + <span class="nv">$numa</span> &gt; /dev/null
+
+    <span class="k">if</span>
+
+<span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">2</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+    <span class="nb">echo</span> “您输入的不是整数”
+
+    <span class="nb">exit</span> <span class="m">2</span>
+
+<span class="k">fi</span>
+
+    expr <span class="m">1</span> + <span class="nv">$numb</span> &gt; /dev/null
+
+<span class="k">if</span>
+
+<span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">2</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+    <span class="nb">echo</span> “您输入的不是整数”
+
+    <span class="nb">exit</span> <span class="m">2</span>
+
+<span class="k">fi</span>
+
+<span class="k">if</span>
+
+<span class="o">[</span> <span class="nv">$numa</span> -eq <span class="nv">$numb</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+    <span class="nb">echo</span> “<span class="nv">$numa</span><span class="o">=</span><span class="nv">$numb</span>”
+
+    <span class="k">elif</span>
+
+<span class="o">[</span> <span class="nv">$numa</span> -gt <span class="nv">$numb</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+    <span class="nb">echo</span> “<span class="nv">$numa</span>&gt;<span class="nv">$numb</span>”
+
+<span class="k">else</span>
+
+<span class="nb">echo</span> “<span class="nv">$numa</span>&lt;<span class="nv">$numb</span>”
+
+<span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># sh Dv.sh</span>
+
+    <span class="m">1</span>&lt;<span class="m">2</span></pre></td></tr></table>
+</div>
+</div>
+<p>传参对比两个整数的大小</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># vim Tp.sh</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="k">if</span>
+
+<span class="o">[</span> <span class="nv">$#</span> -ne <span class="m">2</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="nb">echo</span> “请输入两个整数”
+
+<span class="nb">exit</span>
+
+<span class="k">fi</span>
+
+<span class="nv">numa</span><span class="o">=</span><span class="nv">$1</span>
+
+<span class="nv">numb</span><span class="o">=</span><span class="nv">$2</span>
+
+expr <span class="m">1</span> + <span class="nv">$numa</span> &gt;/dev/null
+
+<span class="k">if</span>
+
+<span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">2</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="nb">echo</span> “您输入的不是整数”
+
+<span class="nb">exit</span> <span class="m">2</span>
+
+<span class="k">fi</span>
+
+expr <span class="m">1</span> + <span class="nv">$numb</span> &gt;/dev/null
+
+<span class="k">if</span>
+
+<span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">2</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="nb">echo</span> “您输入的不是整数”
+
+<span class="nb">exit</span> <span class="m">2</span>
+
+<span class="k">fi</span>
+
+<span class="k">if</span>
+
+<span class="o">[</span> <span class="nv">$numa</span> -eq <span class="nv">$numb</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="nb">echo</span> “<span class="nv">$numa</span><span class="o">=</span><span class="nv">$numb</span>”
+
+<span class="k">elif</span>
+
+<span class="o">[</span> <span class="nv">$numa</span> -gt <span class="nv">$numb</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="nb">echo</span> “<span class="nv">$numa</span>&gt;<span class="nv">$numb</span>”
+
+<span class="k">else</span>
+
+<span class="nb">echo</span> “<span class="nv">$numa</span>&lt;<span class="nv">$numb</span>”
+
+<span class="k">fi</span>
+
+<span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># sh Tp.sh 3 5</span>
+
+<span class="m">3</span>&lt;<span class="m">5</span>
+
+<span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># sh Tp.sh 3 3</span>
+
+<span class="nv">3</span><span class="o">=</span><span class="m">3</span>
+
+<span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># sh Tp.sh 3 2</span>
+
+<span class="m">3</span>&gt;2
+
+<span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># sh Tp.sh 3 2.0</span>
+
+expr: non-integer argument
+
+您输入的不是整数</pre></td></tr></table>
+</div>
+</div>
+<p>用交互方式对比两个整数大小</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># vim read.sh</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="nb">read</span> -p “第一个数字: ” numa
+
+expr <span class="m">1</span> + <span class="nv">$numa</span> &gt; /dev/null
+
+<span class="k">if</span>
+
+<span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">2</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="nb">echo</span> “不是整数”
+
+<span class="nb">exit</span>
+
+<span class="k">fi</span>
+
+<span class="nb">read</span> -p “第二个数字: ” numb
+
+expr <span class="m">1</span> + <span class="nv">$numb</span> &gt; /dev/null
+
+<span class="k">if</span>
+
+<span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">2</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="nb">echo</span> “不是整数”
+
+<span class="nb">exit</span>
+
+<span class="k">fi</span>
+
+<span class="k">if</span>
+
+<span class="o">[</span> <span class="nv">$numa</span> -eq <span class="nv">$numb</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="nb">echo</span> “<span class="nv">$numa</span><span class="o">=</span><span class="nv">$numb</span>”
+
+<span class="k">elif</span>
+
+<span class="o">[</span> <span class="nv">$numa</span> -gt <span class="nv">$numb</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="nb">echo</span> “<span class="nv">$numa</span>&gt;<span class="nv">$numb</span>”
+
+<span class="k">else</span>
+
+<span class="nb">echo</span> “<span class="nv">$numa</span>&lt;<span class="nv">$numb</span>”
+
+<span class="k">fi</span>
+
+<span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># sh read.sh</span>
+
+第一个数字: <span class="m">6</span>
+
+第二个数字: <span class="m">5</span>
+
+<span class="m">6</span>&gt;5</pre></td></tr></table>
+</div>
+</div>
+<p>使用if判断语句脚本监控当内存低于100M时发送邮件报警</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># vim memory_alarm.sh</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="nv">centos_x</span><span class="o">=</span><span class="k">$(</span>uname -r <span class="p">|</span>awk -F ‘<span class="o">[</span>.<span class="o">]</span>’ ‘<span class="o">{</span>print <span class="nv">$4</span><span class="o">}</span>’<span class="k">)</span> <span class="c1">#查看系统版本</span>
+
+<span class="nv">available_el7</span><span class="o">=</span><span class="k">$(</span>free -m <span class="p">|</span>awk -F ‘<span class="o">[</span> <span class="o">]</span>+’ ‘NR<span class="o">==</span><span class="m">2</span><span class="o">{</span>print <span class="nv">$NF</span><span class="o">}</span>’<span class="k">)</span> <span class="c1">#查看centos7 的剩余内存</span>
+
+<span class="nv">available_el6</span><span class="o">=</span><span class="k">$(</span>free -m <span class="p">|</span>awk -F ‘<span class="o">[</span> <span class="o">]</span>+’ ‘NR<span class="o">==</span><span class="m">3</span><span class="o">{</span>print <span class="nv">$NF</span><span class="o">}</span>’<span class="k">)</span> <span class="c1">#查看centos6 的剩余内存</span>
+
+<span class="k">if</span>
+
+<span class="o">[</span> <span class="nv">$centos_x</span> <span class="o">=</span> el7 -a <span class="nv">$available_el7</span> -lt <span class="m">1024</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="nb">echo</span> “内存不足” <span class="p">|</span>mail -s “tile” <span class="m">13522339471</span>@163.com
+
+<span class="k">elif</span>
+
+<span class="o">[</span> <span class="nv">$centos_x</span> <span class="o">=</span> el6 -a <span class="nv">$available_el6</span> -lt <span class="m">1024</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="nb">echo</span> “内存不足” <span class="p">|</span>mail -s “tile” <span class="m">13522339471</span>@163.com
+
+<span class="k">else</span>
+
+<span class="nb">echo</span> “The system you use is not centos6 or centos7,Please replace your system.”
+
+<span class="k">fi</span></pre></td></tr></table>
+</div>
+</div>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/shell/">shell</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/shell%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%AD%97%E4%B8%B2%E5%92%8C%E8%AE%A1%E7%AE%97%E4%BA%8C/" data-tooltip="Shell基础学习—定义变量方式及变量的字串和计算(二)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-if%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E7%BB%83%E4%B9%A0%E9%A2%98%E5%8F%8Acase%E8%AF%AD%E5%8F%A5%E5%9B%9B/" data-tooltip="Shell脚本 If语句企业练习题及case语句(四)">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Eleven. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/shell%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%AD%97%E4%B8%B2%E5%92%8C%E8%AE%A1%E7%AE%97%E4%BA%8C/" data-tooltip="Shell基础学习—定义变量方式及变量的字串和计算(二)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-if%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E7%BB%83%E4%B9%A0%E9%A2%98%E5%8F%8Acase%E8%AF%AD%E5%8F%A5%E5%9B%9B/" data-tooltip="Shell脚本 If语句企业练习题及case语句(四)">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Eleven</h4>
+    
+      <div id="about-card-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        SRE
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        BeiJing
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://veh47.github.io/images/cover-v1.2.0.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://veh47.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

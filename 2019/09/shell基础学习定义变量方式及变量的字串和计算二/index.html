@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Eleven">
+<meta name="keywords" content="">
+<meta name="description" content="定义变量方式及变量的字串和计算">
+
+
+<meta property="og:description" content="定义变量方式及变量的字串和计算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shell基础学习—定义变量方式及变量的字串和计算(二)">
+<meta name="twitter:title" content="Shell基础学习—定义变量方式及变量的字串和计算(二)">
+<meta property="og:url" content="https://veh47.github.io/2019/09/shell%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%AD%97%E4%B8%B2%E5%92%8C%E8%AE%A1%E7%AE%97%E4%BA%8C/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/09/shell%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%AD%97%E4%B8%B2%E5%92%8C%E8%AE%A1%E7%AE%97%E4%BA%8C/">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="定义变量方式及变量的字串和计算">
+<meta name="twitter:description" content="定义变量方式及变量的字串和计算">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-09-29T17:15:42">
+  
+  
+    <meta property="article:modified_time" content="2019-09-29T17:15:42">
+  
+  
+  
+    
+      <meta property="article:section" content="shell">
+    
+  
+  
+    
+      <meta property="article:tag" content="运维">
+    
+      <meta property="article:tag" content="shell">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://veh47.github.io/images/coffice.png">
+  <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
+
+
+    <title>Shell基础学习—定义变量方式及变量的字串和计算(二)</title>
+
+    <link rel="icon" href="https://veh47.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://veh47.github.io/2019/09/shell%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%AD%97%E4%B8%B2%E5%92%8C%E8%AE%A1%E7%AE%97%E4%BA%8C/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://veh47.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="3">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://veh47.github.io/">Eleven</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://veh47.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="3">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://veh47.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Eleven</h4>
+        
+          <h5 class="sidebar-profile-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/VEH47/veh47.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="3"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Shell基础学习—定义变量方式及变量的字串和计算(二)
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-29T17:15:42&#43;08:00">
+        
+  九月 29, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://veh47.github.io/categories/shell">shell</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>定义变量方式及变量的字串和计算</p>
+
+<p>实现变量交互
+用交互式变量实现输入卡号密码</p>
+
+<p>read定义交互变量 -p实现交户输入 -s 实现不出现返回值(用于密码)-t实现超时退出</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># cat hkx.sh</span>
+<span class="c1">#!/bin/bash</span>
+<span class="nb">read</span> -p “请输入你的卡号: ” number
+<span class="nb">read</span> -s -p “请输入你的密码: ” passwd
+<span class="nb">echo</span>
+<span class="nb">echo</span> “你的卡号为: <span class="nv">$number</span>” “你的密码为: <span class="nv">$passwd</span>”</pre></td></tr></table>
+</div>
+</div>
+<hr />
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# sh hkx.sh
+请输入你的卡号: 123456789
+请输入你的密码:
+你的卡号为: 123456789 你的密码为: 951753</pre></td></tr></table>
+</div>
+</div>
+<p>使用交互脚本修改主机名</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># cat /root/modify_ip_hostname.sh</span>
+<span class="c1">#!/bin/bash</span>
+<span class="c1">##############################################################</span>
+<span class="c1"># File Name: shiyan.sh</span>
+<span class="c1"># Version: V1.0</span>
+<span class="c1"># Author: Eleven</span>
+<span class="c1"># Organization: 2415069806</span>
+<span class="c1"># Created Time : 2018-01-25 15:28:03</span>
+<span class="c1"># Description:</span>
+<span class="c1">###########################################################</span>
+<span class="nb">read</span> -p “请输入你所需要设置的ip的外网地址: ” IP_eth0
+<span class="o">[</span> -z “<span class="nv">$IP_eth0</span>” <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="o">||</span> <span class="nb">echo</span> ok
+<span class="nb">read</span> -p “请输入你所需要设置的ip的内网地址: ” IP_eth1
+<span class="o">[</span> -z “<span class="nv">$IP_eth1</span>” <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="o">||</span> <span class="nb">echo</span> ok
+<span class="nb">read</span> -p “你所需要修改的主机名: ” name
+<span class="o">[</span> -z “<span class="nv">$name</span>” <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="o">||</span> <span class="nb">echo</span> ok
+<span class="nb">echo</span> 修改后的IP:eth0:<span class="nv">$IP_eth0</span> eth1:<span class="nv">$IP_eth1</span> 修改后的主机名:<span class="nv">$name</span>
+hostnamectl set-hostname <span class="nv">$name</span>
+<span class="nv">local_ip_0</span><span class="o">=</span><span class="k">$(</span>hostname -I <span class="p">|</span>awk -F ‘<span class="o">[</span> <span class="o">]</span>’ ‘<span class="o">{</span>print <span class="nv">$1</span><span class="o">}</span>’<span class="k">)</span>
+<span class="nv">local_ip_1</span><span class="o">=</span><span class="k">$(</span>hostname -I <span class="p">|</span>awk -F ‘<span class="o">[</span> <span class="o">]</span>’ ‘<span class="o">{</span>print <span class="nv">$2</span><span class="o">}</span>’<span class="k">)</span>
+sed -i “s#<span class="nv">$local_ip_0</span><span class="c1">#$IP_eth0#g” /etc/sysconfig/network-scripts/ifcfg-eth0 &amp;&amp; sed -i “s#$local_ip_1#$IP_eth1#g” /etc/sysconfig/network-scripts/ifcfg-eth1</span>
+reboot</pre></td></tr></table>
+</div>
+</div>
+<p>变量的字串
+计算字符串长度</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# unset a
+
+[root@node3 /server/scripts]# a=`uuidgen`
+
+[root@node3 /server/scripts]# echo $a
+
+80d1769a-769e-4eca-8d80-9bd6ba49ea76
+
+[root@node3 /server/scripts]# echo ${#a}
+
+36</pre></td></tr></table>
+</div>
+</div>
+<p>提取前几位字符</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# echo ${a:10} 把第十位之后提取出(把前十位取出后的结果)
+69e-4eca-8d80-9bd6ba49ea76</pre></td></tr></table>
+</div>
+</div>
+<p>从第一个字符开始,提取前十位,字符数序从0开始
+    [root@node3 /server/scripts]# echo ${a:0:10}<br />
+    80d1769a-7</p>
+
+<p>从第几个字符开始取多少位
+删除匹配字符串</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# str=abcABC123ABCabc
+
+[root@node3 /server/scripts]# echo ${str}
+
+abcABC123ABCabc
+
+[root@node3 /server/scripts]# echo ${str#abc} ####从头开始删除最短匹配字符串
+
+ABC123ABCabc
+
+[root@node3 /server/scripts]# echo ${str%%abc} ####从尾开始删除最短匹配字符串
+
+abcABC123ABC
+
+[root@node3 /server/scripts]# echo ${str/abc/ABC/} ####把第一个匹配的字符替换
+
+ABC/ABC123ABCabc
+
+[root@node3 /server/scripts]# echo ${str//abc/ABC/} ####把所有匹配的字符替换
+
+ABC/ABC123ABCABC/</pre></td></tr></table>
+</div>
+</div>
+<p>防止变量为空时,执行危险命令
+当变量值不存在时,执行命令中含有该变量找不到,则会执行当前目录</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# echo ${qwe-/tmp} ####–代表借用但是还是i没有该变量
+
+/tmp
+
+[root@node3 /server/scripts]# echo ${qwe}
+
+[root@node3 /server/scripts]# echo ${qwe=/tmp} = 代表创建了该变量
+
+/tmp
+
+[root@node3 /server/scripts]# echo ${qwe}
+
+/tmp</pre></td></tr></table>
+</div>
+</div>
+<p>整数运算
+双括号计算(只能计算整数与[]中括号一样的效果)</p>
+
+<p>计算加减乘除</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# echo $((1+2-654*642/6245%625+6452))
+
+6388
+
+[root@node3 /server/scripts]# a=$((1+2-654*642/6245%625+6452))
+
+[root@node3 /server/scripts]# echo $a
+
+6388
+
+[root@node3 /server/scripts]# ((b=1+2-654*642/6245%625+6452))
+
+[root@node3 /server/scripts]# echo $b
+
+6388</pre></td></tr></table>
+</div>
+</div>
+<p>自加自减1</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# a=1
+
+[root@node3 /server/scripts]# echo $((a++))
+
+1
+
+[root@node3 /server/scripts]# echo $a
+
+2
+
+[root@node3 /server/scripts]# echo $((++a))
+
+3
+
+[root@node3 /server/scripts]# echo $a
+
+3</pre></td></tr></table>
+</div>
+</div>
+<p>判断大小</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# echo $((3&gt;2))
+
+1
+
+[root@node3 /server/scripts]# echo $((3&gt;5))
+
+0</pre></td></tr></table>
+</div>
+</div>
+<p>实现加减乘除的计算器(使用bc计算)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># cat jisuan.sh bc计算可以计算小数</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="nb">read</span> -p “请输入你所需要计算的<span class="o">(</span>例如:3+2*6-5/8.542+8.6846%3.1<span class="o">)</span>:: ” jisuan
+
+<span class="nb">echo</span> “scale<span class="o">=</span><span class="m">5</span><span class="p">;</span><span class="nv">$jisuan</span>” <span class="p">|</span>bc</pre></td></tr></table>
+</div>
+</div>
+<p>小数点显示5位</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# sh jisuan.sh
+
+[root@node3 /server/scripts]# sh jisuan.sh</pre></td></tr></table>
+</div>
+</div>
+<p>请输入你所需要计算的(例如:3+2*6-<sup>5</sup>&frasl;<sub>8</sub>.542+8.6846%3.1): 325+234.<sup>265</sup>&frasl;<sub>3245</sub>*6.62 325.47789</p>
+
+<p>let计算方法
+    [root@lb03 scripts]# i=1</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@lb03 scripts]# i=i+1
+
+[root@lb03 scripts]# echo $i</pre></td></tr></table>
+</div>
+</div>
+<p>i+1</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@lb03 scripts]# i=1
+
+[root@lb03 scripts]# let i=i+1
+
+[root@lb03 scripts]# echo $i
+
+2</pre></td></tr></table>
+</div>
+</div>
+<p>expr计算方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node3 /server/scripts]# expr 1 + 1
+
+2
+
+[root@node3 /server/scripts]# expr 1 * 1 *有特殊含义,所以语法错误
+
+expr: syntax error
+
+[root@node3 /server/scripts]# expr 1 \* 1 需要\转义字符
+
+1
+
+[root@node3 /server/scripts]# expr 1 / 1
+
+1
+
+[root@node3 /server/scripts]# expr 1 – 1
+
+0</pre></td></tr></table>
+</div>
+</div>
+<p>expr 计算后的返回值为2，则输入的参数存在非整数， 0或1 则为整数(0或1都表示计算正确,但计算结果为0时,echo$? 显示结果为1)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@lb03 scripts]# expr 1 + 1
+
+2
+
+[root@lb03 scripts]# echo $?
+
+0
+
+[root@lb03 scripts]# expr 1 + a
+
+expr: 非整数参数
+
+[root@lb03 scripts]# echo $?
+
+2
+
+[root@lb03 scripts]# expr 1 + -1
+
+0
+
+[root@lb03 scripts]# echo $?
+
+1
+
+[root@lb03 scripts]# expr 2 – 2
+
+0
+
+[root@lb03 scripts]# echo $?
+
+1
+
+[root@lb03 scripts]# expr a + a
+
+expr: 非整数参数
+
+[root@lb03 scripts]# echo $?
+
+2</pre></td></tr></table>
+</div>
+</div>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/shell/">shell</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/shell%E5%9F%BA%E7%A1%80%E4%B8%80/" data-tooltip="Shell基础(一)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8Cif%E8%AF%AD%E5%8F%A5%E4%B8%89/" data-tooltip="shell脚本 条件表达式和if语句(三)">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Eleven. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/shell%E5%9F%BA%E7%A1%80%E4%B8%80/" data-tooltip="Shell基础(一)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8Cif%E8%AF%AD%E5%8F%A5%E4%B8%89/" data-tooltip="shell脚本 条件表达式和if语句(三)">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Eleven</h4>
+    
+      <div id="about-card-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        SRE
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        BeiJing
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://veh47.github.io/images/cover-v1.2.0.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://veh47.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

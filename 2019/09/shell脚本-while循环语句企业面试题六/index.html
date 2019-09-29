@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Eleven">
+<meta name="keywords" content="">
+<meta name="description" content="While循环语句企业面试题">
+
+
+<meta property="og:description" content="While循环语句企业面试题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shell脚本 While循环语句企业面试题(六)">
+<meta name="twitter:title" content="Shell脚本 While循环语句企业面试题(六)">
+<meta property="og:url" content="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-while%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E9%9D%A2%E8%AF%95%E9%A2%98%E5%85%AD/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-while%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E9%9D%A2%E8%AF%95%E9%A2%98%E5%85%AD/">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="While循环语句企业面试题">
+<meta name="twitter:description" content="While循环语句企业面试题">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-09-29T17:18:35">
+  
+  
+    <meta property="article:modified_time" content="2019-09-29T17:18:35">
+  
+  
+  
+    
+      <meta property="article:section" content="shell">
+    
+  
+  
+    
+      <meta property="article:tag" content="运维">
+    
+      <meta property="article:tag" content="shell">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://veh47.github.io/images/coffice.png">
+  <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
+
+
+    <title>Shell脚本 While循环语句企业面试题(六)</title>
+
+    <link rel="icon" href="https://veh47.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-while%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E9%9D%A2%E8%AF%95%E9%A2%98%E5%85%AD/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://veh47.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="3">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://veh47.github.io/">Eleven</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://veh47.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="3">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://veh47.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Eleven</h4>
+        
+          <h5 class="sidebar-profile-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/VEH47/veh47.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="3"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Shell脚本 While循环语句企业面试题(六)
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-29T17:18:35&#43;08:00">
+        
+  九月 29, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://veh47.github.io/categories/shell">shell</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>While循环语句企业面试题</p>
+
+<p>while 循环语句
+死循环查看负载</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># vim deadloop.sh</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="k">while</span> <span class="nb">true</span>
+
+<span class="k">do</span>
+
+uptime
+
+sleep <span class="m">1</span>
+
+<span class="k">done</span>
+
+发短信每条1.5角,充值10元
+<span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># vim short_letter.sh</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="c1">##############################################################</span>
+
+<span class="c1">#File Name: shouji.sh</span>
+
+<span class="c1">#Version: V1.0</span>
+
+<span class="c1">#Author: Eleven</span>
+
+<span class="c1">#Organization: 2415069806</span>
+
+<span class="c1">#Created Time : 2018-01-31 09:24:18</span>
+
+<span class="c1">#Description:</span>
+
+<span class="c1">##############################################################</span>
+
+<span class="nv">i</span><span class="o">=</span><span class="m">100</span>
+
+<span class="k">while</span> <span class="o">[</span> <span class="nv">$i</span> -ge <span class="m">15</span> <span class="o">]</span>
+
+<span class="k">do</span>
+
+<span class="nb">read</span> -p “您需要什么业务<span class="o">(</span>短信<span class="p">|</span>充值<span class="p">|</span>退出<span class="p">|</span>,请输入DX<span class="p">|</span>CZ<span class="p">|</span>EXIT<span class="o">)</span>:” a
+
+<span class="k">case</span> <span class="nv">$a</span> in
+
+DX<span class="o">)</span>
+
+<span class="nb">echo</span> “你已经发送一条短信”
+
+<span class="nb">echo</span> “您的余额:<span class="k">$((</span><span class="nv">i</span><span class="o">=</span>i-15<span class="k">))</span>”
+
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$i</span> -lt <span class="m">15</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="nb">echo</span> “余额不足,请及时充值”
+
+<span class="k">fi</span>
+
+<span class="p">;;</span>
+
+CZ<span class="o">)</span>
+
+<span class="nb">read</span> -p “请输入你要充值的金额:” b
+
+<span class="nb">echo</span> “您的余额:<span class="k">$((</span><span class="nv">i</span><span class="o">=</span><span class="nv">$i</span><span class="o">+</span><span class="nv">$b</span><span class="k">))</span>”
+
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$b</span> -lt <span class="m">1000</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="nb">echo</span> “最少充值100分”
+
+<span class="k">fi</span>
+
+<span class="p">;;</span>
+
+EXIT<span class="o">)</span>
+
+<span class="nb">echo</span> “您已退出业务” <span class="o">&amp;&amp;</span> <span class="nb">exit</span>
+
+<span class="p">;;</span>
+
+*<span class="o">)</span>
+
+<span class="nb">echo</span> “请正确选择业务<span class="o">(</span>DX<span class="p">|</span>CZ<span class="p">|</span>EXIT<span class="o">)</span>”
+
+<span class="k">esac</span>
+
+<span class="k">done</span></pre></td></tr></table>
+</div>
+</div>
+<p>解决DOS攻击
+请根据日志或web连接数监控当某个ip端渐渐内pv达到100,调用放或轻命令封掉</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># vim close_ip.sh</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="nv">message</span><span class="o">=</span>/root/access.log
+
+<span class="k">while</span> <span class="nb">true</span>
+
+<span class="nv">ipadd</span><span class="o">=</span><span class="k">$(</span>awk ‘<span class="o">{</span>print <span class="nv">$1</span><span class="o">}</span>’ <span class="nv">$message</span><span class="p">|</span>sort<span class="p">|</span>uniq -c<span class="p">|</span>sort -rn<span class="p">|</span> awk ‘<span class="o">{</span><span class="k">if</span><span class="o">(</span><span class="nv">$1</span>&gt;500<span class="k">)</span>print <span class="nv">$2</span><span class="o">}</span>’<span class="o">)</span>
+
+<span class="k">do</span>
+
+<span class="k">for</span> rule in <span class="nv">$ipadd</span>
+
+<span class="k">do</span>
+
+<span class="nv">num</span><span class="o">=</span><span class="k">$(</span>iptables -nL<span class="p">|</span>grep -c <span class="nv">$rule</span><span class="k">)</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$num</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+iptables -I INPUT -s <span class="nv">$rule</span> -j DROP
+
+<span class="nb">echo</span> “<span class="nv">$rule</span> 已封禁”
+
+<span class="k">fi</span>
+
+<span class="k">done</span>
+
+sleep <span class="m">10</span>
+
+<span class="k">done</span></pre></td></tr></table>
+</div>
+</div>
+<p>循环小技巧
+显示文件的每一行并标出第几行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># vim print.sh</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="nv">File</span><span class="o">=</span>/etc/hosts
+
+<span class="nv">num</span><span class="o">=</span><span class="m">1</span>
+
+<span class="k">while</span> <span class="nb">read</span> i
+
+<span class="k">do</span>
+
+<span class="nb">echo</span> “第<span class="si">${</span><span class="nv">num</span><span class="si">}</span>行<span class="nv">$i</span>”
+
+<span class="o">((</span>num++<span class="o">))</span>
+
+<span class="k">done</span>&lt;<span class="nv">$File</span></pre></td></tr></table>
+</div>
+</div>
+<p>显示每一行的每个单词</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># vim print.sh</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="c1">##############################################################</span>
+
+<span class="c1">#File Name: print.sh</span>
+
+<span class="c1">#Version: V1.0</span>
+
+<span class="c1">#Author: Eleven</span>
+
+<span class="c1">#Organization: 2415069806</span>
+
+<span class="c1">#Created Time : 2018-01-31 11:51:51</span>
+
+<span class="c1">#Description:</span>
+
+<span class="c1">##############################################################</span>
+
+<span class="nv">File</span><span class="o">=</span>/etc/hosts
+
+<span class="nv">numa</span><span class="o">=</span><span class="m">1</span>
+
+<span class="k">while</span> <span class="nb">read</span> i
+
+<span class="k">do</span>
+
+<span class="nb">echo</span> “第<span class="si">${</span><span class="nv">numa</span><span class="si">}</span>行<span class="nv">$i</span>”
+
+<span class="o">((</span>numa++<span class="o">))</span>
+
+<span class="nv">numb</span><span class="o">=</span><span class="m">1</span>
+
+<span class="k">for</span> x in <span class="nv">$i</span>
+
+<span class="k">do</span>
+
+<span class="nb">echo</span> “第<span class="nv">$numb个单词</span>:<span class="nv">$x</span>”
+
+<span class="o">((</span>numb++<span class="o">))</span>
+
+<span class="k">done</span>
+
+<span class="k">done</span>&lt;<span class="nv">$File</span></pre></td></tr></table>
+</div>
+</div>
+<p>显示每一行每一个单词的每一个字母</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># vim print.sh</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="c1">##############################################################</span>
+
+<span class="c1">#File Name: print.sh</span>
+
+<span class="c1">#Version: V1.0</span>
+
+<span class="c1">#Author: Eleven</span>
+
+<span class="c1">#Organization: 2415069806</span>
+
+<span class="c1">#Created Time : 2018-01-31 11:51:51</span>
+
+<span class="c1">#Description:</span>
+
+<span class="c1">##############################################################</span>
+
+<span class="nv">File</span><span class="o">=</span>/etc/hosts
+
+<span class="nv">numa</span><span class="o">=</span><span class="m">1</span>
+
+<span class="k">while</span> <span class="nb">read</span> i
+
+<span class="k">do</span>
+
+<span class="nb">echo</span> “第<span class="si">${</span><span class="nv">numa</span><span class="si">}</span>行<span class="nv">$i</span>”
+
+<span class="o">((</span>numa++<span class="o">))</span>
+
+<span class="nv">numb</span><span class="o">=</span><span class="m">1</span>
+
+<span class="k">for</span> x in <span class="nv">$i</span>
+
+<span class="k">do</span>
+
+<span class="nb">echo</span> “第<span class="nv">$numb个单词</span>:<span class="nv">$x</span>”
+
+<span class="o">((</span>numb++<span class="o">))</span>
+
+<span class="nb">echo</span> <span class="nv">$x</span><span class="p">|</span>grep -o .
+
+<span class="k">done</span>
+
+<span class="k">done</span>&lt;<span class="nv">$File</span></pre></td></tr></table>
+</div>
+</div>
+<p>break 立刻跳出循环（后面的循环不再执行），但是不跳出（退出）脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># vim break.sh</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="c1">##############################################################</span>
+
+<span class="c1">#File Name: break.sh</span>
+
+<span class="c1">#Version: V1.0</span>
+
+<span class="c1">#Author: Eleven</span>
+
+<span class="c1">#Organization: 2415069806</span>
+
+<span class="c1">#Created Time : 2018-01-31 16:42:33</span>
+
+<span class="c1">#Description:</span>
+
+<span class="c1">##############################################################</span>
+
+<span class="k">for</span> i in <span class="o">{</span><span class="m">1</span>..5<span class="o">}</span>
+
+<span class="k">do</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$i</span> -eq <span class="m">3</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+break<span class="p">;</span>
+
+<span class="k">fi</span>
+
+<span class="nb">echo</span> <span class="nv">$i</span>
+
+<span class="k">done</span>
+
+<span class="nb">echo</span> ok
+
+<span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># sh break.sh</span>
+
+<span class="m">1</span>
+
+<span class="m">2</span>
+
+ok</pre></td></tr></table>
+</div>
+</div>
+<p>continue 跳出当前循环，继续执行下面循环（后面的循环依然执行）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># vim break.sh</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="k">for</span> i in <span class="o">{</span><span class="m">1</span>..5<span class="o">}</span>
+
+<span class="k">do</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$i</span> -eq <span class="m">3</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+<span class="k">continue</span><span class="p">;</span>
+
+<span class="k">fi</span>
+
+<span class="nb">echo</span> <span class="nv">$i</span>
+
+<span class="k">done</span>
+
+<span class="nb">echo</span> ok
+
+<span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># sh break.sh</span>
+
+<span class="m">1</span>
+
+<span class="m">2</span>
+
+<span class="m">4</span>
+
+<span class="m">5</span>
+
+ok</pre></td></tr></table>
+</div>
+</div>
+<p>exit的作用是立刻退出脚本，后面所有循环和所有没有执行的代码就当没看见</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># vim break.sh</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="c1">##############################################################</span>
+
+<span class="c1">#File Name: break.sh</span>
+
+<span class="c1">#Version: V1.0</span>
+
+<span class="c1">#Author: Eleven</span>
+
+<span class="c1">#Organization: 2415069806</span>
+
+<span class="c1">#Created Time : 2018-01-31 16:42:33</span>
+
+<span class="c1">#Description:</span>
+
+<span class="c1">##############################################################</span>
+
+<span class="k">for</span> i in <span class="o">{</span><span class="m">1</span>..5<span class="o">}</span>
+
+<span class="k">do</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$i</span> -eq <span class="m">3</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+
+exit<span class="p">;</span>
+
+<span class="k">fi</span>
+
+<span class="nb">echo</span> <span class="nv">$i</span>
+
+<span class="k">done</span>
+
+<span class="nb">echo</span> ok
+
+<span class="o">[</span>root@node3 /server/scripts<span class="o">]</span><span class="c1"># sh break.sh</span>
+
+<span class="m">1</span>
+
+<span class="m">2</span></pre></td></tr></table>
+</div>
+</div>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/shell/">shell</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-for%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BA%94/" data-tooltip="Shell脚本 For循环语句企业面试题(五)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-%E5%87%BD%E6%95%B0%E5%8F%8A%E6%95%B0%E7%BB%84%E4%B8%83/" data-tooltip="Shell脚本 函数及数组(七)">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Eleven. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-for%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BA%94/" data-tooltip="Shell脚本 For循环语句企业面试题(五)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/shell%E8%84%9A%E6%9C%AC-%E5%87%BD%E6%95%B0%E5%8F%8A%E6%95%B0%E7%BB%84%E4%B8%83/" data-tooltip="Shell脚本 函数及数组(七)">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Eleven</h4>
+    
+      <div id="about-card-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        SRE
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        BeiJing
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://veh47.github.io/images/cover-v1.2.0.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://veh47.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
