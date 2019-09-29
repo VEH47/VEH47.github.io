@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Eleven">
+<meta name="keywords" content="">
+<meta name="description" content="什么是虚拟化？
+虚拟化，是指通过虚拟化技术将一台计算机虚拟为多台逻辑计算机。在一台计算机上同时运行多个逻辑计算机，每个逻辑计算机可运行不同的操作系统，并且应用程序都可以在相互独立的空间内运行而互不影响，从而显著提高计算机的工作效率">
+
+
+<meta property="og:description" content="什么是虚拟化？
+虚拟化，是指通过虚拟化技术将一台计算机虚拟为多台逻辑计算机。在一台计算机上同时运行多个逻辑计算机，每个逻辑计算机可运行不同的操作系统，并且应用程序都可以在相互独立的空间内运行而互不影响，从而显著提高计算机的工作效率">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KVM基础技术">
+<meta name="twitter:title" content="KVM基础技术">
+<meta property="og:url" content="https://veh47.github.io/2019/09/kvm%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/09/kvm%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="什么是虚拟化？
+虚拟化，是指通过虚拟化技术将一台计算机虚拟为多台逻辑计算机。在一台计算机上同时运行多个逻辑计算机，每个逻辑计算机可运行不同的操作系统，并且应用程序都可以在相互独立的空间内运行而互不影响，从而显著提高计算机的工作效率">
+<meta name="twitter:description" content="什么是虚拟化？
+虚拟化，是指通过虚拟化技术将一台计算机虚拟为多台逻辑计算机。在一台计算机上同时运行多个逻辑计算机，每个逻辑计算机可运行不同的操作系统，并且应用程序都可以在相互独立的空间内运行而互不影响，从而显著提高计算机的工作效率">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-09-29T14:13:51">
+  
+  
+    <meta property="article:modified_time" content="2019-09-29T14:13:51">
+  
+  
+  
+    
+      <meta property="article:section" content="KVM">
+    
+  
+  
+    
+      <meta property="article:tag" content="KVM">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://veh47.github.io/images/coffice.png">
+  <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
+
+
+    <title>KVM基础技术</title>
+
+    <link rel="icon" href="https://veh47.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://veh47.github.io/2019/09/kvm%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://veh47.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="3">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://veh47.github.io/">Eleven</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://veh47.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="3">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://veh47.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Eleven</h4>
+        
+          <h5 class="sidebar-profile-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/VEH47/veh47.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="3"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      KVM基础技术
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-29T14:13:51&#43;08:00">
+        
+  九月 29, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://veh47.github.io/categories/kvm">KVM</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>什么是虚拟化？
+虚拟化，是指通过虚拟化技术将一台计算机虚拟为多台逻辑计算机。在一台计算机上同时运行多个逻辑计算机，每个逻辑计算机可运行不同的操作系统，并且应用程序都可以在相互独立的空间内运行而互不影响，从而显著提高计算机的工作效率</p>
+
+<p>虚拟化使用软件的方法重新定义划分IT资源，可以实现IT资源的动态分配、灵活调度、跨域共享，提高IT资源利用率，使IT资源能够真正成为社会基础设施，服务于各行各业中灵活多变的应用需求。</p>
+
+<p>为什么要用虚拟化
+虚拟化：提高了资源的利用率，服务的安全性隔离，解决了系统和硬件之间的依赖</p>
+
+<p>场景1：同一台物理机运行多个php版本</p>
+
+<p>场景2：机房的迁移，解决了硬件和系统的依赖</p>
+
+<p>场景3：openstack环境，软件发布体检</p>
+
+<p>场景4：开发环境和测试环境，使用虚拟化</p>
+
+<p>场景5：业务的快速部署</p>
+
+<p>kvm虚拟化软件的安装(KVM：Kernel-based Virtual Machine )</p>
+
+<p>yum install libvirt* virt-* qemu-kvm* -y</p>
+
+<p>libvirt 作用：虚拟机的管理软件</p>
+
+<p>virt virt-install virt-clone 作用：虚拟机的安装和克隆</p>
+
+<p>qemu-kvm qemu-img 作用：复制管理虚拟机的磁盘</p>
+
+<p>虚拟化软件：</p>
+
+<p>qemu 软件纯模拟全虚拟化软件，特别慢！</p>
+
+<p>xen(半) 性能特别好，需要使用专门修改之后的内核</p>
+
+<p>KVM 全虚拟机，它有硬件支持cpu，基于内核，而且不需要使用专门的内核</p>
+
+<p>安装一台虚拟机</p>
+
+<p>systemctl start libvirtd.service 启动</p>
+
+<p>systemctl status libvirtd.service 查看状态</p>
+
+<p>建议虚拟机内存不要低于1024M，否则安装系统特别慢！</p>
+
+<p>virt-install –virt-type kvm –os-type=linux –os-variant rhel7 –name centos7 –memory 1024 –vcpus 1 –disk /opt/centos7.raw,format=raw,size=10 –cdrom /opt/CentOS-7-x86_64-DVD-1708.iso –network network=default –graphics vnc,listen=0.0.0.0 –noautoconsole</p>
+
+<p>raw：10G 不支持做快照，性能好</p>
+
+<p>qcow2：
+支持快照</p>
+
+<p>kvm虚拟机的virsh日常管理和配置
+virsh list centos7 显示列表</p>
+
+<p>virsh start centos7 开机</p>
+
+<p>virsh shutdown centos7 关机</p>
+
+<p>virsh destory centos7 拔电源关机</p>
+
+<p>virsh suspeng centos7 挂起</p>
+
+<p>virsh resume centos7 恢复</p>
+
+<p>virsh vncdisplay centos7 查询vnc端口</p>
+
+<p>导出配置dumpxml 例子：virsh dumpxml centos7 &gt;centos7-off.xml</p>
+
+<p>导入配置define 例子virsh define centos7-off.xml</p>
+
+<p>修改配置edit(自带语法检查) virsh edit centos7</p>
+
+<p>删除undefine 推荐：先destroy，在undefine 例virsh undefine centos7</p>
+
+<p>重命名domrename （低版本不支持）</p>
+
+<p>kvm虚拟机开机启动和console登录
+开机启动autostart，前提：systemctl enable libvirtd；</p>
+
+<p>virsh autostart centos7</p>
+
+<p>取消开机启动autostart –disable</p>
+
+<p>virsh autostart –disable centos7</p>
+
+<p>centos7的kvm虚拟机：</p>
+
+<p>grubby –update-kernel=ALL –args=”console=ttyS0,115200n8″</p>
+
+<p>reboot</p>
+
+<p>登录: virsh console centos7</p>
+
+<p>kvm虚拟机虚拟磁盘格式转换和快照管理</p>
+
+<p>virt-install –virt-type kvm –os-type=linux –os-variant rhel7 –name centos7 –memory 1024 –vcpus 1 –disk /opt/oldboy.qcow2,format=qcow2,size=10 –cdrom /etc/opt/CentOS-7.2-x86_64-DVD-1511.iso –network network=default –graphics vnc,listen=0.0.0.0 –noautoconsole</p>
+
+<p>raw：裸格式，占用空间比较大，不支持快照功能，性能较好，</p>
+
+<p>qcow2：cow （copy on write）占用空间小，支持快照，性能比raw差一点</p>
+
+<p>创建一块qcow2格式的虚拟硬盘并指定大小</p>
+
+<p>qemu-img create -f qcow2 test.qcow2 2G</p>
+
+<p>查看test.qcow2 这个文件的详细信息(也可以查看raw格式的)</p>
+
+<p>qemu-img info test.qcow2</p>
+
+<p>raw格式转qcow2格式 (最好处于关机状态)</p>
+
+<p>qemu-img convert -f raw -O qcow2 oldboy.raw oldboy.qcow2</p>
+
+<p>原文件格式
+转换为qco2格式
+原文件
+转换后的文件</p>
+
+<p>想要使用新的磁盘格式修改配置文件</p>
+
+<p>virsh edit centos7：</p>
+
+<p><disk type=’file’ device=’disk’></p>
+
+<p><driver name=’qemu’ type=’qcow2’/></p>
+
+<p><source file=’/opt/oldboy.qcow2’/></p>
+
+<p><target dev=’vda’ bus=’virtio’/></p>
+
+<p>&lt;address type=’pci’ domain=’0x0000′ bus=’0x00′ slot=’0x06′ function=’</p>
+
+<p>0x0’/&gt;</p>
+
+<p></disk></p>
+
+<p>创建快照virsh snapshot-create centos7</p>
+
+<p>查看快照virsh snapshot-list centos7</p>
+
+<p>还原快照virsh snapshot-revert centos7 –snapshotname 1516574134</p>
+
+<p>删除快照virsh snapshot-delete centos7 –snapshotname 1516636570</p>
+
+<p>kvm虚拟机克隆
+virt-clone –auto-clone -o centos7(完整克隆)</p>
+
+<p>kvm虚拟机的桥接网络</p>
+
+<h3 id="1-virsh-iface-bridge-eth0-br0">1. virsh iface-bridge eth0 br0</h3>
+
+<h3 id="2-virsh-edit-centos7">2. virsh edit centos7</h3>
+
+<p><interface type=’bridge’></p>
+
+<p><mac address=’52:54:00:55:aa:fa’/></p>
+
+<p><source bridge=’br0’/></p>
+
+<p>在宿主机上，重启虚拟机生效</p>
+
+<h3 id="3-修改kvm虚拟机的ip">3. 修改kvm虚拟机的ip</h3>
+
+<p>echo ‘TYPE=Ethernet</p>
+
+<p>BOOTPROTO=static</p>
+
+<p>NAME=eth0</p>
+
+<p>DEVICE=eth0</p>
+
+<p>ONBOOT=yes</p>
+
+<p>IPADDR=10.0.0.111</p>
+
+<p>NETMASK=255.255.255.0</p>
+
+<p>GATEWAY=10.0.0.254</p>
+
+<p>DNS1=223.5.5.5’ &gt;/etc/sysconfig/network-scripts/ifcfg-eth0</p>
+
+<h3 id="4-验证-登录测试">4. 验证:登录测试,</h3>
+
+<p>ping www.baidu.com</p>
+
+<p>kvm虚拟机在线热添加硬盘
+创建一块硬盘</p>
+
+<p>qemu-img create -f qcow2 centsos-add01.qcow2 5G</p>
+
+<p>添加硬盘</p>
+
+<p>virsh attach-disk centos7 /opt/centos7-add01.qcow2 vdb –live –cache=none –subdriver=qcow2</p>
+
+<p>去除添加的硬盘</p>
+
+<p>virsh detach-disk centos7 vdb</p>
+
+<p>虚拟机磁盘扩容：</p>
+
+<p>在kvm虚拟机，卸载</p>
+
+<p>virsh detach-disk centos7 vdb</p>
+
+<p>给vdb添加5G空间</p>
+
+<p>qemu-img resize /opt/centos7-add01.qcow2 +5G</p>
+
+<p>重新添加撒谎那个硬盘</p>
+
+<p>virsh attach-disk centos7 /opt/centos7-add01.qcow2 vdb –live –cache=none –subdriver=qcow2</p>
+
+<p>在虚拟机中格式化新加载的磁盘</p>
+
+<p>mkfs.xfs /dev/vdb</p>
+
+<p>在虚拟机上挂载</p>
+
+<p>mount /dev/vdb /tmp</p>
+
+<p>根分区扩容：</p>
+
+<p>1）在宿主机上关闭虚拟机并调整虚拟机磁盘大小</p>
+
+<p>qemu-img resize oldboy.qcow2 +10G</p>
+
+<p>2）虚拟机中fdisk重新分区</p>
+
+<p>fdisk /dev/vda</p>
+
+<p>3)重启之后，执行xfs_growfs /dev/vda1，</p>
+
+<p>如果虚拟机磁盘文件系统是ext4：resize2fs /dev/vda1</p>
+
+<p>virt-manager和kvm虚拟机热迁移(共享的网络文件系统)部署
+1):</p>
+
+<p>yum groupinstall “GNOME Desktop” -y</p>
+
+<p>yum install openssh-askpass -y</p>
+
+<p>yum install tigervnc-server -y</p>
+
+<p>vncpasswd 设置密码</p>
+
+<p>vncserver :1 开启</p>
+
+<p>vncserver -kill :1 关闭</p>
+
+<p>2):kvm虚拟机热迁移</p>
+
+<p>1：两边的环境（桥接网卡）</p>
+
+<p>2：实现共享存储（nfs）</p>
+
+<p>3：虚拟机桥接网络</p>
+
+<p>4：在线热迁移</p>
+
+<p>kvm虚拟机冷迁移
+先关闭虚拟机
+virsh shutdown centos7</p>
+
+<p>保证两台服务器环境一致
+现有的服务器是使用桥接网络,所以新服务器也必须使用桥接网络</p>
+
+<p>virsh iface-bridge eth0 br0</p>
+
+<p>导出配置文件
+virsh dumpxml centos7 &gt;/opt/centos7.xml</p>
+
+<p>把配置文件与磁盘文件一起发往新服务器
+发出的磁盘文件和配置文件路径必须一致</p>
+
+<p>scp /opt/centos7.xml 10.0.0.12:/opt/</p>
+
+<p>scp /opt/oldboy.raw 10.0.0.12:/opt/</p>
+
+<p>在新服务器导入配置文件
+新服务器不许开启虚拟化设置</p>
+
+<p>virsh define /opt/centos7.xml</p>
+
+<p>virsh start centos7 启动</p>
+
+<p>生产中CPU可能不同,需要解决兼容性问题</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/kvm/">KVM</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/kvm%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" data-tooltip="KVM常用操作">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Eleven. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/kvm%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" data-tooltip="KVM常用操作">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Eleven</h4>
+    
+      <div id="about-card-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        SRE
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        BeiJing
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://veh47.github.io/images/cover-v1.2.0.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://veh47.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

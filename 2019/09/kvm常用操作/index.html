@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Eleven">
+<meta name="keywords" content="">
+<meta name="description" content="KVM常用的一些命令, 可以自己查看">
+
+
+<meta property="og:description" content="KVM常用的一些命令, 可以自己查看">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KVM常用操作">
+<meta name="twitter:title" content="KVM常用操作">
+<meta property="og:url" content="https://veh47.github.io/2019/09/kvm%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/09/kvm%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="KVM常用的一些命令, 可以自己查看">
+<meta name="twitter:description" content="KVM常用的一些命令, 可以自己查看">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-09-29T14:13:44">
+  
+  
+    <meta property="article:modified_time" content="2019-09-29T14:13:44">
+  
+  
+  
+    
+      <meta property="article:section" content="KVM">
+    
+  
+  
+    
+      <meta property="article:tag" content="KVM">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://veh47.github.io/images/coffice.png">
+  <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
+
+
+    <title>KVM常用操作</title>
+
+    <link rel="icon" href="https://veh47.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://veh47.github.io/2019/09/kvm%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://veh47.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="3">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://veh47.github.io/">Eleven</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://veh47.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="3">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://veh47.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Eleven</h4>
+        
+          <h5 class="sidebar-profile-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/VEH47/veh47.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="3"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      KVM常用操作
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-29T14:13:44&#43;08:00">
+        
+  九月 29, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://veh47.github.io/categories/kvm">KVM</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>KVM常用的一些命令, 可以自己查看</p>
+
+<h5 id="1-通过配置文件启动虚拟机">1）通过配置文件启动虚拟机</h5>
+
+<p>virsh create /etc/libvirt/qemu/wintest01.xml</p>
+
+<h5 id="2-配置开机自启动虚拟机">2）配置开机自启动虚拟机</h5>
+
+<p>virsh autostart oeltest01
+autostart目录是kvm虚拟机开机自启动目录，可以看到该目录中有KVM配置文件链接。</p>
+
+<h5 id="3-导出kvm虚拟机配置文件">3）导出KVM虚拟机配置文件</h5>
+
+<p>virsh dumpxml wintest01 &gt; /etc/libvirt/qemu/wintest02.xml</p>
+
+<p>KVM虚拟机配置文件可以通过这种方式进行备份。</p>
+
+<h5 id="4-添加与删除kvm虚拟机">4）添加与删除KVM虚拟机</h5>
+
+<p>删除kvm虚拟机
+virsh undefine wintest01</p>
+
+<p>说明：该命令只是删除wintest01的配置文件，并不删除虚拟磁盘文件。</p>
+
+<p>重新定义虚拟机配置文件</p>
+
+<p>通过导出备份的配置文件恢复原KVM虚拟机的定义，并重新定义虚拟机。</p>
+
+<p>mv /etc/libvirt/qemu/wintest02.xml /etc/libvirt/qemu/wintest01.xml</p>
+
+<p>virsh define /etc/libvirt/qemu/wintest01.xml</p>
+
+<p>vim /etc/libvirt/qemu/wintest01.xml</p>
+
+<h6 id="5-创建虚拟机">5）创建虚拟机</h6>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# virt-install –name=centos1 \ #生成一个虚拟机
+–ram 1024 –vcpus=1 \
+–disk path=/root/centos1.img,size=10 \
+–accelerate –cdrom /root/CentOS-6.5-x86_64-bin-DVD1.iso \
+–graphics vnc,port=5921 –network bridge=br0</pre></td></tr></table>
+</div>
+</div>
+<h5 id="6-virsh的其他操作">6）virsh的其他操作</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost /]# virt-viewer centos1 #如果有图形界面的话，可以进入虚拟机的界面
+[root@localhost /]# virsh reboot centos1 #重启虚拟机
+[root@localhost /]# virsh suspend centos1 #暂停虚拟机
+[root@localhost /]# virsh resume centos1 #恢复虚拟机
+[root@localhost /]# virsh autostart centos1 #自动加载虚拟机</pre></td></tr></table>
+</div>
+</div>
+<p>——————————————-virsh参数如下——————————————-</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">autostart      #自动加载指定的一个虚拟机
+connect        #重新连接到hypervisor
+console        #连接到客户会话
+create         #从一个SML文件创建一个虚拟机
+start          #开始一个非活跃的虚拟机
+destroy        #删除一个虚拟机
+define         #从一个XML文件定义一个虚拟机
+domid          #把一个虚拟机名或UUID转换为ID
+domuuid        #把一个郁闷或ID转换为UUID
+dominfo        #查看虚拟机信息
+domstate       #查看虚拟机状态
+domblkstat     #获取虚拟机设备快状态
+domifstat      #获取虚拟机网络接口状态
+dumpxml        #XML中的虚拟机信息
+edit           #编辑某个虚拟机的XML文件
+list           #列出虚拟机
+migrate        #将虚拟机迁移到另一台主机
+quit           #退出非交互式终端
+reboot         #重新启动一个虚拟机
+resume         #重新恢复一个虚拟机
+save           #把一个虚拟机的状态保存到一个文件
+dump           #把一个虚拟机的内核dump到一个文件中以方便分析
+shutdown       #关闭一个虚拟机
+setmem         #改变内存的分配
+setmaxmem      #改变最大内存限制值
+suspend        #挂起一个虚拟机
+vcpuinfo       #虚拟机的cpu信息
+version        #显示virsh版本</pre></td></tr></table>
+</div>
+</div>
+<h6 id="7-virt-clone-如果我们要建几个一样的虚拟机-这个命令-非常有用">7）virt-clone，如果我们要建几个一样的虚拟机，这个命令，非常有用！</h6>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">virt-clone –connect=qemu:#/system -o centos1 -n centos3 -f /root/centos3.img #克隆centos1</pre></td></tr></table>
+</div>
+</div>
+<p>libguestfs-tools是虚拟机一个管理包，很有用的工具
+    yum -y install libguestfs-tools #安装工具包</p>
+
+<h5 id="8-未登录的情况下-查看镜像目录">8）未登录的情况下，查看镜像目录</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">virt-ls centos.img /home #查看centos.img镜像文件中/home目录</pre></td></tr></table>
+</div>
+</div>
+<h5 id="9-查看虚拟机的分区情况">9）查看虚拟机的分区情况</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# virt-filesystems -d centos1
+/dev/sda1
+/dev/VolGroup/lv_root
+[root@localhost ~]# virt-list-partitions /root/centos.img
+/dev/sda1
+/dev/sda2
+[root@localhost ~]# virt-df centos.img
+Filesystem 1K-blocks Used Available Use%
+centos.img:/dev/sda1 495844 34510 435734 7%
+centos.img:/dev/VolGroup/lv_root 8780808 2842056 5492700 33%</pre></td></tr></table>
+</div>
+</div>
+<h5 id="10-mount虚拟机">10）mount虚拟机</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@localhost ~]# guestmount -a /root/centos.img -m /dev/VolGroup/lv_root –rw /mnt/usb
+[root@localhost ~]# cd /mnt/usb/
+[root@localhost usb]# ls
+bin dev home lib64 media mnt opt root selinux sys usr
+boot etc lib lost+found misc net proc sbin srv tmp var</pre></td></tr></table>
+</div>
+</div>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/kvm/">KVM</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/docker%E5%AE%B9%E5%99%A8%E7%9A%84%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86/" data-tooltip="Docker容器的部署管理">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/kvm%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/" data-tooltip="KVM基础技术">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Eleven. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/docker%E5%AE%B9%E5%99%A8%E7%9A%84%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86/" data-tooltip="Docker容器的部署管理">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/kvm%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/" data-tooltip="KVM基础技术">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Eleven</h4>
+    
+      <div id="about-card-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        SRE
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        BeiJing
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://veh47.github.io/images/cover-v1.2.0.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://veh47.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
