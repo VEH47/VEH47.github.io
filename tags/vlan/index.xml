@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>VLAN on Eleven</title>
+    <link>https://veh47.github.io/tags/vlan/</link>
+    <description>Recent content in VLAN on Eleven</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 29 Sep 2019 15:40:13 +0800</lastBuildDate>
+    
+	<atom:link href="https://veh47.github.io/tags/vlan/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>VLAN原理</title>
+      <link>https://veh47.github.io/2019/09/vlan%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Sun, 29 Sep 2019 15:40:13 +0800</pubDate>
+      
+      <guid>https://veh47.github.io/2019/09/vlan%E5%8E%9F%E7%90%86/</guid>
+      <description>&lt;p&gt;VLAN(Virtual LAN)，翻译成中文是“虚拟局域网”。LAN可以是由少数几台家用计算机构成的网络，也可以是数以百计的计算机构成的企业网络。VLAN所指的LAN特指使用路由器分割的网络——也就是广播域。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

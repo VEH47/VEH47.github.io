@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DNS on Eleven</title>
+    <link>https://veh47.github.io/tags/dns/</link>
+    <description>Recent content in DNS on Eleven</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 29 Sep 2019 15:39:09 +0800</lastBuildDate>
+    
+	<atom:link href="https://veh47.github.io/tags/dns/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dnsmasq使用参考入门</title>
+      <link>https://veh47.github.io/2019/09/dnsmasq%E4%BD%BF%E7%94%A8%E5%8F%82%E8%80%83%E5%85%A5%E9%97%A8/</link>
+      <pubDate>Sun, 29 Sep 2019 15:39:09 +0800</pubDate>
+      
+      <guid>https://veh47.github.io/2019/09/dnsmasq%E4%BD%BF%E7%94%A8%E5%8F%82%E8%80%83%E5%85%A5%E9%97%A8/</guid>
+      <description>&lt;nav&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#dns配置&#34;&gt;DNS配置&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;p&gt;Dnsmasq提供DNS缓存和DHCP服务功能。作为域名解析服务器(DNS)，dnsmasq可以通过缓存DNS请求来提高对访问过的网址的连接速度。作为DHCP服务器，dnsmasq可以为局域网电脑提供内网ip地址和路由，DNS和DHCP两个功能可以同时或分别单独实现。dnsmasq轻量且易配置，此外它还自带了一个PXE服务器以及对邮件服务器的mx记录的支持，jabber的srv记录的支持等。它提供了DNS功能和可选择的DHCP功能可以取代dhcpd服务和bind等服务，配置起来更简单，更适用于虚拟化和大数据环境的部署。笔者在上海某机房中使用它的50台实体机和1000台虚拟机的各类爬虫应用提供解析服务，Dnsmasq配置文件是/etc/dnsmasq.conf，在它的配件文件中的注释已经给出了非常详细的解释。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
