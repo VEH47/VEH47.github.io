@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Eleven">
+<meta name="keywords" content="">
+<meta name="description" content="Mysql MHA高可用扩展 Atlas读写分离">
+
+
+<meta property="og:description" content="Mysql MHA高可用扩展 Atlas读写分离">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql MHA高可用扩展 Atlas读写分离(十)">
+<meta name="twitter:title" content="Mysql MHA高可用扩展 Atlas读写分离(十)">
+<meta property="og:url" content="https://veh47.github.io/2019/09/mysql-mha%E9%AB%98%E5%8F%AF%E7%94%A8%E6%89%A9%E5%B1%95-atlas%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E5%8D%81/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/09/mysql-mha%E9%AB%98%E5%8F%AF%E7%94%A8%E6%89%A9%E5%B1%95-atlas%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E5%8D%81/">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="Mysql MHA高可用扩展 Atlas读写分离">
+<meta name="twitter:description" content="Mysql MHA高可用扩展 Atlas读写分离">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-09-29T18:08:15">
+  
+  
+    <meta property="article:modified_time" content="2019-09-29T18:08:15">
+  
+  
+  
+    
+      <meta property="article:section" content="Mysql">
+    
+  
+  
+    
+      <meta property="article:tag" content="Mysql">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://veh47.github.io/images/coffice.png">
+  <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
+
+
+    <title>Mysql MHA高可用扩展 Atlas读写分离(十)</title>
+
+    <link rel="icon" href="https://veh47.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://veh47.github.io/2019/09/mysql-mha%E9%AB%98%E5%8F%AF%E7%94%A8%E6%89%A9%E5%B1%95-atlas%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E5%8D%81/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://veh47.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="3">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://veh47.github.io/">Eleven</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://veh47.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="3">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://veh47.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Eleven</h4>
+        
+          <h5 class="sidebar-profile-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/VEH47/veh47.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="3"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Mysql MHA高可用扩展 Atlas读写分离(十)
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-29T18:08:15&#43;08:00">
+        
+  九月 29, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://veh47.github.io/categories/mysql">Mysql</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>Mysql MHA高可用扩展 Atlas读写分离</p>
+
+<p>MHA高可用扩展 (binlog server)</p>
+
+<p>前提：</p>
+
+<p>企业中有专门的一台机器作为binlog server。存储设备和网络带宽 越快越好</p>
+
+<p>这台机器上需要有mysql，而且必须开启gtid。5.6以上版本</p>
+
+<p>配置binlog接收节点</p>
+
+<p>binlog server</p>
+
+<p>（1）准备一台新的mysql实例，必须开启GTID</p>
+
+<p>（2）建立binlog接收目录，不能和主库binlog目录一样</p>
+
+<p>mkdir /data/mysql/binlog/</p>
+
+<p>chown -R mysql.mysql /data//mysql/binlog/</p>
+
+<p>（3）在app1.cnf(也就是manage的配置文件)中开启binlogserver功能</p>
+
+<p>[binlog1]</p>
+
+<p>no_master=1</p>
+
+<p>hostname=10.0.0.53             ——&gt;用于作为binlog server那台机器</p>
+
+<p>master_binlog_dir=/data/mysql/binlog/     ——&gt;我们自定义的binlog保存目录</p>
+
+<p>（4）开启binlog接收（接收主库的binlog）</p>
+
+<p>cd /data/mysql/binlog/</p>
+
+<p>mysqlbinlog -R –host=10.0.0.51 –user=mha –password=mha –raw –stop-never mysql-bin.000001 &amp;</p>
+
+<p>（5）停止MHA</p>
+
+<p>/usr/bin/masterha_stop –conf=/etc/mha/app1.cnf</p>
+
+<p>（6）开启MHA</p>
+
+<p>nohup masterha_manager –conf=/etc/mha/app1.cnf –remove_dead_master_conf –ignore_last_failover &lt; /dev/null &gt; /var/log/mha/app1/manager.log 2&gt;&amp;1 &amp;</p>
+
+<p>MHA其它参数</p>
+
+<p>设置主库宕机后切换权重</p>
+
+<p>[root@db05 /usr/local/bin]# vim /etc/mha/app1.cnf</p>
+
+<p>例如把1节点设置权重</p>
+
+<p>[server1]</p>
+
+<p>hostname=10.0.0.51</p>
+
+<p>port=3306</p>
+
+<p>candidate_master=1 不管怎样都切到优先级高的主机，一般在主机性能差异的时候用</p>
+
+<p>#设置为候选master，如果设置该参数以后，发生主从切换以后将会将此从库提升为主库，即使这个主库不是集群中事件最新的slave</p>
+
+<p>check_repl_delay=0 不管优先级高的备选库，数据延时多久都要往那切</p>
+
+<p>#默认情况下如果一个slave落后master 100M 的relaylogs的话，MHA将不会选择该slave作为一个新的master，因为对于这个slave的恢复需要花费很长时间，通过设置check_repl_delay=0,MHA触发切换在选择一个新的master的时候将会忽略复制延时，这个参数对于设置了candidate_master=1的主机非常有用，因为这个候选主在切换的过程中一定是新的master</p>
+
+<p>注：</p>
+
+<p>1、多地多中心，设置本地节点为高权重</p>
+
+<p>2、在有半同步复制的环境中，设置半同步复制节点为高权重</p>
+
+<p>3、你觉着哪个机器适合做主节点，配置较高的 、性能较好的</p>
+
+<p>atlas读写分离</p>
+
+<p>存在意义：提高数据库架构的性能</p>
+
+<p>读性能：读写分离</p>
+
+<p>写性能：分库分表、分片功能</p>
+
+<p>atlas功能</p>
+
+<p>1、上端是和前端的业务应用对接，后端是和数据库对接，所以把他称之为数据库”中间件”</p>
+
+<p>2、他应该具备什么功能？</p>
+
+<p>(1)应该能够被应用连接，而且应该像数据库一样被连接，应该提供类似mysql 连接层的功能 (连接命令、端口、用户、密码、地址)</p>
+
+<p>(2)应该还具有，SQL层的基本功能：</p>
+
+<p>接收SQL 判断语法 验证语义（SQL的类型）</p>
+
+<p>读请求：落到从节点上运行</p>
+
+<p>多个从节点，接收的读请求应该都是平均的</p>
+
+<p>写请求：落到主节点上去进行</p>
+
+<p>SQL黑白名单</p>
+
+<p>（3）能够监控所有后端MySQL实例，以及实例是否能读能写</p>
+
+<p>（4）在线增加删除数据库节点</p>
+
+<p>（5）数据库节点失效，能够感知，自动剔除节点</p>
+
+<p>atlas安装配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">rpm -ivh Atlas-2.2.1.el6.x86_64.rpm
+
+/usr/local/mysql-proxy/bin/encrypt 123 —-&gt;制作加密密码
+
+cd /usr/local/mysql-proxy
+
+[root@db05 /usr/local/mysql-proxy]# ll
+
+total 16
+
+drwxr-xr-x 2 root root 4096 Mar 2 10:29 bin
+
+drwxr-xr-x 2 root root 4096 Mar 2 13:02 conf
+
+drwxr-xr-x 3 root root 4096 Mar 2 10:29 lib
+
+drwxr-xr-x 2 root root 4096 Mar 2 10:50 log
+
+cd conf
+
+vim test.cnf
+
+[mysql-proxy]
+
+admin-username = user
+
+admin-password = pwd
+
+proxy-backend-addresses = 10.0.0.55:3306 虚拟ip
+
+proxy-read-only-backend-addresses = 10.0.0.51:3306,10.0.0.53:3306 从库设置只读
+
+pwds = repl:3yb5jEku5h4=,mha:O2jBXONX098= 复制用户及其的密码
+
+daemon = true
+
+keepalive = true
+
+event-threads = 8
+
+log-level = message
+
+log-path = /usr/local/mysql-proxy/log 日志路径
+
+sql-log=ON
+
+proxy-address = 0.0.0.0:33060
+
+admin-address = 0.0.0.0:2345
+
+charset=utf8</pre></td></tr></table>
+</div>
+</div>
+<p>启动atlas</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">/usr/local/mysql-proxy/bin/mysql-proxyd test start
+
+ps -ef |grep proxy</pre></td></tr></table>
+</div>
+</div>
+<p>测试
+读的测试</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db05 /usr/local/mysql-proxy]# mysql -umha -pmha -h 10.0.0.53 -P 33060</pre></td></tr></table>
+</div>
+</div>
+<p>配置文件里的用户</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql&gt; show variables like “%server_id%”;
+
++—————-+——-+
+
+| Variable_name | Value |
+
++—————-+——-+
+
+| server_id | 21 | 从库的server id
+
+| server_id_bits | 32 |
+
++—————-+——-+
+
+2 rows in set (0.01 sec)
+
+mysql&gt; show variables like “%server_id%”;
+
++—————-+——-+
+
+| Variable_name | Value |
+
++—————-+——-+
+
+| server_id | 22 | 从库的server id
+
+| server_id_bits | 32 |
+
++—————-+——-+</pre></td></tr></table>
+</div>
+</div>
+<p>写的测试</p>
+
+<p>主节点创建测试用户</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql&gt; grant create ,insert,update,delete ,select ,drop on *.* to app@’10.0.0.%’ identified by ‘123’;</pre></td></tr></table>
+</div>
+</div>
+<p>设置两个从节点只读</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">set global read_only=1;</pre></td></tr></table>
+</div>
+</div>
+<p>在atlas管理点连接测试</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql -uapp -p123 -h10.0.0.53 -P33060 链接到了主节点
+
+create database db1;</pre></td></tr></table>
+</div>
+</div>
+<p>查看其他节点</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql&gt; show databases;
+
++——————–+
+
+| Database |
+
++——————–+
+
+| information_schema |
+
+| db1 |
+
+| mysql |
+
+| performance_schema |
+
+| test |
+
++——————–+
+
+5 rows in set (0.01 sec)</pre></td></tr></table>
+</div>
+</div>
+<p>管理atlas
+    mysql -uuser -ppwd -h127.0.0.1 -P2345</p>
+
+<p>打印帮助：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql&gt; select * from help;</pre></td></tr></table>
+</div>
+</div>
+<p>动态添加删除节点：</p>
+
+<p>REMOVE BACKEND 3; 删除节点3</p>
+
+<p>ADD SLAVE 10.0.0.10:3308;     添加节点</p>
+
+<p>SAVE CONFIG; 提交</p>
+
+<p>分库分表
+表数据行超过800w行就做分表、分库</p>
+
+<p>分表：将一个大表拆分为多个小表进行存储</p>
+
+<p>自动分表
+使用Atlas的分表功能时，首先需要在配置文件test.cnf设置tables参数。</p>
+
+<p>tables参数设置格式：数据库名.表名.分表字段.子表数量，</p>
+
+<p>比如：</p>
+
+<p>你的数据库名叫school，表名叫stu，分表字段叫id，总共分为2张表，</p>
+
+<p>那么就写为school.stu.id.2，如果还有其他的分表，以逗号分隔即可。</p>
+
+<p>用户需要手动建立2张子表（stu_0,stu_1，注意子表序号是从0开始的）。</p>
+
+<p>所有的子表必须在DB的同一个database里。</p>
+
+<p>当通过Atlas执行（SELECT、DELETE、UPDATE、INSERT、REPLACE）操作时，Atlas会根据分表结果（id%2=k），定位到相应的子表（stu_k）。例如，执行select * from stu where id=3;，Atlas会自动从</p>
+
+<p>stu_1这张子表返回查询结果。但如果执行SQL语句（select * from stu;）时不带上id，则会提示执行stu</p>
+
+<p>表不存在。</p>
+
+<p>Atlas暂不支持自动建表和跨库分表的功能。</p>
+
+<p>Atlas目前支持分表的语句有SELECT、DELETE、UPDATE、INSERT、REPLACE。</p>
+
+<p>例</p>
+
+<p>stu 表 1000w数据 , id name</p>
+
+<p>规划三张表</p>
+
+<p>问</p>
+
+<p>怎么比较均匀存到3张表中?</p>
+
+<p>range(范围):</p>
+
+<p>1-3333333                 表1</p>
+
+<p>3333334-6666666                表2</p>
+
+<p>6666667-10000000             表3</p>
+
+<p>以上分表方式,存数据非常均匀,取数据不均与,因为要考虑业务需求</p>
+
+<p>如果业务查询热点数据集中在id是1-200w这些数据,那么读取就不均匀</p>
+
+<p>取模分表</p>
+
+<p>n/3 取余数 (0,1,2)</p>
+
+<p>(1)如果是 0 则分到 stu_0</p>
+
+<p>(2)如果是 1 则分到 stu_1</p>
+
+<p>(3)如果是 2 则分到 stu_2</p>
+
+<p>1-200w是热点数据</p>
+
+<p>取余数</p>
+
+<p>select id ,name from stu where id=10</p>
+
+<p>配置文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">vi /usr/local/mysql-proxy/conf/test.cnf
+
+tables = school.stu.id.3</pre></td></tr></table>
+</div>
+</div>
+<p>重启atlas</p>
+
+<p>/usr/local/mysql-proxy/bin/mysql-proxyd test restart</p>
+
+<p>(主库)手工创建,分表后的库和表,分别为定义的school 和 stu_0 stu_1 stu_2</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">create database school;
+
+use school
+
+create table stu_0 (id int primary key,name varchar(20));
+
+create table stu_1 (id int primary key,name varchar(20));
+
+create table stu_2 (id int primary key,name varchar(20));</pre></td></tr></table>
+</div>
+</div>
+<p>测试:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql&gt; insert into stu values (3,’wang5′);
+
+mysql&gt; insert into stu values (2,’li4′);
+
+mysql&gt; insert into stu values (1,’zhang3′);</pre></td></tr></table>
+</div>
+</div>
+<p>工具分表
+工具分表：</p>
+
+<p>range ：范围</p>
+
+<p>hash：</p>
+
+<p>取模（取余）：100行数据分到4个表，比如按照id（1-100）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">id和4—&gt;
+
+id=1，1/4 ,余数是1，应该放到编号为1的表
+
+id=2,…………2,…………….2
+
+id=3，。。。。。。。3.。。。。。。。3
+
+id=4,…………..0…………….
+
+….</pre></td></tr></table>
+</div>
+</div>
+<p>表：首先要准备好编号为0-3的表。</p>
+
+<p>优势：比较简单，比较均匀</p>
+
+<p>劣势：最怕的就是增加删除表</p>
+
+<p>一致性hash：</p>
+
+<p>也是一种取模的方式，id/2的32次方取模</p>
+
+<p>分库（分片）：分布式系统</p>
+
+<p>分布式的存储系统：</p>
+
+<p>存储空间问题</p>
+
+<p>并发访问问题</p>
+
+<p>分布式的计算系统</p>
+
+<p>IP过滤：client-ips</p>
+
+<p>该参数用来实现IP过滤功能。</p>
+
+<p>在传统的开发模式中，应用程序直接连接DB，因此DB会对部署应用的机器(比如web服务器)的IP作访问授权。</p>
+
+<p>在引入中间层后，因为连接DB的是Atlas，所以DB改为对部署Atlas的机器的IP作访问授权，如果任意一台客户端都可以连接Atlas，就会带来潜在的风险。</p>
+
+<p>client-ips参数用来控制连接Atlas的客户端的IP，可以是精确IP，也可以是IP段，以逗号分隔写在一行上即可。</p>
+
+<p>如：</p>
+
+<p>client-ips=192.168.1.2, 192.168.2，这就代表192.168.1.2这个IP和192.168.2.*这个段的IP可以连接Atlas，</p>
+
+<p>其他IP均不能连接。</p>
+
+<p>如果该参数不设置，则任意IP均可连接Atlas。</p>
+
+<p>如果设置了client-ips参数，且Atlas前面挂有LVS，则必须设置lvs-ips参数，否则可以不设置lvs-ips。</p>
+
+<p>SQL语句黑白名单</p>
+
+<p>Atlas会屏蔽不带where条件的delete和update操作，以及sleep函数。</p>
+
+<p>Atlas-Sharding版本介绍*
+Sharding的基本思想就是把一个数据表中的数据切分成多个部分, 存放到不</p>
+
+<p>同的主机上去(切分的策略有多种), 从而缓解单台机器的性能跟容量的问题. sharding是一种水平切分, 适用于单表数据庞大的情景. 目前atlas支持静态的sharding方案, 暂时不支持数据的自动迁移以及数据组的动态加入.</p>
+
+<p>Atlas以表为单位sharding, 同一个数据库内可以同时共有sharding的表和不sharding的表, 不sharding的表数据存在未sharding的数据库组中. 目前Atlas sharding支持insert, delete, select, update语句, 只支持不跨shard的事务. 所有的写操作如insert, delete, update只能一次命中一个组, 否则会报”ERROR 1105 (HY000):write operation is only allow to one dbgroup!”错误.</p>
+
+<p>由于sharding取替了Atlas的分表功能, 所以在Sharding分支里面, Atlas单</p>
+
+<p>机分表的功能已经移除, 配置tables将不会再有效.</p>
+
+<p>Atlas-Sharding架构*</p>
+
+<p>Sharding配置示例*
+Atlas支持非sharding跟sharding的表共存在同一个Atlas中, 2.2.1之前的配置可以直接运行. 之前的配置如proxy-backend-addresses = 192.168.0.12:3306 proxy-read-only-backend-addresses = 192.168.0.13:3306,192.168.0.14:3306 … 这配置了一个master和两个slave,</p>
+
+<p>这属于非sharding的组, 所有非sharding的表跟语句都会发往这个组内. 所以之前没有Sharding的Atlas的表可以无缝的在新版上使用,</p>
+
+<p>注意: 非Sharding的组只能配置一个, 而sharding的组可以配置多个. 下面的配置, 配置了Sharding的组, 注意与上面的配置区分</p>
+
+<p>[shardrule-0]</p>
+
+<p>table = test.sharding_test</p>
+
+<p>#分表名，有数据库+表名组成</p>
+
+<p>type = range</p>
+
+<p>#sharding类型：range 或 hash</p>
+
+<p>shard-key = id</p>
+
+<p>#sharding 字段</p>
+
+<p>groups = 0:0-999,1:1000-1999</p>
+
+<p>#分片的group，如果是range类型的sharding，则groups的格式是：group_id:id范围。如果是hash类型的sharding，则groups的格式是：group_id。例如groups = 0, 1</p>
+
+<p>[group-0]</p>
+
+<p>proxy-backend-addresses=192.168.0.15:3306</p>
+
+<p>proxy-read-only-backend-addresses=192.168.0.16:3306</p>
+
+<p>[group-1]</p>
+
+<p>proxy-backend-addresses=192.168.0.17:3306</p>
+
+<p>proxy-read-only-backend-addresses=192.168.0.18:3306</p>
+
+<p>Sharding测试案例*
+创建测试表:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">DROP TABLE IF EXISTS `sharding_test`;
+
+CREATE TABLE `sharding_test` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name`char(50)
+
+COLLATE utf8_bin NOT NULL, `age` int(11) DEFAULT NULL, `birthday` date DEFAULT NULL,`nickname` char(50) COLLATE utf8_bin DEFAULT NULL, PRIMARY KEY (`id`) )
+
+mysql -h127.0.0.1 –P33060 -uroot -pmysqltest –c
+
+mysql&gt; use test;
+
+mysql&gt; insert into sharding_test(id, name, age) values(1, ‘test’, 0);
+
+mysql&gt; insert into sharding_test(id, name, age) values(50, ‘test’, 0), (999, ‘test’, 0);</pre></td></tr></table>
+</div>
+</div>
+<p>注意：</p>
+
+<p>以上几条数据都插入到了dbgroup0,</p>
+
+<p>请注意第二条多值插入的语句, 因为50和999都命中了dbgroup0, 所以其执行成功, 但是如果执行以下的语句:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql&gt; insert into sharding_test(id, name, age) values(100, ‘test’, 0), (1500, ‘test’, 0);
+
+ERROR 1105 (HY000): Proxy Warning – write operation is only allow to one dbgroup!</pre></td></tr></table>
+</div>
+</div>
+<p>在sharding的表中, 这是不允许的, 因为id为100命中了dbgroup0, 而id为1500 命中了dbgroup1, 由于分布式的多值插入可能导致部分成功, 需要回滚, 这个Atlas暂不支持. update, delete, replace同理.</p>
+
+<p>测试完成分别登陆两个主库进行查看数据。</p>
+
+<p>Sharding限制
+关于支持的语句</p>
+
+<p>Atlas sharding只对sql语句提供有限的支持, 目前支持基本的Select, insert/replace, delete, update语句, 支持全部的Where语法(SQL-92标准), 不支持DDL(create drop alter)以及一些管理语句, DDL请直连MYSQL执行, 请只在Atlas上执行Select, insert, delete, update(CRUD)语句.</p>
+
+<p>对于以下语句, 如果语句命中了多台dbgroup, Atlas均未做支持(如果语句只命中了一个dbgroup, 如select count(*) from test where id &lt; 1000, 其中dbgroup0范围是0 – 1000, 那么这些特性都是支持的)</p>
+
+<p>Limit Offset(支持Limit)</p>
+
+<p>Order by</p>
+
+<p>Group by</p>
+
+<p>Join</p>
+
+<p>ON</p>
+
+<p>Count, Max, Min等函数</p>
+
+<p>增加节点</p>
+
+<p>注意: 暂时只支持range方式的节点扩展, hash方式由于需要数据迁移, 暂时未做支持.</p>
+
+<p>扩展节点在保证原来节点的范围不改变的情况下, 如已有dbgroup0为范围0 – 999, dbgroup1为范围 1000- 1999, 这个时候可以增加范围&gt;2000的节点. 如增加一个节点为2000 – 2999, 修改配置文件, 重启Atlas即可.</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/mysql/">Mysql</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/mysql%E7%B4%A2%E5%BC%95%E5%8F%8A%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E4%B9%9D/" data-tooltip="Mysql索引及执行计划(九)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Eleven. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/mysql%E7%B4%A2%E5%BC%95%E5%8F%8A%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E4%B9%9D/" data-tooltip="Mysql索引及执行计划(九)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Eleven</h4>
+    
+      <div id="about-card-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        SRE
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        BeiJing
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://veh47.github.io/images/cover-v1.2.0.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://veh47.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

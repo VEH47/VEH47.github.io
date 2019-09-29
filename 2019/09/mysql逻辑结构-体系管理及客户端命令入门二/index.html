@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Eleven">
+<meta name="keywords" content="">
+<meta name="description" content="mysql逻辑结构
+mysql中含有多个库(database或scheme), 每个库中含有多个表(table), 表中含有行:(数据行, 将来需要获取的数据), 列定义: (1)数据的含义(列名字), (2)数据的约束(数据的类型, 特殊属性, 非空, 唯一等)">
+
+
+<meta property="og:description" content="mysql逻辑结构
+mysql中含有多个库(database或scheme), 每个库中含有多个表(table), 表中含有行:(数据行, 将来需要获取的数据), 列定义: (1)数据的含义(列名字), (2)数据的约束(数据的类型, 特殊属性, 非空, 唯一等)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql逻辑结构 体系管理及客户端命令入门(二)">
+<meta name="twitter:title" content="Mysql逻辑结构 体系管理及客户端命令入门(二)">
+<meta property="og:url" content="https://veh47.github.io/2019/09/mysql%E9%80%BB%E8%BE%91%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%AE%A1%E7%90%86%E5%8F%8A%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%91%BD%E4%BB%A4%E5%85%A5%E9%97%A8%E4%BA%8C/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/09/mysql%E9%80%BB%E8%BE%91%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%AE%A1%E7%90%86%E5%8F%8A%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%91%BD%E4%BB%A4%E5%85%A5%E9%97%A8%E4%BA%8C/">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="mysql逻辑结构
+mysql中含有多个库(database或scheme), 每个库中含有多个表(table), 表中含有行:(数据行, 将来需要获取的数据), 列定义: (1)数据的含义(列名字), (2)数据的约束(数据的类型, 特殊属性, 非空, 唯一等)">
+<meta name="twitter:description" content="mysql逻辑结构
+mysql中含有多个库(database或scheme), 每个库中含有多个表(table), 表中含有行:(数据行, 将来需要获取的数据), 列定义: (1)数据的含义(列名字), (2)数据的约束(数据的类型, 特殊属性, 非空, 唯一等)">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-09-29T18:03:58">
+  
+  
+    <meta property="article:modified_time" content="2019-09-29T18:03:58">
+  
+  
+  
+    
+      <meta property="article:section" content="Mysql">
+    
+  
+  
+    
+      <meta property="article:tag" content="Mysql">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://veh47.github.io/images/coffice.png">
+  <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
+
+
+    <title>Mysql逻辑结构 体系管理及客户端命令入门(二)</title>
+
+    <link rel="icon" href="https://veh47.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://veh47.github.io/2019/09/mysql%E9%80%BB%E8%BE%91%E7%BB%93%E6%9E%84-%E4%BD%93%E7%B3%BB%E7%AE%A1%E7%90%86%E5%8F%8A%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%91%BD%E4%BB%A4%E5%85%A5%E9%97%A8%E4%BA%8C/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://veh47.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="3">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://veh47.github.io/">Eleven</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://veh47.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="3">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://veh47.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Eleven</h4>
+        
+          <h5 class="sidebar-profile-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/VEH47/veh47.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="3"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Mysql逻辑结构 体系管理及客户端命令入门(二)
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-29T18:03:58&#43;08:00">
+        
+  九月 29, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://veh47.github.io/categories/mysql">Mysql</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>mysql逻辑结构
+mysql中含有多个库(database或scheme), 每个库中含有多个表(table), 表中含有行:(数据行, 将来需要获取的数据), 列定义: (1)数据的含义(列名字), (2)数据的约束(数据的类型, 特殊属性, 非空, 唯一等)</p>
+
+<p>表空间
+表空间也就是数据文件</p>
+
+<p>performance_schema 辅助优化的视图库（默认情况没开启）</p>
+
+<p>information_schema 查询元数据的视图库（虚拟的，操作系统层面看不见）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 /application/mysql/data]# ll
+
+total 110624
+
+-rw-rw—- 1 mysql mysql 56 Feb 2 16:31 auto.cnf
+
+-rw-rw—- 1 mysql mysql 5253 Feb 5 10:47 db03.err
+
+-rw-rw—- 1 mysql mysql 5 Feb 5 11:59 db03.pid
+
+-rw-rw—- 1 mysql mysql 12582912 Feb 5 16:35 ibdata1 共享表空间数据文件
+
+-rw-rw—- 1 mysql mysql 50331648 Feb 5 16:35 ib_logfile0 日志文件（redo日志
+
+-rw-rw—- 1 mysql mysql 50331648 Feb 2 16:27 ib_logfile1
+
+drwx—— 2 mysql mysql 4096 Feb 2 16:27 mysql 系统的验证相关的库(user.frm 表
+
+drwx—— 2 mysql mysql 4096 Feb 5 16:35 oldboy 结构定义文件 user.MYD 数据
+
+drwx—— 2 mysql mysql 4096 Feb 2 16:27 performance_schema 文件 user.MYI 索
+
+drwx—— 2 mysql mysql 4096 Feb 5 16:21 world 引文件)</pre></td></tr></table>
+</div>
+</div>
+<p>mysql数据库基础管理</p>
+
+<p>mysql客户端连接</p>
+
+<p>mysql -u+数据库用户名 –p+密码 –h+连接的ip -P+端口 –S+socket文件</p>
+
+<p>设定密码: mysqladmin –uroot –p password 123</p>
+
+<p>修改密码: mysqladmin –uroot –p123 password 456</p>
+
+<p>数据库的启动方式</p>
+
+<p>启动过程：</p>
+
+<p>（1）启动后台进程（mysqld）</p>
+
+<p>（2）分配线程</p>
+
+<p>（3）预分配内存空间</p>
+
+<p>（4）加载数据文件</p>
+
+<p>启动方式</p>
+
+<p>1)bin/mysqld_safe &amp; —启动mysqld的脚本—&gt; mysqld</p>
+
+<p>通过safe启动调动mysqld启动脚本启动mysqld</p>
+
+<p>2)cp mysql.server /etc/init.d/mysqld</p>
+
+<p>/etc/init.d/mysqld start —-&gt; bin/mysqld_safe &amp; –&gt; mysqld</p>
+
+<p>通过启动复制的脚本调动safe文件在启动msyqld</p>
+
+<p>msyql守护进程</p>
+
+<p>启动实例时需要解决的问题</p>
+
+<p>(1)在编译时，硬编码他需要的预设信息到程序里面（mysqld_safe）</p>
+
+<p>(2) 在命令行上直接直接指定想要的预设配置（可以得出额外信息，命令行优先于预编译的配置）</p>
+
+<p>/application/mysql/bin/mysqld_safe –basedir=/application/mysql –datadir=/application/mysql/data/ –socket=/tmp/aa.txt &amp;</p>
+
+<p>(3)配置文件，减轻命令行的重复性的配置选项(配置文件的优先级高于编译的，但优先级低于命令行)。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[mysqld_safe]或者[mysqld]
+
+basedir=/application/mysql
+
+datadir=/application/mysql/data/
+
+socket=/tmp/aa.txt</pre></td></tr></table>
+</div>
+</div>
+<p>配置文件的构成
+1)标签项：[程序项]:mysql给我们提供的程序</p>
+
+<p>1、服务端（影响了mysql的启动）</p>
+
+<p>2、客户端的（影响了mysql客户端连接）</p>
+
+<p>2)针对标签项设置的Options（参数）这些选项是和标签项的支持的命令行选项有关</p>
+
+<p>3)配置文件的标签类型</p>
+
+<p>服务端：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[mysqld]
+
+[mysqld_safe]
+
+[server]</pre></td></tr></table>
+</div>
+</div>
+<p>客户端：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[mysql]
+
+[mysqldump]
+
+[mysqladmin]
+
+[client]</pre></td></tr></table>
+</div>
+</div>
+<p>如果基于配置文件顺序的话</p>
+
+<p>⑴/etc/my.cnf ⑵/etc/mysql/my.cnf ⑶ $MYSQL_HOME/my.cnf ⑷~/.my.cnf ⑸ –defaults-extra-file</p>
+
+<p>但是，如果在命令行启动时，加入了–defaults-file,配置文件就会跳过</p>
+
+<p>总结:mysqld启动优先级顺序,</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1)命令行优先级最高
+2)defaults-file
+3)/etc/my.cnf /etc/mysql/my.cnf $MYSQL_HOME/my.cnf ~/.my.cnf –defaults-extra-file 
+4)预编译配置</pre></td></tr></table>
+</div>
+</div>
+<p>配置文件案例
+    [root@db03 ~]# vim /etc/my.cnf</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[mysqld] 服务端标签
+
+basedir=/application/mysql 服务
+
+datadir=/application/mysql/data 各个文件
+
+server-id=20
+
+port=3306    端口
+
+log-bin=/data/mysql/mysql-bin
+
+socket=/tmp/mysql.sock    服务端启动的socket文件
+
+log-error=/var/log/mysql.log    日志文件
+
+[root@db03 ~]# mkdir -p /data/mysql/
+
+[root@db03 ~]# chown -R mysql.mysql /data/mysql
+
+[root@db03 ~]# /etc/init.d/mysqld restart</pre></td></tr></table>
+</div>
+</div>
+<p>多实例配置(端口分别是3306 3307 3308)
+多个mysqld 进程（mysqld_safe）</p>
+
+<p>多个配置文件(port server_id datadir log-error log-bin socket)</p>
+
+<p>管理多套数据（多个数据目录，分别初始化数据）</p>
+
+<p>创建实例目录</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# mkdir -p /data/3306/data
+
+[root@db03 ~]# mkdir -p /data/3307/data
+
+[root@db03 ~]# mkdir -p /data/3308/data</pre></td></tr></table>
+</div>
+</div>
+<p>配置文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# vim /data/3306/my.cnf
+
+[mysqld]
+
+basedir=/application/mysql
+
+datadir=/data/3306/data
+
+server-id=3306
+
+port=3306
+
+log-bin=/data/3306/mysql-bin
+
+socket=/data/3306/mysql.sock
+
+log-error=/data/3306/mysql.log
+
+[root@db03 ~]# vim /data/3307/my.cnf
+
+[mysqld]
+
+basedir=/application/mysql
+
+datadir=/data/3307/data
+
+server-id=3307
+
+port=3307
+
+log-bin=/data/3307/mysql-bin
+
+socket=/data/3307/mysql.sock
+
+log-error=/data/3307/mysql.log
+
+[root@db03 ~]# vim /data/3308/my.cnf
+
+[mysqld]
+
+basedir=/application/mysql
+
+datadir=/data/3308/data
+
+server-id=3308
+
+port=3308
+
+log-bin=/data/3308/mysql-bin
+
+socket=/data/3308/mysql.sock
+
+log-error=/data/3308/mysql.log</pre></td></tr></table>
+</div>
+</div>
+<p>授予目录权限</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# chown -R mysql.mysql /data/</pre></td></tr></table>
+</div>
+</div>
+<p>初始化数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# cd /application/mysql/scripts
+
+[root@db03 /application/mysql/scripts]#./mysql_install_db –defaults-file=/data/3306/my.cnf –basedir=/application/mysql –datadir=/data/3306/data –user=mysql
+
+[root@db03 /application/mysql/scripts]#./mysql_install_db –defaults-file=/data/3307/my.cnf –basedir=/application/mysql –datadir=/data/3307/data –user=mysql
+
+[root@db03 /application/mysql/scripts]#./mysql_install_db –defaults-file=/data/3308/my.cnf –basedir=/application/mysql –datadir=/data/3308/data –user=mysql</pre></td></tr></table>
+</div>
+</div>
+<p>启动实例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# /application/mysql/bin/mysqld_safe –defaults-file=/data/3306/my.cnf &amp;
+
+[root@db03 ~]# /application/mysql/bin/mysqld_safe –defaults-file=/data/3307/my.cnf &amp;
+
+[root@db03 ~]# /application/mysql/bin/mysqld_safe –defaults-file=/data/3308/my.cnf &amp;</pre></td></tr></table>
+</div>
+</div>
+<p>查看</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# netstat -lntup|grep 330
+
+tcp 0 0 :::3306 :::* LISTEN 5648/mysqld
+
+tcp 0 0 :::3307 :::* LISTEN 5610/mysqld
+
+tcp 0 0 :::3308 :::* LISTEN 5174/mysqld</pre></td></tr></table>
+</div>
+</div>
+<p>mysql用户管理
+mysql用户的作用
+1、用户登录 例如:mysqld mysqladmin mysqldump</p>
+
+<p>2、用于管理数据库及数据 管理库 表 表结构 表行</p>
+
+<p>mysql用户权限
+对数据库的读、写等操作 （insert update、select等）</p>
+
+<p>权限范围：全库级别： <em>.</em></p>
+
+<p>单库级别：oldboy.*</p>
+
+<p>单表级别：oldboy.t1</p>
+
+<p>用户的管理命令
+创建删除用户
+select user,host from mysql.user; 查看当前用户</p>
+
+<p>create user ‘用户‘@’主机‘ identified by ‘密码‘; 创建用户</p>
+
+<p>create user ‘oldboy’@’localhost’ identified by ‘oldboy123’;</p>
+
+<p>drop user ‘user’@’主机域‘ 删除用户</p>
+
+<p>企业里创建用户一般是授权一个内网网段登录，最常见的网段写法有两种。</p>
+
+<p>方法1：172.16.1.%（%为通配符，匹配所有内容）。</p>
+
+<p>方法2：172.16.1.0/255.255.255.0，但是不能使用172.16.1.0/24，是个小遗憾。</p>
+
+<p>标准的建用户方法：</p>
+
+<p>create user ‘web’@’172.16.1.%’ identified by ‘web123’;</p>
+
+<p>查看用户对应的权限
+show grants for oldboy@localhost\G</p>
+
+<p>设定用户权限
+grant 权限大小 on 权限范围 to 用户 [identified by ‘密码‘];</p>
+
+<p>grant select on <em>.</em> to youndgirl@’localhost’ ;</p>
+
+<p>方便的用法：</p>
+
+<p>grant all on <em>.</em> to test@’10.0.0.%’ identified by ‘123’; 授予test所有库的所有权限</p>
+
+<p>show grants for test@’10.0.0.%‘; 查看test权限</p>
+
+<p>revoke drop on <em>.</em> from ‘test’@’10.0.0.%’; 收回test所有库drop(删除)权限</p>
+
+<p>revoke all on <em>.</em> from test@’10.0.0.%‘ 收回test所有库的所有权限</p>
+
+<p>grant SELECT, INSERT, UPDATE, DELETE, CREATE on app.* to app@’10.0.0.5%’ identified by ‘123’; 授予app用户对app库的这些权限</p>
+
+<p>flush privileges; 刷新用户权限</p>
+
+<p>当给一个用户授予多次权限, 以最大权限为准</p>
+
+<p>mysql基础命令
+mysql基础命令
+mysql：</p>
+
+<p>– 用于数据库连接管理</p>
+
+<p>– 将 用户SQL 语句发送到服务器</p>
+
+<p>• mysqladmin：</p>
+
+<p>– 命令行管理工具</p>
+
+<p>• mysqldump：</p>
+
+<p>– 备份数据库和表的内容</p>
+
+<p>mysql命令
+非交互式获得库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# mysql -uroot -poldboy123 -S /tmp/mysql.sock -e “show databases”
+
+Warning: Using a password on the command line interface can be insecure.
+
++——————–+
+
+| Database |
+
++——————–+
+
+| information_schema |
+
+| mysql |
+
+| oldboy |
+
+| performance_schema |
+
+| world |</pre></td></tr></table>
+</div>
+</div>
+<p>管理数据库的命令
+接口自带功能及source命令
+1、\h 或 help 或 ?</p>
+
+<p>2、\G</p>
+
+<p>3、\T 或 tee</p>
+
+<p>4、\c 或 CTRL+c</p>
+
+<p>5、\s 或 status</p>
+
+<p>6、. 或 source</p>
+
+<p>7、\u 或use</p>
+
+<p>使用 SOURCE 命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql&gt; SOURCE /data/mysql/world.sql</pre></td></tr></table>
+</div>
+</div>
+<p>或者使用非交互式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql&lt;/data/mysql/world.sql</pre></td></tr></table>
+</div>
+</div>
+<p>DDL:数据定义命令
+database 或者schema 定义</p>
+
+<p>create database oldboy; 创建新的库oldboy</p>
+
+<p>create database oldboy charset utf8; 创建新的库oldboy并定义字符集</p>
+
+<p>drop database oldboy; 删除oldboy库</p>
+
+<p>alter database oldboy charset gbk; 修改oldboy库的字符集属性</p>
+
+<p>create user youndgirl@’localhost’ identified by ‘oldboy123’ 创建用户并设置密码</p>
+
+<p>drop user ‘oldboy’@’localhost’; 删除oldboy用户</p>
+
+<p>delete from mysql.user where user=’oldboy’ and host=’localhost 特殊的删除用户方法</p>
+
+<p>table定义(创建表)</p>
+
+<p>表名字:ti</p>
+
+<p>列定义: 列名
+数据类型
+约束(非空
+唯一
+主键
+特殊属性)</p>
+
+<p>存储引擎</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">create table stu (id int,stu_name varchar(20),
+
+age int,sex enum(‘m’,’f’));
+
+create table cmcc (telnum int primary key,
+
+cname varchar(20),
+
+                    idcard varchar(18)
+
+                    not null unique);
+
+create table cmcc1 (telnum int primary key,
+
+cname varchar(20),
+
+                    idcard varchar(18) not null unique )
+
+                    engine=innodb;
+
+drop table cmcc; 删除cmcc表
+
+show create table cmcc; 查看表cmcc
+
+desc cmcc; 查看表cmcc的列定义
+
+alter table cmcc rename to com; 修改表名,把表cmcc修改为com
+
+alter table stu add address varchar(30) not null; 在表的最后加一列
+
+alter table stu add telnum int not null after stu_name; 在表的一列后边添加
+
+alter table stu add pid int not null first; 在表的第一列添加</pre></td></tr></table>
+</div>
+</div>
+<p>生产中修改表结构</p>
+
+<ol>
+<li>备份和生产表一样表结构
+的备用表</li>
+</ol>
+
+<p>create table stu_bak like stu;</p>
+
+<ol>
+<li>按需求删除yy这一列</li>
+</ol>
+
+<p>alter table stu_bak drop yy;</p>
+
+<ol>
+<li>将原表数据,除了yy列之外的数据倒入bak表中(业务需要停止)</li>
+</ol>
+
+<p>inset into stu_bak select id,stu_name,telnum,oldboyage,sex,address,qq from stu;</p>
+
+<p>4.确认新表旧表数据一致,重命名原表,将bak表重命名为原标</p>
+
+<p>alter table stu rename stu_old;</p>
+
+<p>alter table stu_bak rename stu;</p>
+
+<p>select show(查询语句)</p>
+
+<p>show databases; 查看有哪些库</p>
+
+<p>show create database oldboy 查询如何创建oldboy这个库及其信息</p>
+
+<p>show create database oldboy charset utf8; 查看创建oldboy库的属性</p>
+
+<p>select database(); 表示查看当前所在数据库，类似于pwd命令的功能</p>
+
+<p>select user(); 查看当前登录数据库的用户，类似于whoami命令</p>
+
+<p>show tables；
+查看数据库中表信息</p>
+
+<p>select * from user\G; 查看user表中所有信息，并且纵行显示</p>
+
+<p>select user,host from user; 查看user表中指定信息，并且横行显示</p>
+
+<p>select user,host from mysql.user;</p>
+
+<p>查看可以登录mysql数据库的目录,以及那些用户可以管理mysql数据库</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/mysql/">Mysql</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/mysql%E4%BB%8B%E7%BB%8D%E5%8F%8A%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85%E4%B8%80/" data-tooltip="Mysql介绍及编译安装(一)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/%E6%95%B0%E6%8D%AE%E5%BA%93dml%E5%92%8Cdql%E5%92%8Cdcl%E8%AF%AD%E5%8F%A5%E5%8F%8A%E5%85%83%E6%95%B0%E6%8D%AE%E4%B8%89/" data-tooltip="数据库DML和DQL和DCL语句及元数据(三)">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Eleven. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/mysql%E4%BB%8B%E7%BB%8D%E5%8F%8A%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85%E4%B8%80/" data-tooltip="Mysql介绍及编译安装(一)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/%E6%95%B0%E6%8D%AE%E5%BA%93dml%E5%92%8Cdql%E5%92%8Cdcl%E8%AF%AD%E5%8F%A5%E5%8F%8A%E5%85%83%E6%95%B0%E6%8D%AE%E4%B8%89/" data-tooltip="数据库DML和DQL和DCL语句及元数据(三)">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Eleven</h4>
+    
+      <div id="about-card-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        SRE
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        BeiJing
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://veh47.github.io/images/cover-v1.2.0.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://veh47.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
