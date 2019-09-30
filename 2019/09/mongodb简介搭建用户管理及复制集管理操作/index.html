@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Eleven">
+<meta name="keywords" content="">
+<meta name="description" content="NoSQl简介
+NoSQl是什么?
+NoSQL=Not Only SQL">
+
+
+<meta property="og:description" content="NoSQl简介
+NoSQl是什么?
+NoSQL=Not Only SQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB简介搭建用户管理及复制集管理操作">
+<meta name="twitter:title" content="MongoDB简介搭建用户管理及复制集管理操作">
+<meta property="og:url" content="https://veh47.github.io/2019/09/mongodb%E7%AE%80%E4%BB%8B%E6%90%AD%E5%BB%BA%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%8F%8A%E5%A4%8D%E5%88%B6%E9%9B%86%E7%AE%A1%E7%90%86%E6%93%8D%E4%BD%9C/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/09/mongodb%E7%AE%80%E4%BB%8B%E6%90%AD%E5%BB%BA%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%8F%8A%E5%A4%8D%E5%88%B6%E9%9B%86%E7%AE%A1%E7%90%86%E6%93%8D%E4%BD%9C/">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="NoSQl简介
+NoSQl是什么?
+NoSQL=Not Only SQL">
+<meta name="twitter:description" content="NoSQl简介
+NoSQl是什么?
+NoSQL=Not Only SQL">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-09-30T09:55:19">
+  
+  
+    <meta property="article:modified_time" content="2019-09-30T09:55:19">
+  
+  
+  
+    
+      <meta property="article:section" content="NoSQl">
+    
+  
+  
+    
+      <meta property="article:tag" content="NoSQl">
+    
+      <meta property="article:tag" content="MongoDB">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://veh47.github.io/images/coffice.png">
+  <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
+
+
+    <title>MongoDB简介搭建用户管理及复制集管理操作</title>
+
+    <link rel="icon" href="https://veh47.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://veh47.github.io/2019/09/mongodb%E7%AE%80%E4%BB%8B%E6%90%AD%E5%BB%BA%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%8F%8A%E5%A4%8D%E5%88%B6%E9%9B%86%E7%AE%A1%E7%90%86%E6%93%8D%E4%BD%9C/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://veh47.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="3">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://veh47.github.io/">Eleven</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://veh47.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="3">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://veh47.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Eleven</h4>
+        
+          <h5 class="sidebar-profile-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/VEH47/veh47.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="3"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      MongoDB简介搭建用户管理及复制集管理操作
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-30T09:55:19&#43;08:00">
+        
+  九月 30, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://veh47.github.io/categories/nosql">NoSQl</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>NoSQl简介
+NoSQl是什么?
+NoSQL=Not Only SQL</p>
+
+<p>NoSQL、Relational Database相铺相成</p>
+
+<p>NoSQL数据库四大家族</p>
+
+<p>列存储：Hbase</p>
+
+<p>键值(Key-Value)存储：Redis</p>
+
+<p>图像存储：Neo4J</p>
+
+<p>文档存储:MongoDB</p>
+
+<p>NoSQl优势
+高可扩展性
+分布式计算
+没有复杂的关系
+低成本
+架构灵活
+半结构化数据
+MongoDb介绍
+MongoDB特性</p>
+
+<p>MongoDB与RDBMS最大的区别
+没有固定的行列组织数据结构</p>
+
+<p><strong>MongoDB数据存储格式——JSON/BSON</strong></p>
+
+<p>JSON – MongoDB 使用JSON（JavaScript ObjectNotation）文档存储记录。</p>
+
+<p>– JSON数据库语句可以容易被解析</p>
+
+<p>– Web 应用大量使用</p>
+
+<p>– NAME-VALUE 配对</p>
+
+<p>{ product: “car” ,</p>
+
+<p>brand: “Benz” ,</p>
+
+<p>color: “blue”</p>
+
+<p>}</p>
+
+<p>– ü二进制的JSON，JSON文档的二进制编码存储格式</p>
+
+<p>– üBSON有JSON没有的Date和BinData</p>
+
+<p>– üMongoDB中document以BSON形式存放</p>
+
+<blockquote>
+<p>db.meeting.insert({meeting:”M1 June”,Date:”2017-06-15″});</p>
+</blockquote>
+
+<p><strong>MongDB数据格式</strong></p>
+
+<p>{ _id: ObjectID(“1”),</p>
+
+<p>username: “Silence” ,</p>
+
+<p>regDate: “10-10-2015” ,</p>
+
+<p>scores: { math: “80”, english: “200”</p>
+
+<p>}</p>
+
+<p>}</p>
+
+<p><strong>文档里嵌入了文档</strong></p>
+
+<p>{ _id: ObjectID(“1”),</p>
+
+<p>username: “Silence” ,</p>
+
+<p>regDate: “10-10-2015” , s</p>
+
+<p>cores: { math: “80”, english: “200” }</p>
+
+<p>Attr:[“a1” , “a2”]</p>
+
+<p>}</p>
+
+<p><strong>一个KEY对应一个数组</strong></p>
+
+<p>MongoDB的优势功能</p>
+
+<p>JSON 文档模型 • 动态的数据模式 • 二级索引强大 • 查询功能 • 自动分片 • 水平扩展 • 自动复制 • 高可用 • 文本搜索 • 企业级安全 • 聚合框架MapReduce • 大文件存储GridFS</p>
+
+<p>水平扩展</p>
+
+<p>支持多种存储引擎</p>
+
+<p>存储引擎对比</p>
+
+<p>性能功能分布图</p>
+
+<p>数据逻辑结构</p>
+
+<p>数据逻辑结构对比</p>
+
+<p><strong>MongoDB使用场景</strong>
+网站数据 • 缓存 • 大尺寸、低价值的数据 • 高伸缩性的场景 • 用于对象及JSON数据的存储</p>
+
+<p>MongoDB的搭建及基本操作</p>
+
+<p>准备Redhat或Centos6.2以上系统</p>
+
+<p>– 关闭iptables&amp;Senlinux</p>
+
+<p>– 配置IP地址和hosts解析</p>
+
+<p>– 关闭hugepage大页内存</p>
+
+<p>– 创建mongodb所需用户</p>
+
+<p>– 创建所需目录，并授权</p>
+
+<p>在root用户下执行以下操作</p>
+
+<p>vi /etc/rc.local</p>
+
+<p>if test -f /sys/kernel/mm/transparent_hugepage/enabled; then</p>
+
+<p>echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled</p>
+
+<p>fi</p>
+
+<p>if test -f /sys/kernel/mm/transparent_hugepage/defrag; then</p>
+
+<p>echo never &gt; /sys/kernel/mm/transparent_hugepage/defrag</p>
+
+<p>fi</p>
+
+<p>创建所需用户和组</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">groupadd -g 800 mongod
+
+seradd -u 801 -g mongod mongod
+
+passwd mongod</pre></td></tr></table>
+</div>
+</div>
+<p>创建mongodb所需目录结构</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mkdir -p /mongodb/bin
+
+mkdir -p /mongodb/conf
+
+mkdir -p /mongodb/log
+
+mkdir -p /mongodb/data</pre></td></tr></table>
+</div>
+</div>
+<p>上传并解压软件到指定位置(上传到/mongodb目录)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">tar xf mongodb-linux-x86_64-3.2.8.tgz
+
+cd mongodb-linux-x86_64-3.2.8/bin/
+
+cp * /mongodb/bin</pre></td></tr></table>
+</div>
+</div>
+<p>设置目录结构权限</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">chown -R mongod:mongod /mongodb</pre></td></tr></table>
+</div>
+</div>
+<p>设置用户环境变量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">su – mongod
+
+vi .bash_profile
+
+export PATH=/mongodb/bin:$PATH
+
+source .bash_profile</pre></td></tr></table>
+</div>
+</div>
+<p>启动mongodb并登录(比较繁琐不建议)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mongod –dbpath=/mongodb/data –logpath=/mongodb/log/mongodb.log –port=27017 –logappend –fork</pre></td></tr></table>
+</div>
+</div>
+<p>[mongod@mongodb ~]$ mongo</p>
+
+<p>MongoDB shell version: 3.2.8</p>
+
+<p>connecting to: test</p>
+
+<p>使用配置文件开启</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">vim /mongodb/conf/mongod.conf
+
+logpath=/mongodb/log/mongodb.log 日志文件路径
+
+dbpath=/mongodb/data 数据存放路径
+
+port=27017 端口
+
+logappend=1 日志输出方式
+
+fork=1 在后台运行</pre></td></tr></table>
+</div>
+</div>
+<p>mongod -f /mongodb/conf/mongod.conf 开启</p>
+
+<p>mongod -f /mongodb/conf/mongod.conf –shutdown 关闭</p>
+
+<p>–auth：是否需要验证权限登录(用户名和密码) –bind_ip：限制访问的ip</p>
+
+<p><strong>YAML模式开启(推荐)</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@mongodb conf]# cat mongo.conf
+
+systemLog:
+
+destination: file
+
+path: “/mongodb/log/mongod.log”
+
+logAppend: true
+
+storage:
+
+journal:
+
+enabled: true
+
+dbPath: “/mongodb/data/”
+
+processManagement:
+
+fork: true
+
+net:
+
+port: 27017
+
+mongod -f /mongodb/conf/mongod.conf 开启
+
+mongod -f /mongodb/conf/mongod.conf –shutdown 关闭
+
+mongo 10.0.0.54 登录
+
+mongo 10.0.0.54/admin 登录admin库</pre></td></tr></table>
+</div>
+</div>
+<p>注：mongod进程收到SIGINT信号或者SIGTERM信号，会做一些处理</p>
+
+<blockquote>
+<p>关闭所有打开的连接</p>
+
+<p>将内存数据强制刷新到磁盘</p>
+
+<p>当前的操作执行完毕</p>
+
+<p>…</p>
+
+<p>安全停止</p>
+</blockquote>
+
+<p>！！！切记kill -9</p>
+
+<blockquote>
+<p>数据库直接关闭</p>
+
+<p>数据丢失</p>
+
+<p>数据文件损失</p>
+
+<p>修复数据库（成本高，有风险）</p>
+</blockquote>
+
+<p><strong>MongoDB基础操作</strong></p>
+
+<p>db.version() 查看当前db版本</p>
+
+<p>db 或 db.getName() 显示当前数据库</p>
+
+<p>show dbs     查询所有数据库</p>
+
+<p>use local 切换数据库/显示当前数据库状态</p>
+
+<p>test&gt; use local</p>
+
+<p>switched to db local</p>
+
+<p>local&gt; db.stats() 先切换到该数据库查看local数据</p>
+
+<p>db.getMongo() 查看当前数据库的连接机器地址</p>
+
+<p>mongo 192.168.1.24/admin 指定数据库进行连接：（默认连接本机test数据库）</p>
+
+<p><strong>创建删除数据库</strong></p>
+
+<p>–创建数据库：</p>
+
+<p>当use的时候，系统就会自动创建一个数据库。如果use之后没有创建任何集合。系统就会删除这个数据库。</p>
+
+<p>–删除数据库：</p>
+
+<p>（如果没有选择任何数据库，会删除默认的test数据库）</p>
+
+<p>删除test数据库</p>
+
+<p>test&gt; show dbs</p>
+
+<p>local 0.000GB</p>
+
+<p>test 0.000GB</p>
+
+<p>test&gt; use test</p>
+
+<p>switched to db test</p>
+
+<p>test&gt; db.dropDatabase()</p>
+
+<p>{ “dropped” : “test”, “ok” : 1 }</p>
+
+<p><strong>创建集合</strong></p>
+
+<p>方法1</p>
+
+<p>admin&gt; use app</p>
+
+<p>switched to db app</p>
+
+<p>app&gt; db.createCollection(‘a’) 在app库下创建一个集合a</p>
+
+<p>{ “ok” : 1 }</p>
+
+<p>app&gt; db.createCollection(‘b’) 在app库下创建一个集合b</p>
+
+<p>{ “ok” : 1 }</p>
+
+<blockquote>
+<p>show collections 查看当前数据下的所有集合</p>
+</blockquote>
+
+<p>a</p>
+
+<p>b</p>
+
+<p>或</p>
+
+<blockquote>
+<p>db.getCollectionNames()</p>
+</blockquote>
+
+<p>[ “a”, “b” ]</p>
+
+<p>方法2(当插入一个文档的时候，一个集合就会自动创建)</p>
+
+<p>admin&gt; use app</p>
+
+<p>switched to db app</p>
+
+<p>app&gt; db.c.insert({username:”mongodb”})</p>
+
+<p>WriteResult({ “nInserted” : 1 })</p>
+
+<p>app&gt; show collections</p>
+
+<p>a</p>
+
+<p>b</p>
+
+<p>c</p>
+
+<p>app&gt; db.c.find()</p>
+
+<p>{ “_id” : ObjectId(“5743c9a9bf72d9f7b524713d”), “username” : “mongodb” }</p>
+
+<p><strong>删除集合</strong></p>
+
+<p>app&gt; use app</p>
+
+<p>switched to db app</p>
+
+<p>app&gt; db.log.drop()</p>
+
+<p><strong>重命名集合</strong></p>
+
+<p>把log改名为log1</p>
+
+<p>app&gt; db.log.renameCollection(“log1”)</p>
+
+<p>{ “ok” : 1 }</p>
+
+<p>app&gt; show collections</p>
+
+<p>a</p>
+
+<p>b</p>
+
+<p>c</p>
+
+<p>log1</p>
+
+<p><strong>插入数据</strong></p>
+
+<p>app&gt; for(i=0;i&lt;10000;i++){ db.log.insert({“uid”:i,</p>
+
+<p>“name”:”mongodb”,”age”:6,</p>
+
+<p>“date”:new Date()}); }</p>
+
+<p><strong>查询集合中的记录数</strong></p>
+
+<p>app&gt; db.log.find() 查询所有记录</p>
+
+<p>注：默认每页显示20条记录，当显示不下的的情况下，可以用it迭代命令查询下一页数据。</p>
+
+<p>设置每页显示数据的大小：</p>
+
+<blockquote>
+<p>DBQuery.shellBatchSize=50; 每页显示50条记录</p>
+</blockquote>
+
+<p>50</p>
+
+<p>app&gt; db.log.findOne() 查看第1条记录</p>
+
+<p>app&gt; db.log.count() 查询总的记录数</p>
+
+<p><strong>删除集合中的记录数</strong></p>
+
+<p>app&gt; db.log.remove({}) 删除集合中所有记录</p>
+
+<blockquote>
+<p>db.log.distinct(“name”) 查询去掉当前集合中某列的重复数据：</p>
+</blockquote>
+
+<p>[ “mm” ]</p>
+
+<p><strong>查看集合存储信息</strong></p>
+
+<p>app&gt; db.log.stats()</p>
+
+<p>app&gt; db.log.dataSize() 集合中数据的原始大小</p>
+
+<p>app&gt; db.log.totalIndexSize() 集合中索引数据的原始大小</p>
+
+<p>app&gt; db.log.totalSize() 集合中索引+数据压缩存储之后的大小</p>
+
+<p>app&gt; db.log.storageSize() 集合中数据压缩存储的大小</p>
+
+<p><strong>用户管理</strong></p>
+
+<p>MongoDB数据库默认是没有用户名及密码的，即无权限访问限制。为了方便 数据库的管理和安全，需创建数据库用户。</p>
+
+<p>use admin</p>
+
+<p>db.createUser(</p>
+
+<p>{</p>
+
+<p>user: “root”,</p>
+
+<p>pwd: “root”,</p>
+
+<p>roles: [ { role: “root”, db: “admin” } ]</p>
+
+<p>}</p>
+
+<p>)</p>
+
+<p>验证</p>
+
+<p>db.auth(“root”,”root”)</p>
+
+<p>配置文件开启auth验证</p>
+
+<p>vi mongod.conf</p>
+
+<p>auth=true</p>
+
+<p>或者</p>
+
+<p>YAML格式的</p>
+
+<p>security:</p>
+
+<p>authorization: enabled</p>
+
+<p>重启mongodb</p>
+
+<p>mongo -u root -p root123 admin</p>
+
+<p>db.system.users.find().pretty();</p>
+
+<p>按生产需求创建应用用户
+创建对某库的只读用户</p>
+
+<p>–test</p>
+
+<p>use test</p>
+
+<p>db.createUser(</p>
+
+<p>{</p>
+
+<p>user: “test”,</p>
+
+<p>pwd: “test”,</p>
+
+<p>roles: [ { role: “read”, db: “test” } ]</p>
+
+<p>}</p>
+
+<p>)</p>
+
+<p>db.auth(“test”,”test”)</p>
+
+<p>登录test用户，并测试</p>
+
+<p>db.createCollection(‘b’)</p>
+
+<p>创建某库的读写用户
+db.createUser(</p>
+
+<p>{</p>
+
+<p>user: “test1”,</p>
+
+<p>pwd: “test1”,</p>
+
+<p>roles: [ { role: “readWrite”, db: “test” } ]</p>
+
+<p>}</p>
+
+<p>)</p>
+
+<p>db.auth(“test1″,”test1”)</p>
+
+<p><strong>创建 分别对多库的不同权限的用户</strong></p>
+
+<p>use app</p>
+
+<p>db.createUser(</p>
+
+<p>{</p>
+
+<p>user: “app03”,</p>
+
+<p>pwd: “app03”,</p>
+
+<p>roles: [ { role: “readWrite”, db: “app” }，</p>
+
+<p>{ role: “read”, db: “test” }</p>
+
+<p>]</p>
+
+<p>}</p>
+
+<p>)</p>
+
+<p><strong>删除用户</strong></p>
+
+<p>删除app01用户：先登录到admin数据库</p>
+
+<p>#mongo -uroot –proot 192.168.1.24/admin</p>
+
+<p>use app</p>
+
+<p>db.dropUser(“app01”)</p>
+
+<p><strong>MongoDb复制技术</strong></p>
+
+<p>三个以上的mongodb节点（或多实例）</p>
+
+<p>多实例多套目录</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mkdir -p /mongodb/28017/conf /mongodb/28017/data /mongodb/28017/log
+
+mkdir -p /mongodb/28018/conf /mongodb/28018/data /mongodb/28018/log
+
+mkdir -p /mongodb/28019/conf /mongodb/28019/data /mongodb/28019/log
+
+mkdir -p /mongodb/28020/conf /mongodb/28020/data /mongodb/28020/log</pre></td></tr></table>
+</div>
+</div>
+<p>多套配置文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">vim /mongodb/28017/conf/mongod.conf
+
+systemLog:
+
+destination: file
+
+path: /mongodb/28017/log/mongodb.log
+
+logAppend: true
+
+storage:
+
+journal:
+
+enabled: true
+
+dbPath: /mongodb/28017/data
+
+directoryPerDB: true
+
+#engine: wiredTiger
+
+wiredTiger:
+
+engineConfig:
+
+cacheSizeGB: 1
+
+directoryForIndexes: true
+
+collectionConfig:
+
+blockCompressor: zlib
+
+indexConfig:
+
+prefixCompression: true
+
+processManagement:
+
+fork: true
+
+net:
+
+port: 28017
+
+replication:
+
+oplogSizeMB: 2048
+
+replSetName: my_repl
+
+cp /mongodb/28017/conf/mongod.conf /mongodb/28018/conf/
+
+cp /mongodb/28017/conf/mongod.conf /mongodb/28019/conf/
+
+cp /mongodb/28017/conf/mongod.conf /mongodb/28020/conf/
+
+sed ‘s#28017#28018#g’ /mongodb/28018/conf/mongod.conf -i
+
+sed ‘s#28017#28019#g’ /mongodb/28019/conf/mongod.conf -i
+
+sed ‘s#28017#28020#g’ /mongodb/28020/conf/mongod.conf -i</pre></td></tr></table>
+</div>
+</div>
+<p>启动多实例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mongod -f /mongodb/28017/conf/mongod.conf
+
+mongod -f /mongodb/28018/conf/mongod.conf
+
+mongod -f /mongodb/28019/conf/mongod.conf
+
+mongod -f /mongodb/28020/conf/mongod.conf</pre></td></tr></table>
+</div>
+</div>
+<p>配置复制集</p>
+
+<p>连接到28017节点</p>
+
+<p>mongo –port 28017</p>
+
+<p>1主2从，从库普通从库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">config = {_id: ‘my_repl’, members: [
+
+{_id: 0, host: ‘10.0.0.54:28017’},
+
+{_id: 1, host: ‘10.0.0.54:28018’},
+
+{_id: 2, host: ‘10.0.0.54:28019’}]
+
+}
+
+rs.initiate(config)</pre></td></tr></table>
+</div>
+</div>
+<p>1主1从1个arbiter</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">config = {_id: ‘my_repl’, members: [
+
+{_id: 0, host: ‘10.0.0.54:28017’},
+
+{_id: 1, host: ‘10.0.0.54:28018’},
+
+{_id: 2, host: ‘10.0.0.54:28019’,”arbiterOnly”:true}]
+
+}
+
+rs.initiate(config)</pre></td></tr></table>
+</div>
+</div>
+<p>测试</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">my_repl:PRIMARY&gt; db.movies.insert([ { “title” : “Jaws”, “year” : 1975, “imdb_rating” : 8.1 },
+
+{ “title” : “Batman”,
+
+“year” : 1989,
+
+“imdb_rating” : 7.6 },
+
+] );</pre></td></tr></table>
+</div>
+</div>
+<p>出现以下内容证明复制成功</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">BulkWriteResult({
+
+“writeErrors” : [ ],
+
+“writeConcernErrors” : [ ],
+
+“nInserted” : 2,
+
+“nUpserted” : 0,
+
+“nMatched” : 0,
+
+“nModified” : 0,
+
+“nRemoved” : 0,
+
+“upserted” : [ ]
+
+})
+
+my_repl:SECONDARY&gt; db.movies.find().pretty(); 从库查看</pre></td></tr></table>
+</div>
+</div>
+<p><strong>注：在mongodb复制集当中，默认从库不允许读写。</strong></p>
+
+<p>可以使用以下命令实现读写</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">rs.slaveOk();
+
+my_repl:SECONDARY&gt; db.movies.find().pretty();</pre></td></tr></table>
+</div>
+</div>
+<p>复制集管理操作：</p>
+
+<p>查看复制集状态：</p>
+
+<p>rs.status(); //查看整体复制集状态</p>
+
+<p>rs.isMaster(); // 查看当前是否是主节点</p>
+
+<p>添加删除节点</p>
+
+<p>rs.add(“ip:port”); // 新增从节点</p>
+
+<p>rs.addArb(“ip:port”); // 新增仲裁节点</p>
+
+<p>rs.remove(“ip:port”); // 删除一个节点</p>
+
+<p>注：</p>
+
+<p>添加特殊节点时，</p>
+
+<p>1&gt;可以在搭建过程中设置特殊节点</p>
+
+<p>2&gt;可以通过修改配置的方式将普通从节点设置为特殊节点</p>
+
+<p>/<em>找到需要改为延迟性同步的数组号</em>/;</p>
+
+<p>配置延时节点（一般延时节点也配置成hidden）</p>
+
+<p>cfg=rs.conf()</p>
+
+<p>cfg.members[0].priority=0 ([0]是指members号不是_id号需要关闭时就设置成1)</p>
+
+<p>cfg.members[0].hidden=true (需要关闭是设置成false)</p>
+
+<p>cfg.members[0].slaveDelay=120 (需要关闭设置为0)</p>
+
+<p>rs.reconfig(cfg)</p>
+
+<p>注:中括号中的数字,是rs.conf()中members中的节点排列顺序,而不是_id的号码</p>
+
+<p>cfg.members[3].arbiterOnly=true 设置members第三个为仲裁节点</p>
+
+<p>配置成功后，通过以下命令查询配置后的属性</p>
+
+<p>rs.conf();</p>
+
+<p>隐藏节点</p>
+
+<p>客户端将不会把读请求分发到隐藏节点上，即使我们设定了 复制集 读选项 。这些隐藏节点将不会收到来自应用程序的请求。我们可以将隐 藏节点专用于报表节点或是备份节点。 延时节点也应该是一个隐藏节 点。</p>
+
+<p>延时节点</p>
+
+<p>延时节点的数据集是延时的，因此它可以帮助我们在人为误操作或是 其他意外情况下恢复数据。举个例子，当应用升级失败，或是误操作删 除了表和数据库时，我们可以通过延时节点进行数据恢复</p>
+
+<p>副本集其他操作命令：</p>
+
+<p>查看副本集的配置信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin&gt; rs.conf()</pre></td></tr></table>
+</div>
+</div>
+<p>查看副本集各成员的状态</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin&gt; rs.status()</pre></td></tr></table>
+</div>
+</div>
+<p>副本集角色切换（不要人为顺便操作）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin&gt; rs.stepDown()</pre></td></tr></table>
+</div>
+</div>
+<p>注：</p>
+
+<p>admin&gt; rs.freeze(300) //锁定从，使其不会转变成主库</p>
+
+<p>freeze()和stepDown单位都是秒。</p>
+
+<p>设置副本节点可读：在副本节点执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin&gt; rs.slaveOk()</pre></td></tr></table>
+</div>
+</div>
+<p>查看副本节点</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin&gt; rs.printSlaveReplicationInfo()
+
+source: 192.168.1.22:27017
+
+syncedTo: Thu May 26 2016 10:28:56 GMT+0800 (CST)
+
+0 secs (0 hrs) behind the primarya</pre></td></tr></table>
+</div>
+</div>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/nosql/">NoSQl</a>
+
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/mongodb/">MongoDB</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/mongodb%E5%88%86%E7%89%87%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D%E8%BF%81%E7%A7%BB/" data-tooltip="MongoDB分片集群搭建及数据备份恢复迁移">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/redis%E6%B5%85%E8%B0%88/" data-tooltip="Redis浅谈">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Eleven. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/mongodb%E5%88%86%E7%89%87%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D%E8%BF%81%E7%A7%BB/" data-tooltip="MongoDB分片集群搭建及数据备份恢复迁移">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/redis%E6%B5%85%E8%B0%88/" data-tooltip="Redis浅谈">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Eleven</h4>
+    
+      <div id="about-card-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        SRE
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        BeiJing
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://veh47.github.io/images/cover-v1.2.0.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://veh47.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

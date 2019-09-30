@@ -1,0 +1,2632 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Eleven">
+<meta name="keywords" content="">
+<meta name="description" content="企业缓存数据库解决方案对比
+memcache redis tair 优缺点对比">
+
+
+<meta property="og:description" content="企业缓存数据库解决方案对比
+memcache redis tair 优缺点对比">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis浅谈">
+<meta name="twitter:title" content="Redis浅谈">
+<meta property="og:url" content="https://veh47.github.io/2019/09/redis%E6%B5%85%E8%B0%88/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/09/redis%E6%B5%85%E8%B0%88/">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="企业缓存数据库解决方案对比
+memcache redis tair 优缺点对比">
+<meta name="twitter:description" content="企业缓存数据库解决方案对比
+memcache redis tair 优缺点对比">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-09-30T09:55:37">
+  
+  
+    <meta property="article:modified_time" content="2019-09-30T09:55:37">
+  
+  
+  
+    
+      <meta property="article:section" content="NoSQl">
+    
+  
+  
+    
+      <meta property="article:tag" content="NoSQl">
+    
+      <meta property="article:tag" content="Redis">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://veh47.github.io/images/coffice.png">
+  <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
+
+
+    <title>Redis浅谈</title>
+
+    <link rel="icon" href="https://veh47.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://veh47.github.io/2019/09/redis%E6%B5%85%E8%B0%88/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://veh47.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="3">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://veh47.github.io/">Eleven</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://veh47.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="3">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://veh47.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Eleven</h4>
+        
+          <h5 class="sidebar-profile-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/VEH47/veh47.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="3"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Redis浅谈
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-30T09:55:37&#43;08:00">
+        
+  九月 30, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://veh47.github.io/categories/nosql">NoSQl</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>企业缓存数据库解决方案对比
+memcache redis tair 优缺点对比</p>
+
+<p>Memcached:</p>
+
+<p>优点：高性能读写、单一数据类型、支持客户端式分布式集群、一致性hash</p>
+
+<p>多核结构、多线程读写性能高。</p>
+
+<p>缺点：无持久化、节点故障可能出现缓存穿透、分布式需要客户端实现、跨</p>
+
+<p>机房数据同步困难、架构扩容复杂度高</p>
+
+<p>• Redis:</p>
+
+<p>优点：高性能读写、多数据类型支持、数据持久化、高可用架构、支持自定</p>
+
+<p>义虚拟内存、支持分布式分片集群、单线程读写性能极高</p>
+
+<p>缺点：多线程读写较Memcached慢</p>
+
+<p>• Tair：</p>
+
+<p>优点：高性能读写、支持三种存储引擎（ddb、rdb、ldb）、支持高可用、</p>
+
+<p>支持分布式分片集群、支撑了几乎所有淘宝业务的缓存。</p>
+
+<p>缺点：单机情况下，读写性能较其他两种产品较慢</p>
+
+<p><strong>Reids应用场景</strong></p>
+
+<p>数据高速缓存</p>
+
+<p>• web会话缓存（Session Cache）</p>
+
+<p>• 排行榜应用</p>
+
+<p>• 消息队列</p>
+
+<p>• 发布订阅</p>
+
+<p><strong>Redis 安装配置</strong></p>
+
+<p>wget <a href="http://download.redis.io/releases/redis-3.2.10.tar.gz">http://download.redis.io/releases/redis-3.2.10.tar.gz</a></p>
+
+<p>上传至/usr/local</p>
+
+<p>tar xzf redis-3.2.10.tar.gz</p>
+
+<p>mv redis-3.2.10 redis</p>
+
+<p>安装：</p>
+
+<p>cd redis</p>
+
+<p>make</p>
+
+<p>启动：</p>
+
+<p>src/redis-server</p>
+
+<p>客户端连接测试：</p>
+
+<p>src/redis-cli</p>
+
+<p>redis&gt; set foo bar</p>
+
+<p>redis&gt; get foo</p>
+
+<p>导入启动脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="o">[</span>root@redis ~<span class="o">]</span><span class="c1"># cat /etc/init.d/redis</span>
+<span class="c1">#!/bin/sh</span>
+<span class="nv">REDISPORT</span><span class="o">=</span><span class="m">6379</span>
+<span class="nv">EXEC</span><span class="o">=</span>/usr/local/redis-3.2.10/src/redis-server
+<span class="nv">CLIEXEC</span><span class="o">=</span>/usr/local/redis-3.2.10/src/redis-cli
+<span class="nv">USER</span><span class="o">=</span>root
+<span class="nv">IP</span><span class="o">=</span><span class="m">10</span>.0.0.55
+<span class="nv">PIDFILE</span><span class="o">=</span>/var/run/redis.pid
+<span class="nv">CONF</span><span class="o">=</span>”/etc/redis/redis.conf”
+<span class="k">case</span> “<span class="nv">$1</span>” in
+    start<span class="o">)</span>
+<span class="k">if</span> <span class="o">[</span> -f <span class="nv">$PIDFILE</span> <span class="o">]</span>
+    <span class="k">then</span>
+<span class="nb">echo</span> “Redis is running”
+    <span class="k">else</span>
+<span class="nb">echo</span> ” Redis Starting…”
+    <span class="nv">$EXEC</span> <span class="nv">$CONF</span>
+<span class="k">fi</span>
+<span class="p">;;</span>
+    stop<span class="o">)</span>
+<span class="k">if</span> <span class="o">[</span> ! -f <span class="nv">$PIDFILE</span> <span class="o">]</span>
+    <span class="k">then</span>
+<span class="nb">echo</span> “<span class="nv">$PIDFILE</span> does not exist, process is not running”
+    <span class="k">else</span>
+<span class="nv">$CLIEXEC</span> -a <span class="nv">$USER</span> -h <span class="nv">$IP</span> -p <span class="nv">$REDISPORT</span> shutdown <span class="o">&amp;&amp;</span> <span class="nb">echo</span> ‘Redis stoping…’
+    sleep <span class="m">1</span>
+<span class="k">fi</span>
+<span class="p">;;</span>
+    restart<span class="o">)</span>
+<span class="k">if</span> <span class="o">[</span> -f <span class="nv">$PIDFILE</span> <span class="o">]</span>
+    <span class="k">then</span>
+<span class="nv">$CLIEXEC</span> -a <span class="nv">$USER</span> -h <span class="nv">$IP</span> -p <span class="nv">$REDISPORT</span> shutdown <span class="o">&amp;&amp;</span> <span class="nb">echo</span> ‘Redis stoping…’
+    sleep <span class="m">1</span>
+<span class="nv">$EXEC</span> <span class="nv">$CONF</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> ‘Starting Redis’
+    <span class="k">else</span>
+<span class="nb">echo</span> ‘Redis stoping…’
+    sleep <span class="m">1</span>
+<span class="nv">$EXEC</span> <span class="nv">$CONF</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> ‘ Redis Starting’
+<span class="k">fi</span>
+<span class="p">;;</span>
+    status<span class="o">)</span>
+<span class="k">if</span> <span class="o">[</span> -f <span class="nv">$PIDFILE</span> <span class="o">]</span>
+    <span class="k">then</span>
+<span class="nb">echo</span> “redis server is running…..”
+     <span class="k">else</span>
+<span class="nb">echo</span> “redis is stopped”
+<span class="k">fi</span>
+<span class="p">;;</span>
+*<span class="o">)</span>
+<span class="nb">echo</span> “Please use start or stop or status”
+<span class="p">;;</span>
+<span class="k">esac</span>
+mv redis /etc/init.d/
+chmod +x /etc/init.d/redis</pre></td></tr></table>
+</div>
+</div>
+<p><strong>配置文件</strong></p>
+
+<p>mkdir -p /etc/redis</p>
+
+<p>vim /etc/redis/redis.conf</p>
+
+<p>redis.conf 配置文件使用</p>
+
+<p>daemonize yes 是否后台运行</p>
+
+<p>port 6379 默认端口：</p>
+
+<p>appendonly yes AOF日志开关是否打开：</p>
+
+<p>logfile /var/log/redis.log 日志文件位置</p>
+
+<p>dbfilename dump.rdb RDB持久化数据文件:</p>
+
+<p>bind 10.0.0.52 安全验证</p>
+
+<p>requirepass root</p>
+
+<p>配置完成需要重启redis</p>
+
+<p>开启安全验证，需要以下命令登录</p>
+
+<p>redis-cli -a root -h 10.0.0.52 -p 6379</p>
+
+<p>或者</p>
+
+<p>redis-cli -h 10.0.0.52 -p 6379</p>
+
+<p>redis-cli&gt; auth root</p>
+
+<p>redis-cli -h 10.0.0.52 -a root –p 6379 shutdown 关闭</p>
+
+<p><strong>配置持久化</strong></p>
+
+<p><strong>RDB 持久化</strong></p>
+
+<p>可以在指定的时间间隔内生成数据集的时间点快照（point-in-time snapshot）。(速度快)</p>
+
+<p><strong>RDB持久化优点</strong></p>
+
+<p>RDB是一种表示某个即时点的Redis数据的紧凑文件。RDB文件适合用于备份。 例如，你可能想要每小时归档最近24小时的RDB文件，每天保存近30天的RDB 快照。这允许你很容易的恢复不同版本的数据集以容灾。</p>
+
+<p>• RDB非常适合于灾难恢复，作为一个紧凑的单一文件，可以被传输到远程的数 据中心。</p>
+
+<p>• RDB最大化了Redis的性能，因为Redis父进程持久化时唯一需要做的是启动 (fork)一个子进程，由子进程完成所有剩余工作。父进程实例不需要执行像 磁盘IO这样的操作。</p>
+
+<p>• RDB在重启保存了大数据集的实例时比AOF要快。</p>
+
+<p><strong>RDB持久化缺点</strong></p>
+
+<p>当你需要在Redis停止工作(例如停电)时最小化数据丢失，RDB可能不太好。 你可以配置不同的保存点(save point)来保存RDB文件(例如，至少5分钟和对 数据集100次写之后，但是你可以有多个保存点)。然而，你通常每隔5分钟或 更久创建一个RDB快照，所以一旦Redis因为任何原因没有正确关闭而停止工 作，你就得做好最近几分钟数据丢失的准备了。</p>
+
+<p>• RDB需要经常调用fork()子进程来持久化到磁盘。如果数据集很大的话， fork()比较耗时，结果就是，当数据集非常大并且CPU性能不够强大的话， Redis会停止服务客户端几毫秒甚至一秒。AOF也需要fork()，但是你可以调 整多久频率重写日志而不会有损(trade-off)持久性(durability)。</p>
+
+<p><strong>快照的运作方式</strong></p>
+
+<p>当 Redis 需要保存 dump.rdb 文件时， 服务器执行以下操作： Redis 调用 fork() ，同时拥有父进程和子进程。 子进程将数据集写入到一个临时 RDB 文件中。 当子进程完成对新 RDB 文件的写入时，Redis 用新 RDB 文件替换原来的 RDB 文件，并删除旧的 RDB 文件。 这种工作方式使得 Redis 可以从写时复制（copy-on-write）机制中获 益。</p>
+
+<p>默认情况下，Redis保存数据集快照到磁盘，名为dump.rdb的二进制文 件。你可以设置让Redis在N秒内至少有M次数据集改动时保存数据集，或者你 也可以手动调用SAVE或者BGSAVE命令。 例如，这个配置会让Redis在每个60秒内至少有1000次键改动时自动转储数据 集到磁盘： save 60 1000</p>
+
+<p><strong>AOF 持久化</strong></p>
+
+<p>•记录服务器执行的所有写操作命令，并在服务器启动时，通过重新执行这 些命令来还原数据集。 AOF 文件中的命令全部以 Redis 协议的格式来保存， 新命令会被追加到文件的末尾。(数据完整)</p>
+
+<p><strong>AOF持久化优点</strong></p>
+
+<p>使用AOF Redis会更具有可持久性(durable)：你可以有很多不同的fsync策略 ：没有fsync，每秒fsync，每次请求时fsync。使用默认的每秒fsync策略， 写性能也仍然很不错(fsync是由后台线程完成的，主线程继续努力地执行写 请求)，即便你也就仅仅只损失一秒钟的写数据。</p>
+
+<p>• AOF日志是一个追加文件，所以不需要定位，在断电时也没有损坏问题。即使 由于某种原因文件末尾是一个写到一半的命令(磁盘满或者其他原因),redischeck-aof工具也可以很轻易的修复。</p>
+
+<p>• 当AOF文件变得很大时，Redis会自动在后台进行重写。重写是绝对安全的， 因为Redis继续往旧的文件中追加，使用创建当前数据集所需的最小操作集合 来创建一个全新的文件，一旦第二个文件创建完毕，Redis就会切换这两个文 件，并开始往新文件追加。</p>
+
+<p>• AOF文件里面包含一个接一个的操作，以易于理解和解析的格式存储。你也可 以轻易的导出一个AOF文件。例如，即使你不小心错误地使用FLUSHALL命令清 空一切，如果此时并没有执行重写，你仍然可以保存你的数据集，你只要停 止服务器，删除最后一条命令，然后重启Redis就可以。</p>
+
+<p><strong>AOF持久化缺点</strong></p>
+
+<p>对同样的数据集，AOF文件通常要大于等价的RDB文件。</p>
+
+<p>• AOF可能比RDB慢，这取决于准确的fsync策略。通常fsync设置为每秒一次的 话性能仍然很高，如果关闭fsync，即使在很高的负载下也和RDB一样的快。 不过，即使在很大的写负载情况下，RDB还是能提供能好的最大延迟保证。</p>
+
+<p>• 在过去，我们经历了一些针对特殊命令(例如，像BRPOPLPUSH这样的阻塞命令 )的罕见bug，导致在数据加载时无法恢复到保存时的样子。这些bug很罕见， 我们也在测试套件中进行了测试，自动随机创造复杂的数据集，然后加载它 们以检查一切是否正常，但是，这类bug几乎不可能出现在RDB持久化中。为 了说得更清楚一点：Redis AOF是通过递增地更新一个已经存在的状态，像 MySQL或者MongoDB一样，而RDB快照是一次又一次地从头开始创造一切，概念 上更健壮。但是，1)要注意Redis每次重写AOF时都是以当前数据集中的真实 数据从头开始，相对于一直追加的AOF文件(或者一次重写读取老的AOF文件而 不是读内存中的数据)对bug的免疫力更强。2)我们还没有收到一份用户在真 实世界中检测到崩溃的报告</p>
+
+<p><strong>AOF持久化运行</strong></p>
+
+<p>只进行追加操作的文件（append-only file，AOF） 快照功能并不是非常耐久：如果 Redis 因为某些原因而造成故障停机， 那么服务器将丢失最近写入、且仍未保存到快照中的那些数据。尽管对于某些 程序来说，数据的耐久性并不是最重要的考虑因素，但是对于那些追求完全耐 久能力的程序员来说，快照功能就不太适用了。 从 1.1 版本开始， Redis 增加了一种完全耐久的持久化方式： AOF 持 久化。 你可以通过修改配置文件来打开 AOF 功能： appendonly yes 从现在开始，每当 Redis 执行一个改变数据集的命令式（比如 SET）， 这个命令就会被追加到 AOF 文件的末尾。 这样的话，当redis重新启动时，程序就可以通过重新执行 AOF 文件中的命令 来达到重建数据集的目的</p>
+
+<p><strong>AOF 重写</strong></p>
+
+<p>因为 AOF 的运作方式是不断地将命令追加到文件的末尾，所以随着写入 命令的不断增加， AOF 文件的体积也变得越来越大。举个例子，如果你对一 个计数器调用了 100 次 INCR ，那么仅仅是为了保存这个计数器的当前值， AOF 文件就需要使用 100 条记录。然而在实际上，只使用一条 SET 命令已经 足以保存计数器的当前值了，其余 99 条记录实际上都是多余的。 为了处理这种情况， Redis 支持一种有趣的特性：可以在不断服务客户 端的情况下，对 AOF 文件进行重建。执行 BGREWRITEAOF 命令， Redis 将生 产一个新的 AOF 文件，这个文件包含重建当前数据集所需的最少命令。</p>
+
+<p><strong>AOF 有多耐久？</strong></p>
+
+<p>你可以配置 Redis 多久才将数据 fsync 到磁盘一次。 有三个选项： 每次有新命令追加到 AOF 文件时就执行一次 fsync ：非常慢，也非常安 全。 每秒 fsync 一次：足够快（和使用 RDB 持久化差不多，）并且在故障时 只会丢失1秒钟的数据。 从不 fsync ：将数据交给操作系统来处理。更快，也更不安全的选择。 推荐（并且也是默认）的措施为每秒 fsync 一次，这种 fsync 策略可以 兼顾速度和安全性。 总是 fsync 的策略在实际使用中非常慢，即使在 Redis2.0 对相关的程 序进行了改进之后仍是如此。频繁调用 fsync 注定了这种策略不可能快得起 来。</p>
+
+<p><strong>如果 AOF 文件出错了，怎么办？</strong></p>
+
+<p>服务器可能在程序正在对AOF文件进行写入时停机，如果停机造成了AOF文件 出错，那么 Redis 在重启时会拒绝载入这个 AOF 文件，从而确保数据的一致性 不会被破坏。 当发生 AOF 文件出错时，可以用以下方法来修复出错的 AOF 文件： 1、为现有的 AOF 文件创建一个备份。 2、使用 Redis 附带的 redis-check-aof 程序，对原来的AOF 文件进行修复。 redis-check-aof –fix 3、使用 diff -u 对比修复后的 AOF 文件和原始 AOF 文件的备份，查看两个文 件之间的不同之处。 4、重启 Redis 服务器，等待服务器载入修复后的 AOF 文件，并进行数据恢复</p>
+
+<p><strong>RDB 和 AOF 之间的相互作用</strong></p>
+
+<p>在版本号大于等于 2.4 的 Redis 中， BGSAVE 执行的过程中，不可以执 行 BGRWRITEAOF 。 反过来说，在 BGRWRITEAOF 执行的过程中，也不可以执 行 BGSAVE 。 这可以防止两个 Redis 后台进程同时对磁盘进行大量的 I/O 操作。 如果 BGSAVE 正在执行，并且用户显示地调用 BGRWRITEAOF 命令，那么服务 器将向用户回复一个 OK 状态，并告知用户， BGRWRITEAOF 已经被预定执 行； 一旦 BGSAVE 执行完毕， BGRWRITEAOF 就会正式开始。 当 Redis 启动时，如果 RDB 持久化和 AOF 持久化都被打开了，那么程 序会优先使用 AOF 文件来恢复数据集，因为 AOF 文件所保存的数据通常是最 完整的。</p>
+
+<p><strong>RDB 和 AOF ,我应该用哪一个？</strong></p>
+
+<p>一般来说,如果想达到足以媲美 PostgreSQL 的数据安全性， 你应该同时 使用两种持久化功能。 如果你非常关心你的数据,但仍然可以承受数分钟以内的数据丢失， 那么 你可以只使用 RDB 持久化。 有很多用户单独使用AOF，但是我们并不鼓励这样，因为时常进行RDB快照 非常方便于数据库备份，启动速度也较之快，还避免了AOF引擎的bug。 注意：基于这些原因，将来我们可能会统一AOF和RDB为一种单一的持久化模型</p>
+
+<p><strong>备份 Redis 数据</strong></p>
+
+<p>Redis 对于数据备份是非常友好的，因为你可以在服务器运行的时候对 RDB 文件进行复制： RDB 文件一旦被创建，就不会进行任何修改。 当服务器要创建一个新的 RDB 文件时，它先将文件的内容保存在一个临 时文件里面，当临时文件写入完毕时，程序才使用临时文件替换原来的 RDB 文件。 这也就是说，无论何时， 复制 RDB 文件都是绝对安全的。</p>
+
+<p>RDB持久化配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@redis ~]# cat /etc/redis/redis.conf
+
+daemonize yes
+
+port 6379
+
+logfile /var/log/redis.log
+
+bind 10.0.0.55
+
+requirepass root
+
+save 900 1 900秒（15分钟）内有1个更改
+
+save 300 10 300秒（5分钟）内有10个更改
+
+save 60 10000 60秒内有10000个更改
+
+dbfilename dump.rdb 导出来的rdb文件名
+
+dir /usr/local/redis-3.2.10/ rdb的放置路径
+
+stop-writes-on-bgsave-error yes
+
+rdbcompression yes
+
+rdbchecksum yes</pre></td></tr></table>
+</div>
+</div>
+<p>配置介绍如下：</p>
+
+<p>后台备份进程出错时,主进程停不停止写入? 主进程不停止容易造成数据不一致</p>
+
+<p>导出的rdb文件是否压缩如果rdb的大小很大的话建议这么做</p>
+
+<p>导入rbd恢复时数据时,要不要检验rdb的完整性验证版本是不是一致</p>
+
+<p><strong>AOF持久化配置</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@redis ~]# cat /etc/redis/redis.conf
+
+daemonize yes
+
+port 6379
+
+logfile /var/log/redis.log
+
+bind 10.0.0.55
+
+requirepass root
+
+save 900 1 900秒（15分钟）内有1个更改
+
+save 300 10 300秒（5分钟）内有10个更改
+
+save 60 10000 60秒内有10000个更改
+
+dbfilename dump.rdb 导出来的rdb文件名
+
+dir /usr/local/redis-3.2.10/ rdb的放置路径
+
+stop-writes-on-bgsave-error yes
+
+rdbcompression yes
+
+rdbchecksum yes</pre></td></tr></table>
+</div>
+</div>
+<p>appendonly yes no是关闭</p>
+
+<p>appendfsync always always每一个命令写入aof文件，并完成磁盘同步 everysec每一秒写入aof文件，并完成磁盘同步</p>
+
+<p>no-appendfsync-on-rewrite yes 正在导出rdb快照的过程中,停止同步aof</p>
+
+<p>auto-aof-rewrite-percentage 100 aof文件大小比起上次重写时的大小,增长率100%时重写,缺点:业务开始的时候，会重复重写多次。</p>
+
+<p>auto-aof-rewrite-min-size 64mb aof文件,至少超过64M时,重写</p>
+
+<p><strong>RDB到AOF切换</strong></p>
+
+<p>Redis 2.2 或以上版本，可以在不重启的情况下，从 RDB 切换到 AOF ：</p>
+
+<p>1、为最新的 dump.rdb 文件创建一个备份。</p>
+
+<p>2、将备份放到一个安全的地方。</p>
+
+<p>3、执行以下两条命令： redis-cli&gt; CONFIG SET appendonly yes redis-cli&gt; CONFIG SET save “”</p>
+
+<p>4、确保命令执行之后，数据库的键的数量没有改变。</p>
+
+<p>5、确保写命令会被正确地追加到 AOF 文件的末尾</p>
+
+<p><strong>Redis开发、管理实战</strong></p>
+
+<p>数据类型
+String • Hash • List • Set • Sorted set</p>
+
+<p><strong>全局Key操作</strong></p>
+
+<p>• KEYS * 查看KEY支持通配符</p>
+
+<p>• DEL 删除给定的一个或多个key</p>
+
+<p>• EXISTS 检查是否存在</p>
+
+<p>• RENAME 变更KEY名</p>
+
+<p>• SORT 键值排序，有非数字时报错</p>
+
+<p>• TYPE 返回键所存储值的类型</p>
+
+<p>• DUMP RESTORE 序例化与反序列化</p>
+
+<p>• EXPIRE\ PEXPIRE 以秒\毫秒设定生存时间</p>
+
+<p>• TTL\ PTTL 以秒\毫秒为单位返回生存时间</p>
+
+<p>• PERSIST 取消生存实现设置</p>
+
+<p>• RANDOMKEY 返回数据库中的任意键</p>
+
+<p>string字符串</p>
+
+<p>应用场景
+-常规计数：微博数，粉丝数等。</p>
+
+<p><strong>string是redis最基本的类型，一个key对应一个value。一个键最大能存储 512MB。</strong></p>
+
+<p>set</p>
+
+<p>• get</p>
+
+<p>• incr *********</p>
+
+<p>• incrby ***********</p>
+
+<p>• decr *********</p>
+
+<p>• decrby **********</p>
+
+<p>• mset</p>
+
+<p>• mget</p>
+
+<p>• append</p>
+
+<p>• getset</p>
+
+<p>• setex</p>
+
+<p>• setnx</p>
+
+<p>• del</p>
+
+<p>• setrange</p>
+
+<p>• strlen</p>
+
+<p>• getrange</p>
+
+<p><strong>string字符串应用</strong></p>
+
+<p><strong>增</strong></p>
+
+<p>set mykey “test”                 为键设置新值，并覆盖原有值</p>
+
+<p>getset mycounter 0             设置值,取值同时进行，取以前值</p>
+
+<p>setex mykey 10 “hello”         设置指定 Key 的过期时间为10秒,在存活时间可以获取value</p>
+
+<p>或者</p>
+
+<p>set mykey hello ex 10</p>
+
+<p>setnx mykey “hello”             若该键不存在，则为键设置新值</p>
+
+<p>mset key3 “zyx” key4 “xyz”     批量设置键</p>
+
+<p><strong>删</strong></p>
+
+<p>del mykey                     删除已有键</p>
+
+<p><strong>改</strong></p>
+
+<p>append mykey “hello”     若该键并不存在,返回当前 Value 的长度/ 该键已经存在，返回追加后 Value的长度</p>
+
+<p>incr mykey                 值增加1,若该key不存在,创建key,初始值设为0,增加后结果为1</p>
+
+<p>decrby mykey 5             值减少5</p>
+
+<p>setrange mykey 20 dd             把第21和22个字节,替换为dd, 超过value长度,自动补0</p>
+
+<p><strong>查</strong></p>
+
+<p>exists mykey                 判断该键是否存在，存在返回 1，否则返回0</p>
+
+<p>get mykey                 获取Key对应的value</p>
+
+<p>strlen mykey                 获取指定 Key 的字符长度</p>
+
+<p>ttl mykey                 查看一下指定 Key 的剩余存活时间(秒数)</p>
+
+<p>getrange mykey 1 20     获取第2到第20个字节,若20超过value长度,则截取第2个和后面所有的</p>
+
+<p>mget key3 key4                 批量获取键</p>
+
+<p><strong>Hash（字典）</strong></p>
+
+<p>Hash介绍(缓存数据库对象)</p>
+
+<p>我们可以将Redis中的Hashes类型看成具有String Key和String Value的map 容器。 所以该类型非常适合于存储值对象的信息。如Username、Password和Age 等。如果Hash中包含很少的字段，那么该类型的数据也将仅占用很少的磁盘空 间。每一个Hash可以存储4294967295个键值对。</p>
+
+<p>应用场景： 存储部分变更的数据，如用户信 息等。</p>
+
+<p>hset</p>
+
+<p>• hsetnx</p>
+
+<p>• hmset</p>
+
+<p>• hdel</p>
+
+<p>• del</p>
+
+<p>• hincrby</p>
+
+<p>• hget</p>
+
+<p>• hmget</p>
+
+<p>• hlen</p>
+
+<p>• hexists</p>
+
+<p>• hgetall</p>
+
+<p>• hkeys • hvals</p>
+
+<p>Hash应用</p>
+
+<p><strong>增</strong></p>
+
+<p>hset myhash field1 “s”</p>
+
+<p>若字段field1不存在,创建该键及与其关联的Hashes, Hashes中,key为field1 ,并设value为s ，若存在会覆盖原value</p>
+
+<p>hsetnx myhash field1 s</p>
+
+<p>若字段field1不存在,创建该键及与其关联的Hashes, Hashes中,key为field1 ,并设value为s，
+若字段field1存在,则无效</p>
+
+<p>hmset myhash field1 “hello” field2 “world     一次性设置多个字段</p>
+
+<p><strong>删</strong></p>
+
+<p>hdel myhash field1                     删除 myhash 键中字段名为 field1 的字段</p>
+
+<p>del myhash                              删除键</p>
+
+<p><strong>改</strong></p>
+
+<p>hincrby myhash field 1                 给field的值加1</p>
+
+<p><strong>查</strong></p>
+
+<p>hget myhash field1                     获取键值为 myhash,字段为 field1 的值</p>
+
+<p>hlen myhash                             获取myhash键的字段数量</p>
+
+<p>hexists myhash field1                 判断 myhash 键中是否存在字段名为 field1 的字段</p>
+
+<p>hmget myhash field1 field2 field3 一次性获取多个字段</p>
+
+<p>hgetall myhash                          返回 myhash 键的所有字段及其值</p>
+
+<p>hkeys myhash                          获取myhash 键中所有字段的名字</p>
+
+<p>hvals myhash</p>
+
+<p><strong>LIST列表</strong></p>
+
+<p>List类型是按照插入顺序排序的字符串链表。和数据结构中的普通链表一 样，我们可以在其头部(left)和尾部(right)添加新的元素。在插入时，如果该 键并不存在，Redis将为该键创建一个新的链表。与此相反，如果链表中所有的 元素均被移除，那么该键也将会被从数据库中删除。List中可以包含的最大元 素数量是4294967295。</p>
+
+<p>应用场景</p>
+
+<p>消息队列系统</p>
+
+<p>比如sina微博:</p>
+
+<p>在Redis中我们的最新微博ID使用了常驻缓存，这是一直更新的。但是做了限制不能超过5000个ID，因此获取ID的函数会一直询问Redis。只有在start/count参数超出了这个范围的时候，才需要去访问数据库。</p>
+
+<p>系统不会像传统方式那样”刷新”缓存，Redis实例中的信息永远是一致的SQL数据库（或是硬盘上的其他类型数据库）只是在用户需要获取”很远”的数据时才会被触发，而主页或第一个评论页是不会麻烦到硬盘上的数据库了</p>
+
+<p>lpush</p>
+
+<p>• lpushx</p>
+
+<p>• linsert</p>
+
+<p>• rpush</p>
+
+<p>• rpushx</p>
+
+<p>• rpoplpush</p>
+
+<p>• del</p>
+
+<p>• lrem</p>
+
+<p>• ltrim</p>
+
+<p>• lset</p>
+
+<p>• rpoplpush</p>
+
+<p>• lrange</p>
+
+<p>• lpop</p>
+
+<p>• lindex</p>
+
+<p>LIST列表应用</p>
+
+<p><strong>增</strong></p>
+
+<p>lpush mykey a b
+若key不存在,创建该键及与其关联的List,依次插入a ,b，
+若List类型的key存在,则插入value中</p>
+
+<p>lpushx mykey2 e             若key不存在,此命令无效，
+若key存在,则插入value中</p>
+
+<p>linsert mykey before a a1     在 a 的前面插入新元素 a1</p>
+
+<p>linsert mykey after e e2     在e 的后面插入新元素 e2</p>
+
+<p>rpush mykey a b             在链表尾部先插入b,在插入a</p>
+
+<p>rpushx mykey e             若key存在,在尾部插入e, 若key不存在,则无效</p>
+
+<p>rpoplpush mykey mykey2     将mykey的尾部元素弹出,再插入到mykey2 的头部(原子性的操作)</p>
+
+<p><strong>删</strong></p>
+
+<p>del mykey                  删除已有键</p>
+
+<p>lrem mykey 2 a         从头部开始找,按先后顺序,值为a的元素,删除数量为2个,若存在第3个,则不删除</p>
+
+<p>ltrim mykey 0 2             从头开始,索引为0,1,2的3个元素,其余全部删除</p>
+
+<p><strong>改</strong></p>
+
+<p>lset mykey 1 e             从头开始, 将索引为1的元素值,设置为新值 e,若索引越界,则返回错误信息</p>
+
+<p>rpoplpush mykey mykey         将 mykey 中的尾部元素移到其头部</p>
+
+<p><strong>查</strong></p>
+
+<p>lrange mykey 0 -1          取链表中的全部元素，其中0表示第一个元素,-1表示最后一个元素。</p>
+
+<p>lrange mykey 0 2         从头开始,取索引为0,1,2的元素</p>
+
+<p>lrange mykey 0 0         从头开始,取第一个元素,从第0个开始,到第0个结束</p>
+
+<p>lpop mykey         获取头部元素,并且弹出头部元素,出栈</p>
+
+<p>lindex mykey 6         从头开始,获取索引为6的元素</p>
+
+<p>若下标越界,则返回nil</p>
+
+<p><strong>SET集合</strong></p>
+
+<p>Set类型看作为没有排序的字符集合。Set可包含的最大元素数量是 4294967295。如果多次添加相同元素，Set中将仅保留该元素的一份拷贝</p>
+
+<p>排行榜应用，取TOP N操作 这个需求与上面需求的不同之处在 于，前面操作以时间为权重，这个 是以某个条件为权重，比如按顶的 次数排序，这时候就需要我们的 sorted set出马了，将你要排序的 值设置成sorted set的score，将 具体的数据设置成相应的value， 每次只需要执行一条ZADD命令即 可</p>
+
+<p>案例：?在微博应用中，可以将一个用户所有的关注人存在一个集合中，将其所有粉丝存在一个集合。Redis还为集合提供了求交集、并集、差集等操作，可以非常方便的实现如共同关注、共同喜好、二度好友等功能，对上面的所有集合操作，你还可以使用不同的命令选择将结果返回给客户端还是存集到一个新的集合中</p>
+
+<p>sadd</p>
+
+<p>• spop</p>
+
+<p>• srem</p>
+
+<p>• smove</p>
+
+<p>• sismember</p>
+
+<p>• smembers</p>
+
+<p>• scard</p>
+
+<p>• srandmember</p>
+
+<p>• sdiff</p>
+
+<p>• sdiffstore</p>
+
+<p>• sinter</p>
+
+<p>• sinterstore</p>
+
+<p>• sunion</p>
+
+<p>• sunionstore</p>
+
+<p>SET集合应用</p>
+
+<p><strong>增</strong></p>
+
+<p>sadd myset a b c</p>
+
+<p>若key不存在,创建该键及与其关联的set,依次插入a ,b,若key存在,则插入value中,若a 在myset中已经存在,则插入了 d 和 e 两个新成员。</p>
+
+<p><strong>删</strong></p>
+
+<p>spop myset             尾部的b被移出,事实上b并不是之前插入的第一个或最后一个成员</p>
+
+<p>srem myset a d f         若f不存在, 移出 a、d ,并返回2</p>
+
+<p><strong>改</strong></p>
+
+<p>smove myset myset2 a     将a从 myset 移到 myset2，</p>
+
+<p><strong>查</strong></p>
+
+<p>sismember myset a              判断 a 是否已经存在，返回值为 1 表示存在。</p>
+
+<p>smembers myset          查看set中的内容</p>
+
+<p>scard myset              获取Set 集合中元素的数量</p>
+
+<p>srandmember myset          随机的返回某一成员</p>
+
+<p>sdiff myset1 myset2 myset3     1和2得到一个结果,拿这个集合和3比较,获得每个独有的值</p>
+
+<p>sdiffstore diffkey myset myset2 myset3 3个集和比较,获取独有的元素,并存入diffkey 关联的Set中</p>
+
+<p>sinter myset myset2 myset3              获得3个集合中都有的元素</p>
+
+<p>sinterstore interkey myset myset2 myset3 把交集存入interkey 关联的Set中</p>
+
+<p>sunion myset myset2 myset3              获取3个集合中的成员的并集</p>
+
+<p>sunionstore unionkey myset myset2 myset3 把并集存入unionkey 关联的Set中</p>
+
+<p><strong>SortedSet（有序集合）</strong></p>
+
+<p>应用场景：</p>
+
+<p>排行榜应用，取TOP N操作.</p>
+
+<p>这个需求与上面需求的不同之处在于，前面操作以时间为权重，这个是以某个条件为权重，比如按顶的次数排序，这时候就需要我们的sorted set出马了，将你要排序的值设置成sorted set的score，将具体的数据设置成相应的value，每次只需要执行一条ZADD命令即可。</p>
+
+<p><strong>增</strong></p>
+
+<p>zadd myzset 2 “two” 3 “three”         添加两个分数分别是 2 和 3 的两个成员</p>
+
+<p><strong>删</strong></p>
+
+<p>zrem myzset one two                 删除多个成员变量,返回删除的数量</p>
+
+<p><strong>改</strong></p>
+
+<p>zincrby myzset 2 one                 将成员 one 的分数增加 2，并返回该成员更新后的分数</p>
+
+<p><strong>查</strong></p>
+
+<p>zrange myzset 0 -1 WITHSCORES         返回所有成员和分数,不加WITHSCORES,只返回成员</p>
+
+<p>zrank myzset one                  获取成员one在Sorted-Set中的位置索引值。0表示第一个位置</p>
+
+<p>zcard myzset                      获取 myzset 键中成员的数量</p>
+
+<p>zcount myzset 1 2                  获取分数满足表达式 1 &lt;= score &lt;= 2 的成员的数量</p>
+
+<p>zscore myzset three                 获取成员 three 的分数</p>
+
+<p>zrangebyscore myzset 1 2         获取分数满足表达式 1 &lt; score &lt;= 2 的成员</p>
+
+<p>#-inf 表示第一个成员，+inf最后一个成员</p>
+
+<p>#limit限制关键字</p>
+
+<p>#2 3 是索引号</p>
+
+<p>zrangebyscore myzset -inf +inf limit 2 3 返回索引是2和3的成员</p>
+
+<p>zremrangebyscore myzset 1 2         删除分数 1&lt;= score &lt;= 2 的成员，并返回实际删除的数量</p>
+
+<p>zremrangebyrank myzset 0 1             删除位置索引满足表达式 0 &lt;= rank &lt;= 1 的成员</p>
+
+<p>zrevrange myzset 0 -1 WITHSCORES         按位置索引从高到低,获取所有成员和分数</p>
+
+<p>#原始成员:位置索引从小到大</p>
+
+<p>one 0</p>
+
+<p>two 1</p>
+
+<p>#执行顺序:把索引反转</p>
+
+<p>位置索引:从大到小</p>
+
+<p>one 1</p>
+
+<p>two 0</p>
+
+<p>#输出结果: two</p>
+
+<p>one</p>
+
+<p>zrevrange myzset 1 3                 获取位置索引,为1,2,3的成员</p>
+
+<p>#相反的顺序:从高到低的顺序</p>
+
+<p>zrevrangebyscore myzset 3 0             获取分数 3&gt;=score&gt;=0的成员并以相反的顺序输出</p>
+
+<p>zrevrangebyscore myzset 4 0 limit 1 2      获取索引是1和2的成员,并反转位置索引</p>
+
+<p><strong>消息模式</strong></p>
+
+<p>队列模式（queuing）</p>
+
+<p>发布-订阅模式(publish-subscribe)</p>
+
+<p>任务队列：顾名思义，就是”传递消息的队列”。与任务队列进行交互的 实体有两类，一类是生产者（producer），另一类则是消费者 （consumer）。生产者将需要处理的任务放入任务队列中，而消费者则不 断地从任务独立中读入任务信息并执行</p>
+
+<p>其实从Pub/Sub的机制来看，它更像是一个广播系统，多个Subscriber可以 订阅多个Channel，多个Publisher可以往多个Channel中发布消息。可以这么简 单的理解： • Subscriber：收音机，可以收到多个频道，并以队列方式显示</p>
+
+<p>• Publisher：电台，可以往不同的FM频道中发消息</p>
+
+<p>• Channel：不同频率的FM频道</p>
+
+<p>发布订阅实践</p>
+
+<p>PUBLISH channel msg</p>
+
+<p>将信息 message 发送到指定的频道 channel</p>
+
+<p>• SUBSCRIBE channel [channel …]</p>
+
+<p>订阅频道，可以同时订阅多个频道</p>
+
+<p>• UNSUBSCRIBE [channel …]</p>
+
+<p>取消订阅指定的频道, 如果不指定频道，则会取消订阅所有频道</p>
+
+<p>• PSUBSCRIBE pattern [pattern …]</p>
+
+<p>订阅一个或多个符合给定模式的频道，每个模式以 * 作为匹配符，比如 it* 匹配所</p>
+
+<p>有以 it 开头的频道( it.news 、 it.blog 、 it.tweets 等等)， news.* 匹配所有</p>
+
+<p>以 news. 开头的频道( news.it 、 news.global.today 等等)，诸如此类</p>
+
+<p>• PUNSUBSCRIBE [pattern [pattern …]]</p>
+
+<p>退订指定的规则, 如果没有参数则会退订所有规则</p>
+
+<p>• PUBSUB subcommand [argument [argument …]]</p>
+
+<p>查看订阅与发布系统状态</p>
+
+<p>注意：使用发布订阅模式实现的消息队列，当有客户端订阅channel后只能收到后续发布到</p>
+
+<p>该频道的消息，之前发送的不会缓存，必须Provider和Consumer同时在线</p>
+
+<p>一个Publisher，多个Subscriber模型
+如下图所示，可以作为消息队列或者消息管道。 主要应用：通知、公告</p>
+
+<p>多个Publisher，一个Subscriber模型
+可以将PubSub做成独立的HTTP接口，各应用程序作为Publisher向Channel中发送 消息，Subscriber端收到消息后执行相应的业务逻辑，比如写数据库，显示等 等。 主要应用：排行榜、投票、计数。</p>
+
+<p>多个Publisher，多个Subscriber模型
+故名思议，就是可以向不同的Channel中发送消息，由不同的Subscriber接收。 主要应用：群聊、聊天。</p>
+
+<p>以上多个模式需要开启两个redis连接</p>
+
+<p>redis-cli(1)</p>
+
+<p>SUBSCRIBE chn1</p>
+
+<p>redis-cli(2)</p>
+
+<p>publish chn1 hello</p>
+
+<p>PSUBSCRIBE</p>
+
+<p>消息队列系统对比</p>
+
+<p>客户端在执行订阅命令之后进入了订阅状态，只能接收 SUBSCRIBE 、 PSUBSCRIBE、 UNSUBSCRIBE 、PUNSUBSCRIBE 四个命令。 开启的订阅客户 端，无法收到该频道之前的消息，因为 Redis 不会对发布的消息进行持久 化。 和很多专业的消息队列系统（例如Kafka、RocketMQ）相比，Redis的 发布订阅略显粗糙，例如无法实现消息堆积和回溯。但胜在足够简单，如果 当前场景可以容忍的这些缺点，也不失为一个不错的选择。</p>
+
+<p>订阅模式案例</p>
+
+<p>发布-订阅模式(publish-subscribe) ****能同时被许多读者读取数据</p>
+
+<p>开启三个redis连接</p>
+
+<p>redis-cli(1) 订阅者,订阅了chn1(相等于微博的关注了某个人的微博)</p>
+
+<p>SUBSCRIBE chn1</p>
+
+<p>redis-cli(2) 订阅者,订阅了chn1(相等于微博的关注了某个人的微博)</p>
+
+<p>SUBSCRIBE chn1</p>
+
+<p>redis-cli(3) 发布者,再chn1这个频道发布了hello这个消息,所有订阅者都能看到(相等于被关注者)</p>
+
+<p>publish chn1 hello</p>
+
+<p>Redis事务管理</p>
+
+<p>redis事务介绍与mysql对比</p>
+
+<p>redis中的事务跟关系型数据库中的事务是一个相似的概念，但是有 不同之处。关系型数据库事务执行失败后面的sql语句不在执行，而redis 中的一条命令执行失败，其余的命令照常执行。 redis中开启一个事务是使用multi，相当于begin\start transaction， exec提交事务，discard取消队列命令（非回滚操作）。</p>
+
+<p>事务命令</p>
+
+<p>DISCARD 取消事务，放弃执行事务块内的所有命令。</p>
+
+<p>• EXEC 执行所有事务块内的命令。</p>
+
+<p>• MULTI 标记一个事务块的开始。</p>
+
+<p>• UNWATCH 取消 WATCH 命令对所有 key 的监视。</p>
+
+<p>• WATCH key [key …] 监视一个(或多个) key ，如果在事务执行之前这个(或这些) key 被其他
+命令所改动，那么事务将被打断。</p>
+
+<p>事务执行举例
+ZADD salary 2000 user1</p>
+
+<p>ZADD salary 3000 user2</p>
+
+<p>ZRANGE salary 0 -1 WITHSCORES</p>
+
+<p>MULTI</p>
+
+<p>ZINCRBY salary 1000 user1</p>
+
+<p>ZINCRBY salary -1000 user2</p>
+
+<p>EXEC</p>
+
+<p>Redis中事务中的锁机制</p>
+
+<p>举例：我正在买票 Ticket -1 , money -100</p>
+
+<p>而票只有1张, 如果在我multi之后,和exec之前, 票被别人买了—即ticket 变成0了. 我该如何观察这种情景,并不再提交</p>
+
+<p>悲观的想法: 世界充满危险,肯定有人和我抢, 给 ticket上锁, 只有我能操作. [悲观锁]</p>
+
+<p>乐观的想法: 没有那么人和我抢,因此,我只需要注意,</p>
+
+<p>–有没有人更改ticket的值就可以了 [乐观锁] Redis的事务中,启用的是乐观锁,只负责监测key没有被改动</p>
+
+<p>服务器管理命令</p>
+
+<p>Info</p>
+
+<p>Clinet list</p>
+
+<p>Client kill ip:port</p>
+
+<p>config get *</p>
+
+<p>CONFIG RESETSTAT 重置统计</p>
+
+<p>CONFIG GET/SET 动态修改</p>
+
+<p>Dbsize</p>
+
+<p>FLUSHALL 清空所有数据</p>
+
+<p>select 1</p>
+
+<p>FLUSHDB 清空当前库</p>
+
+<p>MONITOR 监控实时指令</p>
+
+<p>SHUTDOWN 关闭服务器</p>
+
+<p>save 将当前数据保存</p>
+
+<p>SLAVEOF host port 主从配置</p>
+
+<p>SLAVEOF NO ONE</p>
+
+<p>SYNC 主从同步</p>
+
+<p>ROLE返回主从角色</p>
+
+<p>慢日志查询</p>
+
+<p>Slow log 是 Redis 用来记录查询执行时间的日志系统。</p>
+
+<p>slow log 保存在内存里面，读写速度非常快可以通过改写</p>
+
+<p>redis.conf 文件或者用 CONFIG GET 和 CONFIG SET 命令对它们动态地进行修改</p>
+
+<p>slowlog-log-slower-than 10000 超过多少微秒</p>
+
+<p>CONFIG SET slowlog-log-slower-than 100</p>
+
+<p>CONFIG SET slowlog-max-len 1000 保存多少条慢日志</p>
+
+<p>CONFIG GET slow*</p>
+
+<p>SLOWLOG GET</p>
+
+<p>SLOWLOG RESET</p>
+
+<p>Redis主从复制</p>
+
+<p>使用异步复制。</p>
+
+<p>• 一个主服务器可以有多个从服务器。</p>
+
+<p>• 从服务器也可以有自己的从服务器。</p>
+
+<p>• 复制功能不会阻塞主服务器。</p>
+
+<p>• 可以通过复制功能来让主服务器免于执行持久化操作，由从服务器 去执行持久化操作即可。</p>
+
+<p>关闭主服务器持久化时，复制功能的数据安全</p>
+
+<p>当配置Redis复制功能时，强烈建议打开主服务器的持久化功能。 否则的话， 由于延迟等问题，部署的服务应该要避免自动拉起。</p>
+
+<p>为了帮助理解主服务器关闭持久化时自动拉起的危险性，参考一下以下会导致 主从服务器数据全部丢失的例子：</p>
+
+<ol>
+<li><p>假设节点A为主服务器，并且关闭了持久化。 并且节点B和节点C从节点A复 制数据</p></li>
+
+<li><p>节点A崩溃，然后由自动拉起服务重启了节点A. 由于节点A的持久化被关闭 了，所以重启之后没有任何数据</p></li>
+
+<li><p>节点B和节点C将从节点A复制数据，但是A的数据是空的， 于是就把自身保 存的数据副本删除。</p></li>
+</ol>
+
+<p>在关闭主服务器上的持久化，并同时开启自动拉起进程的情况下，即便使用 Sentinel来实现Redis的高可用性，也是非常危险的。 因为主服务器可能拉起 得非常快，以至于Sentinel在配置的心跳时间间隔内没有检测到主服务器已被 重启，然后还是会执行上面的数据丢失的流程。 无论何时，数据安全都是极其重要的，所以应该禁止主服务器关闭持久化的同 时自动拉起。</p>
+
+<p>主从复制原理</p>
+
+<ol>
+<li><p>从服务器向主服务器发送 SYNC 命令。</p></li>
+
+<li><p>接到 SYNC 命令的主服务器会调用BGSAVE 命令，创建一个 RDB 文件，并 使用缓冲区记录接下来执行的所有写命令。</p></li>
+
+<li><p>当主服务器执行完 BGSAVE 命令时，它会向从服务器发送 RDB 文件，而 从服务器则会接收并载入这个文件。</p></li>
+
+<li><p>主服务器将缓冲区储存的所有写命令发送给从服务器执行。</p></li>
+</ol>
+
+<p>SYNC 命令执行示例</p>
+
+<p>命令传播</p>
+
+<p>在主从服务器完成同步之后，主服务器每执行一个写命令，它都会将被执 行的写命令发送给从服务器执行，这个操作被称为”命令传播”（command propagate）</p>
+
+<p>命令传播是一个持续的过程：只要复制仍在继续，命令传播就会一直进 行，使得主从服务器的状态可以一直保持一致。</p>
+
+<p>复制中的SYNC与PSYNC.
+在 Redis 2.8 版本之前， 断线之后重连的从服务器总要执行一次完整重同 步（full resynchronization）操作。</p>
+
+<p>从 Redis 2.8 开始，Redis 使用 PSYNC命令代替 SYNC 命令。 PSYNC 比起 SYNC 的最大改进在于 PSYNC 实现了部分重同步（partial resync）特性：在主从服务器断线并且重新连接的时候，只要条件允许，PSYNC 可以让主服务器只向从服务器同步断线期间缺失的数据，而不用重新向从服务 器同步整个数据库。</p>
+
+<p>SYNC 处理断线重连示例</p>
+
+<p>PSYNC 处理断线重连示例</p>
+
+<p>复制的一致性问题
+.
+在读写分离环境下，客户端向主服务器发送写命令 SET n 10086，主服务器在执行这个写 命令之后，向客户端返回回复，并将这个写命令传播给从服务器。</p>
+
+<p>• 接到回复的客户端继续向从服务器发送读命令 GET n ，并且因为网络状态的原因，客户 端的 GET命令比主服务器传播的 SET 命令更快到达了从服务器。</p>
+
+<p>• 因为从服务器键 n 的值还未被更新，所以客户端在从服务器读取到的将是一个错误（过 期）的 n值。</p>
+
+<p>复制安全性提升</p>
+
+<p>主服务器只在有至少 N 个从服务器的情况下，才执行写操作 从 Redis 2.8 开始， 为了保证数据的安全性， 可以通过配置， 让主服 务器只在有至少 N 个当前已连接从服务器的情况下， 才执行写命令。 不过， 因为 Redis 使用异步复制， 所以主服务器发送的写数据并不一定 会被从服务器接收到， 因此， 数据丢失的可能性仍然是存在的。 通过以下两个参数保证数据的安全：</p>
+
+<p>min-slaves-to-write</p>
+
+<p>min-slaves-max-lag</p>
+
+<p><strong>Redis主从复制搭建</strong></p>
+
+<p>准备两个或两个以上redis实例</p>
+
+<p>mkdir /data/6380 /data/6381 /data/6382</p>
+
+<p>配置节点并启动</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">vim /data/6380/redis.conf
+
+port 6380
+
+daemonize yes
+
+pidfile /data/6380/redis.pid
+
+loglevel notice
+
+logfile “/data/6380/redis.log”
+
+dbfilename dump.rdb
+
+dir /data/6380
+
+vim /data/6381/redis.conf
+
+port 6381
+
+daemonize yes
+
+pidfile /data/6381/redis.pid
+
+loglevel notice
+
+logfile “/data/6381/redis.log”
+
+dbfilename dump.rdb
+
+dir /data/6381
+
+vim /data/6382/redis.conf
+
+port 6382
+
+daemonize yes
+
+pidfile /data/6382/redis.pid
+
+loglevel notice
+
+logfile “/data/6382/redis.log”
+
+dbfilename dump.rdb
+
+dir /data/6382</pre></td></tr></table>
+</div>
+</div>
+<p>启动节点：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">redis-server /data/6380/redis.conf
+
+redis-server /data/6381/redis.conf
+
+redis-server /data/6382/redis.conf</pre></td></tr></table>
+</div>
+</div>
+<p>开启主从</p>
+
+<p>主节点：6380</p>
+
+<p>从节点：6381、6382</p>
+
+<p>开启主从：</p>
+
+<p>6381/6382命令行:</p>
+
+<p>redis-cli -p 6381</p>
+
+<p>SLAVEOF 127.0.0.1 6380</p>
+
+<p>redis-cli -p 6382</p>
+
+<p>SLAVEOF 127.0.0.1 6380</p>
+
+<p>主从复制状态监控：</p>
+
+<p>info replication</p>
+
+<p><strong>主从切换</strong></p>
+
+<p>模拟故障：</p>
+
+<p>redis-cli -p 6380</p>
+
+<p>shutdown</p>
+
+<p>redis-cli -p 6381</p>
+
+<p>slaveof no one</p>
+
+<p>redis-cli -p 6382</p>
+
+<p>SLAVEOF 127.0.0.1 6381</p>
+
+<p><strong>Redis Sentinel</strong></p>
+
+<p>Redis-Sentinel是Redis官方推荐的高可用性(HA)解决 方案，当用Redis做Master-slave的高可用方案时，假 如master宕机了，Redis本身(包括它的很多客户端)都 没有实现自动进行主备切换，而Redis-sentinel本身也 是一个独立运行的进程，它能监控多个master-slave集 群，发现master宕机后能进行自动切换。</p>
+
+<p>Sentinel 的构造</p>
+
+<p>Sentinel 是一个监视器，它可以根据被监视实例的身份和状态来判断应该执 行何种动作。</p>
+
+<p>Sentinel 功能</p>
+
+<p>监控（Monitoring）： Sentinel 会不断地检查你的主服务器和从服务器是否运作正常。</p>
+
+<p>• 提醒（Notification）： 当被监控的某个 Redis 服务器出现问题时， Sentinel 可以通过 API 向管理员或者其 他应用程序发送通知。</p>
+
+<p>• 自动故障迁移（Automatic failover）： 当一个主服务器不能正常工作时， Sentinel 会开始一次自动故障迁移操作， 它会将 失效主服务器的其中一个从服务器升级为新的主服务器， 并让失效主服务器的其他从服务 器改为复制新的主服务器； 当客户端试图连接失效的主服务器时， 集群也会向客户端返回 新主服务器的地址， 使得集群可以使用新主服务器代替失效服务器。</p>
+
+<p>发现并连接主服务器</p>
+
+<p>Sentinel 通过用户给定的配置文件来发现主服务器。</p>
+
+<p>Sentinel 会与被监视的主服务器创建 两个网络连接：</p>
+
+<p>• 命令连接用于向主服务器发送命令。</p>
+
+<p>• 订阅连接用于订阅指定的频道，从而发现 监视同一主服务器的其他 Sentinel</p>
+
+<p>发现并连接从服务器</p>
+
+<p>Sentinel 通过向主服务器发送 INFO 命令来自动获得所有从服务器的地址。</p>
+
+<p>跟主服务器一样，Sentinel 会与每个被 发现的从服务器创建命令连接和订阅连 接。</p>
+
+<p>发现其他 Sentinel</p>
+
+<p>Sentinel 会通过命令连接向被监视的主从服务器发送 “HELLO” 信息，该消息包含 Sentinel 的 IP、端口号、ID 等内容，以此来向其他 Sentinel 宣告自己的存在。与此同 时Sentinel 会通过订阅连接接收其他 Sentinel 的”HELLO” 信息，以此来发现监视同一 个主服务器的其他 Sentinel 。</p>
+
+<p>sentinel1 通过发送HELLO 信息来让sentinel2 和 sentinel3 发现自己，其他两个sentinel 也会进行类似的操作。</p>
+
+<p>多个Sentienl之间的链接</p>
+
+<p>Sentinel 之间只会互相创建命令连接，用于进行通信。因为已经有主从服务器作为发送和 接收 HELLO 信息的中介，所以 Sentinel之间不会创建订阅连接。</p>
+
+<p>检测实例的状态</p>
+
+<p>Sentinel 使用 PING 命令来检测实例的状态：如果实例在指定的时间内没有返回回复，或 者返回错误的回复，那么该实例会被 Sentinel 判断为下线</p>
+
+<p>Redis 的 Sentinel 中关于下线（down）有两个不同的概念：</p>
+
+<p>• 主观下线（Subjectively Down， 简称 SDOWN）指的是单个 Sentinel 实例对服务器做出的下线判断。</p>
+
+<p>• 客观下线（Objectively Down， 简称 ODOWN）指的是多个 Sentinel 实例在对同一个服务器做出 SDOWN 判断， 并且 通过 SENTINEL is-master-down-by-addr 命令互相交流之 后， 得出的服务器下线判断。 （一个 Sentinel 可以通过 向另一个 Sentinel 发送 SENTINEL is-master-down-byaddr 命令来询问对方是否认为给定的服务器已下线。）</p>
+
+<p>如果一个服务器没有在 master-down-after-milliseconds 选项 所指定的时间内， 对向它发送 PING 命令的 Sentinel 返回一 个有效回复（valid reply）， 那么 Sentinel 就会将这个服务 器标记为主观下线。</p>
+
+<p>故障转移FAILOVER</p>
+
+<p>一次故障转移操作由以下步骤组成：</p>
+
+<p>• 发现主服务器已经进入客观下线状态。</p>
+
+<p>• 基于Raft leader election 协议 ， 进行投票选举</p>
+
+<p>• 如果当选失败，那么在设定的故障迁移超时时间的两倍之后，重新尝试当选。 如果当 选成功， 那么执行以下步骤。</p>
+
+<p>• 选出一个从服务器，并将它升级为主服务器。</p>
+
+<p>• 向被选中的从服务器发送 SLAVEOF NO ONE 命令，让它转变为主服务器。</p>
+
+<p>• 通过发布与订阅功能， 将更新后的配置传播给所有其他 Sentinel ，其他 Sentinel 对它们自己的配置进行更新。</p>
+
+<p>• 向已下线主服务器的从服务器发送 SLAVEOF 命令，让它们去复制新的主服务器。 • 当所有从服务器都已经开始复制新的主服务器时， leader Sentinel 终止这次故障迁 移操作。</p>
+
+<p>sentinel配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mkdir /data/26380
+
+vim /data/26380/sentinel.conf
+
+port 26380
+
+dir “/tmp”
+
+sentinel auth-pass mymaster root 安全信息
+
+sentinel monitor mymaster 127.0.0.1 6380 2 指定监控master 2表示多少个sentinel同意
+
+sentinel down-after-milliseconds mymaster 60000 超过60000毫秒后认为主机宕机
+
+sentinel failover-timeout mymaster 900000 当主从切换多久后认为主从切换失败
+
+这两个配置后面的数量主从机需要一样，epoch为master的版本
+
+sentinel leader-epoch mymaster 1
+
+sentinel config-epoch mymaster 1</pre></td></tr></table>
+</div>
+</div>
+<p>启动</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">redis-sentinel /data/26380/sentinel.conf &amp;</pre></td></tr></table>
+</div>
+</div>
+<p>sentinel管理命令
+redis-cli -p 26380</p>
+
+<p>PING ：返回 PONG 。</p>
+
+<p>SENTINEL masters ：列出所有被监视的主服务器</p>
+
+<p>SENTINEL slaves <master name></p>
+
+<p>SENTINEL get-master-addr-by-name <master name> ：
+返回给定名字的主服务器的 IP 地址和端口号。</p>
+
+<p>SENTINEL reset <pattern> ：
+重置所有名字和给定模式 pattern 相匹配的主服务器。</p>
+
+<p>SENTINEL failover <master name> ：</p>
+
+<p>当主服务器失效时，在不询问其他 Sentinel 意见的情况下，强制开始一次自动故障迁移。</p>
+
+<p>发布与订阅信息</p>
+
+<p>客户端可以将 Sentinel 看作是一个只提供了订阅功能的 Redis 服务器： 你不 可以使用 PUBLISH 命令向这个服务器发送信息， 但你可以用 SUBSCRIBE 命令或 者 PSUBSCRIBE 命令， 通过订阅给定的频道来获取相应的事件提醒。</p>
+
+<p>一个频道能够接收和这个频道的名字相同的事件。 比如说， 名为 +sdown 的频 道就可以接收所有实例进入主观下线（SDOWN）状态的事件。</p>
+
+<p>通过执行 PSUBSCRIBE * 命令可以接收所有事件信息。</p>
+
+<p>以下列出的是客户端可以通过订阅来获得的频道和信息的格式： 第一个英文单词是 频道/事件的名字， 其余的是数据的格式。</p>
+
+<p>注意， 当格式中包含 instance details 字样时， 表示频道所返回的信息中包 含了以下用于识别目标实例的内容：</p>
+
+<p>&lt; instance-type&gt; <name> <ip> <port>@ &lt; master-name&gt; &lt; master-ip&gt; &lt; master-port&gt;</p>
+
+<p>@ 字符之后的内容用于指定主服务器， 这些内容是可选的， 它们仅在 @ 字符之前 的内容指定的实例不是主服务器时使用。</p>
+
+<p><strong>Redis cluster</strong></p>
+
+<p>Redis 集群是一个可以在多个 Redis 节点之间进行数据共享的设施（installation）。</p>
+
+<p>Redis 集群不支持那些需要同时处理多个键的 Redis 命令， 因为执行这 些命令需要在多个 Redis 节点之间移动数据， 并且在高负载的情况下， 这些命令将降低 Redis 集群的性能， 并导致不可预测的行为。 Redis 集群通过分区（partition）来提供一定程度的可用性 （availability）： 即使集群中有一部分节点失效或者无法进行通讯， 集群也可以继续处理命令请求。 将数据自动切分（split）到多个节点的能力。 当集群中的一部分节点失效或者无法进行通讯时， 仍然可以继续处理命令 请求的能力。</p>
+
+<p>Redis 集群数据共享</p>
+
+<p>Redis 集群使用数据分片（sharding）而非一致性哈希（consistency hashing）来实现： 一个 Redis 集群包含 16384 个哈希槽（hash slot）， 数据库中的每个键都属于这 16384 个哈希槽的其中一个， 集群使用公式 CRC16(key) % 16384 来计算键 key 属于哪个槽， 其中 CRC16(key) 语句用 于计算键 key 的 CRC16 校验和 。</p>
+
+<p>节点 A 负责处理 0 号至 5500 号哈希槽。</p>
+
+<p>节点 B 负责处理 5501 号至 11000 号哈希槽。</p>
+
+<p>节点 C 负责处理 11001 号至 16384 号哈希槽。</p>
+
+<p>槽的计算公式</p>
+
+<p>集群使用公式 CRC16(key) &amp; 16383 计算键 key属于哪个槽</p>
+
+<p>运行机制</p>
+
+<p>所有的redis节点彼此互联(PING-PONG机制),内部使用二进制协议优化传 输速度和带宽. 节点的fail是通过集群中超过半数的master节点检测失效时才生效.</p>
+
+<p>客户端与redis节点直连,不需要中间proxy层.客户端不需要连接集群所有 节点,连接集群中任何一个可用节点即可 把所有的物理节点映射到[0-16383]slot上,cluster 负责维护node&lt;-&gt;slot&lt;- &gt;key</p>
+
+<p>集群的复制</p>
+
+<p>为了使得集群在一部分节点下线或者无法与集群的大多数（majority）节点 进行通讯的情况下， 仍然可以正常运作， Redis 集群对节点使用了主从复制 功能： 集群中的每个节点都有 1 个至 N 个复制品（replica）， 其中一个复 制品为主节点（master）， 而其余的 N-1 个复制品为从节点（slave）。</p>
+
+<p>在之前列举的节点 A 、B 、C 的例子中， 如果节点 B 下线了， 那么集群 将无法正常运行， 因为集群找不到节点来处理 5501 号至 11000 号的哈希 槽。 假如在创建集群的时候（或者至少在节点 B 下线之前）， 我们为主节点 B 添加了从节点 B1 ， 那么当主节点 B 下线的时候， 集群就会将 B1 设置为新 的主节点， 并让它代替下线的主节点 B ， 继续处理 5501 号至 11000 号的 哈希槽， 这样集群就不会因为主节点 B 的下线而无法正常运作了。</p>
+
+<p>不过如果节点 B 和 B1 都下线的话， Redis 集群还是会停止运作。</p>
+
+<p>集群的复制特性重用了 SLAVEOF 命令的代码，所以集群节点的复制行为和 SLAVEOF 命令的复制行为完全相同。</p>
+
+<p>集群故障转移</p>
+
+<p>在集群里面，节点会对其他节点进行下线检测。</p>
+
+<p>• 当一个主节点下线时，集群里面的其他主节点负责对下线主节点进行故障移。</p>
+
+<p>• 换句话说，集群的节点集成了下线检测和故障转移等类似 Sentinel 的功能。</p>
+
+<p>• 因为 Sentinel 是一个独立运行的监控程序，而集群的下线检测和故障转移等 功能是集成在节点里面的，它们的运行模式非常地不同，所以尽管这两者的功 能很相似，但集群的实现没有重用 Sentinel 的代码</p>
+
+<p>在集群里面执行命令的两种情况在集群里面执行命令的两种情况
+命令发送到了正确的节点：命令要处理的键所在的槽正好是由接收命令的 节点负责，那么该节点执行命令，就像单机 Redis 服务器一样。</p>
+
+<p>• 命令发送到了错误的节点：接收到命令的节点并非处理键所在槽的节点， 那么节点将向客户端返回一个转向（redirection）错误，告知客户端应该 到哪个节点去执行这个命令，客户端会根据错误提示的信息，重新向正确 的节点发送命令。</p>
+
+<p>命令发送给正确的节点</p>
+
+<p>键 date 位于 2022 槽，该槽由节点 7000 负责，命令会直接执行。</p>
+
+<p>命令发送给了错误的节点
+键 date 位于 2022 槽，该槽由节点 7000 负责，但错误发送到了7001节点</p>
+
+<p>转向错误的实现（1）</p>
+
+<p>集群中的节点会互相告知对方，自己负责处理哪些槽。</p>
+
+<p>转向错误的实现（2）</p>
+
+<p>集群中的每个节点都会记录 16384 个槽分别由哪个节点负责，从而形成一个 “槽表”（slot table）。</p>
+
+<p>节点在接收到命令请求时，会通过槽表检查键所在的槽是否由本节点处理：</p>
+
+<p>– 如果是的话，那么节点直接执行命令；</p>
+
+<p>– 如果不是的话，那么节点就从槽表里面提取出正确节点的地址信息，然后返 回转向错误。</p>
+
+<p><strong>集群搭建</strong></p>
+
+<p>EPEL源安装ruby支持</p>
+
+<p>yum install ruby rubygems -y</p>
+
+<p>使用国内源</p>
+
+<p>gem sources –add <a href="https://gems.ruby-china.org/">https://gems.ruby-china.org/</a> –remove <a href="https://rubygems.org/">https://rubygems.org/</a></p>
+
+<p>gem sources -a <a href="http://mirrors.aliyun.com/rubygems/">http://mirrors.aliyun.com/rubygems/</a></p>
+
+<p>gem sources –remove <a href="http://rubygems.org/">http://rubygems.org/</a></p>
+
+<p>gem install redis -v 3.3.3</p>
+
+<p>gem sources -l</p>
+
+<p><strong>规划</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mkdir /data/7000 -p
+
+mkdir /data/7001 -p
+
+mkdir /data/7002 -p
+
+mkdir /data/7003 -p
+
+mkdir /data/7004 -p
+
+mkdir /data/7005 -p</pre></td></tr></table>
+</div>
+</div>
+<p>配置文件并启动所有节点</p>
+
+<p>Redis 集群由多个运行在集群模式（cluster mode）下的 Redis 实例组成， 实 例的集群模式需要通过配置来开启， 开启集群模式的实例将可以使用集群特有 的功能和命令。 以下是一个包含了最少选项的集群配置文件示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">vim /data/7000/redis.conf
+
+port 7000
+
+daemonize yes
+
+pidfile /data/7000/redis.pid
+
+loglevel notice
+
+logfile “/data/7000/redis.log”
+
+dbfilename dump.rdb
+
+dir /data/7000
+
+cluster-enabled yes
+
+cluster-config-file nodes.conf
+
+cluster-node-timeout 5000
+
+appendonly yes
+
+vim /data/7001/redis.conf
+
+port 7001
+
+daemonize yes
+
+pidfile /data/7001/redis.pid
+
+loglevel notice
+
+logfile “/data/7001/redis.log”
+
+dbfilename dump.rdb
+
+dir /data/7001
+
+cluster-enabled yes
+
+cluster-config-file nodes.conf
+
+cluster-node-timeout 5000
+
+appendonly yes
+
+vim /data/7002/redis.conf
+
+port 7002
+
+daemonize yes
+
+pidfile /data/7002/redis.pid
+
+loglevel notice
+
+logfile “/data/7002/redis.log”
+
+dbfilename dump.rdb
+
+dir /data/7002
+
+cluster-enabled yes
+
+cluster-config-file nodes.conf
+
+cluster-node-timeout 5000
+
+appendonly yes
+
+vim /data/7003/redis.conf
+
+port 7003
+
+daemonize yes
+
+pidfile /data/7003/redis.pid
+
+loglevel notice
+
+logfile “/data/7003/redis.log”
+
+dbfilename dump.rdb
+
+dir /data/7003
+
+cluster-enabled yes
+
+cluster-config-file nodes.conf
+
+cluster-node-timeout 5000
+
+appendonly yes
+
+vim /data/7004/redis.conf
+
+port 7004
+
+daemonize yes
+
+pidfile /data/7004/redis.pid
+
+loglevel notice
+
+logfile “/data/7004/redis.log”
+
+dbfilename dump.rdb
+
+dir /data/7004
+
+cluster-enabled yes
+
+cluster-config-file nodes.conf
+
+cluster-node-timeout 5000
+
+appendonly yes
+
+vim /data/7005/redis.conf
+
+port 7005
+
+daemonize yes
+
+pidfile /data/7005/redis.pid
+
+loglevel notice
+
+logfile “/data/7005/redis.log”
+
+dbfilename dump.rdb
+
+dir /data/7005
+
+cluster-enabled yes
+
+cluster-config-file nodes.conf
+
+cluster-node-timeout 5000
+
+appendonly yes</pre></td></tr></table>
+</div>
+</div>
+<p>启动所有节点</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">redis-server /data/7000/redis.conf
+
+redis-server /data/7001/redis.conf
+
+redis-server /data/7002/redis.conf
+
+redis-server /data/7003/redis.conf
+
+redis-server /data/7004/redis.conf
+
+redis-server /data/7005/redis.conf</pre></td></tr></table>
+</div>
+</div>
+<p>节点加入集群</p>
+
+<p>给定 redis-trib.rb 程序的命令是 create ， 这表示我们希望创建一个新的 集群。 选项 –replicas 1 表示我们希望为集群中的每个主节点创建一个从节点。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">redis-trib.rb create –replicas 1 127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005</pre></td></tr></table>
+</div>
+</div>
+<p>数据同不测试 重新分片</p>
+
+<p>redis-cli -c -p 7000</p>
+
+<p>set foo bar</p>
+
+<p>get foo</p>
+
+<p>./redis-trib.rb reshard 127.0.0.1:7000</p>
+
+<p><strong>集群管理</strong></p>
+
+<p>集群master状态</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">redis-cli -p 7000 cluster nodes | grep master</pre></td></tr></table>
+</div>
+</div>
+<p>故障转移</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">redis-cli -p 7002 debug segfault</pre></td></tr></table>
+</div>
+</div>
+<p>查看slave状态</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">redis-cli -p 7000 cluster nodes | grep slave</pre></td></tr></table>
+</div>
+</div>
+<p>删除节点：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">redis-trib.rb del-node 127.0.0.1:7006 ‘0a5f00373765976741a99ff5446f4799a425e4c6’</pre></td></tr></table>
+</div>
+</div>
+<p>增加新的主节点</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">./redis-trib.rb add-node 127.0.0.1:7006 127.0.0.1:7000</pre></td></tr></table>
+</div>
+</div>
+<p>删除一个节点</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">redis-trib ?del-node ?ip:port? ‘&lt;node-id&gt;’?</pre></td></tr></table>
+</div>
+</div>
+<p>删除master节点之前首先要使用reshard移除master的全部slot,然后再删除当前节点</p>
+
+<p>添加一个从节点</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">./redis-trib.rb?add-node? –slave? –master-id ?$[nodeid]?127.0.0.1:7008?127.0.0.1:7000??</pre></td></tr></table>
+</div>
+</div>
+<p>状态说明
+集群最近一次向节点发送 PING 命令之后， 过去了多长时间还没 接到回复。 节点最近一次返回 PONG 回复的时间。</p>
+
+<p>节点的配置节点（configuration epoch）：详细信息请参考 Redis 集群规范 。</p>
+
+<p>本节点的网络连接情况：例如 connected 。 节点目前包含的槽：例如 127.0.0.1:7001 目前包含号码为 5960 至 10921 的哈希槽。</p>
+
+<p><strong>Redis API</strong></p>
+
+<p>PHP使用redis</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">tar zxvf 2.2.7.tar.gz
+
+cd phpredis-2.2.7 /data/server/php/bin/phpize
+
+./configure –with-php-config=/data/server/php/bin/php-config
+
+make &amp;&amp; make install
+
+echo ‘extension=”redis.so”‘ &gt;&gt; /data/server/php/etc/php.ini
+
+service php-fpm restart
+
+service nginx restart</pre></td></tr></table>
+</div>
+</div>
+<p>连接代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">&lt;?php
+
+//连接本地的 Redis 服务
+
+$redis = new Redis();
+
+$redis-&gt;connect(‘127.0.0.1’, 6379);
+
+echo “Connection to server sucessfully”;
+
+//查看服务是否运行
+
+echo “Server is running: ” . $redis-&gt;ping();
+
+?&gt;
+
+字符串操作
+&lt;?php
+
+//连接本地的 Redis 服务
+
+$redis = new Redis();
+
+$redis-&gt;connect(‘127.0.0.1’, 6379);
+
+echo “Connection to server sucessfully”;
+
+//设置 redis 字符串数据
+
+$redis-&gt;set(“tutorial-name”, “Redis tutorial”);
+
+// 获取存储的数据并输出
+
+echo “Stored string in redis:: ” . $redis&gt;get(“tutorial-name”);
+
+?&gt;</pre></td></tr></table>
+</div>
+</div>
+<p><strong>Python连接redis</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">pip install redis
+
+&gt;&gt;&gt; import redis
+
+&gt;&gt;&gt; r = redis.StrictRedis(host=’localhost’, port=6379,
+
+db=0)
+
+&gt;&gt;&gt; r.set(‘foo’, ‘bar’)
+
+True
+
+&gt;&gt;&gt; r.get(‘foo’)
+
+‘bar</pre></td></tr></table>
+</div>
+</div>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/nosql/">NoSQl</a>
+
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/redis/">Redis</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/mongodb%E7%AE%80%E4%BB%8B%E6%90%AD%E5%BB%BA%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%8F%8A%E5%A4%8D%E5%88%B6%E9%9B%86%E7%AE%A1%E7%90%86%E6%93%8D%E4%BD%9C/" data-tooltip="MongoDB简介搭建用户管理及复制集管理操作">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Eleven. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/mongodb%E7%AE%80%E4%BB%8B%E6%90%AD%E5%BB%BA%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%8F%8A%E5%A4%8D%E5%88%B6%E9%9B%86%E7%AE%A1%E7%90%86%E6%93%8D%E4%BD%9C/" data-tooltip="MongoDB简介搭建用户管理及复制集管理操作">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Eleven</h4>
+    
+      <div id="about-card-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        SRE
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        BeiJing
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://veh47.github.io/images/cover-v1.2.0.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://veh47.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

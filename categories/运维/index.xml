@@ -21,15 +21,6 @@
     </item>
     
     <item>
-      <title>Redis&#43;keepalive</title>
-      <link>https://veh47.github.io/2019/09/redis-keepalive/</link>
-      <pubDate>Sat, 28 Sep 2019 17:00:36 +0800</pubDate>
-      
-      <guid>https://veh47.github.io/2019/09/redis-keepalive/</guid>
-      <description>&lt;p&gt;Keepalived 实现VRRP（虚拟路由冗余）协议，从路由级别实现VIP切换，可以完全避免类似heartbeat脑裂问题，可以很好的实现主从、主备、互备方案，尤其是无状态业务，有状态业务就需要额外花些功夫了。既然Mysql可以使用Keepalived很好的做到主从切换，那么Redis自然可以使用这种方式实现高可用。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
       <title>防止手残rm</title>
       <link>https://veh47.github.io/2019/09/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/</link>
       <pubDate>Sat, 28 Sep 2019 16:59:57 +0800</pubDate>

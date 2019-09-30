@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Eleven">
+<meta name="keywords" content="">
+<meta name="description" content="分片集群理论
+
+高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询 量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统 的内存而将压力转移到磁盘IO上。 为了解决这些问题,有两个基本的方法: 垂直扩展和水平扩展。">
+
+
+<meta property="og:description" content="分片集群理论
+
+高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询 量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统 的内存而将压力转移到磁盘IO上。 为了解决这些问题,有两个基本的方法: 垂直扩展和水平扩展。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB分片集群搭建及数据备份恢复迁移">
+<meta name="twitter:title" content="MongoDB分片集群搭建及数据备份恢复迁移">
+<meta property="og:url" content="https://veh47.github.io/2019/09/mongodb%E5%88%86%E7%89%87%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D%E8%BF%81%E7%A7%BB/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/09/mongodb%E5%88%86%E7%89%87%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D%E8%BF%81%E7%A7%BB/">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="分片集群理论
+
+高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询 量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统 的内存而将压力转移到磁盘IO上。 为了解决这些问题,有两个基本的方法: 垂直扩展和水平扩展。">
+<meta name="twitter:description" content="分片集群理论
+
+高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询 量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统 的内存而将压力转移到磁盘IO上。 为了解决这些问题,有两个基本的方法: 垂直扩展和水平扩展。">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-09-30T09:55:03">
+  
+  
+    <meta property="article:modified_time" content="2019-09-30T09:55:03">
+  
+  
+  
+    
+      <meta property="article:section" content="NoSQl">
+    
+  
+  
+    
+      <meta property="article:tag" content="NoSQl">
+    
+      <meta property="article:tag" content="MongoDB">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://veh47.github.io/images/coffice.png">
+  <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
+
+
+    <title>MongoDB分片集群搭建及数据备份恢复迁移</title>
+
+    <link rel="icon" href="https://veh47.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://veh47.github.io/2019/09/mongodb%E5%88%86%E7%89%87%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D%E8%BF%81%E7%A7%BB/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://veh47.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="3">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://veh47.github.io/">Eleven</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://veh47.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="3">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://veh47.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Eleven</h4>
+        
+          <h5 class="sidebar-profile-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/VEH47/veh47.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="3"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      MongoDB分片集群搭建及数据备份恢复迁移
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-30T09:55:03&#43;08:00">
+        
+  九月 30, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://veh47.github.io/categories/nosql">NoSQl</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p><strong>分片集群理论</strong></p>
+
+<p>高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询 量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统 的内存而将压力转移到磁盘IO上。 为了解决这些问题,有两个基本的方法: 垂直扩展和水平扩展。</p>
+
+<p>垂直扩展：增加更多的CPU和存储资源来扩展容量。</p>
+
+<p>水平扩展：将数据集分布在多个服务器上。水平扩展即分片。</p>
+
+<p>分布式存储: 能够将大数据，按照一定的算法，均匀的分布到不同的节点上. 能够按照原有设计的存储策略，提取数据。除了实现分布式存储，还要考虑数据热点问题。</p>
+
+<p><strong>Mongodb分片集群（原生态的分布式集群）</strong></p>
+
+<p>（1）分布式存储系统，并自带了自动分片和均衡的特性</p>
+
+<p>（2）将来能不能程一个分布式的业务系统，取决于使用者。</p>
+
+<p><strong>分片集群的构造</strong>
+（1）mongos ：数据路由，和客户端打交道的模块。mongos本身没有任何数据，他也不知道该怎么处理这数据，去找config server</p>
+
+<p>（2）config server：所有存、取数据的方式，所有shard节点的信息，分片功能的一些配置信息。可以理解为真实数据的元数据。</p>
+
+<p>（3）shard：真正的数据存储位置，以chunk为单位存数据。</p>
+
+<p><strong>分片集群的数据分布（shard节点 chunk自带的,平均分配到所有节点）</strong></p>
+
+<p>（1）使用chunk来存储数据</p>
+
+<p>（2）进群搭建完成之后，默认开启一个chunk，大小是64M，</p>
+
+<p>（3）存储需求超过64M，chunk会进行分裂，如果单位时间存储需求很大，设置更大的chunk</p>
+
+<p>（4）chunk会被自动均衡迁移。</p>
+
+<p><strong>分片应用:</strong></p>
+
+<p>为了防止出现大量的chunk均衡迁移，可能造成的IO压力。我们需要设置合理分片使用策略（片键的选择、分片算法（range、hash））</p>
+
+<p><strong>分片注意：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">分片键是不可变。
+
+分片键必须有索引。
+
+分片键大小限制512bytes。
+
+分片键用于路由查询。</pre></td></tr></table>
+</div>
+</div>
+<p>MongoDB不接受已进行collection级分片的collection上插入无分片键的文档（也不支持空值插入）</p>
+
+<p>建议：</p>
+
+<p>递增的sharding key</p>
+
+<p>数据文件挪动小。（优势）</p>
+
+<p>因为数据文件递增，所以会把insert的写IO永久放在最后一片上，造成最后一片的写热点。</p>
+
+<p>同时，随着最后一片的数据量增大，将不断的发生迁移至之前的片上。</p>
+
+<p>随机的sharding key</p>
+
+<p>数据分布均匀，insert的写IO均匀分布在多个片上。（优势）</p>
+
+<p>大量的随机IO，磁盘不堪重荷。</p>
+
+<p>混合型key</p>
+
+<p>大方向随机递增。</p>
+
+<p>小范围随机分布。</p>
+
+<p><strong>范围（RANGE）分片</strong></p>
+
+<p>Sharded Cluster支持将单个集合的数据分散存储在多shard上，用户可 以指定根据集合内文档的某个字段即shard key来进行范围分片（range sharding）</p>
+
+<p><strong>Hash分片</strong></p>
+
+<p>Hash分片与范围分片互补，能将文档随机的分散到各个chunk，充分的 扩展写能力，弥补了范围分片的不足，但不能高效的服务范围查询，所有 的范围查询要分发到后端所有的Shard才能找出满足条件的文档</p>
+
+<p><strong>chunksize的选择</strong></p>
+
+<p>适合业务的chunksize是最好的。</p>
+
+<p>• chunk的分裂和迁移：非常消耗IO资源。</p>
+
+<p>• chunk分裂的时机：插入和更新，读数据不会分裂。</p>
+
+<p>• chunksize的选择：</p>
+
+<p>– 小的chunksize：数据均衡是迁移速度快，数据分布更均匀。数 据分裂频繁，路由节点消耗更多资源。</p>
+
+<p>– 大的chunksize：数据分裂少。数据块移动集中消耗IO资源。</p>
+
+<p>– 通常100-200M</p>
+
+<p><strong>Mongos均衡特性——chunk分裂及迁移</strong></p>
+
+<p>随着数据的增长，其中的数据大小超过了配置的chunk size，默 认是64M，则这个chunk就会分裂成两个。数据的增长会让chunk分裂 得越来越多。这时候，各个shard 上的chunk数量就会不平衡。这时 候，mongos中的一个组件balancer就会执行自动平衡。把chunk从 chunk数量最多的shard节点挪动到数量最少的节点。</p>
+
+<p><strong>Mongos的路由功能</strong>
+当数据写入时，MongoDB Cluster根 据分片键设计写入数据。</p>
+
+<p>• 当外部语句发起数据查询时， MongoDB根据数据分布自动路由至指 定节点返回数据。</p>
+
+<p><strong>MongoDB分片集群规划</strong>
+mongos
+1台</p>
+
+<p>端口：29017</p>
+
+<p>目录规划：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">/mongodb/29017/
+
+/mongodb/29017/conf
+
+/mongodb/29017/log
+
+/mongodb/29017/data
+
+/mongodb/29017/conf/mongos.conf
+
+configserver</pre></td></tr></table>
+</div>
+</div>
+<p>3台构成复制集</p>
+
+<p>注意：不能有arbiter</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">onfigserver:
+
+port：28018,28019,28020 端口：29018、29019、29020
+
+replSetName: configReplSet
+
+clusterRole: configsvr</pre></td></tr></table>
+</div>
+</div>
+<p>目录规划：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">/mongodb/29018/
+
+/mongodb/29018/conf
+
+/mongodb/29018/log
+
+/mongodb/29018/data
+
+/mongodb/29018/conf/mongod.conf
+
+/mongodb/29019/
+
+/mongodb/29019/conf
+
+/mongodb/29019/log
+
+/mongodb/29019/data
+
+/mongodb/29019/conf/mongod.conf
+
+/mongodb/29020/
+
+/mongodb/29020/conf
+
+/mongodb/29020/log
+
+/mongodb/29020/data
+
+/mongodb/29020/conf/mongod.conf</pre></td></tr></table>
+</div>
+</div>
+<p>复制集名字：configReplSet</p>
+
+<p>shard节点
+6台</p>
+
+<p>两套复制集</p>
+
+<p>端口：</p>
+
+<p>29021 29022 29023</p>
+
+<p>29024 29025 29026</p>
+
+<p>复制集名字
+：sh1</p>
+
+<p>shard1：</p>
+
+<p>port:28021,28022,28023</p>
+
+<p>replSetName: sh1</p>
+
+<p>clusterRole: shardsvr</p>
+
+<p>/mongodb/29021/</p>
+
+<p>/mongodb/29021/conf</p>
+
+<p>/mongodb/29021/log</p>
+
+<p>/mongodb/29021/data</p>
+
+<p>/mongodb/29021/conf/mongod.conf</p>
+
+<p>/mongodb/29022/</p>
+
+<p>/mongodb/29022/conf</p>
+
+<p>/mongodb/29022/log</p>
+
+<p>/mongodb/29022/data</p>
+
+<p>/mongodb/29022/conf/mongod.conf</p>
+
+<p>/mongodb/29023/</p>
+
+<p>/mongodb/29023/conf</p>
+
+<p>/mongodb/29023/log</p>
+
+<p>/mongodb/29023/data</p>
+
+<p>/mongodb/29023/conf/mongod.conf</p>
+
+<p>复制集名字：sh2</p>
+
+<p>shard2:</p>
+
+<p>port:28024,28025,28026</p>
+
+<p>replSetName: sh2</p>
+
+<p>clusterRole: shardsvr</p>
+
+<p>/mongodb/29024/</p>
+
+<p>/mongodb/29024/conf</p>
+
+<p>/mongodb/29024/log</p>
+
+<p>/mongodb/29024/data</p>
+
+<p>/mongodb/29024/conf/mongod.conf</p>
+
+<p>/mongodb/29025/</p>
+
+<p>/mongodb/29025/conf</p>
+
+<p>/mongodb/29025/log</p>
+
+<p>/mongodb/29025/data</p>
+
+<p>/mongodb/29025/conf/mongod.conf</p>
+
+<p>/mongodb/29026/</p>
+
+<p>/mongodb/29026/conf</p>
+
+<p>/mongodb/29026/log</p>
+
+<p>/mongodb/29026/data</p>
+
+<p>/mongodb/29026/conf/mongod.conf</p>
+
+<p><strong>分片集群搭建</strong></p>
+
+<p>shard复制集配置(最少两组,每组3个节点一主两从)</p>
+
+<p>mkdir -p /mongodb/28021/conf /mongodb/28021/log /mongodb/28021/data</p>
+
+<p>mkdir -p /mongodb/28022/conf /mongodb/28022/log /mongodb/28022/data</p>
+
+<p>mkdir -p /mongodb/28023/conf /mongodb/28023/log /mongodb/28023/data</p>
+
+<p>mkdir -p /mongodb/28024/conf /mongodb/28024/log /mongodb/28024/data</p>
+
+<p>mkdir -p /mongodb/28025/conf /mongodb/28025/log /mongodb/28025/data</p>
+
+<p>mkdir -p /mongodb/28026/conf /mongodb/28026/log /mongodb/28026/data</p>
+
+<p>修改配置文件
+[root@server1 mongodb]# cd /mongodb</p>
+
+<p>[root@server1 mongodb]# vim 28021/conf/mongodb.conf</p>
+
+<p>[root@server1 mongodb]# vim 28022/conf/mongodb.conf</p>
+
+<p>[root@server1 mongodb]# vim 28023/conf/mongodb.conf</p>
+
+<p>[root@server1 mongodb]# vim 28024/conf/mongodb.conf</p>
+
+<p>[root@server1 mongodb]# vim 28025/conf/mongodb.conf</p>
+
+<p>[root@server1 mongodb]# vim 28026/conf/mongodb.conf</p>
+
+<p>根据需求修改相应参数：</p>
+
+<p>systemLog:</p>
+
+<p>destination: file</p>
+
+<p>path: /mongodb/28021/log/mongodb.log ###28021_主/28022/28022/28023/28024_主/28025/28026</p>
+
+<p>logAppend: true</p>
+
+<p>storage:</p>
+
+<p>journal:</p>
+
+<p>enabled: true</p>
+
+<p>dbPath: /mongodb/28021/data ##/28021_主/28022/28022/28023/28024_主/28025/28026</p>
+
+<p>directoryPerDB: true</p>
+
+<p>#engine: wiredTiger</p>
+
+<p>wiredTiger:</p>
+
+<p>engineConfig:</p>
+
+<p>cacheSizeGB: 1</p>
+
+<p>directoryForIndexes: true</p>
+
+<p>collectionConfig:</p>
+
+<p>blockCompressor: zlib</p>
+
+<p>indexConfig:</p>
+
+<p>prefixCompression: true</p>
+
+<p>net:</p>
+
+<p>bindIp: 10.0.0.54</p>
+
+<p>port: 28021 ###/28021_主/28022/28022/28023/28024_主/28025/28026</p>
+
+<p>replication:</p>
+
+<p>oplogSizeMB: 2048</p>
+
+<p>replSetName: sh1 ######sh1/sh2</p>
+
+<p>sharding:</p>
+
+<p>clusterRole: shardsvr</p>
+
+<p>processManagement:</p>
+
+<p>fork: true</p>
+
+<p>注意修改完成之后，将所有目录授权(如果不是普通用户mongod需要修改,如果是则不需要修改)</p>
+
+<p>chown -R mongod:mongod /mongodb</p>
+
+<p>启动所有节点，并搭建复制集：</p>
+
+<p>mongod -f /mongodb/28021/conf/mongodb.conf</p>
+
+<p>mongod -f /mongodb/28022/conf/mongodb.conf</p>
+
+<p>mongod -f /mongodb/28023/conf/mongodb.conf</p>
+
+<p>mongod -f /mongodb/28024/conf/mongodb.conf</p>
+
+<p>mongod -f /mongodb/28025/conf/mongodb.conf</p>
+
+<p>mongod -f /mongodb/28026/conf/mongodb.conf</p>
+
+<p>mongo 10.0.0.54:28021 进入主节点</p>
+
+<p>use admin 切换的管理库</p>
+
+<p>config = {_id: ‘sh1’, members: [</p>
+
+<p>{_id: 0, host: ‘10.0.0.54:28021’},</p>
+
+<p>{_id: 1, host: ‘10.0.0.54:28022’},</p>
+
+<p>{_id: 2, host: ‘10.0.0.54:28023’,”arbiterOnly”:true}]</p>
+
+<p>}</p>
+
+<p>rs.initiate(config)</p>
+
+<p>mongo 10.0.0.54:28024 进入主节点</p>
+
+<p>use admin 切换的管理库</p>
+
+<p>config = {_id: ‘sh2’, members: [</p>
+
+<p>{_id: 0, host: ‘10.0.0.54:28024’},</p>
+
+<p>{_id: 1, host: ‘10.0.0.54:28025’},</p>
+
+<p>{_id: 2, host: ‘10.0.0.54:28026’,”arbiterOnly”:true}]</p>
+
+<p>}</p>
+
+<p>rs.initiate(config)</p>
+
+<p>config节点配置</p>
+
+<p>mkdir -p /mongodb/28018/conf /mongodb/28018/log /mongodb/28018/data</p>
+
+<p>mkdir -p /mongodb/28019/conf /mongodb/28019/log /mongodb/28019/data</p>
+
+<p>mkdir -p /mongodb/28020/conf /mongodb/28020/log /mongodb/28020/data</p>
+
+<p>修改配置文件</p>
+
+<p>[mongod@server1 ~]$ vim /mongodb/28018/conf/mongodb.conf</p>
+
+<p>[mongod@server1 ~]$ vim /mongodb/28019/conf/mongodb.conf</p>
+
+<p>[mongod@server1 ~]$ vim /mongodb/28020/conf/mongodb.conf</p>
+
+<p>systemLog:</p>
+
+<p>destination: file</p>
+
+<p>path: /mongodb/28018/log/mongodb.log</p>
+
+<p>logAppend: true</p>
+
+<p>storage:</p>
+
+<p>journal:</p>
+
+<p>enabled: true</p>
+
+<p>dbPath: /mongodb/28018/data</p>
+
+<p>directoryPerDB: true</p>
+
+<p>#engine: wiredTiger</p>
+
+<p>wiredTiger:</p>
+
+<p>engineConfig:</p>
+
+<p>cacheSizeGB: 1</p>
+
+<p>directoryForIndexes: true</p>
+
+<p>collectionConfig:</p>
+
+<p>blockCompressor: zlib</p>
+
+<p>indexConfig:</p>
+
+<p>prefixCompression: true</p>
+
+<p>net:</p>
+
+<p>bindIp: 10.0.0.54</p>
+
+<p>port: 28018</p>
+
+<p>replication:</p>
+
+<p>oplogSizeMB: 2048</p>
+
+<p>replSetName: configReplSet</p>
+
+<p>sharding:</p>
+
+<p>clusterRole: configsvr</p>
+
+<p>processManagement:</p>
+
+<p>fork: true</p>
+
+<p>cp /mongodb/28018/conf/mongodb.conf /mongodb/28019/conf/</p>
+
+<p>cp /mongodb/28018/conf/mongodb.conf /mongodb/28020/conf/</p>
+
+<p>sed ‘s#28018#28019#g’ /mongodb/28019/conf/mongodb.conf -i</p>
+
+<p>sed ‘s#28018#28020#g’ /mongodb/28020/conf/mongodb.conf -i</p>
+
+<p>启动节点，并配置复制集</p>
+
+<p>mongod -f /mongodb/28018/conf/mongodb.conf</p>
+
+<p>mongod -f /mongodb/28019/conf/mongodb.conf</p>
+
+<p>mongod -f /mongodb/28020/conf/mongodb.conf</p>
+
+<p>mongo 10.0.0.54:28018 进入主节点</p>
+
+<p>use admin</p>
+
+<p>config = {_id: ‘configReplSet’, members: [</p>
+
+<p>{_id: 0, host: ‘10.0.0.54:28018’},</p>
+
+<p>{_id: 1, host: ‘10.0.0.54:28019’},</p>
+
+<p>{_id: 2, host: ‘10.0.0.54:28020’}]</p>
+
+<p>}</p>
+
+<blockquote>
+<p>rs.initiate(config)</p>
+</blockquote>
+
+<p>mongos节点配置：</p>
+
+<p>mkdir -p /mongodb/28017/conf /mongodb/28017/log /mongodb/28017/data</p>
+
+<p>配置文件</p>
+
+<p>vim /mongodb/28017/conf/mongos.conf</p>
+
+<p>systemLog:</p>
+
+<p>destination: file</p>
+
+<p>path: /mongodb/28017/log/mongos.log</p>
+
+<p>logAppend: true</p>
+
+<p>net:</p>
+
+<p>bindIp: 10.0.0.54</p>
+
+<p>port: 28017</p>
+
+<p>sharding:</p>
+
+<p>configDB: configReplSet/10.0.0.54:28108,10.0.0.54:28019,10.0.0.54:28020</p>
+
+<p>processManagement:</p>
+
+<p>fork: true</p>
+
+<p>启动mongos</p>
+
+<p>mongos -f /mongodb/28017/conf/mongos.conf</p>
+
+<p>注：mongodb 3.4之后，虽然要求config server为replica set，但是不支持arbiter</p>
+
+<p><strong>分片集群操作</strong></p>
+
+<p>连接到其中一个mongos（10.0.0.54），做以下配置</p>
+
+<p>（1）连接到mongs的admin数据库</p>
+
+<p>mongo 10.0.0.54:28017/admin</p>
+
+<p>（2）添加分片</p>
+
+<p>db.runCommand( { addshard : “sh1/10.0.0.54:28021,10.0.0.54:28022,10.0.0.54:28023″,name:”shard1”} )</p>
+
+<p>db.runCommand( { addshard : “sh2/10.0.0.54:28024,10.0.0.54:28025,10.0.0.54:28026″,name:”shard2”} )</p>
+
+<p>（3）列出分片</p>
+
+<p>mongos&gt; db.runCommand( { listshards : 1 } )</p>
+
+<p>（4）整体状态查看</p>
+
+<p>mongos&gt; sh.status();</p>
+
+<p><strong>分片常用命令</strong></p>
+
+<p>激活数据库分片功能</p>
+
+<p>mongo 10.0.0.54:28017/admin 进入mongos节点</p>
+
+<p>admin&gt; ( { enablesharding : “数据库名称” } )</p>
+
+<p>例：</p>
+
+<p>admin&gt; db.runCommand( { enablesharding : “test” } )</p>
+
+<p><strong>指定分片键 对集合分片</strong></p>
+
+<p>例: 范围片键</p>
+
+<p>–创建索引</p>
+
+<p>admin&gt; db.vast.ensureIndex( { id: 1 } )</p>
+
+<p>admin&gt; db.runCommand( { shardcollection : “test.vast”,key : {id: 1} } )</p>
+
+<p>集合分片验证</p>
+
+<p>admin&gt; use test</p>
+
+<p>test&gt; for(i=0;i&lt;20000;i++){ db.vast.insert({“id”:i,”name”:”shenzheng”,”age”:70,”date”:new Date()}); }</p>
+
+<p>test&gt; db.vast.stats()</p>
+
+<p><strong>分片键</strong></p>
+
+<p>范围分片键</p>
+
+<p>admin&gt; sh.shardCollection(“数据库名称.集合名称”,key : {分片键: 1} )</p>
+
+<p>或</p>
+
+<p>admin&gt; db.runCommand( { shardcollection : “数据库名称.集合名称”,key : {分片键: 1} } )</p>
+
+<p>例：</p>
+
+<p>admin &gt; sh.shardCollection(“test.vast”,key : {id: 1} )</p>
+
+<p>或</p>
+
+<p>admin&gt; db.runCommand( { shardcollection : “test.vast”,key : {id: 1} } )</p>
+
+<p><strong>hash分片键</strong></p>
+
+<p>admin &gt; sh.shardCollection( “数据库名.集合名”, { 片键: “hashed” } )</p>
+
+<p>例：</p>
+
+<p>创建哈希索引</p>
+
+<p>use admin</p>
+
+<p>admin&gt; db.runCommand( { enablesharding : “oldboy” } )</p>
+
+<p>use oldboy</p>
+
+<p>oldboy&gt; db.vast.ensureIndex( { id: “hashed” } )</p>
+
+<p>use admin</p>
+
+<p>admin &gt; sh.shardCollection( “oldboy.vast”, { id: “hashed” } )</p>
+
+<p>use oldboy</p>
+
+<p>for(i=0;i&lt;10000;i++){ db.vast.insert({“id”:i,”name”:”shenzheng”,”age”:70,”date”:new Date()}); }</p>
+
+<p>oldboy&gt; db.vast.stats()</p>
+
+<p><strong>判断是否Shard集群</strong></p>
+
+<p>admin&gt; db.runCommand({ isdbgrid : 1})</p>
+
+<p><strong>列出所有分片信息</strong></p>
+
+<p>admin&gt; db.runCommand({ listshards : 1})</p>
+
+<p><strong>列出开启分片的数据库</strong></p>
+
+<p>admin&gt; use config</p>
+
+<p>config&gt; db.databases.find( { “partitioned”: true } )</p>
+
+<p>config&gt; db.databases.find() 列出所有数据库分片情况</p>
+
+<p><strong>查看分片的片键</strong></p>
+
+<p>mongos&gt; use config</p>
+
+<p>switched to db config</p>
+
+<p>mongos&gt; db.collections.find()</p>
+
+<p>{ “_id” : “test.vast”,</p>
+
+<p>“lastmodEpoch” : ObjectId(“5a9fa30875b523ce837f2a3b”),</p>
+
+<p>“lastmod” : ISODate(“1970-02-19T17:02:47.296Z”),</p>
+
+<p>“dropped” : false, “key” : { “id” : 1 },</p>
+
+<p>“unique” : false</p>
+
+<p>}</p>
+
+<p>查看分片的详细信息</p>
+
+<p>admin&gt; db.printShardingStatus()</p>
+
+<p>或</p>
+
+<p>admin&gt; sh.status()</p>
+
+<p><strong>删除分片节点</strong></p>
+
+<p>sh.getBalancerState()</p>
+
+<p>mongos&gt; db.runCommand( { removeShard: “shard2” } )</p>
+
+<p><strong>blancer操作</strong></p>
+
+<p>mongos&gt; sh.stopBalancer()</p>
+
+<p>mongos&gt; sh.startBalancer()</p>
+
+<p>自定义</p>
+
+<p>自动平衡进行的时间段</p>
+
+<p>connect to mongos</p>
+
+<blockquote>
+<p>db.settings.update({ _id : “balancer” }, { $set : { activeWindow : { start : “00:00”, stop : “5:00” } } }, true )</p>
+</blockquote>
+
+<p>关闭某个集合的balance</p>
+
+<p>sh.disableBalancing(“students.grades”)</p>
+
+<p>打开某个集合的balance</p>
+
+<p>sh.enableBalancing(“students.grades”)</p>
+
+<p>确定某个集合的balance是开启或者关闭</p>
+
+<p>db.getSiblingDB(“config”).collections.findOne({_id : “students.grades”}).noBalance;</p>
+
+<p><strong>mongodb数据备份恢复</strong></p>
+
+<p>mongodump 和mongoexport的区别</p>
+
+<p>mongodump可以backup整个数据库，而mongoexport要对每个collection进行操作，最主要的区别也是选择的标准是mongoexport输出的JSON比Mongodump的BSON可读性更高，进而可以直接对JSON文件进行操作然后还原数据（BSON转换JSON存在潜在兼容问题）。</p>
+
+<p>Mongodb自带了mongodump和mongorestore这两个工具来实现对数据的备份和恢复</p>
+
+<p>mongoexport/mongoimport导入/导出的是JSON格式或者CSV格式，</p>
+
+<p>mongodump/mongorestore导入/导出的是BSON格式。</p>
+
+<p>JSON可读性强但体积较大，BSON则是二进制文件，体积小但对人类几乎没有可读性。</p>
+
+<p>在一些mongodb版本之间，BSON格式可能会随版本不同而有所不同，所以不同版本之间用mongodump/mongorestore可能不会成功，具体要看版本之间的兼容性。当无法使用BSON进行跨版本的数据迁移的时候，使用JSON格式即mongoexport/mongoimport是一个可选项。</p>
+
+<p>跨版本的mongodump/mongorestore个人并不推荐，实在要做请先检查文档看两个版本是否兼容（大部分时候是的）。</p>
+
+<p>JSON虽然具有较好的跨版本通用性，但其只保留了数据部分，不保留索引，账户等其他基础信息。使用时应该注意。</p>
+
+<p><strong>mongodump和mongorestore介绍</strong></p>
+
+<p>mongodump能够在Mongodb运行时进行备份，它的工作原理是对运行的Mongodb做查询，然后将所有查到的文档写入磁盘。但是存在的问题是使用mongodump产生的备份不一定是数据库的实时快照，如果我们在备份时对数据库进行了写入操作，则备份出来的文件可能不完全和Mongodb实时数据相等。另外在备份时可能会对其它客户端性能产生不利的影响。</p>
+
+<p>mongodump用法(用于备份)</p>
+
+<p>$ mongodump –help</p>
+
+<p>参数说明：</p>
+
+<p>-h:指明数据库宿主机的IP -u:指明数据库的用户名</p>
+
+<p>-p:指明数据库的密码 -d:指明数据库的名字</p>
+
+<p>-c:指明collection的名字 -o:指明到要导出的文件名</p>
+
+<p>-q:指明导出数据的过滤条件</p>
+
+<p>-j, –numParallelCollections= number of collections to dump in parallel (4 by default)</p>
+
+<p>具体使用示例如下</p>
+
+<p>cd /home/mongod/backup/</p>
+
+<p>–备份test库</p>
+
+<p>$ mongodump -h 10.0.0.54:30000 -uroot -proot –authenticationDatabase admin -d test -o /home/mongod/backup/</p>
+
+<p>–备份test库下的vast集合</p>
+
+<p>$ mongodump -h 10.0.0.54:30000 -uroot -proot –authenticationDatabase admin -d test -c vast -o /home/mongod/backup/</p>
+
+<p>–压缩备份</p>
+
+<p>$ mongodump -h 10.0.0.54:30000 -uroot -proot –authenticationDatabase admin -d test -o /home/mongod/backup/ –gzip</p>
+
+<p>$ mongodump -h 10.0.0.54:30000 -uroot -proot –authenticationDatabase admin -d test -c vast -o /home/mongod/backup/ –gzip</p>
+
+<p><strong>mongorestore的用法(用于恢复备份)</strong></p>
+
+<p>mongorestore是Mongodb从备份中恢复数据的工具，它主要用来获取mongodump的输出结果，并将备份的数据插入到运行的Mongodb中。</p>
+
+<p>mongorestore命令使用方法如下</p>
+
+<p>参数说明：</p>
+
+<p>-h:指明数据库宿主机的IP -u:指明数据库的用户名</p>
+
+<p>-p:指明数据库的密码 -d:指明数据库的名字</p>
+
+<p>-c:指明collection的名字</p>
+
+<p>-j, –numParallelCollections= number of collections to restore in parallel (4 by default)</p>
+
+<p>–恢复test库</p>
+
+<p>$ mongorestore -h 10.0.0.54:30000 -uroot -proot –authenticationDatabase admin -d test /home/mongod/backup/test/</p>
+
+<p>–恢复test库下的vast集合</p>
+
+<p>$ mongorestore -h 10.0.0.54:30000 -uroot -proot –authenticationDatabase admin -d test -c vast /home/mongod/backup/test/vast.bson</p>
+
+<p>注：–drop表示恢复的时候把之前的集合drop掉</p>
+
+<p>$ mongorestore -h 10.0.0.54:30000 -uroot -proot –authenticationDatabase admin -d test –drop /home/mongod/backup/test/</p>
+
+<p>$ mongorestore -h 10.0.0.54:30000 -uroot -proot –authenticationDatabase admin -d test -c vast –drop /home/mongod/backup/test/vast.bson</p>
+
+<p>注：</p>
+
+<p>1、如果要恢复的表已经存在，可以添加–drop ，自动删除原表</p>
+
+<p>2、如果有用户验证，需要使用root或者需要备份的对象有权限的用户才可以</p>
+
+<p>而且要添加对用户的验证库 –authenticationDatabase</p>
+
+<p>-uroot -proot –authenticationDatabase admin</p>
+
+<p><strong>oplog企业级应用</strong></p>
+
+<p>作用介绍：–oplog 会记录备份过程中的数据变化。会以oplog.bson保存下来</p>
+
+<p>（1）实现热备，在备份时使用–oplog选项</p>
+
+<p>注：为了演示效果我们在备份过程，模拟数据插入</p>
+
+<p>use test</p>
+
+<p>for(var i = 0; i &lt; 1000; i++) {</p>
+
+<p>db.foo.insert({a: i});</p>
+
+<p>}</p>
+
+<p>for(var i = 1000; i &lt; 2000; i++) {</p>
+
+<p>db.foo.insert({a: i});</p>
+
+<p>}</p>
+
+<p>for(var i = 0; i &lt; 100; i++) {</p>
+
+<p>db.oldboy.insert({a: i});</p>
+
+<p>}</p>
+
+<p>备份</p>
+
+<p>mkdir /mongodb/bak</p>
+
+<p>mongodump –port 28024 –oplog -o /mongodb/bak</p>
+
+<p>恢复</p>
+
+<p>mongorestore –port 28024 –oplogReplay /mongodb/bak</p>
+
+<p>备份oplog.rs 并做实时点恢复</p>
+
+<p>环境模拟：</p>
+
+<p>1、插入100000行数据，在插入时进行备份</p>
+
+<p>2、误删除一条数据</p>
+
+<p>要求：恢复数据库数据，并排除误删除之前的数据</p>
+
+<p>mongodump –port 28024 -d local -c oplog.rs -o /mongodb/bak</p>
+
+<p>cd /mongodb/bak/local</p>
+
+<p>bsondump oplog.rs.bson | grep “\”op\”:\”d\”” | head</p>
+
+<p>{“b”:true,”h”:{“$numberLong”:”5331406427126597755″},”ns”:”test.foo”,”o”:{“_id”:{“$oid”:”5602cdf1befd4a4bfb4d149b”}},”op”:”d”,”ts”:{“$timestamp”:{“t”:1443024507,”i”:1}},”v”:2}</p>
+
+<p>bsondump oplog.rs.bson |grep “\”ns\”:\”test.foo\””|grep “\”op\”:\”d\”” | head</p>
+
+<p>“op”:”d”和”ns”:”test.foo”条件的行从文件中快速过滤出来，一共100w行数据</p>
+
+<p>“t”:1520406260,”i”:1</p>
+
+<p>mongorestore -h 127.0.0.1 –port 27018 –oplogReplay –oplogLimit “1511221787:1102” /mongodb/bak/local</p>
+
+<p>注意:需要将备份出来的oplog.rs.bson，挪到备份路径下/mongodb/bak,并重命名为oplog.bson</p>
+
+<p>复制集备份策略</p>
+
+<p>每天做mongodump全备+oplog.rs,定时清理oplog</p>
+
+<p><strong>分片集群的备份思路（了解）</strong></p>
+
+<p>1、你要备份什么？</p>
+
+<p>config server</p>
+
+<p>shard 节点</p>
+
+<p>单独进行备份</p>
+
+<p>2、备份有什么困难和问题</p>
+
+<p>（1）chunk迁移的问题</p>
+
+<p>人为控制在备份的时候，避开迁移的时间窗口</p>
+
+<p>（2）shard节点之间的数据不在同一时间点。</p>
+
+<p>选业务量较少的时候</p>
+
+<p>3、有什么思路去解决问题</p>
+
+<p>mongodb数据的迁移(使用mongoexport和mongoimport)</p>
+
+<p>创建集合插入数据</p>
+
+<p>admin&gt; use app</p>
+
+<p>app&gt; for(i=0;i&lt;200;i++){ db.vast.insert({“id”:i,”name”:”shenzheng”,”age”:70,”date”:new Date()}); }</p>
+
+<p>app&gt; db.vast.find()</p>
+
+<p><strong>导出工具mongoexport</strong></p>
+
+<p>Mongodb中的mongoexport工具可以把一个collection导出成JSON格式或CSV格式的文件。可以通过参数指定导出的数据项，也可以根据指定的条件导出数据。</p>
+
+<p>mongoexport具体用法如下所示：</p>
+
+<p>参数说明：</p>
+
+<p>-h:指明数据库宿主机的IP -u:指明数据库的用户名</p>
+
+<p>-p:指明数据库的密码 -d:指明数据库的名字</p>
+
+<p>-c:指明collection的名字 -f:指明要导出那些列</p>
+
+<p>-o:指明到要导出的文件名 -q:指明导出数据的过滤条件</p>
+
+<p>–authenticationDatabase admin</p>
+
+<p>–备份app库下的vast集合</p>
+
+<p>$ mongoexport -h 192.168.1.21:30000 -uroot -pgrjin –authenticationDatabase admin -d app -c vast -o /home/mongod/backup/vasts.dat</p>
+
+<p>注：备份文件的名字可以自定义，默认导出了JSON格式的数据。</p>
+
+<p>如果我们需要导出CSV格式的数据，则需要使用–csv参数：</p>
+
+<p>$ mongoexport -h 192.168.1.21:30000 -uroot -pgrjin –authenticationDatabase admin -d app -c vast –type=csv -f id,name -o /home/mongod/backup/vast_csv.dat</p>
+
+<p><strong>导入工具mongoimport</strong></p>
+
+<p>Mongodb中的mongoimport工具可以把一个特定格式文件中的内容导入到指定的collection中。该工具可以导入JSON格式数据，也可以导入CSV格式数据</p>
+
+<p>参数说明：</p>
+
+<p>-h:指明数据库宿主机的IP -u:指明数据库的用户名</p>
+
+<p>-p:指明数据库的密码 -d:指明数据库的名字</p>
+
+<p>-c:指明collection的名字 -f:指明要导入那些列</p>
+
+<p>-j, –numInsertionWorkers=<number> number of insert operations to run concurrently</p>
+
+<p>示例：先删除vast中的数据，并验证</p>
+
+<p>app&gt; db.vast.remove({})</p>
+
+<p>然后再导入上面导出的vasts.dat文件中的内容</p>
+
+<p>$ mongoimport -h 192.168.1.21:30000 -uroot -pgrjin –authenticationDatabase admin -d app -c vast vasts.json</p>
+
+<p>上面演示的是导入JSON格式的文件中的内容，如果要导入CSV格式文件中的内容，则需要通过–type参数指定导入格式，具体如下所示：</p>
+
+<p>先删除数据</p>
+
+<p>app&gt; db.vast.remove({})</p>
+
+<p>再导入之前导出的vast_csv.dat文件</p>
+
+<p>$ mongoimport -h 192.168.1.21:30000 -uroot -pgrjin –authenticationDatabase admin -d app -c vast –type=csv –headerline –file vast_csv.dat</p>
+
+<p>-headerline:指明第一行是列名，不需要导入。</p>
+
+<p>补充 导入CSV文件P_T_HISTXN_20160616.csv（csv文件中没有列明，fields指定列明）
+$ tail -5 P_T_HISTXN_20160616.csv</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/nosql/">NoSQl</a>
+
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/mongodb/">MongoDB</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/mysql-mha%E9%AB%98%E5%8F%AF%E7%94%A8%E6%89%A9%E5%B1%95-atlas%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E5%8D%81/" data-tooltip="Mysql MHA高可用扩展 Atlas读写分离(十)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/mongodb%E7%AE%80%E4%BB%8B%E6%90%AD%E5%BB%BA%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%8F%8A%E5%A4%8D%E5%88%B6%E9%9B%86%E7%AE%A1%E7%90%86%E6%93%8D%E4%BD%9C/" data-tooltip="MongoDB简介搭建用户管理及复制集管理操作">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Eleven. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/mysql-mha%E9%AB%98%E5%8F%AF%E7%94%A8%E6%89%A9%E5%B1%95-atlas%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E5%8D%81/" data-tooltip="Mysql MHA高可用扩展 Atlas读写分离(十)">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/mongodb%E7%AE%80%E4%BB%8B%E6%90%AD%E5%BB%BA%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%8F%8A%E5%A4%8D%E5%88%B6%E9%9B%86%E7%AE%A1%E7%90%86%E6%93%8D%E4%BD%9C/" data-tooltip="MongoDB简介搭建用户管理及复制集管理操作">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Eleven</h4>
+    
+      <div id="about-card-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        SRE
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        BeiJing
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://veh47.github.io/images/cover-v1.2.0.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://veh47.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
