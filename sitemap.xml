@@ -4,16 +4,61 @@
   
   <url>
     <loc>https://veh47.github.io/archives/</loc>
-    <lastmod>2019-09-30T09:55:37+08:00</lastmod>
+    <lastmod>2019-10-06T14:47:28+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://veh47.github.io/categories/</loc>
-    <lastmod>2019-09-30T09:55:37+08:00</lastmod>
+    <lastmod>2019-10-06T14:47:28+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://veh47.github.io/</loc>
+    <lastmod>2019-10-06T14:47:28+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veh47.github.io/categories/golang/</loc>
+    <lastmod>2019-10-06T14:47:28+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veh47.github.io/tags/golang/</loc>
+    <lastmod>2019-10-06T14:47:28+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veh47.github.io/archives/golang/</loc>
+    <lastmod>2019-10-06T14:47:28+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veh47.github.io/2019/10/go%E5%B8%B8%E9%87%8F-3/</loc>
+    <lastmod>2019-10-06T14:47:28+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veh47.github.io/post/</loc>
+    <lastmod>2019-10-06T14:47:28+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veh47.github.io/tags/</loc>
+    <lastmod>2019-10-06T14:47:28+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veh47.github.io/2019/10/go%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8F%8A%E6%A0%BC%E5%BC%8F%E5%8D%8E%E6%93%8D%E4%BD%9C-2/</loc>
+    <lastmod>2019-10-06T14:47:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veh47.github.io/2019/10/go%E5%9F%BA%E7%A1%80%E4%BB%8B%E7%BB%8D-1/</loc>
+    <lastmod>2019-10-06T13:45:35+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veh47.github.io/tags/nosql/</loc>
     <lastmod>2019-09-30T09:55:37+08:00</lastmod>
   </url>
   
@@ -23,17 +68,7 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/tags/nosql/</loc>
-    <lastmod>2019-09-30T09:55:37+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://veh47.github.io/archives/nosql/</loc>
-    <lastmod>2019-09-30T09:55:37+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://veh47.github.io/post/</loc>
     <lastmod>2019-09-30T09:55:37+08:00</lastmod>
   </url>
   
@@ -44,11 +79,6 @@
   
   <url>
     <loc>https://veh47.github.io/2019/09/redis%E6%B5%85%E8%B0%88/</loc>
-    <lastmod>2019-09-30T09:55:37+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://veh47.github.io/tags/</loc>
     <lastmod>2019-09-30T09:55:37+08:00</lastmod>
   </url>
   
@@ -68,12 +98,12 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/archives/mysql/</loc>
+    <loc>https://veh47.github.io/categories/mysql/</loc>
     <lastmod>2019-09-29T18:08:15+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://veh47.github.io/categories/mysql/</loc>
+    <loc>https://veh47.github.io/archives/mysql/</loc>
     <lastmod>2019-09-29T18:08:15+08:00</lastmod>
   </url>
   
@@ -198,12 +228,12 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/archives/%E7%BD%91%E7%BB%9C/</loc>
+    <loc>https://veh47.github.io/categories/%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2019-09-29T15:43:42+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://veh47.github.io/categories/%E7%BD%91%E7%BB%9C/</loc>
+    <loc>https://veh47.github.io/archives/%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2019-09-29T15:43:42+08:00</lastmod>
   </url>
   
@@ -273,17 +303,17 @@
   </url>
   
   <url>
+    <loc>https://veh47.github.io/tags/kvm/</loc>
+    <lastmod>2019-09-29T14:13:51+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://veh47.github.io/categories/kvm/</loc>
     <lastmod>2019-09-29T14:13:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://veh47.github.io/archives/kvm/</loc>
-    <lastmod>2019-09-29T14:13:51+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://veh47.github.io/tags/kvm/</loc>
     <lastmod>2019-09-29T14:13:51+08:00</lastmod>
   </url>
   
@@ -298,12 +328,12 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/tags/docker/</loc>
+    <loc>https://veh47.github.io/archives/docker/</loc>
     <lastmod>2019-09-29T10:48:50+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://veh47.github.io/archives/docker/</loc>
+    <loc>https://veh47.github.io/tags/docker/</loc>
     <lastmod>2019-09-29T10:48:50+08:00</lastmod>
   </url>
   
@@ -338,12 +368,12 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/archives/%E6%80%9D%E6%82%9F/</loc>
+    <loc>https://veh47.github.io/categories/%E6%80%9D%E6%82%9F/</loc>
     <lastmod>2019-09-23T23:26:09+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://veh47.github.io/categories/%E6%80%9D%E6%82%9F/</loc>
+    <loc>https://veh47.github.io/archives/%E6%80%9D%E6%82%9F/</loc>
     <lastmod>2019-09-23T23:26:09+08:00</lastmod>
   </url>
   
