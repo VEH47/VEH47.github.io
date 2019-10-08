@@ -12,14 +12,14 @@
 
 Go 语言内置的运算符有：算术运算符、关系运算符、逻辑运算符、位运算符、赋值运算符、其他运算符。
 
-Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化操作。">
+Go 语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如 C#和 Java）不同，下面是我整理的一些常用的格式化操作。">
 
 
 <meta property="og:description" content="运算符用于在程序运行时执行数学或逻辑运算
 
 Go 语言内置的运算符有：算术运算符、关系运算符、逻辑运算符、位运算符、赋值运算符、其他运算符。
 
-Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化操作。">
+Go 语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如 C#和 Java）不同，下面是我整理的一些常用的格式化操作。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go运算符及格式华操作 2">
 <meta name="twitter:title" content="Go运算符及格式华操作 2">
@@ -30,12 +30,12 @@ Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比
 
 Go 语言内置的运算符有：算术运算符、关系运算符、逻辑运算符、位运算符、赋值运算符、其他运算符。
 
-Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化操作。">
+Go 语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如 C#和 Java）不同，下面是我整理的一些常用的格式化操作。">
 <meta name="twitter:description" content="运算符用于在程序运行时执行数学或逻辑运算
 
 Go 语言内置的运算符有：算术运算符、关系运算符、逻辑运算符、位运算符、赋值运算符、其他运算符。
 
-Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化操作。">
+Go 语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如 C#和 Java）不同，下面是我整理的一些常用的格式化操作。">
 <meta property="og:locale" content="zh-cn">
 
   
@@ -261,74 +261,226 @@ Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比
 
 <p>Go 语言内置的运算符有：算术运算符、关系运算符、逻辑运算符、位运算符、赋值运算符、其他运算符。</p>
 
-<p>Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化操作。</p>
+<p>Go 语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如 C#和 Java）不同，下面是我整理的一些常用的格式化操作。</p>
 
 <h1 id="运算符">运算符</h1>
 
 <p><strong>逻辑运算符</strong></p>
 
-<p>运算符| 描述
-&ndash;|:&ndash;:|
-&amp;&amp; | AND的关系, 如果两边操作都是true, 则条件为true, 否则false
-|| | OR的关系, 如果两边操作有一个为true, 则条件为true, 否则false
-!  | NOT的关系, 如果条件为true, 则NOT条件为false, 否则为true</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>&amp;&amp;</td>
+<td align="center">AND 的关系, 如果两边操作都是 true, 则条件为 true, 否则 false</td>
+</tr>
+
+<tr>
+<td></td>
+<td align="center"></td>
+</tr>
+
+<tr>
+<td>!</td>
+<td align="center">NOT 的关系, 如果条件为 true, 则 NOT 条件为 false, 否则为 true</td>
+</tr>
+</tbody>
+</table>
 
 <p><strong>位运算符</strong></p>
 
-<p>运算符| 描述
-&ndash;|:&ndash;:|
-&amp;  | 按位与运算符&rdquo;&amp;&rdquo; 是双目运算符, 其功能是参与运算的两数各对应的二进位相与
-|  | 按位与运算符&rdquo;|&rdquo; 是双目运算符, 其功能是参与运算的两数各对应的二进位相或
-^  | 按位异运算符&rdquo;^&rdquo; 是双目运算符, 其功能是参与运算的两数各对应的二进位相异或, 当两队应得二进位相异时, 结果为1
-&lt;&lt; | 左移运算符&rdquo;&lt;&lt;&rdquo; 是双目运算符, 左移n位就是乘以2得n次方. 其功能把 &lt;&lt;左边得运算数得各二进位全部左移若干位, 由 &lt;&lt; 右边的数指定移动的位数, 高位丢弃, 低位补0
-&gt;&gt; | 右移运算符&rdquo;&gt;&gt;&rdquo; 是双目运算符, 右移n位就是乘以2得n次方. 其功能把 &gt;&gt;左边得运算数得各二进位全部右移若干位, 由 &gt;&gt; 右边的数指定移动的位数</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>&amp;</td>
+<td align="center">按位与运算符&rdquo;&amp;&rdquo; 是双目运算符, 其功能是参与运算的两数各对应的二进位相与</td>
+</tr>
+
+<tr>
+<td></td>
+<td align="center">按位与运算符&rdquo;</td>
+</tr>
+
+<tr>
+<td>^</td>
+<td align="center">按位异运算符&rdquo;^&rdquo; 是双目运算符, 其功能是参与运算的两数各对应的二进位相异或, 当两队应得二进位相异时, 结果为 1</td>
+</tr>
+
+<tr>
+<td>&lt;&lt;</td>
+<td align="center">左移运算符&rdquo;&lt;&lt;&rdquo; 是双目运算符, 左移 n 位就是乘以 2 得 n 次方. 其功能把 &lt;&lt;左边得运算数得各二进位全部左移若干位, 由 &lt;&lt; 右边的数指定移动的位数, 高位丢弃, 低位补 0</td>
+</tr>
+
+<tr>
+<td>&gt;&gt;</td>
+<td align="center">右移运算符&rdquo;&gt;&gt;&rdquo; 是双目运算符, 右移 n 位就是乘以 2 得 n 次方. 其功能把 &gt;&gt;左边得运算数得各二进位全部右移若干位, 由 &gt;&gt; 右边的数指定移动的位数</td>
+</tr>
+</tbody>
+</table>
 
 <p><strong>赋值运算符</strong></p>
 
-<p>运算符| 描述
-&ndash;|:&ndash;:|
-=   | 将值赋给一个左值
-+=  | 相加后再赋值
--=  | 相减后再赋值
-*=  | 相乘后再赋值
-/=  | 相除后再赋值
-%=  | 求余后再赋值
-&lt;&lt;= | 左移后赋值
-&gt;&gt;= | 右移后赋值
-&amp;=  | 按位与后赋值
-^=  | 按位异或后赋值
-|=  | 按位或后赋值</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>=</td>
+<td align="center">将值赋给一个左值</td>
+</tr>
+
+<tr>
+<td>+=</td>
+<td align="center">相加后再赋值</td>
+</tr>
+
+<tr>
+<td>-=</td>
+<td align="center">相减后再赋值</td>
+</tr>
+
+<tr>
+<td>*=</td>
+<td align="center">相乘后再赋值</td>
+</tr>
+
+<tr>
+<td>/=</td>
+<td align="center">相除后再赋值</td>
+</tr>
+
+<tr>
+<td>%=</td>
+<td align="center">求余后再赋值</td>
+</tr>
+
+<tr>
+<td>&lt;&lt;=</td>
+<td align="center">左移后赋值</td>
+</tr>
+
+<tr>
+<td>&gt;&gt;=</td>
+<td align="center">右移后赋值</td>
+</tr>
+
+<tr>
+<td>&amp;=</td>
+<td align="center">按位与后赋值</td>
+</tr>
+
+<tr>
+<td>^=</td>
+<td align="center">按位异或后赋值</td>
+</tr>
+
+<tr>
+<td>=</td>
+<td align="center">按位或后赋值</td>
+</tr>
+</tbody>
+</table>
 
 <p><strong>其他运算符</strong></p>
 
-<p>运算符| 描述
-&ndash;|:&ndash;:|
-% | 取地址符,返回变量存储地址
-* | 取值符, 返回指针的变量</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>%</td>
+<td align="center">取地址符,返回变量存储地址</td>
+</tr>
+
+<tr>
+<td>*</td>
+<td align="center">取值符, 返回指针的变量</td>
+</tr>
+</tbody>
+</table>
 
 <p><strong>运算符优先级</strong></p>
 
 <p>有些运算符拥有较高的优先级，二元运算符的运算方向均是从左至右。下表列出了所有运算符以及它们的优先级，由上至下代表优先级由高到低：</p>
 
-<p>优先级| 运算符
-&ndash;|:&ndash;:|
-7 | ^!
-6 | * / % &lt;&lt; &gt;&gt;  &amp; &amp;^
-5 | + - | ^
-4 | == != &lt; &lt;= &gt; =&gt;
-3 | &lt;-
-2 | &amp;&amp;
-1 | ||</p>
+<table>
+<thead>
+<tr>
+<th>优先级</th>
+<th align="center">运算符</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>7</td>
+<td align="center">^!</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td align="center">* / % &lt;&lt; &gt;&gt; &amp; &amp;^</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td align="center">+ -</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td align="center">== != &lt; &lt;= &gt; =&gt;</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td align="center">&lt;-</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td align="center">&amp;&amp;</td>
+</tr>
+
+<tr>
+<td>1</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
 
 <p><strong>特殊标识符</strong></p>
 
 <p>“_”是特殊标识符，又称占位符（空标识符号），用来忽略结果。</p>
 
-<p>特殊标识符应用在import中</p>
+<p>特殊标识符应用在 import 中</p>
 
-<p>在Go语言里，import的作用是导入其他package。</p>
+<p>在 Go 语言里，import 的作用是导入其他 package。</p>
 
-<p>特殊标识符（如：import _ oldboy/golang）的作用：当导入一个包时，该包下的文件里所有init()函数都会被执行，然而，有些时候我们并不需要把整个包都导入进来，仅仅是是希望它执行init()函数而已。这个时候就可以使用 import _ 引用该包。即使用（import _ 包路径）只是引用该包，仅仅是为了调用init()函数，所以无法通过包名来调用包中的其他函数。</p>
+<p>特殊标识符（如：import _ oldboy/golang）的作用：当导入一个包时，该包下的文件里所有 init()函数都会被执行，然而，有些时候我们并不需要把整个包都导入进来，仅仅是是希望它执行 init()函数而已。这个时候就可以使用 import _ 引用该包。即使用（import _ 包路径）只是引用该包，仅仅是为了调用 init()函数，所以无法通过包名来调用包中的其他函数。</p>
 
 <p>示例：</p>
 <div class="highlight"><div class="chroma">
@@ -378,7 +530,7 @@ Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比
 <span class="kn">import</span> <span class="nx">_</span> <span class="s">&#34;./oldboy&#34;</span>
 
 <span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// oldboy.Print() 
+    <span class="c1">// oldboy.Print()
 </span><span class="c1"></span>    <span class="c1">//编译报错：./main.go:6:5: undefined: oldboy
 </span><span class="c1"></span><span class="p">}</span>
 <span class="nx">oldboy</span><span class="p">.</span><span class="k">go</span>
@@ -423,65 +575,279 @@ Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比
 
 <p><strong>普通占位符</strong></p>
 
-<p>占位符| 说明 | 举例
-&ndash;|:&ndash;:|:&ndash;:|
-%v  | 以默认方式打印变量值           | fmt.Printf(&ldquo;%v&rdquo;,site)
-%+v | 在打印结构体时会添加字段名      | fmt.Printf(&ldquo;%+v&rdquo;,site)
-%#v | 在打印结构体时会添加字段名和包名 | fmt.Printf(&ldquo;%#v&rdquo;,site)
-%T  | 打印变量类型                   | fmt.Printf(&ldquo;%T&rdquo;,site)
-%%  | 字面上的百分号, 并非值得占位符  | fmt.Printf(&ldquo;%%&rdquo;)</p>
+<table>
+<thead>
+<tr>
+<th>占位符</th>
+<th align="center">说明</th>
+<th align="center">举例</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>%v</td>
+<td align="center">以默认方式打印变量值</td>
+<td align="center">fmt.Printf(&ldquo;%v&rdquo;,site)</td>
+</tr>
+
+<tr>
+<td>%+v</td>
+<td align="center">在打印结构体时会添加字段名</td>
+<td align="center">fmt.Printf(&ldquo;%+v&rdquo;,site)</td>
+</tr>
+
+<tr>
+<td>%#v</td>
+<td align="center">在打印结构体时会添加字段名和包名</td>
+<td align="center">fmt.Printf(&ldquo;%#v&rdquo;,site)</td>
+</tr>
+
+<tr>
+<td>%T</td>
+<td align="center">打印变量类型</td>
+<td align="center">fmt.Printf(&ldquo;%T&rdquo;,site)</td>
+</tr>
+
+<tr>
+<td>%%</td>
+<td align="center">字面上的百分号, 并非值得占位符</td>
+<td align="center">fmt.Printf(&ldquo;%%&rdquo;)</td>
+</tr>
+</tbody>
+</table>
 
 <p><strong>布尔占位符</strong></p>
 
-<p>占位符| 说明 | 举例
-&ndash;|:&ndash;:|:&ndash;:|
-%t | 打印true或false | fmt.Printf(&ldquo;%t&rdquo;,true)</p>
+<table>
+<thead>
+<tr>
+<th>占位符</th>
+<th align="center">说明</th>
+<th align="center">举例</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>%t</td>
+<td align="center">打印 true 或 false</td>
+<td align="center">fmt.Printf(&ldquo;%t&rdquo;,true)</td>
+</tr>
+</tbody>
+</table>
 
 <p><strong>整数占位符</strong></p>
 
-<p>占位符| 说明 | 举例
-&ndash;|:&ndash;:|:&ndash;:|
-%b | 表示为二进制                | fmt.Printf(&ldquo;%b&rdquo;,100)
-%c | 该值对应的unicode码值       | fmt.Printf(&ldquo;%c&rdquo;,0x4E2D)
-%d | 表示为十进制                | fmt.Printf(&ldquo;%d&rdquo;,0x12)
-%o | 表示为八进制                | fmt.Printf(&ldquo;%d&rdquo;,10)
-%q | 该值对应的单引号括起来的go语法字符字面值, 必要时会采用安全的转义表示 | fmt.Printf(&ldquo;%q&rdquo;,0x4E2D)
-%x | 十六进制表示, 字母小写a-f    | fmt.Printf(&ldquo;%x&rdquo;,13)
-%X | 十六进制表示, 字母大写A-F    | fmt.Printf(&ldquo;%x&rdquo;,13)
-%U | 表示为Unicode格式, U+1234 等价于&rdquo;U+%04X&rdquo; | fmt.Printf(&ldquo;%U&rdquo;,0x4E2D)</p>
+<table>
+<thead>
+<tr>
+<th>占位符</th>
+<th align="center">说明</th>
+<th align="center">举例</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>%b</td>
+<td align="center">表示为二进制</td>
+<td align="center">fmt.Printf(&ldquo;%b&rdquo;,100)</td>
+</tr>
+
+<tr>
+<td>%c</td>
+<td align="center">该值对应的 unicode 码值</td>
+<td align="center">fmt.Printf(&ldquo;%c&rdquo;,0x4E2D)</td>
+</tr>
+
+<tr>
+<td>%d</td>
+<td align="center">表示为十进制</td>
+<td align="center">fmt.Printf(&ldquo;%d&rdquo;,0x12)</td>
+</tr>
+
+<tr>
+<td>%o</td>
+<td align="center">表示为八进制</td>
+<td align="center">fmt.Printf(&ldquo;%d&rdquo;,10)</td>
+</tr>
+
+<tr>
+<td>%q</td>
+<td align="center">该值对应的单引号括起来的 go 语法字符字面值, 必要时会采用安全的转义表示</td>
+<td align="center">fmt.Printf(&ldquo;%q&rdquo;,0x4E2D)</td>
+</tr>
+
+<tr>
+<td>%x</td>
+<td align="center">十六进制表示, 字母小写 a-f</td>
+<td align="center">fmt.Printf(&ldquo;%x&rdquo;,13)</td>
+</tr>
+
+<tr>
+<td>%X</td>
+<td align="center">十六进制表示, 字母大写 A-F</td>
+<td align="center">fmt.Printf(&ldquo;%x&rdquo;,13)</td>
+</tr>
+
+<tr>
+<td>%U</td>
+<td align="center">表示为 Unicode 格式, U+1234 等价于&rdquo;U+%04X&rdquo;</td>
+<td align="center">fmt.Printf(&ldquo;%U&rdquo;,0x4E2D)</td>
+</tr>
+</tbody>
+</table>
 
 <p><strong>浮点数和复数的组成部分（实部和虚部）</strong></p>
 
-<p>占位符| 说明 | 举例
-&ndash;|:&ndash;:|:&ndash;:|
-%e | (=%.6e)6位小数点,科学计数法. 如:-1234.456e+78 |fmt.Printf(&ldquo;%e&rdquo;, 10.2)
-%E | 科学计数法, 如: -1234.456E+78 |fmt.Printf(&ldquo;%e&rdquo;, 10.2)
-%f | (=%.6f)6位小数点, 有小数点而无指数, 如: 123.456 |fmt.Printf(&ldquo;%f&rdquo;, 10.2)
-%g | 根据情况选择%e或%f以产生更紧凑的(无末尾的0)输出 | fmt.Printf(&ldquo;%g&rdquo;, 10.20)
-%G | 根据情况选择%E或%f以产生更紧凑的(无末尾的)0输出 | fmt.Printf(&ldquo;%G&rdquo;, 10.20+2i)</p>
+<table>
+<thead>
+<tr>
+<th>占位符</th>
+<th align="center">说明</th>
+<th align="center">举例</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>%e</td>
+<td align="center">(=%.6e)6 位小数点,科学计数法. 如:-1234.456e+78</td>
+<td align="center">fmt.Printf(&ldquo;%e&rdquo;, 10.2)</td>
+</tr>
+
+<tr>
+<td>%E</td>
+<td align="center">科学计数法, 如: -1234.456E+78</td>
+<td align="center">fmt.Printf(&ldquo;%e&rdquo;, 10.2)</td>
+</tr>
+
+<tr>
+<td>%f</td>
+<td align="center">(=%.6f)6 位小数点, 有小数点而无指数, 如: 123.456</td>
+<td align="center">fmt.Printf(&ldquo;%f&rdquo;, 10.2)</td>
+</tr>
+
+<tr>
+<td>%g</td>
+<td align="center">根据情况选择%e 或%f 以产生更紧凑的(无末尾的 0)输出</td>
+<td align="center">fmt.Printf(&ldquo;%g&rdquo;, 10.20)</td>
+</tr>
+
+<tr>
+<td>%G</td>
+<td align="center">根据情况选择%E 或%f 以产生更紧凑的(无末尾的)0 输出</td>
+<td align="center">fmt.Printf(&ldquo;%G&rdquo;, 10.20+2i)</td>
+</tr>
+</tbody>
+</table>
 
 <p><strong>字符串与字节切片</strong></p>
 
-<p>占位符| 说明 | 举例
-&ndash;|:&ndash;:|:&ndash;:|
-%s       |  输出字符串表示(string类或[]byte) | fmt.Print(&ldquo;%s&rdquo;,[]byte(&ldquo;oldboy&rdquo;))
-%10s     |  输出字符串最小宽度为10(左右对齐)  | fmt.Print(&ldquo;%10s&rdquo;,&ldquo;oldboy&rdquo;)
-%-10s    |  输出字符串最小宽度为10(左右对齐)  | fmt.Print(&ldquo;%-10s&rdquo;,&ldquo;oldboy&rdquo;)
-%.5s     |  输出字符串最大宽度为5            | fmt.Print(&ldquo;%.5s&rdquo;,&ldquo;oldboy&rdquo;)
-%5.10s   |  输出字符串最小宽度为5,最大宽度为10 | fmt.Print(&ldquo;5.10s&rdquo;,&ldquo;oldboy&rdquo;)
-%-5.10s  |  输出字符串最小宽度为5,最大宽度为10(左对齐) | fmt.Print(&ldquo;-5.10s&rdquo;,&ldquo;oldboy&rdquo;)
-%5.3s    |  输出字符串宽度为5, 如果原字符串宽度大于3, 则截断| fmt.Print(&ldquo;%5.3s&rdquo;,&ldquo;oldboy&rdquo;)
-%010s    |  如果宽度小于10, 就会在字符串前面补0 | fmt.Print(&ldquo;%010s&rdquo;,&ldquo;oldboy&rdquo;)
-%q       |  双引号围绕的字符串,由go语法安全的转义 | fmt.Print(&ldquo;%q&rdquo;,&ldquo;oldboy&rdquo;)
-%x       |  十六进制, 小写字母, 每字节两个字符  | fmt.Print(&ldquo;%x&rdquo;,&ldquo;oldboy&rdquo;)
-%X       |  十六进制, 大写字母, 每字节两个字符  | fmt.Print(&ldquo;%X&rdquo;,&ldquo;oldboy&rdquo;)</p>
+<table>
+<thead>
+<tr>
+<th>占位符</th>
+<th align="center">说明</th>
+<th align="center">举例</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>%s</td>
+<td align="center">输出字符串表示(string 类或[]byte)</td>
+<td align="center">fmt.Print(&ldquo;%s&rdquo;,[]byte(&ldquo;oldboy&rdquo;))</td>
+</tr>
+
+<tr>
+<td>%10s</td>
+<td align="center">输出字符串最小宽度为 10(左右对齐)</td>
+<td align="center">fmt.Print(&ldquo;%10s&rdquo;,&ldquo;oldboy&rdquo;)</td>
+</tr>
+
+<tr>
+<td>%-10s</td>
+<td align="center">输出字符串最小宽度为 10(左右对齐)</td>
+<td align="center">fmt.Print(&ldquo;%-10s&rdquo;,&ldquo;oldboy&rdquo;)</td>
+</tr>
+
+<tr>
+<td>%.5s</td>
+<td align="center">输出字符串最大宽度为 5</td>
+<td align="center">fmt.Print(&ldquo;%.5s&rdquo;,&ldquo;oldboy&rdquo;)</td>
+</tr>
+
+<tr>
+<td>%5.10s</td>
+<td align="center">输出字符串最小宽度为 5,最大宽度为 10</td>
+<td align="center">fmt.Print(&ldquo;5.10s&rdquo;,&ldquo;oldboy&rdquo;)</td>
+</tr>
+
+<tr>
+<td>%-5.10s</td>
+<td align="center">输出字符串最小宽度为 5,最大宽度为 10(左对齐)</td>
+<td align="center">fmt.Print(&ldquo;-5.10s&rdquo;,&ldquo;oldboy&rdquo;)</td>
+</tr>
+
+<tr>
+<td>%5.3s</td>
+<td align="center">输出字符串宽度为 5, 如果原字符串宽度大于 3, 则截断</td>
+<td align="center">fmt.Print(&ldquo;%5.3s&rdquo;,&ldquo;oldboy&rdquo;)</td>
+</tr>
+
+<tr>
+<td>%010s</td>
+<td align="center">如果宽度小于 10, 就会在字符串前面补 0</td>
+<td align="center">fmt.Print(&ldquo;%010s&rdquo;,&ldquo;oldboy&rdquo;)</td>
+</tr>
+
+<tr>
+<td>%q</td>
+<td align="center">双引号围绕的字符串,由 go 语法安全的转义</td>
+<td align="center">fmt.Print(&ldquo;%q&rdquo;,&ldquo;oldboy&rdquo;)</td>
+</tr>
+
+<tr>
+<td>%x</td>
+<td align="center">十六进制, 小写字母, 每字节两个字符</td>
+<td align="center">fmt.Print(&ldquo;%x&rdquo;,&ldquo;oldboy&rdquo;)</td>
+</tr>
+
+<tr>
+<td>%X</td>
+<td align="center">十六进制, 大写字母, 每字节两个字符</td>
+<td align="center">fmt.Print(&ldquo;%X&rdquo;,&ldquo;oldboy&rdquo;)</td>
+</tr>
+</tbody>
+</table>
 
 <p><strong>指针</strong></p>
 
-<p>占位符| 说明 | 举例
-&ndash;|:&ndash;:|:&ndash;:|
-%p  | 十六进制表示,前缀0x | fmt.Print(&ldquo;%p&rdquo;,&amp;site)
-%#p |  不带前缀的0x | fmt.Print(&ldquo;%#p&rdquo;,&amp;site)</p>
+<table>
+<thead>
+<tr>
+<th>占位符</th>
+<th align="center">说明</th>
+<th align="center">举例</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>%p</td>
+<td align="center">十六进制表示,前缀 0x</td>
+<td align="center">fmt.Print(&ldquo;%p&rdquo;,&amp;site)</td>
+</tr>
+
+<tr>
+<td>%#p</td>
+<td align="center">不带前缀的 0x</td>
+<td align="center">fmt.Print(&ldquo;%#p&rdquo;,&amp;site)</td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div>
