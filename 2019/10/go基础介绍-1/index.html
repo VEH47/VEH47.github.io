@@ -243,60 +243,290 @@
             <div class="main-content-wrap">
               <p>数据类型介绍</p>
 
-<h3 id="1-25个关键字介绍">1. 25个关键字介绍</h3>
+<h3 id="1-25-个关键字介绍">1. 25 个关键字介绍</h3>
 
-<p>名称      |  作用
-   &ndash;|:&ndash;:|
-var       |    用于变量的声明
-const     |    用于常量的声明
-type      |    用于声明类型
-func      |    用于声明函数和方法
-package   |    用于声明包文件
-import    |    用于导入其它package
-return    |    用于从函数返回
-defer     |    延迟调用，在函数退出之前执行
-go        |    创建一个协程
-select    |    用于选择不同类型的通讯
-interface |    用于定义接口
-struct    |    用于定义数据类型
-chan      |    用于声明chan类型数据
-map       |    用于声明map类型数据
-range     |    用于遍历array、slice、map、channel数据
-break、case、continue、for、fallthrough、else、if、switch、goto、default |用于流程控制</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th align="center">作用</th>
+</tr>
+</thead>
 
-<h3 id="2-37个保留字">2. 37个保留字</h3>
+<tbody>
+<tr>
+<td>var</td>
+<td align="center">用于变量的声明</td>
+</tr>
 
-<p>Constants | true false iota nil
-   &ndash;|:&ndash;:|
-Types     | int int8 int16 int32 int64 <br> uint8 uint16 uint32 uint64 uintptr <br>  float32 float64 complex64 float128 bool byte string error
-Functions | make len cap new append copy close delete complex real imag panic recover</p>
+<tr>
+<td>const</td>
+<td align="center">用于常量的声明</td>
+</tr>
+
+<tr>
+<td>type</td>
+<td align="center">用于声明类型</td>
+</tr>
+
+<tr>
+<td>func</td>
+<td align="center">用于声明函数和方法</td>
+</tr>
+
+<tr>
+<td>package</td>
+<td align="center">用于声明包文件</td>
+</tr>
+
+<tr>
+<td>import</td>
+<td align="center">用于导入其它 package</td>
+</tr>
+
+<tr>
+<td>return</td>
+<td align="center">用于从函数返回</td>
+</tr>
+
+<tr>
+<td>defer</td>
+<td align="center">延迟调用，在函数退出之前执行</td>
+</tr>
+
+<tr>
+<td>go</td>
+<td align="center">创建一个协程</td>
+</tr>
+
+<tr>
+<td>select</td>
+<td align="center">用于选择不同类型的通讯</td>
+</tr>
+
+<tr>
+<td>interface</td>
+<td align="center">用于定义接口</td>
+</tr>
+
+<tr>
+<td>struct</td>
+<td align="center">用于定义数据类型</td>
+</tr>
+
+<tr>
+<td>chan</td>
+<td align="center">用于声明 chan 类型数据</td>
+</tr>
+
+<tr>
+<td>map</td>
+<td align="center">用于声明 map 类型数据</td>
+</tr>
+
+<tr>
+<td>range</td>
+<td align="center">用于遍历 array、slice、map、channel 数据</td>
+</tr>
+
+<tr>
+<td>break、case、continue、for、fallthrough、else、if、switch、goto、default</td>
+<td align="center">用于流程控制</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="2-37-个保留字">2. 37 个保留字</h3>
+
+<table>
+<thead>
+<tr>
+<th>Constants</th>
+<th align="center">true false iota nil</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Types</td>
+<td align="center">int int8 int16 int32 int64 <br> uint8 uint16 uint32 uint64 uintptr <br> float32 float64 complex64 float128 bool byte string error</td>
+</tr>
+
+<tr>
+<td>Functions</td>
+<td align="center">make len cap new append copy close delete complex real imag panic recover</td>
+</tr>
+</tbody>
+</table>
 
 <h3 id="3-内置类型">3. 内置类型</h3>
 
-<p><strong>类型</strong> | <strong>长度</strong> | <strong>默认值</strong> | <strong>说明</strong>
-   &ndash;|:&ndash;:|   &ndash;|:&ndash;:|
-bo           | 1    | false | bool 类型代表逻辑值, 有真值true和假值false
-byte         | 1    |0      | 是int8的别名
-rune         | 4    |0      | 是int32的别名, 代表Unicode代码点
-int uint     | 4或8 |0      | int有符号整数, uint没有
-int8 uint8   | 1    |0      |int8 -128 ~ 127 <br> uint8 0 ~ 255 <br> byte是uint的别名
-int16 uint16 | 2    |0      |int16 -32768 ~ 32767 <br> uint16 0 ~ 65535
-int32 uint32 |4     |0      |int32 -2147483648 ~ 2147483647 <br> uint32 0 ~ 4294967295 <br> rune是int32 的别名
-int64 uint64 | 8    |0      |int64 -9223372036854775808 ~ 9223372036854775807 <br> uint64 0 ~ 18446744073709551615
-float32      |4     |0      |单精度浮点型
-float64      |8     |0      |双精度浮点型
-complex64    |8     |(0+0i) | 复数类型
-complex128   |16    |(0+0i) |复数类型
-uintptr      | 4或8 |0      |指针类型<br>存储指针的uint32或uint64证书
-array        |      |默认值要根据数据类型确定, 如 var a [4]int 默认值为[0 0 0 0] | 值类型
-struct       |      |默认值要根据数据类型来确定| 值类型
-string       |      | **    |UTF-8 字符串
-slice        |      |nil    |引用类型
-map          |      |nil    |引用类型
-channel      |      |nil    |引用类型
-interface    |      |nil    |接口类型
-function     |      |nil    |函数类型
-error        |      | nil   | 错误类型</p>
+<table>
+<thead>
+<tr>
+<th><strong>类型</strong></th>
+<th align="center"><strong>长度</strong></th>
+<th><strong>默认值</strong></th>
+<th align="center"><strong>说明</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>bo</td>
+<td align="center">1</td>
+<td>false</td>
+<td align="center">bool 类型代表逻辑值, 有真值 true 和假值 false</td>
+</tr>
+
+<tr>
+<td>byte</td>
+<td align="center">1</td>
+<td>0</td>
+<td align="center">是 int8 的别名</td>
+</tr>
+
+<tr>
+<td>rune</td>
+<td align="center">4</td>
+<td>0</td>
+<td align="center">是 int32 的别名, 代表 Unicode 代码点</td>
+</tr>
+
+<tr>
+<td>int uint</td>
+<td align="center">4 或 8</td>
+<td>0</td>
+<td align="center">int 有符号整数, uint 没有</td>
+</tr>
+
+<tr>
+<td>int8 uint8</td>
+<td align="center">1</td>
+<td>0</td>
+<td align="center">int8 -128 ~ 127 <br> uint8 0 ~ 255 <br> byte 是 uint 的别名</td>
+</tr>
+
+<tr>
+<td>int16 uint16</td>
+<td align="center">2</td>
+<td>0</td>
+<td align="center">int16 -32768 ~ 32767 <br> uint16 0 ~ 65535</td>
+</tr>
+
+<tr>
+<td>int32 uint32</td>
+<td align="center">4</td>
+<td>0</td>
+<td align="center">int32 -2147483648 ~ 2147483647 <br> uint32 0 ~ 4294967295 <br> rune 是 int32 的别名</td>
+</tr>
+
+<tr>
+<td>int64 uint64</td>
+<td align="center">8</td>
+<td>0</td>
+<td align="center">int64 -9223372036854775808 ~ 9223372036854775807 <br> uint64 0 ~ 18446744073709551615</td>
+</tr>
+
+<tr>
+<td>float32</td>
+<td align="center">4</td>
+<td>0</td>
+<td align="center">单精度浮点型</td>
+</tr>
+
+<tr>
+<td>float64</td>
+<td align="center">8</td>
+<td>0</td>
+<td align="center">双精度浮点型</td>
+</tr>
+
+<tr>
+<td>complex64</td>
+<td align="center">8</td>
+<td>(0+0i)</td>
+<td align="center">复数类型</td>
+</tr>
+
+<tr>
+<td>complex128</td>
+<td align="center">16</td>
+<td>(0+0i)</td>
+<td align="center">复数类型</td>
+</tr>
+
+<tr>
+<td>uintptr</td>
+<td align="center">4 或 8</td>
+<td>0</td>
+<td align="center">指针类型<br>存储指针的 uint32 或 uint64 证书</td>
+</tr>
+
+<tr>
+<td>array</td>
+<td align="center"></td>
+<td>默认值要根据数据类型确定, 如 var a [4]int 默认值为[0 0 0 0]</td>
+<td align="center">值类型</td>
+</tr>
+
+<tr>
+<td>struct</td>
+<td align="center"></td>
+<td>默认值要根据数据类型来确定</td>
+<td align="center">值类型</td>
+</tr>
+
+<tr>
+<td>string</td>
+<td align="center"></td>
+<td>**</td>
+<td align="center">UTF-8 字符串</td>
+</tr>
+
+<tr>
+<td>slice</td>
+<td align="center"></td>
+<td>nil</td>
+<td align="center">引用类型</td>
+</tr>
+
+<tr>
+<td>map</td>
+<td align="center"></td>
+<td>nil</td>
+<td align="center">引用类型</td>
+</tr>
+
+<tr>
+<td>channel</td>
+<td align="center"></td>
+<td>nil</td>
+<td align="center">引用类型</td>
+</tr>
+
+<tr>
+<td>interface</td>
+<td align="center"></td>
+<td>nil</td>
+<td align="center">接口类型</td>
+</tr>
+
+<tr>
+<td>function</td>
+<td align="center"></td>
+<td>nil</td>
+<td align="center">函数类型</td>
+</tr>
+
+<tr>
+<td>error</td>
+<td align="center"></td>
+<td>nil</td>
+<td align="center">错误类型</td>
+</tr>
+</tbody>
+</table>
 
 <h3 id="4-内置函数">4. 内置函数</h3>
 
