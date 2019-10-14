@@ -6,10 +6,21 @@
     <description>Recent content in blog on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 23 Sep 2019 23:26:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 14 Oct 2019 09:57:34 +0800</lastBuildDate>
     
 	<atom:link href="https://veh47.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>为什么程序员在学习编程的时候什么都记不住</title>
+      <link>https://veh47.github.io/2019/10/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E5%9C%A8%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%97%B6%E5%80%99%E4%BB%80%E4%B9%88%E9%83%BD%E8%AE%B0%E4%B8%8D%E4%BD%8F/</link>
+      <pubDate>Mon, 14 Oct 2019 09:57:34 +0800</pubDate>
+      
+      <guid>https://veh47.github.io/2019/10/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E5%9C%A8%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%97%B6%E5%80%99%E4%BB%80%E4%B9%88%E9%83%BD%E8%AE%B0%E4%B8%8D%E4%BD%8F/</guid>
+      <description>&lt;p&gt;每个人都会在学习编程语言的时候，努力记住所有一切，这也不足为奇。虽然有些人可以过目不忘，直接在脑海里就能想出问题的解决方案，但普通人却不能。特别是那些刚开始学习和探索编程世界的人，比如我自己.&lt;br /&gt;
+我逐渐了解到，记住所有你接触过的代码是一件不可能的事情!&lt;br /&gt;
+那么问题来了：我们该怎么解决这个问题呢?&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>技术人员必经9个阶段</title>

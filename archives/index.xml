@@ -6,10 +6,19 @@
     <description>Recent content in Archives on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 08 Oct 2019 11:30:12 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 14 Oct 2019 09:57:34 +0800</lastBuildDate>
     
 	<atom:link href="https://veh47.github.io/archives/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>思悟</title>
+      <link>https://veh47.github.io/archives/%E6%80%9D%E6%82%9F/</link>
+      <pubDate>Mon, 14 Oct 2019 09:57:34 +0800</pubDate>
+      
+      <guid>https://veh47.github.io/archives/%E6%80%9D%E6%82%9F/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Kubernetes</title>
@@ -89,15 +98,6 @@
       <pubDate>Sun, 29 Sep 2019 10:48:50 +0800</pubDate>
       
       <guid>https://veh47.github.io/archives/docker/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>思悟</title>
-      <link>https://veh47.github.io/archives/%E6%80%9D%E6%82%9F/</link>
-      <pubDate>Mon, 23 Sep 2019 23:26:09 +0800</pubDate>
-      
-      <guid>https://veh47.github.io/archives/%E6%80%9D%E6%82%9F/</guid>
       <description></description>
     </item>
     

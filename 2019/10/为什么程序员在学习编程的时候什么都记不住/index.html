@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Eleven">
+<meta name="keywords" content="">
+<meta name="description" content="每个人都会在学习编程语言的时候，努力记住所有一切，这也不足为奇。虽然有些人可以过目不忘，直接在脑海里就能想出问题的解决方案，但普通人却不能。特别是那些刚开始学习和探索编程世界的人，比如我自己.
+我逐渐了解到，记住所有你接触过的代码是一件不可能的事情!
+那么问题来了：我们该怎么解决这个问题呢?">
+
+
+<meta property="og:description" content="每个人都会在学习编程语言的时候，努力记住所有一切，这也不足为奇。虽然有些人可以过目不忘，直接在脑海里就能想出问题的解决方案，但普通人却不能。特别是那些刚开始学习和探索编程世界的人，比如我自己.
+我逐渐了解到，记住所有你接触过的代码是一件不可能的事情!
+那么问题来了：我们该怎么解决这个问题呢?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么程序员在学习编程的时候什么都记不住">
+<meta name="twitter:title" content="为什么程序员在学习编程的时候什么都记不住">
+<meta property="og:url" content="https://veh47.github.io/2019/10/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E5%9C%A8%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%97%B6%E5%80%99%E4%BB%80%E4%B9%88%E9%83%BD%E8%AE%B0%E4%B8%8D%E4%BD%8F/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/10/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E5%9C%A8%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%97%B6%E5%80%99%E4%BB%80%E4%B9%88%E9%83%BD%E8%AE%B0%E4%B8%8D%E4%BD%8F/">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="每个人都会在学习编程语言的时候，努力记住所有一切，这也不足为奇。虽然有些人可以过目不忘，直接在脑海里就能想出问题的解决方案，但普通人却不能。特别是那些刚开始学习和探索编程世界的人，比如我自己.
+我逐渐了解到，记住所有你接触过的代码是一件不可能的事情!
+那么问题来了：我们该怎么解决这个问题呢?">
+<meta name="twitter:description" content="每个人都会在学习编程语言的时候，努力记住所有一切，这也不足为奇。虽然有些人可以过目不忘，直接在脑海里就能想出问题的解决方案，但普通人却不能。特别是那些刚开始学习和探索编程世界的人，比如我自己.
+我逐渐了解到，记住所有你接触过的代码是一件不可能的事情!
+那么问题来了：我们该怎么解决这个问题呢?">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-10-14T09:57:34">
+  
+  
+    <meta property="article:modified_time" content="2019-10-14T09:57:34">
+  
+  
+  
+    
+      <meta property="article:section" content="思悟">
+    
+  
+  
+    
+      <meta property="article:tag" content="blog">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://veh47.github.io/images/coffice.png">
+  <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
+
+
+    <title>为什么程序员在学习编程的时候什么都记不住</title>
+
+    <link rel="icon" href="https://veh47.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://veh47.github.io/2019/10/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E5%9C%A8%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%97%B6%E5%80%99%E4%BB%80%E4%B9%88%E9%83%BD%E8%AE%B0%E4%B8%8D%E4%BD%8F/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://veh47.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="3">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://veh47.github.io/">Eleven</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://veh47.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="3">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://veh47.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Eleven</h4>
+        
+          <h5 class="sidebar-profile-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/VEH47/veh47.github.io" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://veh47.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="3"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      为什么程序员在学习编程的时候什么都记不住
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-10-14T09:57:34&#43;08:00">
+        
+  十月 14, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://veh47.github.io/categories/%e6%80%9d%e6%82%9f">思悟</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>每个人都会在学习编程语言的时候，努力记住所有一切，这也不足为奇。虽然有些人可以过目不忘，直接在脑海里就能想出问题的解决方案，但普通人却不能。特别是那些刚开始学习和探索编程世界的人，比如我自己.<br />
+我逐渐了解到，记住所有你接触过的代码是一件不可能的事情!<br />
+那么问题来了：我们该怎么解决这个问题呢?</p>
+
+<p>要明白你能做什么，而不是记住怎么做</p>
+
+<p>其实，代码可以构建的功能有无数种可能性！你可以设想通过代码构建任何内容，只有你想不到的，没有构建不了的。学习一种新语言是一件非常令人激动的事情。查看问题以及代码示例，并通过这些示例学习如何利用这种语言以及/新概念完成工作，这都非常重要，但我们无法记住所有的信息，不要做无谓的尝试！你可以在今后需要实现的时候，再反过来查看，刚开始的时候，你只需要记住这种概念可以实现什么样的功能。
+在我深入研究React.js时，这种方式给予了我的学业很大帮助。实现的可能性太多了，你有无数种方式传递props、创建新state、组合组件——实在太多了！就像一个大谜团!<br />
+我了解到React可以实现非常多的功能，虽然我无法确切告诉你该如何做，但我知道存在这种可能性，这很重要。</p>
+
+<p>在需要时寻找所需的代码</p>
+
+<p>就像学说一门新语言，你知道自己想说什么，但你不知道该怎么说。编程语言也是如此！<br />
+在我刚开始学习编程时，人们称Google为“终极工具”。那时我就在想：我使用Google已经很多年了……我错过了什么吗？<br />
+后来才发现：重要的不是搜索内容，而是搜索的方式。无论你想寻找什么答案，网上都有，就看你怎样才能找到了！<br />
+在用外语与其他人交谈，或用一门新语言编程时，你可以通过Google找到如何表达。你不必记住括号放在何处，或者这里是逗号还是分号。应该使用圆括号还是大括号这种问题很容易出错，而且也很容易解决！只需快速搜索，两秒钟就能找到答案。<br />
+但是，我有几次因为未能写出完美的语法而感到内疚。有语法问题那就有呗！重要的是你知道自己要做什么，然后只需要记住该如何做即可！</p>
+
+<p>从何处下手？</p>
+
+<p>学习一门新的编程语言必然会令人不知所措，还会引起混乱。当有人说：“放手去做就好了！”时，我会觉得很迷茫，我该从何处下手呢？最终我发现：你永远也无法为需要构建的功能做好准备，你唯一能做的就是走一步看一步，先动起来。<br />
+如果说每次没有遇到任何问题、不需要搜索任何技术、不需要寻求别人的帮助、也不必返工就能成功构建一个项目，我就可以拿到一美元的话，那么我告诉你……到目前为止我一美元也没拿到！<br />
+犯错是学习过程中的一部分。犯错是学习、发展和提高程序员技术力的一部分。而学习故障排除和调试代码则更重要，而不仅仅听别人说：“我也遇到过这个问题，你所需要做的就是……”。<br />
+我强烈鼓励你尝试自己解决问题。努力奋斗。不要害怕搞乱或破坏你的代码。必要的时候，可以重新构建整个项目。在学习新知识（例如编程）时，一遍遍重复才能学到真技术。一遍又一遍，直到你全部掌握为止。</p>
+
+<p>如何实现呢？</p>
+
+<p>找到你想要构建的东西，然后开始动手！不要犹豫不决。反复尝试和失败。当你不确定想要完成的功能时，请花点时间研究问题。分解成块。弄清楚如何解决每个块。然后，再想法把所有块聚拢到一起。如果你忘记了如何编写for循环，或者忘记了高阶函数会返回什么，那也无需担心。你可以参阅文档或指南，然后再继续。<br />
+有时这是一个缓慢的过程，但非常值得。最终，你会越来越有自信，而且有很多想要实现的新想法。<br />
+你会记住如何实现吗？不会。<br />
+但是，你可以参考过往的项目， 在Google上寻找答案，或者阅读论坛。答案都是现成的，你需要做的只不过是找到答案而已.</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/blog/">blog</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/10/kuberntes%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" data-tooltip="Kuberntes基础概念">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Eleven. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/10/kuberntes%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" data-tooltip="Kuberntes基础概念">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://veh47.github.io/images/coffice.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Eleven</h4>
+    
+      <div id="about-card-bio">When you are looking at the stars, please put the brightest star shining night sky as my soul.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        SRE
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        BeiJing
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://veh47.github.io/images/cover-v1.2.0.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://veh47.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
