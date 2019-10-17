@@ -6,10 +6,21 @@
     <description>Recent content in 网络 on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 29 Sep 2019 15:43:42 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 17 Oct 2019 09:57:15 +0800</lastBuildDate>
     
 	<atom:link href="https://veh47.github.io/categories/%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>OVS全面解读</title>
+      <link>https://veh47.github.io/2019/10/ovs%E5%85%A8%E9%9D%A2%E8%A7%A3%E8%AF%BB/</link>
+      <pubDate>Thu, 17 Oct 2019 09:57:15 +0800</pubDate>
+      
+      <guid>https://veh47.github.io/2019/10/ovs%E5%85%A8%E9%9D%A2%E8%A7%A3%E8%AF%BB/</guid>
+      <description>&lt;h2 id=&#34;1-什么是open-vswitch&#34;&gt;1. 什么是Open vSwitch&lt;/h2&gt;
+
+&lt;p&gt;OpenvSwitch简称OVS，正如其官网(&lt;a href=&#34;http://openvswitch.org/)所述，OVS是一个高质量、多层的虚拟交换软件。它的目的是通过编程扩展支持大规模网络自动化，同时还支持标准的管理接口和协议。&#34;&gt;http://openvswitch.org/)所述，OVS是一个高质量、多层的虚拟交换软件。它的目的是通过编程扩展支持大规模网络自动化，同时还支持标准的管理接口和协议。&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>HTTP1.0 HTTP1.1 HTTP2</title>
