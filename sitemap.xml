@@ -38,17 +38,17 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/tags/%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2019-10-17T09:57:15+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://veh47.github.io/archives/%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2019-10-17T09:57:15+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://veh47.github.io/categories/%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2019-10-17T09:57:15+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veh47.github.io/tags/%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2019-10-17T09:57:15+08:00</lastmod>
   </url>
   
@@ -78,12 +78,12 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/archives/kubernetes/</loc>
+    <loc>https://veh47.github.io/categories/kubernetes/</loc>
     <lastmod>2019-10-08T11:30:12+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://veh47.github.io/categories/kubernetes/</loc>
+    <loc>https://veh47.github.io/archives/kubernetes/</loc>
     <lastmod>2019-10-08T11:30:12+08:00</lastmod>
   </url>
   
@@ -93,7 +93,7 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/tags/golang/</loc>
+    <loc>https://veh47.github.io/categories/golang/</loc>
     <lastmod>2019-10-06T14:47:28+08:00</lastmod>
   </url>
   
@@ -103,7 +103,7 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/categories/golang/</loc>
+    <loc>https://veh47.github.io/tags/golang/</loc>
     <lastmod>2019-10-06T14:47:28+08:00</lastmod>
   </url>
   
@@ -123,17 +123,17 @@
   </url>
   
   <url>
+    <loc>https://veh47.github.io/archives/nosql/</loc>
+    <lastmod>2019-09-30T09:55:37+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://veh47.github.io/tags/nosql/</loc>
     <lastmod>2019-09-30T09:55:37+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://veh47.github.io/categories/nosql/</loc>
-    <lastmod>2019-09-30T09:55:37+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://veh47.github.io/archives/nosql/</loc>
     <lastmod>2019-09-30T09:55:37+08:00</lastmod>
   </url>
   
@@ -228,7 +228,7 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/categories/shell/</loc>
+    <loc>https://veh47.github.io/tags/shell/</loc>
     <lastmod>2019-09-29T17:19:09+08:00</lastmod>
   </url>
   
@@ -238,7 +238,7 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/tags/shell/</loc>
+    <loc>https://veh47.github.io/categories/shell/</loc>
     <lastmod>2019-09-29T17:19:09+08:00</lastmod>
   </url>
   
@@ -303,12 +303,12 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/categories/%E8%BF%90%E7%BB%B4/</loc>
+    <loc>https://veh47.github.io/archives/%E8%BF%90%E7%BB%B4/</loc>
     <lastmod>2019-09-29T15:40:24+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://veh47.github.io/archives/%E8%BF%90%E7%BB%B4/</loc>
+    <loc>https://veh47.github.io/categories/%E8%BF%90%E7%BB%B4/</loc>
     <lastmod>2019-09-29T15:40:24+08:00</lastmod>
   </url>
   
@@ -353,17 +353,17 @@
   </url>
   
   <url>
+    <loc>https://veh47.github.io/tags/kvm/</loc>
+    <lastmod>2019-09-29T14:13:51+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://veh47.github.io/archives/kvm/</loc>
     <lastmod>2019-09-29T14:13:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://veh47.github.io/categories/kvm/</loc>
-    <lastmod>2019-09-29T14:13:51+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://veh47.github.io/tags/kvm/</loc>
     <lastmod>2019-09-29T14:13:51+08:00</lastmod>
   </url>
   
@@ -378,17 +378,17 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/categories/docker/</loc>
-    <lastmod>2019-09-29T10:48:50+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://veh47.github.io/archives/docker/</loc>
     <lastmod>2019-09-29T10:48:50+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://veh47.github.io/tags/docker/</loc>
+    <lastmod>2019-09-29T10:48:50+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veh47.github.io/categories/docker/</loc>
     <lastmod>2019-09-29T10:48:50+08:00</lastmod>
   </url>
   
