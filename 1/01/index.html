@@ -8,36 +8,24 @@
 <meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Eleven">
 <meta name="keywords" content="">
-<meta name="description" content="数据类型介绍">
+<meta name="description" content="目前在网上出现各种各样的部署博客的方式, 其中在全世界范围内受用wordpress的最多. 但是作为个人博客, 他的量级太过重. 还有就是出现一些静态生成工具, 如hexo hugo">
 
 
-<meta property="og:description" content="数据类型介绍">
+<meta property="og:description" content="目前在网上出现各种各样的部署博客的方式, 其中在全世界范围内受用wordpress的最多. 但是作为个人博客, 他的量级太过重. 还有就是出现一些静态生成工具, 如hexo hugo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Go基础介绍 1">
-<meta name="twitter:title" content="Go基础介绍 1">
-<meta property="og:url" content="https://veh47.github.io/2019/10/go%E5%9F%BA%E7%A1%80%E4%BB%8B%E7%BB%8D-1/">
-<meta property="twitter:url" content="https://veh47.github.io/2019/10/go%E5%9F%BA%E7%A1%80%E4%BB%8B%E7%BB%8D-1/">
+<meta property="og:title" content="Eleven">
+<meta name="twitter:title" content="Eleven">
+<meta property="og:url" content="https://veh47.github.io/1/01/">
+<meta property="twitter:url" content="https://veh47.github.io/1/01/">
 <meta property="og:site_name" content="Eleven">
-<meta property="og:description" content="数据类型介绍">
-<meta name="twitter:description" content="数据类型介绍">
+<meta property="og:description" content="目前在网上出现各种各样的部署博客的方式, 其中在全世界范围内受用wordpress的最多. 但是作为个人博客, 他的量级太过重. 还有就是出现一些静态生成工具, 如hexo hugo">
+<meta name="twitter:description" content="目前在网上出现各种各样的部署博客的方式, 其中在全世界范围内受用wordpress的最多. 但是作为个人博客, 他的量级太过重. 还有就是出现一些静态生成工具, 如hexo hugo">
 <meta property="og:locale" content="zh-cn">
 
   
-    <meta property="article:published_time" content="2019-10-06T13:45:35">
-  
-  
-    <meta property="article:modified_time" content="2019-10-06T13:45:35">
   
   
   
-    
-      <meta property="article:section" content="Golang">
-    
-  
-  
-    
-      <meta property="article:tag" content="Golang">
-    
   
 
 
@@ -57,14 +45,14 @@
   <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
 
 
-    <title>Go基础介绍 1</title>
+    <title>Eleven</title>
 
     <link rel="icon" href="https://veh47.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://veh47.github.io/2019/10/go%E5%9F%BA%E7%A1%80%E4%BB%8B%E7%BB%8D-1/">
+    <link rel="canonical" href="https://veh47.github.io/1/01/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -214,338 +202,189 @@
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      Go基础介绍 1
+      
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-10-06T13:45:35&#43;08:00">
+      <time itemprop="datePublished" datetime="0001-01-01T00:00:00Z">
         
-  十月 6, 2019
+  一月 1, 1
 
       </time>
     
     
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://veh47.github.io/categories/golang">Golang</a>
-    
-  
-
   </div>
 
 </div>
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>数据类型介绍</p>
+              <p>目前在网上出现各种各样的部署博客的方式, 其中在全世界范围内受用wordpress的最多. 但是作为个人博客, 他的量级太过重. 还有就是出现一些静态生成工具, 如hexo hugo</p>
 
-<h3 id="1-25-个关键字介绍">1. 25 个关键字介绍</h3>
+<p>hexo 优点在于他的主题生态比较完善, 非常多好看的主题在其社区支持非常好. 但是小白就对他的安装诟病, 还需要安装node.js 并且如果文章数目多的时候就会导致生成页面很慢<br />
+hugo使用go开发的, 在生成页面上是hexo的几倍, 并且最近在学习go语言, 就顺利的选择了hugo, 缺点就是你想找个好看的主题,会让你憋出内伤.<br />
+网上很多文章都是使用hugo+gthub的, 不过这个方法在国内访问的时候支持不太好. 还没法用CDN, 因为国内网站使用CDN都需要备案. 使用国外的CDN好多人推荐Cloudflare, 测试过以后, 表示放弃.</p>
 
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th align="center">作用</th>
-</tr>
-</thead>
+<p>在这里使用Centos服务器上部署hugo+nginx
+hugo是使用go语言开发的一个静态网页生成工具, 加载速度非常快. nginx对静态页面的支持尤其迅速, 二者结合如虎添翼, 并且不需要使用多高配置的服务器就可以达到效果. 可以进行备案域名, 国内使用CDN</p>
 
-<tbody>
-<tr>
-<td>var</td>
-<td align="center">用于变量的声明</td>
-</tr>
+<h3 id="1-在centos上安装hugo">1. 在centos上安装hugo</h3>
 
-<tr>
-<td>const</td>
-<td align="center">用于常量的声明</td>
-</tr>
+<p>加载hugo.repo源<br />
+    [root@Eleven /data/blog]# vim /etc/yum.repos.d/hugo.repo</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[daftaupe-hugo]   
+name=Copr repo for hugo owned by daftaupe   
+baseurl=https://copr-be.cloud.fedoraproject.org/results/daftaupe/hugo/epel-7-$basearch/   
+type=rpm-md   
+skip_if_unavailable=True   
+gpgcheck=1   
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/daftaupe/hugo/pubkey.gpg   
+repo_gpgcheck=0   
+enabled=1   </pre></td></tr></table>
+</div>
+</div>
+<p><strong><em>安装hugo</em></strong><br />
+    yum install hugo -y</p>
 
-<tr>
-<td>type</td>
-<td align="center">用于声明类型</td>
-</tr>
+<p><strong><em>查看hugo版本, 有的主题要求hugo版本必须达到. 所以最好是能高一点</em></strong><br />
+    hugo version</p>
 
-<tr>
-<td>func</td>
-<td align="center">用于声明函数和方法</td>
-</tr>
+<h3 id="2-创建站点目录blog">2. 创建站点目录blog</h3>
 
-<tr>
-<td>package</td>
-<td align="center">用于声明包文件</td>
-</tr>
+<p>我这里把站点目录放在data目录下<br />
+    mkdir /data/<br />
+    cd /data<br />
+    hugo new site blog</p>
 
-<tr>
-<td>import</td>
-<td align="center">用于导入其它 package</td>
-</tr>
+<h3 id="3-给hugo加载主题-可以去官网下载">3. 给hugo加载主题, 可以去官网下载.</h3>
 
-<tr>
-<td>return</td>
-<td align="center">用于从函数返回</td>
-</tr>
+<p>由于官网的主题都是git包, 所以得先下载git<br />
+yum install git -y</p>
 
-<tr>
-<td>defer</td>
-<td align="center">延迟调用，在函数退出之前执行</td>
-</tr>
+<p>进入主题目录<br />
+    cd /data/themes<br />
+    git clone <a href="https://github.com/tosi29/inkblotty.git">https://github.com/tosi29/inkblotty.git</a> inkblotty<br />
+    cd /data/blog/themes/inkblotty/exampleSite<br />
+    cp  config.toml /data/blog</p>
 
-<tr>
-<td>go</td>
-<td align="center">创建一个协程</td>
-</tr>
+<p>将config.toml 复制到根目录下, 也就是/data/blog目录下, 目的是方便自己以后生成静态页面, 不用指定主题.<br />
+config.toml 可以由自己修改功能, 其中baseurl = &ldquo;<a href="http://x.x.x.x&quot;">http://x.x.x.x&quot;</a> 这个地址是自己服务器的公网地址, 其他的参数在网上自己查找修改. 这里的使用http, 如果你的nginx配置ssl证书, 那么这里可以使用https</p>
 
-<tr>
-<td>select</td>
-<td align="center">用于选择不同类型的通讯</td>
-</tr>
+<h3 id="4-生成html文件">4. 生成html文件</h3>
 
-<tr>
-<td>interface</td>
-<td align="center">用于定义接口</td>
-</tr>
+<p>hugo &ndash;theme=tranquilpeak &ndash;baseUrl=&ldquo;<a href="http://x.x.x.x&quot;">http://x.x.x.x&quot;</a><br />
+&ndash;theme 为指定主题<br />
+&ndash;baseUrl 指定自己服务器启动的地址<br />
+此时会生成public目录, 为自己的站点目录</p>
 
-<tr>
-<td>struct</td>
-<td align="center">用于定义数据类型</td>
-</tr>
+<h3 id="5-安装nginx">5. 安装nginx</h3>
 
-<tr>
-<td>chan</td>
-<td align="center">用于声明 chan 类型数据</td>
-</tr>
+<p>这里使用tengine, 由淘宝发起的web服务项目, 与nginx配置相同, 但是在有些方面做过一些优化. 性能稳定性都在天猫和淘宝实践过</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum -y install pcre-devel openssl openssl-devel
+wget https://tengine.taobao.org/download/tengine-2.3.0.tar.gz   
+tar xf tengine-2.3.0.tar.gz    
+cd tengine-2.3.0   
+./configure  --prefix=/data/nginx   
+make &amp;&amp; make install
+这里的/data/nginx 是nginx安装位置</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-配置nginx">6. 配置nginx</h3>
 
-<tr>
-<td>map</td>
-<td align="center">用于声明 map 类型数据</td>
-</tr>
+<p>这里的nginx参数配置自己上网查, 每个参数都网上都有详细的解释, 以下为最简单的参数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">cd /data/nginx/conf   
+cat nginx.conf   
 
-<tr>
-<td>range</td>
-<td align="center">用于遍历 array、slice、map、channel 数据</td>
-</tr>
-
-<tr>
-<td>break、case、continue、for、fallthrough、else、if、switch、goto、default</td>
-<td align="center">用于流程控制</td>
-</tr>
-</tbody>
-</table>
-
-<h3 id="2-37-个保留字">2. 37 个保留字</h3>
-
-<table>
-<thead>
-<tr>
-<th>Constants</th>
-<th align="center">true false iota nil</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>Types</td>
-<td align="center">int int8 int16 int32 int64 <br> uint8 uint16 uint32 uint64 uintptr <br> float32 float64 complex64 float128 bool byte string error</td>
-</tr>
-
-<tr>
-<td>Functions</td>
-<td align="center">make len cap new append copy close delete complex real imag panic recover</td>
-</tr>
-</tbody>
-</table>
-
-<h3 id="3-内置类型">3. 内置类型</h3>
-
-<table>
-<thead>
-<tr>
-<th><strong>类型</strong></th>
-<th align="center"><strong>长度</strong></th>
-<th><strong>默认值</strong></th>
-<th align="center"><strong>说明</strong></th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>bo</td>
-<td align="center">1</td>
-<td>false</td>
-<td align="center">bool 类型代表逻辑值, 有真值 true 和假值 false</td>
-</tr>
-
-<tr>
-<td>byte</td>
-<td align="center">1</td>
-<td>0</td>
-<td align="center">是 int8 的别名</td>
-</tr>
-
-<tr>
-<td>rune</td>
-<td align="center">4</td>
-<td>0</td>
-<td align="center">是 int32 的别名, 代表 Unicode 代码点</td>
-</tr>
-
-<tr>
-<td>int uint</td>
-<td align="center">4 或 8</td>
-<td>0</td>
-<td align="center">int 有符号整数, uint 没有</td>
-</tr>
-
-<tr>
-<td>int8 uint8</td>
-<td align="center">1</td>
-<td>0</td>
-<td align="center">int8 -128 ~ 127 <br> uint8 0 ~ 255 <br> byte 是 uint 的别名</td>
-</tr>
-
-<tr>
-<td>int16 uint16</td>
-<td align="center">2</td>
-<td>0</td>
-<td align="center">int16 -32768 ~ 32767 <br> uint16 0 ~ 65535</td>
-</tr>
-
-<tr>
-<td>int32 uint32</td>
-<td align="center">4</td>
-<td>0</td>
-<td align="center">int32 -2147483648 ~ 2147483647 <br> uint32 0 ~ 4294967295 <br> rune 是 int32 的别名</td>
-</tr>
-
-<tr>
-<td>int64 uint64</td>
-<td align="center">8</td>
-<td>0</td>
-<td align="center">int64 -9223372036854775808 ~ 9223372036854775807 <br> uint64 0 ~ 18446744073709551615</td>
-</tr>
-
-<tr>
-<td>float32</td>
-<td align="center">4</td>
-<td>0</td>
-<td align="center">单精度浮点型</td>
-</tr>
-
-<tr>
-<td>float64</td>
-<td align="center">8</td>
-<td>0</td>
-<td align="center">双精度浮点型</td>
-</tr>
-
-<tr>
-<td>complex64</td>
-<td align="center">8</td>
-<td>(0+0i)</td>
-<td align="center">复数类型</td>
-</tr>
-
-<tr>
-<td>complex128</td>
-<td align="center">16</td>
-<td>(0+0i)</td>
-<td align="center">复数类型</td>
-</tr>
-
-<tr>
-<td>uintptr</td>
-<td align="center">4 或 8</td>
-<td>0</td>
-<td align="center">指针类型<br>存储指针的 uint32 或 uint64 证书</td>
-</tr>
-
-<tr>
-<td>array</td>
-<td align="center"></td>
-<td>默认值要根据数据类型确定, 如 var a [4]int 默认值为[0 0 0 0]</td>
-<td align="center">值类型</td>
-</tr>
-
-<tr>
-<td>struct</td>
-<td align="center"></td>
-<td>默认值要根据数据类型来确定</td>
-<td align="center">值类型</td>
-</tr>
-
-<tr>
-<td>string</td>
-<td align="center"></td>
-<td>**</td>
-<td align="center">UTF-8 字符串</td>
-</tr>
-
-<tr>
-<td>slice</td>
-<td align="center"></td>
-<td>nil</td>
-<td align="center">引用类型</td>
-</tr>
-
-<tr>
-<td>map</td>
-<td align="center"></td>
-<td>nil</td>
-<td align="center">引用类型</td>
-</tr>
-
-<tr>
-<td>channel</td>
-<td align="center"></td>
-<td>nil</td>
-<td align="center">引用类型</td>
-</tr>
-
-<tr>
-<td>interface</td>
-<td align="center"></td>
-<td>nil</td>
-<td align="center">接口类型</td>
-</tr>
-
-<tr>
-<td>function</td>
-<td align="center"></td>
-<td>nil</td>
-<td align="center">函数类型</td>
-</tr>
-
-<tr>
-<td>error</td>
-<td align="center"></td>
-<td>nil</td>
-<td align="center">错误类型</td>
-</tr>
-</tbody>
-</table>
-
-<h3 id="4-内置函数">4. 内置函数</h3>
-
-<p>Go 语言拥有一些不需要进行导入操作就可以使用的内置函数。它们有时可以针对不同的类型进行操作，例如：len、cap 和 append，或必须用于系统级的操作，例如：panic。因此，它们需要直接获得编译器的支持。</p>
+user  root;   
+worker_processes  1;   
+events {   
+    worker_connections  1024;   
+}   
+http {   
+    include            mime.types;   
+    default_type       application/octet-stream;   
+    sendfile           on;   
+    keepalive_timeout  65;   
+    gzip               on;   
+    server {   
+        listen       80;        
+        server_name  x.x.x.x;   #服务器的地址   
+        location / {   
+            root   /data/blog/public;   #自己的站点目录   
+            index  index.html index.htm;   
+        }   
+    }   
+}   </pre></td></tr></table>
+</div>
+</div>
+<h3 id="7-配置完成后启动nginx">7. 配置完成后启动nginx</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">/data/nginx/sbin/nginx   </pre></td></tr></table>
+</div>
+</div>
+<p>然后就可以使用你的公网地址访问</p>
               
             </div>
           </div>
           <div id="post-footer" class="post-footer main-content-wrap">
             
-              
-                
-                
-                  <div class="post-footer-tags">
-                    <span class="text-color-light text-small">标签</span><br/>
-                    
-  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/golang/">Golang</a>
-
-                  </div>
-                
               
             
             <div class="post-actions-wrap">
@@ -555,7 +394,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/%E6%95%B0%E6%8D%AE%E5%BA%93dml%E5%92%8Cdql%E5%92%8Cdcl%E8%AF%AD%E5%8F%A5%E5%8F%8A%E5%85%83%E6%95%B0%E6%8D%AE%E4%B8%89/" data-tooltip="数据库DML和DQL和DCL语句及元数据(三)">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -563,7 +402,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/10/go%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8F%8A%E6%A0%BC%E5%BC%8F%E5%8D%8E%E6%93%8D%E4%BD%9C-2/" data-tooltip="Go运算符及格式华操作 2">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/" data-tooltip="技术人员必经9个阶段">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -613,7 +452,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/%E6%95%B0%E6%8D%AE%E5%BA%93dml%E5%92%8Cdql%E5%92%8Cdcl%E8%AF%AD%E5%8F%A5%E5%8F%8A%E5%85%83%E6%95%B0%E6%8D%AE%E4%B8%89/" data-tooltip="数据库DML和DQL和DCL语句及元数据(三)">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -621,7 +460,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/10/go%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8F%8A%E6%A0%BC%E5%BC%8F%E5%8D%8E%E6%93%8D%E4%BD%9C-2/" data-tooltip="Go运算符及格式华操作 2">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/" data-tooltip="技术人员必经9个阶段">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>

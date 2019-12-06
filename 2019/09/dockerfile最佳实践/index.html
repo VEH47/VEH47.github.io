@@ -274,122 +274,232 @@
 <p>构建上下文件示例：</p>
 
 <p>创建并CD进入构建上下文目录，将“hello”写入名为hello的文本文件中，并创建一个在其上运行cat的Dockerfile。从构建上下文（.）中构建镜像。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mkdirmyproject &amp;&amp; cd myproject
 
-<p>mkdirmyproject &amp;&amp; cd myproject</p>
+echo &#34;hello&#34;&gt; hello
 
-<p>echo &ldquo;hello&rdquo;&gt; hello</p>
+echo -e &#34;FROMbusyboxCOPY /hello /RUN cat /hello&#34; &gt; Dockerfile
 
-<p>echo -e &ldquo;FROMbusyboxCOPY /hello /RUN cat /hello&rdquo; &gt; Dockerfile</p>
-
-<p>docker build -t helloapp:v1 .</p>
-
+docker build -t helloapp:v1 .</pre></td></tr></table>
+</div>
+</div>
 <p>将Dockerfile和hello移动到单独的目录中并构建映像的第二个版本（不依赖于上一次构建的缓存）。使用-f指向Dockerfile并指定构建上下文的目录：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mkdir -p dockerfiles context
 
-<p>mkdir -p dockerfiles context</p>
+mv Dockerfile dockerfiles &amp;&amp; mv hello context
 
-<p>mv Dockerfile dockerfiles &amp;&amp; mv hello context</p>
-
-<p>docker build &ndash;no-cache -t helloapp:v2 -f dockerfiles/Dockerfile context</p>
-
+docker build --no-cache -t helloapp:v2 -f dockerfiles/Dockerfile context</pre></td></tr></table>
+</div>
+</div>
 <p>无意中包含构建不必要的文件会导致更大的构建上下文和更大的镜像，这将增加构建时间，拉取和推送镜像的时间以及容器运行时占用更多的存储空间。查看构建上下文大小，在构建Dockerfile时查找类似信息。</p>
-
-<p>Sending buildcontext to Docker daemon  187.8MB</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Sending buildcontext to Docker daemon  187.8MB</pre></td></tr></table>
+</div>
+</div>
 <h3 id="2-基于stdin的构建上下文">2.基于stdin的构建上下文</h3>
 
 <p>Docker能通过stdin与本址或远程构建上下文管道Dockerfile来构建镜像。通过stdin管道Dockerfile对于执行一次性构建非常有用，无需将Dockerfile写入磁盘，或者在生成Dockerfile的情况下，并且之后不应该持久化。</p>
 
 <p>例如，以下命令是等效的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">echo -e &#39;FROMbusyboxRUN echo &#34;hello world&#34;&#39; | docker build –
 
-<p>echo -e &lsquo;FROMbusyboxRUN echo &ldquo;hello world&rdquo;&rsquo; | docker build –</p>
+ docker build-&lt;&lt;EOF
 
-<p>docker build-&lt;&lt;EOF</p>
+FROM busybox
 
-<p>FROM busybox</p>
+RUN echo&#34;hello world&#34;
 
-<p>RUN echo&rdquo;hello world&rdquo;</p>
-
-<p>EOF</p>
-
+EOF</pre></td></tr></table>
+</div>
+</div>
 <p>在Dockerfile不需要将文件复制到映像中并且提高构建速度的情况下，省略构建上下文非常有用，因为没有文件发送到守护程序。</p>
 
 <p>注意：如果使用此语法，尝试构建镜像时使用COPY或ADD的Dockerfile将失败，以下示例说明了这一点：</p>
 
 <h4 id="create-a-directory-to-work-in">create a directory to work in</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mkdir example
 
-<p>mkdir example</p>
-
-<p>cd example</p>
-
+cd example </pre></td></tr></table>
+</div>
+</div>
 <h4 id="create-anexample-file">create anexample file</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">touch somefile.txt 
 
-<p>touch somefile.txt</p>
+docker build t myimage:latest -&lt;&lt;EOF
 
-<p>docker build t myimage:latest -&lt;&lt;EOF</p>
+FROM busybox
 
-<p>FROM busybox</p>
+COPYsomefile.txt .
 
-<p>COPYsomefile.txt .</p>
+RUN cat /somefile.txt
 
-<p>RUN cat /somefile.txt</p>
-
-<p>EOF</p>
-
+EOF </pre></td></tr></table>
+</div>
+</div>
 <h4 id="observethat-the-build-fails">observethat the build fails</h4>
 
 <p>&hellip;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Step 2/3 :COPY somefile.txt .
 
-<p>Step <sup>2</sup>&frasl;<sub>3</sub> :COPY somefile.txt .</p>
-
-<p>COPY failed:stat /var/lib/docker/tmp/
-docker-builder249218248/somefile.txt: no such file ordirectory</p>
-
+COPY failed:stat /var/lib/docker/tmp/
+docker-builder249218248/somefile.txt: no such file ordirectory</pre></td></tr></table>
+</div>
+</div>
 <h3 id="3-使用stdin的dockerfile从本地上下文构建镜像">3.使用stdin的Dockerfile从本地上下文构建镜像</h3>
 
 <p>使用此语法使用本地文件系统上下文构建镜像，但使用stdin中的Dockerfile。语法使用-f（–file）选项指定要使用的Dockerfile，使用连字符（-）作为文件名来指示Docker从stdin读取Dockerfile</p>
-
-<p>docker build[OPTIONS] -f- PATH</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker build[OPTIONS] -f- PATH</pre></td></tr></table>
+</div>
+</div>
 <p>下面的示例使用当前目录（.）作为构建上下文，并使用stdin作为Dockerfile构建镜像。</p>
 
 <h5 id="create-adirectory-to-work-in">create adirectory to work in</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mkdir example
 
-<p>mkdir example</p>
-
-<p>cd example</p>
-
+cd example </pre></td></tr></table>
+</div>
+</div>
 <h5 id="create-anexample-file-1">create anexample file</h5>
-
-<p>touchsomefile.txt</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">touchsomefile.txt</pre></td></tr></table>
+</div>
+</div>
 <p>#### build animage using the current directory as context, and a Dockerfile passed throughstdin
-docker build-t myimage:latest -f- . &lt;&lt;EOF
-FROM busybox</p>
+    docker build-t myimage:latest -f- . &lt;&lt;EOF
+    FROM busybox</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">COPYsomefile.txt .
 
-<p>COPYsomefile.txt .</p>
+RUN cat/somefile.txt
 
-<p>RUN cat/somefile.txt</p>
-
-<p>EOF</p>
-
+EOF</pre></td></tr></table>
+</div>
+</div>
 <h3 id="4-使用stdin的dockerfile从远程上下文构建镜像">4.使用stdin的Dockerfile从远程上下文构建镜像</h3>
 
 <p>使用此语法使用远程git仓库上下文构建镜像，但使用stdin中的Dockerfile。语法使用-f（–file）选项指定要使用的Dockerfile，使用连字符（-）作为文件名来指示Docker从stdin读取Dockerfile。</p>
-
-<p>docker build[OPTIONS] -f- PATH</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker build[OPTIONS] -f- PATH</pre></td></tr></table>
+</div>
+</div>
 <p>如果您希望从仓库构建映像不包含Dockerfile，或者您希望使用自定义Dockerfile构建，而不维护自己的仓库分支，则此语法非常有用。</p>
 
 <p>下面的示例使用stdin中的Dockerfile构建映像，并在GitHub上的“hello-world”Git仓库中添加README.md文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">docker build -t myimage:latest -f- https://github.com/docker-library/hello-world.git&lt;&lt;EOF
 
-<p>docker build -t myimage:latest -f- <a href="https://github.com/docker-library/hello-world.git">https://github.com/docker-library/hello-world.git</a>&lt;&lt;EOF</p>
+FROM busybox
 
-<p>FROM busybox</p>
+COPYREADME.md .
 
-<p>COPYREADME.md .</p>
-
-<p>EOF</p>
-
+EOF</pre></td></tr></table>
+</div>
+</div>
 <p>使用远程Git存储库构建镜像作为构建上下文时，Docker会在本地计算机上执行仓库的git克隆，并将这些文件作为构建上下文发送到守护程序。 此功能要求在运行dockerbuild命令的主机上安装git。</p>
 
 <h3 id="5-通过-dockerignore排除文件">5.通过.dockerignore排除文件</h3>
@@ -411,47 +521,93 @@ FROM busybox</p>
 <p>生成您的应用程序</p>
 
 <p>Go应用程序的Dockerfile如下所示：</p>
-
-<p>FROM golang:1.11-alpine AS build</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">FROM golang:1.11-alpine AS build </pre></td></tr></table>
+</div>
+</div>
 <h5 id="installtools-required-for-project">Installtools required for project</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Run `dockerbuild --no-cache .` to update dependencies
 
-<p>Run <code>dockerbuild --no-cache .</code> to update dependencies</p>
+RUN apk add --no-cache git
 
-<p>RUN apk add &ndash;no-cache git</p>
-
-<p>RUN go get github.com/golang/dep/cmd/dep</p>
-
+RUN go get github.com/golang/dep/cmd/dep </pre></td></tr></table>
+</div>
+</div>
 <h5 id="listproject-dependencies-with-gopkg-toml-and-gopkg-lock">Listproject dependencies with Gopkg.toml and Gopkg.lock</h5>
 
 <h4 id="theselayers-are-only-re-built-when-gopkg-files-are-updated">Theselayers are only re-built when Gopkg files are updated</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">COPY Gopkg.lock Gopkg.toml /go/src/project/
 
-<p>COPY Gopkg.lock Gopkg.toml /go/src/project/</p>
-
-<p>WORKDIR /go/src/project/</p>
-
+WORKDIR /go/src/project/</pre></td></tr></table>
+</div>
+</div>
 <h4 id="installlibrary-dependencies">Installlibrary dependencies</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">RUN depensure -vendor-only 
 
-<p>RUN depensure -vendor-only</p>
-
-<p>Copy theentire project and build it</p>
-
+Copy theentire project and build it</pre></td></tr></table>
+</div>
+</div>
 <h4 id="this-layeris-rebuilt-when-a-file-changes-in-the-project-directory">This layeris rebuilt when a file changes in the project directory</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">COPY ./go/src/project/
 
-<p>COPY ./go/src/project/</p>
-
-<p>RUN go build -o /bin/project</p>
-
+RUN go build -o /bin/project</pre></td></tr></table>
+</div>
+</div>
 <p>#### Thisresults in a single layer image</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">FROM scratch
 
-<p>FROM scratch</p>
+COPY--from=build /bin/project /bin/project
 
-<p>COPY&ndash;from=build /bin/project /bin/project</p>
+ENTRYPOINT[&#34;/bin/project&#34;]
 
-<p>ENTRYPOINT[&ldquo;/bin/project&rdquo;]</p>
-
-<p>CMD[&ldquo;&ndash;help&rdquo;]</p>
-
+CMD[&#34;--help&#34;]</pre></td></tr></table>
+</div>
+</div>
 <p>不要安装不必要的包</p>
 
 <p>为了降低复杂性，依赖性，文件大小和构建时间，请避免安装额外的或不必要的软件包，即便它们可能“很好”。例如，您不需要在数据库映像中包含文本编辑器。</p>
@@ -477,19 +633,34 @@ FROM busybox</p>
 <p>尽可能的，通过按字母顺序排序多行参数来缓解以后的更改。这有助于避免重复包并使更容易更新。这也使PR更容易阅读和审查。在反斜杠（）之前添加空格也有帮助。</p>
 
 <p>这是一个编译包依赖示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">RUN apt-getupdate &amp;&amp; apt-get install -y  
 
-<p>RUN apt-getupdate &amp;&amp; apt-get install -y</p>
+bzr
 
-<p>bzr</p>
+cvs
 
-<p>cvs</p>
+git 
 
-<p>git</p>
+mercurial   
 
-<p>mercurial</p>
-
-<p>subversion</p>
-
+subversion</pre></td></tr></table>
+</div>
+</div>
 <h3 id="10-利用构建缓存">10.利用构建缓存</h3>
 
 <p>构建映像时，Docker会逐步执行Dockerfile中的指令，按指定的顺序执行每个指令。在检查每条指令时，Docker会在其缓存中查找可以重用的现有映像，而不是创建新的（重复）映像。</p>
@@ -521,37 +692,68 @@ FROM busybox</p>
 <p>必须引用带空格的字符串或必须转义空格。 内引号字符（“）也必须转义。</p>
 
 <h5 id="设置一个或多个单独的标签">设置一个或多个单独的标签</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">LABELcom.example.version=&#34;0.0.1-beta&#34;
 
-<p>LABELcom.example.version=&ldquo;0.0.1-beta&rdquo;</p>
+LABELvendor1=&#34;ACME Incorporated&#34;
 
-<p>LABELvendor1=&ldquo;ACME Incorporated&rdquo;</p>
+LABELvendor2=ZENITH Incorporated
 
-<p>LABELvendor2=ZENITH Incorporated</p>
+LABELcom.example.release-date=&#34;2015-02-12&#34;
 
-<p>LABELcom.example.release-date=&ldquo;2015-02-12&rdquo;</p>
-
-<p>LABELcom.example.version.is-production=&ldquo;&rdquo;</p>
-
+LABELcom.example.version.is-production=&#34;&#34;</pre></td></tr></table>
+</div>
+</div>
 <p>镜像可以有多个标签。在Docker 1.10之前，建议将所有标签组合到单个LABEL指令中以防止创建额外的层。这不再是必需的，但仍然支持组合标签。</p>
 
 <h5 id="在一行设置多个标签">在一行设置多个标签</h5>
-
-<p>LABEL com.example.version=&ldquo;0.0.1-beta&rdquo;com.example.release-date=&ldquo;2015-02-12&rdquo;</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">LABEL com.example.version=&#34;0.0.1-beta&#34;com.example.release-date=&#34;2015-02-12&#34;</pre></td></tr></table>
+</div>
+</div>
 <p>以上也可以写成：</p>
 
 <h5 id="一次设置多个标签-使用行连续符进行换行">一次设置多个标签，使用行连续符进行换行</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">LABELvendor=ACME Incorporated
 
-<p>LABELvendor=ACME Incorporated</p>
+com.example.is-beta=
 
-<p>com.example.is-beta=</p>
+com.example.is-production=&#34;&#34;
 
-<p>com.example.is-production=&ldquo;&rdquo;</p>
+com.example.version=&#34;0.0.1-beta&#34;
 
-<p>com.example.version=&ldquo;0.0.1-beta&rdquo;</p>
-
-<p>com.example.release-date=&ldquo;2015-02-12&rdquo;</p>
-
+com.example.release-date=&#34;2015-02-12&#34;</pre></td></tr></table>
+</div>
+</div>
 <h3 id="14-run">14.RUN</h3>
 
 <p>在使用反斜杠分隔的多行拆分长或复杂的RUN语句，以使Dockerfile更具可读性，可理解性和可维护性。</p>
@@ -563,15 +765,26 @@ FROM busybox</p>
 <p>避免RUNapt-get update和dist-upgrade，因为父映像中的许多“基本”包无法在非特权容器内升级。如果镜像中包含的包已过期，请与其维护人员联系。如果你知道有一个需要更新的特定包foo，请使用apt-get install -y foo自动更新。</p>
 
 <p>始终将RUNapt-get update与apt-get install结合在同一个RUN语句中。例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">RUN apt-get update &amp;&amp; apt-get install -y
 
-<p>RUN apt-get update &amp;&amp; apt-get install -y</p>
+package-bar
 
-<p>package-bar</p>
+package-baz
 
-<p>package-baz</p>
-
-<p>package-foo</p>
-
+package-foo</pre></td></tr></table>
+</div>
+</div>
 <p>在RUN语句中单独使用apt-get update会导致缓存问题和后续的apt-get install失败。例如，假设你有一个Dockerfile：</p>
 
 <p>以上也可以写成：</p>
@@ -591,47 +804,89 @@ RUN apt-getinstall -y curl
 <p>Docker将初始和修改的指令视为相同，并重用前面步骤中的缓存。因此，不会执行apt-get update，因为构建使用缓存版本。由于apt-get update未运行，因此您的构建可能会获得curl和nginx软件包的旧版本。</p>
 
 <p>使用RUNapt-get update &amp;&amp; apt-get install -y可确保您的Dockerfile安装最新的软件包版本，无需进一步编码或手动干预。这种技术被称为“缓存破坏”。您还可以通过指定包版本来实现缓存清除。这称为版本固定，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">RUN apt-getupdate &amp;&amp; apt-get install -y
 
-<p>RUN apt-getupdate &amp;&amp; apt-get install -y</p>
+package-bar
 
-<p>package-bar</p>
+package-baz
 
-<p>package-baz</p>
-
-<p>package-foo=1.3.*</p>
-
+package-foo=1.3.*</pre></td></tr></table>
+</div>
+</div>
 <p>版本固定强制构建以检索特定版本，而不管缓存中的内容是什么。此技术还可以减少由于所需包中意外更改而导致的故障。</p>
 
 <p>如下是一个结构良好的RUN指令，它演示了所有apt-get建议。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">RUN apt-getupdate &amp;&amp; apt-get install -y
 
-<p>RUN apt-getupdate &amp;&amp; apt-get install -y</p>
+aufs-tools
 
-<p>aufs-tools</p>
+automake
 
-<p>automake</p>
+build-essential
 
-<p>build-essential</p>
+curl
 
-<p>curl</p>
+dpkg-sig
 
-<p>dpkg-sig</p>
+libcap-dev
 
-<p>libcap-dev</p>
+libsqlite3-dev
 
-<p>libsqlite3-dev</p>
+mercurial
 
-<p>mercurial</p>
+reprepro
 
-<p>reprepro</p>
+ruby1.9.1
 
-<p>ruby1.9.1</p>
+ruby1.9.1-dev
 
-<p>ruby1.9.1-dev</p>
+s3cmd=1.1.*
 
-<p>s3cmd=1.1.*</p>
-
-<p>&amp;&amp; rm -rf /var/lib/apt/lists/*</p>
-
+&amp;&amp; rm -rf /var/lib/apt/lists/*</pre></td></tr></table>
+</div>
+</div>
 <p>s3cmd参数指定版本1.1*。如果镜像使用以前的旧版本，则指定新版本会导致apt-get update缓存失效，并确保安装新版本。列出每行的包也可以防止包重复中的错误。</p>
 
 <p>此外，当您通过删除/var/lib/apt/lists/清理apt缓存时，它会减小映像大小，因为apt缓存不存储在层中。 由于RUN语句以apt-get update开头，因此在apt-get install之前始终刷新包缓存。</p>
@@ -640,23 +895,40 @@ RUN apt-getinstall -y curl
 
 <p>USING PIPES
 某些RUN命令依赖于使用管道符（|）将一个命令的输出传递到另一个命令的能力，如下例所示：</p>
-
-<p>RUN wget –O –<a href="https://some.site">https://some.site</a> | wc –l&gt; /number</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">RUN wget –O –https://some.site | wc –l&gt; /number</pre></td></tr></table>
+</div>
+</div>
 <p>Docker使用/bin/sh -c解释器执行这些命令，该解释器仅评估管道中最后一个操作的退出代码以确定成功。在上面的示例中，只要wc -l命令成功，即使wget命令失败，此构建步骤也会成功并生成新映像。</p>
 
 <p>如果希望命令由于管道中任何阶段的错误而失败，请在之前添加set -o pipefail &amp;&amp;，以确保意外错误可防止构建无意义的镜像。例如：</p>
-
-<p>RUN set -opipefail &amp;&amp; wget -O - <a href="https://some.site">https://some.site</a> | wc -l &gt; /number</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">RUN set -opipefail &amp;&amp; wget -O - https://some.site | wc -l &gt; /number</pre></td></tr></table>
+</div>
+</div>
 <p>并不是所有shell都支持 –o pipefail</p>
 
 <p>在基于Debian的映像上的dash shell的情况下，请考虑使用RUN的时候明确选择支持pipefail选项的shell。 例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">RUN [&#34;/bin/bash&#34;,&#34;-c&#34;, &#34;set -o pipefail &amp;&amp; wget -O - https://some.site |wc -l &gt; /number&#34;]
 
-<p>RUN [&ldquo;/bin/bash&rdquo;,&ldquo;-c&rdquo;, &ldquo;set -o pipefail &amp;&amp; wget -O - <a href="https://some.site">https://some.site</a> |wc -l &gt; /number&rdquo;]</p>
-
-<p>CMD</p>
-
+CMD</pre></td></tr></table>
+</div>
+</div>
 <p>CMD指令应该用于运行镜像包含的软件以及任何参数。CMD应该几乎总是以CMD [“executable”，“param1”，“param2”……]的形式使用。因此，如果镜像用于服务，例如Apache和Rails，则可以运行类似CMD[“apache2”，“ –  DFOREGROUND”]的内容。实际上，建议将这种形式的指令用于任何基于服务的镜像。</p>
 
 <p>在大多数其他情况下，CMD应该被赋予一个交互式shell，例如bash，python和perl。例如，CMD [“perl”，“ – de0”]，CMD [“python”]或CMD [“php”，“ – a”]。使用这个表单意味着当你执行像docker run -it python这样的东西时，你将被放入一个可用的shell中，准备就绪。 CMD应该很少以CMD [“param”，“param”]的方式与ENTRYPOINT一起使用，除非您和您的预期用户已经非常熟悉ENTRYPOINT的工作原理。</p>
@@ -674,65 +946,127 @@ RUN apt-getinstall -y curl
 <p>ENV指令对于提供特定于您希望容纳的服务的必需环境变量也很有用，例如Postgres’s的PGDATA。</p>
 
 <p>最后，ENV还可用于设置常用版本号，以便更容易维护版本，如以下示例所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ENV PG_MAJOR9.3
 
-<p>ENV PG_MAJOR9.3</p>
+ENV PG_VERSION 9.3.4
 
-<p>ENV PG_VERSION 9.3.4</p>
+RUN curl -SLhttp://example.com/postgres-$PG_VERSION.tar.xz | tar -xJC /usr/src/postgress&amp;&amp; …
 
-<p>RUN curl -SLhttp://example.com/postgres-$PG_VERSION.tar.xz | tar -xJC /usr/src/postgress&amp;&amp; …</p>
-
-<p>ENV PATH/usr/local/postgres-$PG_MAJOR/bin:$PATH</p>
-
+ENV PATH/usr/local/postgres-$PG_MAJOR/bin:$PATH</pre></td></tr></table>
+</div>
+</div>
 <p>类似于在程序中使用常量变量（解耦硬编码），此方法允许您更改单个ENV指令以自动神奇地破坏容器中的软件版本。</p>
 
 <p>每条ENV都会创建一个新的中间层，就像RUN命令一样。这意味着即使您在将来的镜像中取消设置环境变量，它仍然会在此镜像层中保留，并且其值可以导出。您可以通过创建如下所示的Dockerfile来测试它，然后构建它。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">FROM alpineENV ADMIN_USER=&#34;mark&#34;
 
-<p>FROM alpineENV ADMIN_USER=&ldquo;mark&rdquo;</p>
+RUN echo$ADMIN_USER &gt; ./mark
 
-<p>RUN echo$ADMIN_USER &gt; ./mark</p>
+RUN unsetADMIN_USER $ docker run--rm test sh -c &#39;echo $ADMIN_USER&#39;
 
-<p>RUN unsetADMIN_USER $ docker run&ndash;rm test sh -c &lsquo;echo $ADMIN_USER&rsquo;</p>
-
-<p>mark</p>
-
+mark</pre></td></tr></table>
+</div>
+</div>
 <p>要防止这种情况，并且实际上取消环境变量，请使用带有RUN命令执行shell执行 set和unset变量。您可以使用; 或＆＆分隔命令。如果您使用第二种方法，并且其中一个命令失败，则docker构建也会失败。这通常是一个好办法。使用作为Linux Dockerfiles的行连续符可以提高可读性。 您还可以将所有命令放入shell脚本中，并使用RUN命令运行该shell脚本。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">FROM alpine
 
-<p>FROM alpine</p>
+RUN export ADMIN_USER=&#34;mark&#34;
 
-<p>RUN export ADMIN_USER=&ldquo;mark&rdquo;</p>
+&amp;&amp; echo $ADMIN_USER &gt; ./mark
 
-<p>&amp;&amp; echo $ADMIN_USER &gt; ./mark</p>
+&amp;&amp; unset ADMIN_USER
 
-<p>&amp;&amp; unset ADMIN_USER</p>
+CMD sh
 
-<p>CMD sh</p>
+$ docker run--rm test sh -c &#39;echo $ADMIN_USER&#39;
 
-<p>$ docker run&ndash;rm test sh -c &lsquo;echo $ADMIN_USER&rsquo;</p>
-
-<p>ADDor COPY</p>
-
+ADDor COPY</pre></td></tr></table>
+</div>
+</div>
 <p>尽管ADD和COPY在功能上相似，但一般来说，COPY是优选的。那是因为它比ADD更透明。COPY仅支持将本地文件复制到容器中，而ADD具有一些功能（如本地的tar提取和远程URL支持），这些功能并不是很明显。 因此，ADD的最佳用途是将本地tar文件自动提取到镜像中，如ADD rootfs.tar.xz /所示。</p>
 
 <p>如果您有多个使用上下文中不同文件的Dockerfile步骤，请单独复制它们，而不是一次复制它们。 这可确保每个步骤的构建缓存仅在特定所需文件更改时失效（强制重新执行该步骤）。例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">COPY requirements.txt /tmp/
 
-<p>COPY requirements.txt /tmp/</p>
+RUN pipinstall --requirement /tmp/requirements.txt
 
-<p>RUN pipinstall &ndash;requirement /tmp/requirements.txt</p>
-
-<p>COPY . /tmp/</p>
-
+COPY . /tmp/</pre></td></tr></table>
+</div>
+</div>
 <p>由于镜像大小很重要，因此强烈建议不要使用ADD从远程URL获取包。你应该使用curl或wget代替。这样，您可以删除提取后不再需要的文件，也不必在图像中添加其他镜像层。 例如，你应该避免做以下事情：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ADD http://example.com/big.tar.xz /usr/src/things
 
-<p>ADD <a href="http://example.com/big.tar.xz">http://example.com/big.tar.xz</a> /usr/src/things</p>
+/RUN tar -xJf/usr/src/things/big.tar.xz -C /usr/src/things
 
-<p>/RUN tar -xJf/usr/src/things/big.tar.xz -C /usr/src/things</p>
-
-<p>RUN make -C/usr/src/things all</p>
-
+RUN make -C/usr/src/things all</pre></td></tr></table>
+</div>
+</div>
 <p>最佳做法：</p>
-
-<p>RUN mkdir -p/usr/src/things &amp;&amp; curl -SLhttp://example.com/big.tar.xz  | tar-xJC /usr/src/things   &amp;&amp; make -C /usr/src/things all</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">RUN mkdir -p/usr/src/things &amp;&amp; curl -SLhttp://example.com/big.tar.xz  | tar-xJC /usr/src/things   &amp;&amp; make -C /usr/src/things all</pre></td></tr></table>
+</div>
+</div>
 <p>对于不需要ADD的tar自动提取功能的其他项目（文件，目录），应始终使用COPY。</p>
 
 <p>ENTRYPOINT</p>
@@ -757,12 +1091,55 @@ RUN apt-getinstall -y curl
 <p>ENTRYPOINT指令也可以与辅助脚本结合使用，使其能够以与上述命令类似的方式运行，即使启动该工具可能需要多个步骤。</p>
 
 <p>例如，Postgres官方镜像使用以下脚本作为其ENTRYPOINT：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="cp">#!/bin/bash
+</span><span class="cp"></span>
+<span class="nb">set</span> -e
 
-<p>#!/bin/bash</p>
+<span class="k">if</span> <span class="o">[</span><span class="s2">&#34;</span><span class="nv">$1</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s1">&#39;postgres&#39;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
 
-<p>set -e</p>
+    chown -R postgres <span class="s2">&#34;</span><span class="nv">$PGDATA</span><span class="s2">&#34;</span>
 
-<p>if [&ldquo;$1&rdquo; = &lsquo;postgres&rsquo; ]; then</p>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&#34;</span><span class="k">$(</span>ls -A<span class="s2">&#34;</span><span class="nv">$PGDATA</span><span class="s2">&#34;</span><span class="k">)</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span> 
+
+       gosu postgres initdb  
+
+    <span class="k">fi</span>    
+
+    <span class="nb">exec</span> gosu postgres <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span>
+
+<span class="k">fi</span>
+
+exec<span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span></pre></td></tr></table>
+</div>
+</div>
+<p>配置应用进程PID为1</p>
+
+<p>此脚本使用exec Bash命令，以便最终运行的应用程序成为容器的PID 1.这允许应用程序接收发送到容器的任何Unix信号。</p>
+
+<p>帮助程序脚本被复制到容器中并通过容器启动时的ENTRYPOINT运行：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -770,53 +1147,46 @@ RUN apt-getinstall -y curl
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">chown -R postgres &#34;$PGDATA&#34;
+<pre class="chroma">COPY./docker-entrypoint.sh /
 
-if [ -z &#34;$(ls -A&#34;$PGDATA&#34;)&#34; ]; then 
+ENTRYPOINT[&#34;/docker-entrypoint.sh&#34;]
 
-   gosu postgres initdb  
-
-fi    
-
-exec gosu postgres &#34;$@&#34;</pre></td></tr></table>
+CMD[&#34;postgres&#34;]</pre></td></tr></table>
 </div>
 </div>
-<p>fi</p>
-
-<p>exec&rdquo;$@&rdquo;</p>
-
-<p>配置应用进程PID为1</p>
-
-<p>此脚本使用exec Bash命令，以便最终运行的应用程序成为容器的PID 1.这允许应用程序接收发送到容器的任何Unix信号。</p>
-
-<p>帮助程序脚本被复制到容器中并通过容器启动时的ENTRYPOINT运行：</p>
-
-<p>COPY./docker-entrypoint.sh /</p>
-
-<p>ENTRYPOINT[&ldquo;/docker-entrypoint.sh&rdquo;]</p>
-
-<p>CMD[&ldquo;postgres&rdquo;]</p>
-
 <p>该脚本允许用户以多种方式与Postgres交互。它可以简单地启动Postgres：</p>
-
-<p>$ docker runpostgres</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ docker runpostgres</pre></td></tr></table>
+</div>
+</div>
 <p>或者，它可用于运行Postgres并将参数传递给服务器：</p>
-
-<p>$ docker runpostgres postgres &ndash;help</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ docker runpostgres postgres --help</pre></td></tr></table>
+</div>
+</div>
 <p>最后，它还可以用来启动一个完全不同的工具，比如Bash：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ docker run –rm–it postgres bash
 
-<p>$ docker run –rm–it postgres bash</p>
-
-<p>VOLUME</p>
-
+VOLUME</pre></td></tr></table>
+</div>
+</div>
 <p>VOLUME指令用于挂载由docker容器创建的任何数据库存储区域，配置存储或文件/文件夹。强烈建议您将VOLUME用于镜像的任何可变或用户可维护部分。</p>
 
 <p>USER</p>

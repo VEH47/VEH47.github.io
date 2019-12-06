@@ -340,13 +340,23 @@ Internet上采用的路由算法一般是基于数据包目的地址的。理论
 <p>示例</p>
 
 <p>通过路由表inr.ruhep路由来自源地址为192.203.80/24的数据包</p>
-
-<p>ip ru add from 192.203.<sup>80</sup>&frasl;<sub>24</sub> table inr.ruhep prio 220</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ip ru add from 192.203.80/24 table inr.ruhep prio 220</pre></td></tr></table>
+</div>
+</div>
 <p>把源地址为193.233.7.83的数据报的源地址转换为192.203.80.144，并通过表1进行路由</p>
-
-<p>ip ru add from 193.233.7.83 nat 192.203.80.144 table 1 prio 320</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ip ru add from 193.233.7.83 nat 192.203.80.144 table 1 prio 320</pre></td></tr></table>
+</div>
+</div>
 <p>删除无用的缺省规则</p>
 
 <p>ip ru del prio 32767</p>
@@ -358,27 +368,46 @@ Internet上采用的路由算法一般是基于数据包目的地址的。理论
 <p>缩写：show、list、sh、ls、l</p>
 
 <p>输出格式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">kuznet@amber:~ $ ip ru ls
 
-<p>kuznet@amber:~ $ ip ru ls</p>
+0: from all lookup local
 
-<p>0: from all lookup local</p>
+200: from 192.203.80.0/24 to 193.233.7.0/24 lookup main
 
-<p>200: from 192.203.80.0/24 to 193.233.7.0/24 lookup main</p>
+210: from 192.203.80.0/24 to 192.203.80.0/24 lookup main
 
-<p>210: from 192.203.80.0/24 to 192.203.80.0/24 lookup main</p>
+220: from 192.203.80.0/24 lookup inr.ruhep realms inr.ruhep/radio-msu
 
-<p>220: from 192.203.80.0/24 lookup inr.ruhep realms inr.ruhep/radio-msu</p>
+300: from 193.233.7.83 to 193.233.7.0/24 lookup main
 
-<p>300: from 193.233.7.83 to 193.233.7.0/24 lookup main</p>
+310: from 193.233.7.83 to 192.203.80.0/24 lookup main
 
-<p>310: from 193.233.7.83 to 192.203.80.0/24 lookup main</p>
+320: from 193.233.7.83 lookup inr.ruhep map-to 192.203.80.144
 
-<p>320: from 193.233.7.83 lookup inr.ruhep map-to 192.203.80.144</p>
-
-<p>32766: from all lookup main</p>
-
-<p>kuznet@amber:~ $</p>
-
+32766: from all lookup main</pre></td></tr></table>
+</div>
+</div>
 <p>每行第一部分的数字是规则的优先级，接着是选择符。关键词lookup后面接着路由表识别符。如果规则要进行网络地址转换，还需要一个关键词map-to设置转换以后的地址。</p>
 
 <p>上面的示例非常简单，192.203.80.0/24和193.233.7.0/24组成内部网络，但是它们向外发送数据包要通过不同的路由。主机193.233.7.83和外界会话时，地址需要转换为192.203.80.144。</p>
@@ -390,13 +419,22 @@ Internet上采用的路由算法一般是基于数据包目的地址的。理论
 <p>ip rule 路由策略,控制路由选择，可根据源地址，源IP等进行路由选择</p>
 
 <p>路由策略由选择符合操作组成</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ip rule add   添加策略
 
-<p>ip rule add   添加策略</p>
+ip rule delete  删除策略
 
-<p>ip rule delete  删除策略</p>
-
-<p>ip rule show  显示策略</p>
-
+ip rule show  显示策略</pre></td></tr></table>
+</div>
+</div>
 <p>使用路由策略可以更好的控制路由走向，类似于cisco下的 route map</p>
 
 <p>下面一个例子显示了使用路由策略的优点：</p>
@@ -420,13 +458,23 @@ Internet上采用的路由算法一般是基于数据包目的地址的。理论
 <p>在network里面添加GATEWAY=222.73.121.1</p>
 
 <p>添加路由条目如下</p>
-
-<p>route add –net 58.16.0.0/13 gw 112.80.1.1</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">route add –net 58.16.0.0/13 gw 112.80.1.1</pre></td></tr></table>
+</div>
+</div>
 <p>B. 每网卡路由：假设eth0为222.73.121.<sup>100</sup>&frasl;<sub>24</sub>,eth1为112..80.1.100/24，新建以下文件</p>
-
-<p>/etc/sysconfig/network-scripts/route-eth1</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">/etc/sysconfig/network-scripts/route-eth1</pre></td></tr></table>
+</div>
+</div>
 <p>按如下格式添加路由条目</p>
 
 <p>58.16.0.0/13 via 112.80.1.100</p>
@@ -475,19 +523,34 @@ Internet上采用的路由算法一般是基于数据包目的地址的。理论
 </div>
 </div>
 <p>3． 添加原路返回路由</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ip  route  flush  table dianxin
 
-<p>ip  route  flush  table dianxin</p>
+ip  route  add  default  via 222.73.121.1 dev  eth0  src 222.73.121.100 table dianxin
 
-<p>ip  route  add  default  via 222.73.121.1 dev  eth0  src 222.73.121.100 table dianxin</p>
+ip  rule  add  from  222.73.121.100  table  dianxin
 
-<p>ip  rule  add  from  222.73.121.100  table  dianxin</p>
+ip route flush table wangtong
 
-<p>ip route flush table wangtong</p>
+ip  route  add  default  via 112.80.1.1 dev eth1  src 112.80.1.100 table wangtong
 
-<p>ip  route  add  default  via 112.80.1.1 dev eth1  src 112.80.1.100 table wangtong</p>
-
-<p>ip  rule  add  from  112.80.1.100  table  wangtong</p>
-
+ip  rule  add  from  112.80.1.100  table  wangtong</pre></td></tr></table>
+</div>
+</div>
 <p>即让从电信IP过来的请求按照电信路由返回，从网通IP过来的请求从网通路由返回</p>
 
 <p>将上述命令添加至/etc/rc.local中，以便重启可以生效</p>
@@ -530,14 +593,19 @@ Internet上采用的路由算法一般是基于数据包目的地址的。理论
 <p>重启网络服务可以看到路由策略生效，当然，client的访问到达server之前是需要智能DNS解析的功能来选择不同的到达路径的。</p>
 
 <p>添加rule  以180.95.233.130/32为源的IP走路由表1111</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ip rule add from 180.95.233.130/32 table 111
 
-<p>ip rule add from 180.95.233.<sup>130</sup>&frasl;<sub>32</sub> table 111</p>
-
-<p>Ip rule add from 180.95.233.<sup>130</sup>&frasl;<sub>32</sub> table 111 pref 100</p>
-
+Ip rule add from 180.95.233.130/32 table 111 pref 100</pre></td></tr></table>
+</div>
+</div>
 <p>pref即路由表内序号，如果不加pref，则将在已有的规则最小序号前插入</p>
-
-<p>ip rule add from 192.168.82.1 table tel2 pref 100</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -547,9 +615,13 @@ Internet上采用的路由算法一般是基于数据包目的地址的。理论
 </span><span class="lnt">5
 </span><span class="lnt">6
 </span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">[root@zebra ~]# ip rule sh
+<pre class="chroma">ip rule add from 192.168.82.1 table tel2 pref 100
+
+[root@zebra ~]# ip rule sh
 
 0:      from all lookup local
 
@@ -569,69 +641,136 @@ Internet上采用的路由算法一般是基于数据包目的地址的。理论
 <p>1、全局路由表下生成两条负载默认路由</p>
 
 <p>ip route add default scope global</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">nexthop via $P1 dev $IF1 weight 1
 
-<p>nexthop via $P1 dev $IF1 weight 1</p>
-
-<p>nexthop via $P2 dev $IF2 weight 1</p>
-
+ nexthop via $P2 dev $IF2 weight 1</pre></td></tr></table>
+</div>
+</div>
 <p>ip ro sh</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">default
 
-<p>default</p>
+nexthop via 192.168.81.2  dev eth2.801 weight 1
 
-<p>nexthop via 192.168.81.2  dev eth2.801 weight 1</p>
-
-<p>nexthop via 192.168.82.2  dev eth2.802 weight 1</p>
-
+nexthop via 192.168.82.2  dev eth2.802 weight 1</pre></td></tr></table>
+</div>
+</div>
 <p>这样生成了两条等价的负载路由</p>
 
 <p>2、在指定路由表中生成两条默认路由</p>
 
 <p>ip rout change default table 1881</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">nexthop via 10.222.22.1 dev p1p2.222
 
-<p>nexthop via 10.222.22.1 dev p1p2.222</p>
+nexthop via 10.16.16.1 dev p1p2.111</pre></td></tr></table>
+</div>
+</div>
+<p>ip rout sh table 1881</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">default
 
-<p>nexthop via 10.16.16.1 dev p1p2.111</p>
+nexthop via 10.222.22.1  dev p1p2.222 weight 1
 
-<p>[root@JXCN-ZLCS-NAT ~]# ip rout sh table 1881</p>
-
-<p>default</p>
-
-<p>nexthop via 10.222.22.1  dev p1p2.222 weight 1</p>
-
-<p>nexthop via 10.16.16.1  dev p1p2.111 weight 1</p>
-
+nexthop via 10.16.16.1  dev p1p2.111 weight 1</pre></td></tr></table>
+</div>
+</div>
 <p>删除默认路由</p>
-
-<p>ip rout del default</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ip rout del default</pre></td></tr></table>
+</div>
+</div>
 <p>根据网卡设备决定路由表</p>
 
 <p>用于将不同接口进来的数据包走指定的路由表。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"> ip rule add dev eth0 table tel
 
-<p>ip rule add dev eth0 table tel</p>
-
-<p>ip rule add dev eth1 table tel2</p>
-
+ ip rule add dev eth1 table tel2</pre></td></tr></table>
+</div>
+</div>
 <p>将流量定向走指定路由表</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">/sbin/vconfig add eth3 198
 
-<p>/sbin/vconfig add eth3 198</p>
+/sbin/ifconfig eth3.198 10.101.98.2/30
 
-<p>/sbin/ifconfig eth3.198 10.101.98.<sup>2</sup>&frasl;<sub>30</sub></p>
+/sbin/vconfig add eth0 298
 
-<p>/sbin/vconfig add eth0 298</p>
+/sbin/ifconfig eth0.298 172.22.98.1/30
 
-<p>/sbin/ifconfig eth0.298 172.22.98.<sup>1</sup>&frasl;<sub>30</sub></p>
 
-<p>ip rout add default via 172.22.98.2 table 2298  创建table 2298</p>
+ip rout add default via 172.22.98.2 table 2298  创建table 2298
 
-<p>ip rule add dev eth3.198 table 2298    流量入口</p>
+ip rule add dev eth3.198 table 2298    流量入口
 
-<p>ip rule add dev eth0.298 table 2298  流量出口</p>
+ip rule add dev eth0.298 table 2298  流量出口
 
-<p>ip rout add  223.103.5.0/24      via 10.101.98.1 table 2298   回程路由</p>
+ip rout add  223.103.5.0/24      via 10.101.98.1 table 2298   回程路由
 
-<p>ip rout add  223.104.5.0/24      via 10.101.98.1 table 2298</p>
-
+ip rout add  223.104.5.0/24      via 10.101.98.1 table 2298</pre></td></tr></table>
+</div>
+</div>
 <p>验证配置</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -670,15 +809,25 @@ Internet上采用的路由算法一般是基于数据包目的地址的。理论
 </div>
 </div>
 <p>将接口从指定路由表中删除</p>
-
-<p>ip rule del dev eth1 table tel2</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ip rule del dev eth1 table tel2</pre></td></tr></table>
+</div>
+</div>
 <p>根据目标IP决定路由表</p>
 
 <p>将一些目标IP指定从哪些出口走</p>
-
-<p>ip rule add to 220.181.75.1 table tel2</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ip rule add to 220.181.75.1 table tel2</pre></td></tr></table>
+</div>
+</div>
 <p>验证</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -715,9 +864,14 @@ Internet上采用的路由算法一般是基于数据包目的地址的。理论
 <p>根据源IP决定路由表</p>
 
 <p>基于源IP的路由，相当于PBR</p>
-
-<p>ip rule add from 192.168.82.1 table tel2</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ip rule add from 192.168.82.1 table tel2</pre></td></tr></table>
+</div>
+</div>
 <p>验证配置</p>
 
 <p>[root@zebra ~]# ip rule sh</p>
@@ -727,9 +881,14 @@ Internet上采用的路由算法一般是基于数据包目的地址的。理论
 <p>32762:  from 192.168.82.1 lookup tel2</p>
 
 <p>删除策略</p>
-
-<p>ip rule del  from 192.168.82.1 table tel2</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ip rule del  from 192.168.82.1 table tel2</pre></td></tr></table>
+</div>
+</div>
 <p>删除路由条目的几种方法</p>
 
 <p>根据明细条目删除</p>
@@ -755,25 +914,47 @@ Internet上采用的路由算法一般是基于数据包目的地址的。理论
 <p>查看arp 缓冲表</p>
 
 <p>ip neighbor show</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@zebra ~]# ip neighbor show
 
-<p>[root@zebra ~]# ip neighbor show</p>
+103.246.132.77 dev eth0 lladdr 28:10:7b:54:f2:d1 REACHABLE
 
-<p>103.246.132.77 dev eth0 lladdr 28:10:7b:54:f2:d1 REACHABLE</p>
+103.246.132.244 dev eth0 lladdr 00:0c:29:40:24:1d REACHABLE
 
-<p>103.246.132.244 dev eth0 lladdr 00:0c:29:40:24:1d REACHABLE</p>
+192.168.82.2 dev eth2.802 lladdr 80:f6:2e:8d:39:b2 REACHABLE
 
-<p>192.168.82.2 dev eth2.802 lladdr 80:f6:2e:8d:39:b2 REACHABLE</p>
-
-<p>192.168.81.2 dev eth2.801 lladdr 80:f6:2e:8d:39:b1 REACHABLE</p>
-
+192.168.81.2 dev eth2.801 lladdr 80:f6:2e:8d:39:b1 REACHABLE</pre></td></tr></table>
+</div>
+</div>
 <p>删除邻居的MAC缓存</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ip neighbor del 103.246.132.130 dev eth0
 
-<p>ip neighbor del 103.246.132.130 dev eth0</p>
+[root@zebra ~]# ip nei sh
 
-<p>[root@zebra ~]# ip nei sh</p>
-
-<p>103.246.132.130 dev eth0  FAILED</p>
-
+103.246.132.130 dev eth0  FAILED</pre></td></tr></table>
+</div>
+</div>
 <p>基于协议和端口进行流量分割</p>
 
 <p>1、iptables -t mangle -A PREROUTING -i eth0.101 -p TCP –dport 80 -j MARK –set-mark 8080</p>

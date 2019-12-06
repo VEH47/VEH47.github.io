@@ -264,15 +264,27 @@
 <p>场景5：业务的快速部署</p>
 
 <p>kvm虚拟化软件的安装(KVM：Kernel-based Virtual Machine )</p>
-
-<p>yum install libvirt* virt-* qemu-kvm* -y</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum install libvirt* virt-* qemu-kvm* -y</pre></td></tr></table>
+</div>
+</div>
 <p>libvirt 作用：虚拟机的管理软件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">virt virt-install virt-clone 作用：虚拟机的安装和克隆
 
-<p>virt virt-install virt-clone 作用：虚拟机的安装和克隆</p>
-
-<p>qemu-kvm qemu-img 作用：复制管理虚拟机的磁盘</p>
-
+qemu-kvm qemu-img 作用：复制管理虚拟机的磁盘</pre></td></tr></table>
+</div>
+</div>
 <p>虚拟化软件：</p>
 
 <p>qemu 软件纯模拟全虚拟化软件，特别慢！</p>
@@ -282,11 +294,18 @@
 <p>KVM 全虚拟机，它有硬件支持cpu，基于内核，而且不需要使用专门的内核</p>
 
 <p>安装一台虚拟机</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">systemctl start libvirtd.service 启动
 
-<p>systemctl start libvirtd.service 启动</p>
-
-<p>systemctl status libvirtd.service 查看状态</p>
-
+systemctl status libvirtd.service 查看状态</pre></td></tr></table>
+</div>
+</div>
 <p>建议虚拟机内存不要低于1024M，否则安装系统特别慢！</p>
 
 <p>virt-install –virt-type kvm –os-type=linux –os-variant rhel7 –name centos7 –memory 1024 –vcpus 1 –disk /opt/centos7.raw,format=raw,size=10 –cdrom /opt/CentOS-7-x86_64-DVD-1708.iso –network network=default –graphics vnc,listen=0.0.0.0 –noautoconsole</p>
@@ -297,20 +316,35 @@
 支持快照</p>
 
 <p>kvm虚拟机的virsh日常管理和配置
-virsh list centos7 显示列表</p>
+    virsh list centos7 显示列表</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">virsh start centos7 开机
 
-<p>virsh start centos7 开机</p>
+virsh shutdown centos7 关机
 
-<p>virsh shutdown centos7 关机</p>
+virsh destory centos7 拔电源关机
 
-<p>virsh destory centos7 拔电源关机</p>
+virsh suspeng centos7 挂起
 
-<p>virsh suspeng centos7 挂起</p>
+virsh resume centos7 恢复
 
-<p>virsh resume centos7 恢复</p>
-
-<p>virsh vncdisplay centos7 查询vnc端口</p>
-
+virsh vncdisplay centos7 查询vnc端口</pre></td></tr></table>
+</div>
+</div>
 <p>导出配置dumpxml 例子：virsh dumpxml centos7 &gt;centos7-off.xml</p>
 
 <p>导入配置define 例子virsh define centos7-off.xml</p>
@@ -323,25 +357,46 @@ virsh list centos7 显示列表</p>
 
 <p>kvm虚拟机开机启动和console登录
 开机启动autostart，前提：systemctl enable libvirtd；</p>
-
-<p>virsh autostart centos7</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">virsh autostart centos7</pre></td></tr></table>
+</div>
+</div>
 <p>取消开机启动autostart –disable</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">virsh autostart –disable centos7
 
-<p>virsh autostart –disable centos7</p>
+centos7的kvm虚拟机：
 
-<p>centos7的kvm虚拟机：</p>
+grubby –update-kernel=ALL –args=”console=ttyS0,115200n8″
 
-<p>grubby –update-kernel=ALL –args=”console=ttyS0,115200n8″</p>
-
-<p>reboot</p>
-
+reboot</pre></td></tr></table>
+</div>
+</div>
 <p>登录: virsh console centos7</p>
 
 <p>kvm虚拟机虚拟磁盘格式转换和快照管理</p>
-
-<p>virt-install –virt-type kvm –os-type=linux –os-variant rhel7 –name centos7 –memory 1024 –vcpus 1 –disk /opt/oldboy.qcow2,format=qcow2,size=10 –cdrom /etc/opt/CentOS-7.2-x86_64-DVD-1511.iso –network network=default –graphics vnc,listen=0.0.0.0 –noautoconsole</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">virt-install –virt-type kvm –os-type=linux –os-variant rhel7 –name centos7 –memory 1024 –vcpus 1 –disk /opt/oldboy.qcow2,format=qcow2,size=10 –cdrom /etc/opt/CentOS-7.2-x86_64-DVD-1511.iso –network network=default –graphics vnc,listen=0.0.0.0 –noautoconsole</pre></td></tr></table>
+</div>
+</div>
 <p>raw：裸格式，占用空间比较大，不支持快照功能，性能较好，</p>
 
 <p>qcow2：cow （copy on write）占用空间小，支持快照，性能比raw差一点</p>
@@ -355,145 +410,272 @@ virsh list centos7 显示列表</p>
 <p>qemu-img info test.qcow2</p>
 
 <p>raw格式转qcow2格式 (最好处于关机状态)</p>
-
-<p>qemu-img convert -f raw -O qcow2 oldboy.raw oldboy.qcow2</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">qemu-img convert -f raw -O qcow2 oldboy.raw oldboy.qcow2</pre></td></tr></table>
+</div>
+</div>
 <p>原文件格式
 转换为qco2格式
 原文件
 转换后的文件</p>
 
 <p>想要使用新的磁盘格式修改配置文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">virsh edit centos7：
 
-<p>virsh edit centos7：</p>
+&lt;disk type=’file’ device=’disk’&gt;
 
-<p><disk type=’file’ device=’disk’></p>
+&lt;driver name=’qemu’ type=’qcow2’/&gt;
 
-<p><driver name=’qemu’ type=’qcow2’/></p>
+&lt;source file=’/opt/oldboy.qcow2’/&gt;
 
-<p><source file=’/opt/oldboy.qcow2’/></p>
+&lt;target dev=’vda’ bus=’virtio’/&gt;
 
-<p><target dev=’vda’ bus=’virtio’/></p>
+&lt;address type=’pci’ domain=’0x0000′ bus=’0x00′ slot=’0x06′ function=’
 
-<p>&lt;address type=’pci’ domain=’0x0000′ bus=’0x00′ slot=’0x06′ function=’</p>
+0x0’/&gt;
 
-<p>0x0’/&gt;</p>
+&lt;/disk&gt;
 
-<p></disk></p>
+创建快照virsh snapshot-create centos7
 
-<p>创建快照virsh snapshot-create centos7</p>
+查看快照virsh snapshot-list centos7
 
-<p>查看快照virsh snapshot-list centos7</p>
+还原快照virsh snapshot-revert centos7 –snapshotname 1516574134
 
-<p>还原快照virsh snapshot-revert centos7 –snapshotname 1516574134</p>
-
-<p>删除快照virsh snapshot-delete centos7 –snapshotname 1516636570</p>
-
+删除快照virsh snapshot-delete centos7 –snapshotname 1516636570</pre></td></tr></table>
+</div>
+</div>
 <p>kvm虚拟机克隆
-virt-clone –auto-clone -o centos7(完整克隆)</p>
+    virt-clone –auto-clone -o centos7(完整克隆)</p>
 
 <p>kvm虚拟机的桥接网络</p>
 
 <h3 id="1-virsh-iface-bridge-eth0-br0">1. virsh iface-bridge eth0 br0</h3>
 
 <h3 id="2-virsh-edit-centos7">2. virsh edit centos7</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">&lt;interface type=’bridge’&gt;
 
-<p><interface type=’bridge’></p>
+&lt;mac address=’52:54:00:55:aa:fa’/&gt;
 
-<p><mac address=’52:54:00:55:aa:fa’/></p>
-
-<p><source bridge=’br0’/></p>
-
+&lt;source bridge=’br0’/&gt;</pre></td></tr></table>
+</div>
+</div>
 <p>在宿主机上，重启虚拟机生效</p>
 
 <h3 id="3-修改kvm虚拟机的ip">3. 修改kvm虚拟机的ip</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">echo ‘TYPE=Ethernet
 
-<p>echo ‘TYPE=Ethernet</p>
+BOOTPROTO=static
 
-<p>BOOTPROTO=static</p>
+NAME=eth0
 
-<p>NAME=eth0</p>
+DEVICE=eth0
 
-<p>DEVICE=eth0</p>
+ONBOOT=yes
 
-<p>ONBOOT=yes</p>
+IPADDR=10.0.0.111
 
-<p>IPADDR=10.0.0.111</p>
+NETMASK=255.255.255.0
 
-<p>NETMASK=255.255.255.0</p>
+GATEWAY=10.0.0.254
 
-<p>GATEWAY=10.0.0.254</p>
-
-<p>DNS1=223.5.5.5’ &gt;/etc/sysconfig/network-scripts/ifcfg-eth0</p>
-
+DNS1=223.5.5.5’ &gt;/etc/sysconfig/network-scripts/ifcfg-eth0</pre></td></tr></table>
+</div>
+</div>
 <h3 id="4-验证-登录测试">4. 验证:登录测试,</h3>
 
 <p>ping www.baidu.com</p>
 
 <p>kvm虚拟机在线热添加硬盘
 创建一块硬盘</p>
-
-<p>qemu-img create -f qcow2 centsos-add01.qcow2 5G</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">qemu-img create -f qcow2 centsos-add01.qcow2 5G</pre></td></tr></table>
+</div>
+</div>
 <p>添加硬盘</p>
-
-<p>virsh attach-disk centos7 /opt/centos7-add01.qcow2 vdb –live –cache=none –subdriver=qcow2</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">virsh attach-disk centos7 /opt/centos7-add01.qcow2 vdb –live –cache=none –subdriver=qcow2</pre></td></tr></table>
+</div>
+</div>
 <p>去除添加的硬盘</p>
-
-<p>virsh detach-disk centos7 vdb</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">virsh detach-disk centos7 vdb</pre></td></tr></table>
+</div>
+</div>
 <p>虚拟机磁盘扩容：</p>
 
 <p>在kvm虚拟机，卸载</p>
-
-<p>virsh detach-disk centos7 vdb</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">virsh detach-disk centos7 vdb</pre></td></tr></table>
+</div>
+</div>
 <p>给vdb添加5G空间</p>
-
-<p>qemu-img resize /opt/centos7-add01.qcow2 +5G</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">qemu-img resize /opt/centos7-add01.qcow2 +5G</pre></td></tr></table>
+</div>
+</div>
 <p>重新添加撒谎那个硬盘</p>
-
-<p>virsh attach-disk centos7 /opt/centos7-add01.qcow2 vdb –live –cache=none –subdriver=qcow2</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">virsh attach-disk centos7 /opt/centos7-add01.qcow2 vdb –live –cache=none –subdriver=qcow2</pre></td></tr></table>
+</div>
+</div>
 <p>在虚拟机中格式化新加载的磁盘</p>
-
-<p>mkfs.xfs /dev/vdb</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mkfs.xfs /dev/vdb</pre></td></tr></table>
+</div>
+</div>
 <p>在虚拟机上挂载</p>
-
-<p>mount /dev/vdb /tmp</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mount /dev/vdb /tmp</pre></td></tr></table>
+</div>
+</div>
 <p>根分区扩容：</p>
 
 <p>1）在宿主机上关闭虚拟机并调整虚拟机磁盘大小</p>
-
-<p>qemu-img resize oldboy.qcow2 +10G</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">qemu-img resize oldboy.qcow2 +10G</pre></td></tr></table>
+</div>
+</div>
 <p>2）虚拟机中fdisk重新分区</p>
-
-<p>fdisk /dev/vda</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">fdisk /dev/vda</pre></td></tr></table>
+</div>
+</div>
 <p>3)重启之后，执行xfs_growfs /dev/vda1，</p>
 
 <p>如果虚拟机磁盘文件系统是ext4：resize2fs /dev/vda1</p>
 
 <p>virt-manager和kvm虚拟机热迁移(共享的网络文件系统)部署
 1):</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum groupinstall “GNOME Desktop” -y
 
-<p>yum groupinstall “GNOME Desktop” -y</p>
+yum install openssh-askpass -y
 
-<p>yum install openssh-askpass -y</p>
+yum install tigervnc-server -y
 
-<p>yum install tigervnc-server -y</p>
+vncpasswd 设置密码
 
-<p>vncpasswd 设置密码</p>
+vncserver :1 开启
 
-<p>vncserver :1 开启</p>
-
-<p>vncserver -kill :1 关闭</p>
-
+vncserver -kill :1 关闭</pre></td></tr></table>
+</div>
+</div>
 <p>2):kvm虚拟机热迁移</p>
 
 <p>1：两边的环境（桥接网卡）</p>
@@ -518,18 +700,32 @@ virsh dumpxml centos7 &gt;/opt/centos7.xml</p>
 
 <p>把配置文件与磁盘文件一起发往新服务器
 发出的磁盘文件和配置文件路径必须一致</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">scp /opt/centos7.xml 10.0.0.12:/opt/
 
-<p>scp /opt/centos7.xml 10.0.0.12:/opt/</p>
-
-<p>scp /opt/oldboy.raw 10.0.0.12:/opt/</p>
-
+scp /opt/oldboy.raw 10.0.0.12:/opt/</pre></td></tr></table>
+</div>
+</div>
 <p>在新服务器导入配置文件
 新服务器不许开启虚拟化设置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">virsh define /opt/centos7.xml
 
-<p>virsh define /opt/centos7.xml</p>
-
-<p>virsh start centos7 启动</p>
-
+virsh start centos7 启动</pre></td></tr></table>
+</div>
+</div>
 <p>生产中CPU可能不同,需要解决兼容性问题</p>
               
             </div>
