@@ -8,43 +8,35 @@
 <meta name="generator" content="Hugo 0.58.3 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Eleven">
 <meta name="keywords" content="">
-<meta name="description" content="1.
-
-刚接触编程的时候，会觉得这是个很神奇东西，平淡的英文字母，再加上标点符号，竟然可以有这么大魔力。会觉得编程是很有自豪感的事情，因为在我们看来，它就是在创造，用这些跳动的字符，创造我们想要的效果">
+<meta name="description" content="目前在网上出现各种各样的部署博客的方式, 其中在全世界范围内受用wordpress的最多. 但是作为个人博客, 他的量级太过重. 还有就是出现一些静态生成工具, 如hexo hugo">
 
 
-<meta property="og:description" content="1.
-
-刚接触编程的时候，会觉得这是个很神奇东西，平淡的英文字母，再加上标点符号，竟然可以有这么大魔力。会觉得编程是很有自豪感的事情，因为在我们看来，它就是在创造，用这些跳动的字符，创造我们想要的效果">
+<meta property="og:description" content="目前在网上出现各种各样的部署博客的方式, 其中在全世界范围内受用wordpress的最多. 但是作为个人博客, 他的量级太过重. 还有就是出现一些静态生成工具, 如hexo hugo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="技术人员必经9个阶段">
-<meta name="twitter:title" content="技术人员必经9个阶段">
-<meta property="og:url" content="https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/">
-<meta property="twitter:url" content="https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/">
+<meta property="og:title" content="CentOS中使用hugo&#43;nginx">
+<meta name="twitter:title" content="CentOS中使用hugo&#43;nginx">
+<meta property="og:url" content="https://veh47.github.io/2019/12/centos%E4%B8%AD%E4%BD%BF%E7%94%A8hugo-nginx/">
+<meta property="twitter:url" content="https://veh47.github.io/2019/12/centos%E4%B8%AD%E4%BD%BF%E7%94%A8hugo-nginx/">
 <meta property="og:site_name" content="Eleven">
-<meta property="og:description" content="1.
-
-刚接触编程的时候，会觉得这是个很神奇东西，平淡的英文字母，再加上标点符号，竟然可以有这么大魔力。会觉得编程是很有自豪感的事情，因为在我们看来，它就是在创造，用这些跳动的字符，创造我们想要的效果">
-<meta name="twitter:description" content="1.
-
-刚接触编程的时候，会觉得这是个很神奇东西，平淡的英文字母，再加上标点符号，竟然可以有这么大魔力。会觉得编程是很有自豪感的事情，因为在我们看来，它就是在创造，用这些跳动的字符，创造我们想要的效果">
+<meta property="og:description" content="目前在网上出现各种各样的部署博客的方式, 其中在全世界范围内受用wordpress的最多. 但是作为个人博客, 他的量级太过重. 还有就是出现一些静态生成工具, 如hexo hugo">
+<meta name="twitter:description" content="目前在网上出现各种各样的部署博客的方式, 其中在全世界范围内受用wordpress的最多. 但是作为个人博客, 他的量级太过重. 还有就是出现一些静态生成工具, 如hexo hugo">
 <meta property="og:locale" content="zh-cn">
 
   
-    <meta property="article:published_time" content="2019-09-23T23:26:09">
+    <meta property="article:published_time" content="2019-12-06T16:43:06">
   
   
-    <meta property="article:modified_time" content="2019-09-23T23:26:09">
+    <meta property="article:modified_time" content="2019-12-06T16:43:06">
   
-  
-  
-    
-      <meta property="article:section" content="思悟">
-    
   
   
     
-      <meta property="article:tag" content="blog">
+      <meta property="article:section" content="运维">
+    
+  
+  
+    
+      <meta property="article:tag" content="运维">
     
   
 
@@ -65,14 +57,14 @@
   <meta property="twitter:image" content="https://veh47.github.io/images/coffice.png">
 
 
-    <title>技术人员必经9个阶段</title>
+    <title>CentOS中使用hugo&#43;nginx</title>
 
     <link rel="icon" href="https://veh47.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/">
+    <link rel="canonical" href="https://veh47.github.io/2019/12/centos%E4%B8%AD%E4%BD%BF%E7%94%A8hugo-nginx/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -222,15 +214,15 @@
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      技术人员必经9个阶段
+      CentOS中使用hugo&#43;nginx
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-09-23T23:26:09&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-12-06T16:43:06&#43;08:00">
         
-  九月 23, 2019
+  十二月 6, 2019
 
       </time>
     
@@ -239,7 +231,7 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://veh47.github.io/categories/%e6%80%9d%e6%82%9f">思悟</a>
+      <a class="category-link" href="https://veh47.github.io/categories/%e8%bf%90%e7%bb%b4">运维</a>
     
   
 
@@ -249,95 +241,165 @@
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>1.</p>
+              <p>目前在网上出现各种各样的部署博客的方式, 其中在全世界范围内受用wordpress的最多. 但是作为个人博客, 他的量级太过重. 还有就是出现一些静态生成工具, 如hexo hugo</p>
 
-<p>刚接触编程的时候，会觉得这是个很神奇东西，平淡的英文字母，再加上标点符号，竟然可以有这么大魔力。会觉得编程是很有自豪感的事情，因为在我们看来，它就是在创造，用这些跳动的字符，创造我们想要的效果</p>
+<p>hexo 优点在于他的主题生态比较完善, 非常多好看的主题在其社区支持非常好. 但是小白就对他的安装诟病, 还需要安装node.js 并且如果文章数目多的时候就会导致生成页面很慢<br />
+hugo使用go开发的, 在生成页面上是hexo的几倍, 并且最近在学习go语言, 就顺利的选择了hugo, 缺点就是你想找个好看的主题,会让你憋出内伤.<br />
+网上很多文章都是使用hugo+gthub的, 不过这个方法在国内访问的时候支持不太好. 还没法用CDN, 因为国内网站使用CDN都需要备案. 使用国外的CDN好多人推荐Cloudflare, 测试过以后, 表示放弃.</p>
 
-<p>我当时第一次看到编程的时候，就是这种感觉，我也不知道它是什么，如何做到的，但是就是感觉这很神奇，是一种不懂但是觉得很酷的感觉，然后就会着迷，开始想学。</p>
+<p>在这里使用Centos服务器上部署hugo+nginx
+hugo是使用go语言开发的一个静态网页生成工具, 加载速度非常快. nginx对静态页面的支持尤其迅速, 二者结合如虎添翼, 并且不需要使用多高配置的服务器就可以达到效果. 可以进行备案域名, 国内使用CDN</p>
 
-<p>2.</p>
+<h3 id="1-在centos上安装hugo">1. 在centos上安装hugo</h3>
 
-<p>走上了编程之路后，学习得方式主要看语法，这个是为了入门，但是并不太知道为什么会这样，但是能用，能模仿，这时候算是入门了。</p>
+<p>加载hugo.repo源<br />
+    [root@Eleven /data/blog]# vim /etc/yum.repos.d/hugo.repo</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[daftaupe-hugo]   
+name=Copr repo for hugo owned by daftaupe   
+baseurl=https://copr-be.cloud.fedoraproject.org/results/daftaupe/hugo/epel-7-$basearch/   
+type=rpm-md   
+skip_if_unavailable=True   
+gpgcheck=1   
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/daftaupe/hugo/pubkey.gpg   
+repo_gpgcheck=0   
+enabled=1   </pre></td></tr></table>
+</div>
+</div>
+<p><strong><em>安装hugo</em></strong><br />
+    yum install hugo -y</p>
 
-<p>入门后，会迫不及待的，使用实验各种效果，而且这些结果可能都不是自己写出来的，因为入门了，环境可以搭建，会运行，就会从很多地方拷贝一些代码，运行试试，然后感受成功后的自豪感。</p>
+<p><strong><em>查看hugo版本, 有的主题要求hugo版本必须达到. 所以最好是能高一点</em></strong><br />
+    hugo version</p>
 
-<p>我真正做出来东西的语言是VB，可以通过拖动生成界面，然后再填充需要的逻辑代码，就可以实现一些功能，比如MP3后缀名处理，HTML转TXT，那时候主要的目的，还是满足自己的需要，可以做一些酷的东西，并不是真的把它当成一门用于工作的技能系统的学习它，但是即使这样，已经够我在同学面前自豪了。</p>
+<h3 id="2-创建站点目录blog">2. 创建站点目录blog</h3>
 
-<p>3.</p>
+<p>我这里把站点目录放在data目录下<br />
+    mkdir /data/<br />
+    cd /data<br />
+    hugo new site blog</p>
 
-<p>真正的在走向工作之前，这时候的学习，就开始系统性，毕竟要决定靠这个谋生了。这时候我们会看一些实战类的书籍，比如如何做网站，通过什么框架，用到哪些数据库、服务器等等，这时候基本上已经走向正路了。</p>
+<h3 id="3-给hugo加载主题-可以去官网下载">3. 给hugo加载主题, 可以去官网下载.</h3>
 
-<p>但是这个时候，我们只是会用阶段，大部分人还不知道为什么，比如Spring框架，我们知道这么配置可以用，可以IoC反转，但是不知道怎么实现的，原理是什么。</p>
+<p>由于官网的主题都是git包, 所以得先下载git<br />
+yum install git -y</p>
 
-<p>这个时候最大的特点就是，给分配的工作都能做，不太会的，也可以通过Google、百度解决，大不了拷贝别人的一份，改改即可。</p>
+<p>进入主题目录<br />
+    cd /data/themes<br />
+    git clone <a href="https://github.com/tosi29/inkblotty.git">https://github.com/tosi29/inkblotty.git</a> inkblotty<br />
+    cd /data/blog/themes/inkblotty/exampleSite<br />
+    cp  config.toml /data/blog</p>
 
-<p>不管怎么样，现在已经初步具备框架系统体系了，可以谋生了。</p>
+<p>将config.toml 复制到根目录下, 也就是/data/blog目录下, 目的是方便自己以后生成静态页面, 不用指定主题.<br />
+config.toml 可以由自己修改功能, 其中baseurl = &ldquo;<a href="http://x.x.x.x&quot;">http://x.x.x.x&quot;</a> 这个地址是自己服务器的公网地址, 其他的参数在网上自己查找修改. 这里的使用http, 如果你的nginx配置ssl证书, 那么这里可以使用https</p>
 
-<p>4.</p>
+<h3 id="4-生成html文件">4. 生成html文件</h3>
 
-<p>随着工作时间的加长，经验的增加，你会渐渐的发展，很多常用的知识，自己只会用，但是并不懂，比如内存的分配，类的加载顺序，IoC的原理等等。</p>
+<p>hugo &ndash;theme=tranquilpeak &ndash;baseUrl=&ldquo;<a href="http://x.x.x.x&quot;">http://x.x.x.x&quot;</a><br />
+&ndash;theme 为指定主题<br />
+&ndash;baseUrl 指定自己服务器启动的地址<br />
+此时会生成public目录, 为自己的站点目录</p>
 
-<p>这时候大概是工作2年左右，如果快的话，可能会在工作第一年就意识到。这时候你会刻意的去买了一些讲解基础类的书籍，比如以前从来没有认真读完的《Thinking In Java》又开始重读了，并且读的很仔细，还会配合例子测试一下，俨然像一个刚入门的，但是你知道你很清楚你缺少的是什么，想从中学到什么。</p>
+<h3 id="5-安装nginx">5. 安装nginx</h3>
 
-<p>然后你可能还会尝试买一些比较深入的书籍，比如讲解原理的，高级特性分析得等等，这时候你会逐步的在你现在的这门语言开始深入，要跨过不光会用，还要懂为什么的阶段，这个阶段是孤独的，因为大部分都是语言特性、原理的学习。</p>
+<p>这里使用tengine, 由淘宝发起的web服务项目, 与nginx配置相同, 但是在有些方面做过一些优化. 性能稳定性都在天猫和淘宝实践过</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum -y install pcre-devel openssl openssl-devel
+wget https://tengine.taobao.org/download/tengine-2.3.0.tar.gz   
+tar xf tengine-2.3.0.tar.gz    
+cd tengine-2.3.0   
+./configure  --prefix=/data/nginx   
+make &amp;&amp; make install
+这里的/data/nginx 是nginx安装位置</pre></td></tr></table>
+</div>
+</div>
+<h3 id="6-配置nginx">6. 配置nginx</h3>
 
-<p>跨过去，就是鱼跃龙门，过不去，就是一个重复的螺丝钉。</p>
+<p>这里的nginx参数配置自己上网查, 每个参数都网上都有详细的解释, 以下为最简单的参数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">cd /data/nginx/conf   
+cat nginx.conf   
 
-<p>5.</p>
-
-<p>恭喜你能来到这个阶段，你不光会用，还知道原理。这个时候可能你已经工作3年以上了，这时候你开始独立负责一些项目，设计都是你来做。这时候对你的考验不光是编程语言本身了，你还会考虑如何让你的项目具备更好的扩展性，如何提高性能，如何和数据库、服务器、缓存等配合，设计出更好的系统。</p>
-
-<p>这时候你可能开始看设计模式，也会研究数据库的优化，可能还会对Nginx研究，以便更好的使用。</p>
-
-<p>这时候的主要特征，就是抽象能力、复用能力、组件化、模块化的提升，同时可以和编程周边（数据库、服务器等）进行更好的协调和搭配，以完成自己的项目设计。</p>
-
-<p>这就是成为高级工程师之路。</p>
-
-<p>6.</p>
-
-<p>现在你来了第7段，这一段是资深工程师，是第6段的加强，并不会有质的突破。</p>
-
-<p>在这个阶段，你会对抽象、架构的理解更深。开始积累更多的模块，形成一个SDK或者一个微服务，你开始深入研究安全，并发，监控。如果你是服务端，你可能会考虑服务双活甚至多活，考虑网关等等。</p>
-
-<p>并且你可能已经开始跨多个端了解业务和架构设计，比如服务端和前端的分离，服务端和终端的协作，开始逐步的从全局（不限于自己的技术栈）思考问题、设计系统。</p>
-
-<p>这个阶段，就是第6段的继续深入，积累，扩展，然后积累到可以突破到架构师。</p>
-
-<p>7.</p>
-
-<p>现在你终于突破到架构师了，你的眼界不在局限在你的技术栈，其他的语言你可能不懂，但是你知道如何使用他们，甚至你自己开始学习另外一门语言。</p>
-
-<p>你设计的系统，不会只考虑自己的技术栈，你可能会选择更合适的技术栈来实现。</p>
-
-<p>你会跨语言、技术栈思考问题，并且可以提出好的方案，比如负责的一个项目，横跨服务端、Android、iOS和前端，你会通盘考虑，兼顾哥哥技术栈，协调大家完成这个项目。</p>
-
-<p>你不光可能完成分配的任务，还能对现有的系统提出更多有建设性的建议，进行优化，改进，甚至提前积累我们业务需要的技术、平台、知识，为我们未来的使用和扩展做准备。</p>
-
-<p>你还会熟悉业务，可能比其他更多的人对业务更熟悉，因为只有这样，才能设计出更适合业务的架构。</p>
-
-<p>你会借助技术负责人的能力，帮你推动协调事情，让你的想法更好的开展和实现。</p>
-
-<p>你的考虑角度，永远都是整个技术部门，而不是再局限在某个项目，某个组，某个技术栈。</p>
-
-<p>那么恭喜你，现在你是一个合格的架构师了。</p>
-
-<p>8.</p>
-
-<p>现在，到了第8段，现在可能你已经做了10年了，你发现，所有的一切技术，都是实现业务的工具。业务才是根本，技术是为业务服务的，如果买个系统就能达到目的，那么是不需要自己开发的。</p>
-
-<p>这时候，你具备了再一次横向扩展的能力，可以横向到产品、市场、运营、设计、测试、运维等，这时候，你就不是一个单单的技术人了。</p>
-
-<p>如果有一个称呼的话，可以是技术总监、技术VP等等。</p>
-
-<p>9.</p>
-
-<p>以上8段，其中第4段是比较重要的，也是一个槛，第5，6段是一个积累的阶段，也是培养抽象、架构能力的阶段，这两个阶段，决定了你是否可以到第8段的架构师，所以第7段也是一个槛。</p>
-
-<p>有些人，可能5年多就可以到第7段，但是可能需要10年才能到第7段，这是一个非常困难的过程，需要长期的积累，思想的蜕变，才能成长到第8段。</p>
-
-<p>从第5段开始，你就不能只顾自己了，要更多的考虑协调、协作、体系、多角度。只有做的事情是让整个团队受益的，才能逐渐的突破第6段，进入第7段的架构师。</p>
-
-<p>每一步，都踩实，多思考、多学习，在每个段位，都做一些超出这个段位的事情，很自然的就进入了下一个段位。</p>
+user  root;   
+worker_processes  1;   
+events {   
+    worker_connections  1024;   
+}   
+http {   
+    include            mime.types;   
+    default_type       application/octet-stream;   
+    sendfile           on;   
+    keepalive_timeout  65;   
+    gzip               on;   
+    server {   
+        listen       80;        
+        server_name  x.x.x.x;   #服务器的地址   
+        location / {   
+            root   /data/blog/public;   #自己的站点目录   
+            index  index.html index.htm;   
+        }   
+    }   
+}   </pre></td></tr></table>
+</div>
+</div>
+<h3 id="7-配置完成后启动nginx">7. 配置完成后启动nginx</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">/data/nginx/sbin/nginx   </pre></td></tr></table>
+</div>
+</div>
+<p>然后就可以使用你的公网地址访问</p>
               
             </div>
           </div>
@@ -349,7 +411,7 @@
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">标签</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/blog/">blog</a>
+  <a class="tag tag--primary tag--small" href="https://veh47.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
 
                   </div>
                 
@@ -362,7 +424,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/10/ovs%E5%85%A8%E9%9D%A2%E8%A7%A3%E8%AF%BB/" data-tooltip="OVS全面解读">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -370,7 +432,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/" data-tooltip="防止手残rm">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -420,7 +482,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/10/ovs%E5%85%A8%E9%9D%A2%E8%A7%A3%E8%AF%BB/" data-tooltip="OVS全面解读">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -428,7 +490,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://veh47.github.io/2019/09/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/" data-tooltip="防止手残rm">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>

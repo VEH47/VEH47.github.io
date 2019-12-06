@@ -6,10 +6,19 @@
     <description>Recent content on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 17 Oct 2019 09:57:15 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 06 Dec 2019 16:43:06 +0800</lastBuildDate>
     
 	<atom:link href="https://veh47.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>CentOS中使用hugo&#43;nginx</title>
+      <link>https://veh47.github.io/2019/12/centos%E4%B8%AD%E4%BD%BF%E7%94%A8hugo-nginx/</link>
+      <pubDate>Fri, 06 Dec 2019 16:43:06 +0800</pubDate>
+      
+      <guid>https://veh47.github.io/2019/12/centos%E4%B8%AD%E4%BD%BF%E7%94%A8hugo-nginx/</guid>
+      <description>&lt;p&gt;目前在网上出现各种各样的部署博客的方式, 其中在全世界范围内受用wordpress的最多. 但是作为个人博客, 他的量级太过重. 还有就是出现一些静态生成工具, 如hexo hugo&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>OVS全面解读</title>
@@ -294,15 +303,6 @@ OpenvSwitch简称OVS，正如其官网 (&lt;a href=&#34;http://openvswitch.org/&
       <description>&lt;p&gt;1.&lt;/p&gt;
 
 &lt;p&gt;刚接触编程的时候，会觉得这是个很神奇东西，平淡的英文字母，再加上标点符号，竟然可以有这么大魔力。会觉得编程是很有自豪感的事情，因为在我们看来，它就是在创造，用这些跳动的字符，创造我们想要的效果&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://veh47.github.io/1/01/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://veh47.github.io/1/01/</guid>
-      <description>&lt;p&gt;目前在网上出现各种各样的部署博客的方式, 其中在全世界范围内受用wordpress的最多. 但是作为个人博客, 他的量级太过重. 还有就是出现一些静态生成工具, 如hexo hugo&lt;/p&gt;</description>
     </item>
     
   </channel>
