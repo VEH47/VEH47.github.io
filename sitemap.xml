@@ -58,7 +58,7 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/categories/%E7%BD%91%E7%BB%9C/</loc>
+    <loc>https://veh47.github.io/archives/%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2019-10-17T09:57:15+08:00</lastmod>
   </url>
   
@@ -68,7 +68,7 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/archives/%E7%BD%91%E7%BB%9C/</loc>
+    <loc>https://veh47.github.io/categories/%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2019-10-17T09:57:15+08:00</lastmod>
   </url>
   
@@ -93,7 +93,7 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/tags/kubernetes/</loc>
+    <loc>https://veh47.github.io/categories/kubernetes/</loc>
     <lastmod>2019-10-08T11:30:12+08:00</lastmod>
   </url>
   
@@ -103,7 +103,7 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/categories/kubernetes/</loc>
+    <loc>https://veh47.github.io/tags/kubernetes/</loc>
     <lastmod>2019-10-08T11:30:12+08:00</lastmod>
   </url>
   
@@ -113,17 +113,17 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/archives/golang/</loc>
-    <lastmod>2019-10-06T14:47:28+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://veh47.github.io/categories/golang/</loc>
     <lastmod>2019-10-06T14:47:28+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://veh47.github.io/tags/golang/</loc>
+    <lastmod>2019-10-06T14:47:28+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veh47.github.io/archives/golang/</loc>
     <lastmod>2019-10-06T14:47:28+08:00</lastmod>
   </url>
   
@@ -143,17 +143,17 @@
   </url>
   
   <url>
+    <loc>https://veh47.github.io/tags/shell/</loc>
+    <lastmod>2019-09-29T17:19:09+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://veh47.github.io/archives/shell/</loc>
     <lastmod>2019-09-29T17:19:09+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://veh47.github.io/categories/shell/</loc>
-    <lastmod>2019-09-29T17:19:09+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://veh47.github.io/tags/shell/</loc>
     <lastmod>2019-09-29T17:19:09+08:00</lastmod>
   </url>
   
@@ -253,17 +253,17 @@
   </url>
   
   <url>
-    <loc>https://veh47.github.io/tags/kvm/</loc>
-    <lastmod>2019-09-29T14:13:51+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://veh47.github.io/archives/kvm/</loc>
     <lastmod>2019-09-29T14:13:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://veh47.github.io/categories/kvm/</loc>
+    <lastmod>2019-09-29T14:13:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veh47.github.io/tags/kvm/</loc>
     <lastmod>2019-09-29T14:13:51+08:00</lastmod>
   </url>
   
