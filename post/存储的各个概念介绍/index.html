@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>存储的各个概念介绍 - Eleven</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Eleven" />
+  <meta name="description" content="基于各个存储的介绍
+" />
+
+  <meta name="keywords" content="Eleven" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="canonical" href="http://veh47.github.io/post/%E5%AD%98%E5%82%A8%E7%9A%84%E5%90%84%E4%B8%AA%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="存储的各个概念介绍" />
+<meta property="og:description" content="基于各个存储的介绍" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://veh47.github.io/post/%E5%AD%98%E5%82%A8%E7%9A%84%E5%90%84%E4%B8%AA%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D/" />
+<meta property="article:published_time" content="2019-09-29T15:40:24+08:00" />
+<meta property="article:modified_time" content="2019-09-29T15:40:24+08:00" />
+<meta itemprop="name" content="存储的各个概念介绍">
+<meta itemprop="description" content="基于各个存储的介绍">
+
+
+<meta itemprop="datePublished" content="2019-09-29T15:40:24&#43;08:00" />
+<meta itemprop="dateModified" content="2019-09-29T15:40:24&#43;08:00" />
+<meta itemprop="wordCount" content="6275">
+
+
+
+<meta itemprop="keywords" content="运维,存储," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="存储的各个概念介绍"/>
+<meta name="twitter:description" content="基于各个存储的介绍"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Eleven</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+    <style>
+      .fork-me-on-github {
+        position: absolute; top: 0; left: 0; border: 0;
+      }
+      @media (max-width: 1080px) {
+        .fork-me-on-github {
+          display: none;
+        }
+      }
+    </style>
+
+    <a href="https://github.com/veh47">
+      <img class="fork-me-on-github"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"
+        alt="Fork me on GitHub">
+    </a>
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Eleven
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">存储的各个概念介绍</h1>
+      
+      <div class="post-meta">
+        <time datetime="2019-09-29" class="post-time">
+          2019-09-29
+        </time>
+        <div class="post-category">
+            <a href="http://veh47.github.io/categories/%E8%BF%90%E7%BB%B4/"> 运维 </a>
+            
+          </div>
+        <span class="more-meta"> 6275 words </span>
+          <span class="more-meta"> 13 min read </span>
+
+        
+        
+          <span id="busuanzi_container_page_pv">
+            | 阅读 <span id="busuanzi_value_page_pv"></span>
+          </span>
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>基于各个存储的介绍</p>
+
+<p>1.lun</p>
+
+<p>LUN的全称是Logical Unit Number，也就是逻辑单元号，其主要作用是为了给相连的服务器分配逻辑单元号(LUN)。磁盘阵列上的硬盘组成RAID组后，通常连接磁盘阵列的服务器并不能直接访问RAID组，而是要再划分为逻辑单元才能分配给服务器。这是因为SCSI总线上可挂接的设备数量是有限的，一般为8个或者16个，我们可以用Target ID(也有称为SCSI ID的)来描述这些设备，设备只要一加入系统，就有一个代号，在区别设备的时候,只要说几号几号就可以了。而实际上需要用来描述的对象，是远远超过该数字的，于是引进了LUN的概念，也就是说LUN ID的作用就是扩充了Target ID。每个Target下都可以有多个LUN Device，通常简称LUN Device为LUN，这样就可以说每个设备的描述就由原来的Target x变成Target x LUN y了。LUN就是我们为了使用和描述更多设备及对象而引进的一个方法而已，一点也没什么特别的地方。</p>
+
+<p>LUN ID不等于某个设备，只是个号码而已，不代表任何实体属性，在我们的实际环境里，我们碰到的LUN可能是磁盘空间，可能是磁带机，或者是media changer等等。</p>
+
+<p>LUN的神秘之处(相对于一些新手来说)在于，它很多时候不是什么可见的实体，而是一些虚拟的对象。比如一个阵列柜，主机那边看作是一个Target Device，那为了某些特殊需要，我们要将磁盘阵列柜的磁盘空间划分成若干个小的单元给主机来用，于是就产生了一些什么逻辑驱动器的说法，也就是比Target Device级别更低的逻辑对象，我们习惯于把这些更小的磁盘资源称之为LUN0、LUN1、LUN2…什么的。而操作系统的机制使然，操作系统识别的最小存储对象级别就是LUN Device，这是一个逻辑对象，所以很多时候被称为Logical Device。服务器识别到的最小的存储资源，就是LUN级别的。主机的HBA 卡看到的存储上的存储资源就靠主要两个东西来定位，一个就是存储系统的控制器(Target)，一个就是LUN ID，这个LUN是由存储的控制系统给定的，是存储系统的某部分存储资源。一旦服务器与LUN连接上，就可以通过当前的网络接口将数据传输到磁盘阵列上。</p>
+
+<p>2.volume</p>
+
+<p>LUN是对存储设备而言的，volume是对主机而言的。</p>
+
+<p>怎么去理解呢？选择存储设备上的多个硬盘形成一个RAID组，再在RAID组的基础上创建一个或多个LUN（一般创建一个LUN）。许多厂商的存储设备只支持一个RAID组上创一个LUN。此时LUN相对于存储设备是一个逻辑设备。当网络中的主机连接到存储设备时，就可以识别到存储设备上逻辑设备LUN，此时LUN相对于主机来讲就是一个“物理硬盘”，与C盘D盘所在IDC或SCSI硬盘的性属是相同的。在该“物理硬盘”上创建一个或多个分区，再创建文件系统，才可以得到一个VOLUME。此时VOLUME相对于主机是一个逻辑设备。</p>
+
+<p>从容量大小方面比较VOLUME，分区、LUN、RAID的关系如下：</p>
+
+<p>VOLUME = 分区 ≤ 主机设备管理器中的磁盘 = LUN ≤ RAID ≤ 存储设备中硬盘的总容量。</p>
+
+<p>上述只是针对一般情况，VOLUME也只是针对主机来讲。个别厂商对LUN和VOLUME定义与普通厂商的定义不同，甚至会起一些奇怪的名称，这些名称即使是存储行业的资深人士也不一定全明白。不过只要你能分清楚其实质就行。</p>
+
+<p>3.HBA</p>
+
+<p>HBA，即主机总线适配器英文“Host Bus Adapter”缩写。是一个在服务器和存储装置间提供输入/输出(I/O)处理和物理连接的电路板或集成电路适配器。因为HBA减轻了主处理器在数据存储和检索任务的负担，它能够提高服务器的性能。一个HBA和与之相连的磁盘子系统有时一起被称作一个磁盘通道。</p>
+
+<p>a、总线适配器是个什么东西呢？</p>
+
+<p>我们首先要了解一下主机的结构，一台计算机内部多半由两条总线串起来(当然实际情况会有不同，这里只讨论常见的，简单的情况)，一条总线叫系统总线，一条叫I/O总线。系统总线上接了CPU，Memory，cache什么的，I/O总线上接的就是外围设备，现如今最常见的就是PCI总线了。这两条总线之间用桥接的芯片或者说电路连接起来。举个形象的例子，就好比一个城市里，有两条主干道，一条属于行政区，一条属于商业区，中间有个环岛，将两条主干道连接到了一起，系统总线就好比行政区里的主干道，而I/O总线就好比商业区的主干道。系统总线和I/O总线的带宽的单位都是以Gbyte来记，但是显而易见的是，行政区的主干道和商业区的主干道相比的话，前者肯定更“核心”，更宽，更顺畅，设计的要求也高。 我们知道，在向公仆部门要求服务的时候，是要有一些接口的部门和程序的，而桥接芯片的作用就是连接和协调两条总线的工作的。
+虽然I/O总线的速度和系统总线的带宽相比要低很多，但是好歹也是以G来计量的，而我们知道外围设备的速度，往往只有几百兆，甚至几十k而已，怎么协调工作呢？好比卖煎饼果子摊子不能直接戳到城市主干道上，怎么办？好办，在主干道边上开个2000平米的小吃城，把摊子都收进去好了。那么主机总线适配器的作用也就是这个，我们就是要把外设组织起来，连接到I/O总线上去！HBA就是指Host和I/O BUS直接的一个适配器，也好比一个水管工常说的“双通”。</p>
+
+<p>b、常见的HBA有哪些呢？</p>
+
+<p>比如显卡，网卡，scsi卡，1394卡等等。我要拿出来说的就是FCHBA和ATA&amp;IDE。我们通常说的什么Emulex的LP9002，什么Qlogic的QLA2340都是FCHBA卡，就是将Fibre Channel的设备和IO总线连接起来的适配器。ATA也是一种适配器技术，我们PC主板上的ATA接口，就是一个磁盘适配器的对外接口，要强调的就是，ATA说的是适配器技术，IDE是说得存储外设技术，比如我们可以说IDE硬盘，IDE光驱，说ATA接口，但是说IDE接口，ATA硬盘就不时那么合适了，虽然很多情况下，大家都习惯把他们混在一起说。
+描述HBA的时候，有几个主要的规范要说一下</p>
+
+<p>一个承上，就是说，HBA和IOBUS怎么连，我们经常说的PCI接口卡，就是指这个HBA卡是要插在PCI BUS上的PCI slot上的，但是现在的计算机上，不仅仅只有PCI总线而已，大家碰到的时候留意。</p>
+
+<p>一个启下，就是说HBA要和外设怎么连，这样的规范就很多了。</p>
+
+<p>再说HBA本身，比如带宽，比如运行机制(protocol等)，独立处理能力等等</p>
+
+<p>Tips：有时候我们看到的一块卡，看到的实际是一个物理的卡，有的时候实际上是多个Adapter，好比一家机构，挂多个牌子，有的时候，一块卡有两条通道，好比一家公司，有两套人马。</p>
+
+<p>4.DAS</p>
+
+<p>DAS（Direct Attached Storage—直接连接存储），是指将存储设备通过SCSI接口或光纤通道直接连接到服务器上。</p>
+
+<p>直连式存储依赖服务器主机操作系统进行数据的IO读写和存储维护管理，数据备份和恢复要求占用服务器主机资源（包括CPU、系统IO等），数据流需要回流主机再到服务器连接着的磁带机（库），数据备份通常占用服务器主机资源20-30%，因此许多企业用户的日常数据备份常常在深夜或业务系统不繁忙时进行，以免影响正常业务系统的运行。直连式存储的数据量越大，备份和恢复的时间就越长，对服务器硬件的依赖性和影响就越大。</p>
+
+<p>直连式存储与服务器主机之间的连接通道通常采用SCSI连接，带宽为10MB/s、20MB/s、40MB/s、80MB/s等，随着服务器CPU的处理能力越来越强，存储硬盘空间越来越大，阵列的硬盘数量越来越多，SCSI通道将会成为IO瓶颈；服务器主机SCSI ID资源有限，能够建立的SCSI通道连接有限。</p>
+
+<p>无论直连式存储还是服务器主机的扩展，从一台服务器扩展为多台服务器组成的群集(Cluster)，或存储阵列容量的扩展，都会造成业务系统的停机，从而给企业带来经济损失，对于银行、电信、传媒等行业7×24小时服务的关键业务系统，这是不可接受的。并且直连式存储或服务器主机的升级扩展，只能由原设备厂商提供，往往受原设备厂商限制。</p>
+
+<p>5.NAS</p>
+
+<p>NAS（Network Attached Storage—网络附加存储），即将存储设备通过标准的网络拓扑结构（例如以太网），连接到一群计算机上。NAS是部件级的存储方法，它的重点在于帮助工作组和部门级机构解决迅速增加存储容量的需求。需要共享文件的工程小组就是典型的例子。</p>
+
+<p>NAS没有解决与文件服务器相关的一个关键性问题，即备份过程中的带宽消耗。与将备份数据流从LAN中转移出去的存储区域网（SAN）不同，NAS仍使用网络进行备份和恢复。NAS 的一个缺点是它将存储事务由并行SCSI连接转移到了网络上。这就是说LAN除了必须处理正常的最终用户传输流外，还必须处理包括备份操作的存储磁盘请求。</p>
+
+<p>随着IP网络技术的发展，网络接入存储（NAS）技术发生质的飞跃。早期80年代末到90年代初的10Mbps带宽，网络接入存储作为文件服务器存储，性能受带宽影响；后来快速以太网（100Mbps）、VLAN虚网、Trunk(Ethernet Channel) 以太网通道的出现，网络接入存储的读写性能得到改善；1998年千兆以太网（1000Mbps）的出现和投入商用，为网络接入存储（NAS）带来质的变化和市场广泛认可。由于网络接入存储采用TCP/IP网络进行数据交换，TCP/IP是IT业界的标准协议，不同厂商的产品（服务器、交换机、NAS存储）只要满足协议标准就能够实现互连互通，无兼容性的要求；并且2002年万兆以太网（10000Mbps）的出现和投入商用，存储网络带宽将大大提高NAS存储的性能。NAS需求旺盛已经成为事实。首先NAS几乎继承了磁盘列阵的所有优点，可以将设备通过标准的网络拓扑结构连接，摆脱了服务器和异构化构架的桎梏；其次，在企业数据量飞速膨胀中，SAN、大型磁带库、磁盘柜等产品虽然都是很好的存储解决方案，但他们那高贵的身份和复杂的操作是资金和技术实力有限的中小企业无论如何也不能接受的。NAS正是满足这种需求的产品，在解决足够的存储和扩展空间的同时，还提供极高的性价比。因此，无论是从适用性还是TCO的角度来说，NAS自然成为多数企业，尤其是大中小企业的最佳选择。</p>
+
+<p>6.SAN</p>
+
+<p>SAN（存储区域网络）采用光纤通道（Fibre Channel ，简称FC）技术，通过光纤通道交换机连接存储阵列和服务器主机，建立专用于数据存储的区域网络。SAN经过十多年历史的发展，已经相当成熟，成为业界的事实标准（但各个厂商的光纤交换技术不完全相同，其服务器和SAN存储有兼容性的要求）。SAN解决方案是从基本功能剥离出存储功能，所以运行备份操作就无需考虑它们对网络总体性能的影响。</p>
+
+<p>分析比较编辑</p>
+
+<p>针对I/O是整个网络系统效率低下的瓶颈问题，专家们提出了许多种解决办法。其中抓住症结并经过实践检验为最有效的办法是：将数据从通用的应用服务器中分离出来以简化存储管理。
+问题：</p>
+
+<p>由上图可知原来存在的问题：每个新的应用服务器都要有它自己的存储器。这样造成数据处理复杂，随着应用服务器的不断增加，网络系统效率会急剧下降。
+解决办法：</p>
+
+<p>从上可看出：将存储器从应用服务器中分离出来，进行集中管理。这就是所说的存储网络（Storage Networks）。
+使用存储网络的好处：</p>
+
+<p>统一性：形散神不散，在逻辑上是完全一体的。
+实现数据集中管理，因为它们才是企业真正的命脉。
+容易扩充，即收缩性很强。
+具有容错功能，整个网络无单点故障。
+专家们针对这一办法又采取了两种不同的实现手段，即NAS（Network Attached Storage）网络接入存储和SAN(Storage Area Networks)存储区域网络。</p>
+
+<p>NAS：用户通过TCP/IP协议访问数据，采用业界标准文件共享协议如：NFS、HTTP、CIFS实现共享。</p>
+
+<p>SAN：通过专用光纤通道交换机访问数据，采用SCSI、FC-AL接口。</p>
+
+<p>什么是NAS和SAN的根本不同点？</p>
+
+<p>NAS和SAN最本质的不同就是文件管理系统在哪里。如图：</p>
+
+<p>由上图可以看出，SAN结构中，文件管理系统（FS）还是分别在每一个应用服务器上；而NAS则是每个应用服务器通过网络共享协议（如：NFS、CIFS）使用同一个文件管理系统。换句话说：NAS和SAN存储系统的区别是NAS有自己的文件系统管理。
+NAS是将目光集中在应用、用户和文件以及它们共享的数据上。SAN是将目光集中在磁盘、磁带以及联接它们的可靠的基础结构。将来从桌面系统到数据集中管理到存储设备的全面解决方案将是NAS加SAN。</p>
+
+<p>7.iSCSI</p>
+
+<p>iSCSI技术最重要的贡献在于其对传统技术的继承和发展上：其一，SCSI（Small Computer Systems Interface，小型计算机系统接口）技术是被磁盘、磁带等设备广泛采用的存储标准，从1986年诞生起到现在仍然保持着良好的发展势头；其二，沿用TCP/IP协议，TCP/IP在网络方面是最通用、最成熟的协议，且IP网络的基础建设非常完善。这两点为iSCSI的无限扩展提供了夯实的基础。</p>
+
+<p>iSCSI协议定义了在TCP/IP网络发送、接收block（数据块）级的存储数据的规则和方法。发送端将SCSI命令和数据封装到TCP/IP包中再通过网络转发，接收端收到TCP/IP包之后，将其还原为SCSI命令和数据并执行，完成之后将返回的SCSI命令和数据再封装到TCP/IP包中再传送回发送端。而整个过程在用户看来，使用远端的存储设备就象访问本地的SCSI设备一样简单。支持iSCSI技术的服务器和存储设备能够直接连接到现有的IP交换机和路由器上，因此iSCSI技术具有易于安装、成本低廉、不受地理限制、良好的互操作性、管理方便等优势。早在2001年上半年，IBM就推出了IP Storage 200i，是市场上公认的第一款基于iSCSI协议的产品，这款产品的出现，对于身处信息爆炸时代却无法承担光纤通道SAN环境高成本的中小型用户来说，具有巨大的吸引力</p>
+
+<p>8.基于iSCSI技术的IP SAN应用</p>
+
+<p>图一 基于iSCSI技术的IP SAN
+图一为比较简单的IP SAN结构图。例子中使用千兆以太网交换机搭建网络环境，由iSCSI initiator如文件服务器、iSCSI target如磁盘阵列及磁带库组成。在这里引入两个概念：initiator和target。Initiator即典型的主机系统，发出读、写数据请求；target即磁盘阵列之类的存储资源，响应客户端的请求。这两个概念也就是上文提到的发送端及接受端。图中使用iSCSI HBA（Host Bus Adapter，主机总线适配卡）连接服务器和交换机，iSCSI HBA包括网卡的功能，还需要支持OSI网络协议堆栈以实现协议转换的功能。在IP SAN中还可以将基于iSCSI技术的磁带库直接连接到交换机上，通过存储管理软件实现简单、快速的数据备份。</p>
+
+<p>由图一可以看出，基于iSCSI技术，利用现有的IP网络搭建IP SAN是极其简单的，且无须对现有IT员工进行培训即可掌握存储网络的管理。可能有用户会有疑问：基于1Gb的IP网络搭建IP SAN，性能到底如何？据某iSCSI技术开发人员说，数据传输速率在110-120MB/s左右，如果是全双工模式的交换机，可以达到200MB/s左右，相比光纤通道190MB/s（全双工360MB/s）的传输速率还是有差距，但光纤通道的高成本也是众所周知的。而在实际应用中，80-90MB/s的数据传输速率还是能够满足要求，因此iSCSI技术的应用环境提供了更好的性价比，从而会从传统SAN中分得一杯羹。</p>
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://veh47.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+          <a href="http://veh47.github.io/tags/%E5%AD%98%E5%82%A8/">存储</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/http1.0-http1.1-http2.0%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">HTTP1.0 HTTP1.1 HTTP2</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/vlan%E5%8E%9F%E7%90%86/">
+            <span class="next-text nav-default">VLAN原理</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="http://veh47.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+       -
+    2019
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Eleven
+        
+      </span></span>
+
+  
+  
+    <span id="busuanzi_container">
+      访客数/访问量：<span id="busuanzi_value_site_uv"></span>/<span id="busuanzi_value_site_pv"></span>
+    </span>
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css"
+    integrity="sha384-BdGj8xC2eZkQaxoQ8nSLefg4AV4/AwB3Fj+8SUSo7pnKP6Eoy18liIKTPn9oBYNG"
+    crossorigin="anonymous">
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.js"
+    integrity="sha384-JiKN5O8x9Hhs/UE5cT5AAJqieYlOZbGT3CHws/y97o3ty4R7/O5poG9F3JoiOYw1"
+    crossorigin="anonymous"></script>
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+    crossorigin="anonymous" onload="renderMathInElement(document.body);">
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        
+      });
+    });
+  </script>
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

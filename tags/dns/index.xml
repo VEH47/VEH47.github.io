@@ -2,21 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>DNS on Eleven</title>
-    <link>https://veh47.github.io/tags/dns/</link>
+    <link>http://veh47.github.io/tags/dns/</link>
     <description>Recent content in DNS on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
     <lastBuildDate>Sun, 29 Sep 2019 15:39:09 +0800</lastBuildDate>
     
-	<atom:link href="https://veh47.github.io/tags/dns/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://veh47.github.io/tags/dns/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Dnsmasq使用参考入门</title>
-      <link>https://veh47.github.io/2019/09/dnsmasq%E4%BD%BF%E7%94%A8%E5%8F%82%E8%80%83%E5%85%A5%E9%97%A8/</link>
+      <link>http://veh47.github.io/post/dnsmasq%E4%BD%BF%E7%94%A8%E5%8F%82%E8%80%83%E5%85%A5%E9%97%A8/</link>
       <pubDate>Sun, 29 Sep 2019 15:39:09 +0800</pubDate>
       
-      <guid>https://veh47.github.io/2019/09/dnsmasq%E4%BD%BF%E7%94%A8%E5%8F%82%E8%80%83%E5%85%A5%E9%97%A8/</guid>
+      <guid>http://veh47.github.io/post/dnsmasq%E4%BD%BF%E7%94%A8%E5%8F%82%E8%80%83%E5%85%A5%E9%97%A8/</guid>
       <description>&lt;nav&gt;
 &lt;ul&gt;
 &lt;li&gt;

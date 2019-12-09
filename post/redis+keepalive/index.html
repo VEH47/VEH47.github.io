@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Redis&#43;keepalive - Eleven</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Eleven" />
+  <meta name="description" content="Keepalived 实现VRRP（虚拟路由冗余）协议，从路由级别实现VIP切换，可以完全避免类似heartbeat脑裂问题，可以很好的实现主从、主备、互备方案，尤其是无状态业务，有状态业务就需要额外花些功夫了。既然Mysql可以使用Keepalived很好的做到主从切换，那么Redis自然可以使用这种方式实现高可用。
+" />
+
+  <meta name="keywords" content="Eleven" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="canonical" href="http://veh47.github.io/post/redis&#43;keepalive/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Redis&#43;keepalive" />
+<meta property="og:description" content="Keepalived 实现VRRP（虚拟路由冗余）协议，从路由级别实现VIP切换，可以完全避免类似heartbeat脑裂问题，可以很好的实现主从、主备、互备方案，尤其是无状态业务，有状态业务就需要额外花些功夫了。既然Mysql可以使用Keepalived很好的做到主从切换，那么Redis自然可以使用这种方式实现高可用。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://veh47.github.io/post/redis&#43;keepalive/" />
+<meta property="article:published_time" content="2019-09-28T17:00:36+08:00" />
+<meta property="article:modified_time" content="2019-09-28T17:00:36+08:00" />
+<meta itemprop="name" content="Redis&#43;keepalive">
+<meta itemprop="description" content="Keepalived 实现VRRP（虚拟路由冗余）协议，从路由级别实现VIP切换，可以完全避免类似heartbeat脑裂问题，可以很好的实现主从、主备、互备方案，尤其是无状态业务，有状态业务就需要额外花些功夫了。既然Mysql可以使用Keepalived很好的做到主从切换，那么Redis自然可以使用这种方式实现高可用。">
+
+
+<meta itemprop="datePublished" content="2019-09-28T17:00:36&#43;08:00" />
+<meta itemprop="dateModified" content="2019-09-28T17:00:36&#43;08:00" />
+<meta itemprop="wordCount" content="6303">
+
+
+
+<meta itemprop="keywords" content="NoSQl,Redis," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Redis&#43;keepalive"/>
+<meta name="twitter:description" content="Keepalived 实现VRRP（虚拟路由冗余）协议，从路由级别实现VIP切换，可以完全避免类似heartbeat脑裂问题，可以很好的实现主从、主备、互备方案，尤其是无状态业务，有状态业务就需要额外花些功夫了。既然Mysql可以使用Keepalived很好的做到主从切换，那么Redis自然可以使用这种方式实现高可用。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Eleven</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+    <style>
+      .fork-me-on-github {
+        position: absolute; top: 0; left: 0; border: 0;
+      }
+      @media (max-width: 1080px) {
+        .fork-me-on-github {
+          display: none;
+        }
+      }
+    </style>
+
+    <a href="https://github.com/veh47">
+      <img class="fork-me-on-github"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"
+        alt="Fork me on GitHub">
+    </a>
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Eleven
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Redis&#43;keepalive</h1>
+      
+      <div class="post-meta">
+        <time datetime="2019-09-28" class="post-time">
+          2019-09-28
+        </time>
+        <div class="post-category">
+            <a href="http://veh47.github.io/categories/nosql/"> NoSQl </a>
+            
+          </div>
+        <span class="more-meta"> 6303 words </span>
+          <span class="more-meta"> 13 min read </span>
+
+        
+        
+          <span id="busuanzi_container_page_pv">
+            | 阅读 <span id="busuanzi_value_page_pv"></span>
+          </span>
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>Keepalived 实现VRRP（虚拟路由冗余）协议，从路由级别实现VIP切换，可以完全避免类似heartbeat脑裂问题，可以很好的实现主从、主备、互备方案，尤其是无状态业务，有状态业务就需要额外花些功夫了。既然Mysql可以使用Keepalived很好的做到主从切换，那么Redis自然可以使用这种方式实现高可用。</p>
+
+<p>Redis主从实现完全没有Mysql成熟，仅仅是可用而已，经过测试主从也不是那么完全不靠谱，主要问题在于同步连接断开之后需要重新全量同步，如果频繁进行会对主服务带来很大性能影响。 但现实中主从机器往往要求放在一个机柜同一台交换设备下，网络闪断情况极低；再者主从同步在同步数量量大情况下，需要将缓存区调得足够大，不然也容易造成连接断开。</p>
+
+<p>实现切换逻辑如下：A和B两台机器</p>
+
+<p>1）A 、B机器依次启动，A机作为主、B机为从。</p>
+
+<p>2）主A机挂掉，B机接管业务并作为主。</p>
+
+<p>3）A机起来，作为从SLAVEOF B。</p>
+
+<p>4）B机挂掉，A机再切回主。</p>
+
+<p>在Keepalived 有两个角色：Master(一个)、Backup（多个），如果设置一个为Master，但Master挂了后再起来，必然再次业务又一次切换，这对于有状态服务是不可接受的。解决方案就是两台机器都设置为Backup，而且优先级高的Backup设置为nopreemt 不抢占。</p>
+
+<p>部署记录：</p>
+
+<p>0）服务器信息</p>
+
+<p>192.168.10.205 redis-master 需要安装redis(3.2.0版本)、keepalived(1.3.2版本)</p>
+
+<p>192.168.10.206 redis-slave 需要安装redis(3.2.0版本)、keepalived(1.3.2版本)</p>
+
+<p>192.168.10.230 VIP</p>
+
+<p>关闭两个节点机器的iptables和selinux（两个节点上都要操作）</p>
+
+<p>[root@redis-master ~]# /etc/init.d/iptables stop</p>
+
+<p>[root@redis-master ~]# vim /etc/sysconfig/selinux
+……</p>
+
+<p>SELINUX=disabled</p>
+
+<p>[root@redis-master ~]# setenforce 0</p>
+
+<p>[root@redis-master ~]# getenforce</p>
+
+<p>Permissive</p>
+
+<p>1）安装redis服务及主从配置（两个节点机都要操作）</p>
+
+<p>[root@redis-master ~]# cd /usr/local/src/</p>
+
+<p>[root@redis-master src]# wget <a href="http://download.redis.io/releases/redis-3.2.0.tar.gz">http://download.redis.io/releases/redis-3.2.0.tar.gz</a></p>
+
+<p>[root@redis-master src]# tar -zvxf redis-3.2.0.tar.gz</p>
+
+<p>[root@redis-master src]# cd redis-3.2.0</p>
+
+<p>[root@redis-master redis-3.2.0]# make</p>
+
+<p>添加相关文件及命令</p>
+
+<p>[root@redis-master redis-3.2.0]# mkdir -p /usr/local/redis/bin/</p>
+
+<p>[root@redis-master redis-3.2.0]# cd src</p>
+
+<p>[root@redis-master src]# cp redis-benchmark redis-check-aof redis-check-rdb redis-cli redis-server redis-sentinel /usr/local/redis/bin/</p>
+
+<p>[root@redis-master src]# cd ../</p>
+
+<p>[root@redis-master redis-3.2.0]# cp redis.conf /etc/</p>
+
+<p>添加redis启动脚本</p>
+
+<p>[root@redis-master redis-3.2.0]# vim /etc/init.d/redis</p>
+
+<p>#!/bin/bash</p>
+
+<p>#chkconfig: 2345 10 90</p>
+
+<p>#description: Start and Stop redis</p>
+
+<p>REDISPORT=6379</p>
+
+<p>EXEC=/usr/local/redis/bin/redis-server</p>
+
+<p>REDIS_CLI=/usr/local/redis/bin/redis-cli</p>
+
+<p>PIDFILE=/var/run/redis.pid</p>
+
+<p>CONF=”/etc/redis.conf”</p>
+
+<p>case “$1” in</p>
+
+<p>start)</p>
+
+<p>if [ -f $PIDFILE ]</p>
+
+<p>then</p>
+
+<p>echo “$PIDFILE exists, process is already running or crashed”</p>
+
+<p>else</p>
+
+<p>echo “Starting Redis server…”</p>
+
+<p>$EXEC $CONF</p>
+
+<p>fi</p>
+
+<p>if [ “$?”=”0” ]</p>
+
+<p>then</p>
+
+<p>echo “Redis is running…”</p>
+
+<p>fi</p>
+
+<p>;;</p>
+
+<p>stop)</p>
+
+<p>if [ ! -f $PIDFILE ]</p>
+
+<p>then</p>
+
+<p>echo “$PIDFILE does not exist, process is not running”</p>
+
+<p>else</p>
+
+<p>PID=$(cat $PIDFILE)</p>
+
+<p>echo “Stopping …”</p>
+
+<p>$REDIS_CLI -p $REDISPORT SHUTDOWN</p>
+
+<p>while [ -x ${PIDFILE} ]</p>
+
+<p>do</p>
+
+<p>echo “Waiting for Redis to shutdown …”</p>
+
+<p>sleep 1</p>
+
+<p>done</p>
+
+<p>echo “Redis stopped”</p>
+
+<p>fi</p>
+
+<p>;;</p>
+
+<p>restart|force-reload)</p>
+
+<p>${0} stop</p>
+
+<p>${0} start</p>
+
+<p>;;</p>
+
+<p>*)</p>
+
+<p>echo “Usage: /etc/init.d/redis {start|stop|restart|force-reload}” &gt;&amp;2</p>
+
+<p>exit 1</p>
+
+<p>esac</p>
+
+<p>添加执行权限</p>
+
+<p>[root@redis-master redis-3.2.0]# chmod 755 /etc/init.d/redis</p>
+
+<p>设置开机自启动</p>
+
+<p>[root@redis-master redis-3.2.0]# chkconfig –add redis</p>
+
+<p>[root@redis-master redis-3.2.0]# chkconfig redis on</p>
+
+<p>创建redis状态日志</p>
+
+<p>[root@redis-master redis-3.2.0]# mkdir /var/log/redis/</p>
+
+<p>[root@redis-master redis-3.2.0]# touch /var/log/redis/redis.log</p>
+
+<p>redis主从配置（先看下redis-master主节点的配置）</p>
+
+<p>[root@redis-master redis-3.2.0]# vim /etc/redis.conf
+…….</p>
+
+<p>port 6379
+…….</p>
+
+<p>daemonize yes #这个修改为yes
+…….</p>
+
+<p>bind 0.0.0.0 #绑定的主机地址。说明只能通过这个ip地址连接本机的redis。最好绑定0.0.0.0；注意这个不能配置成127.0.0.1，否则复制会失败！用0.0.0.0或者本机ip地址都可以
+…….</p>
+
+<p>pidfile /var/run/redis.pid
+…….</p>
+
+<p>logfile /var/log/redis/redis.log
+…….</p>
+
+<p>dir /var/redis/redis #redis数据目录
+…….</p>
+
+<p>appendonly yes #启用AOF持久化方式</p>
+
+<p>appendfilename “appendonly.aof” #AOF文件的名称，默认为appendonly.aof</p>
+
+<p>appendfsync everysec #每秒钟强制写入磁盘一次，在性能和持久化方面做了很好的折中，是受推荐的方式。
+…..</p>
+
+<p>save 900 1 #启用RDB快照功能，默认就是启用的</p>
+
+<p>save 300 10</p>
+
+<p>save 60 10000 ＃即在多少秒的时间内，有多少key被改变的数据添加到.rdb文件里
+…….</p>
+
+<p>slave-serve-stale-data yes #默认就会开启</p>
+
+<p>slave-read-only yes
+……</p>
+
+<p>dbfilename dump.rdb ＃快照文件名称
+……</p>
+
+<p>另一个从节点redis-slave的redis.conf配置和上面基本差不多，只是多了下面一行配置：
+slaveof 192.168.10.205 6379</p>
+
+<p>接着创建redis的数据目录</p>
+
+<p>[root@redis-master redis-3.2.0]# mkdir -p /var/redis/redis</p>
+
+<p>然后启动两个节点的redis服务</p>
+
+<p>[root@redis-master redis-3.2.0]# /etc/init.d/redis start</p>
+
+<p>Starting Redis server…</p>
+
+<p>Redis is running…</p>
+
+<p>[root@redis-master redis-3.2.0]# lsof -i:6379</p>
+
+<p>COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME</p>
+
+<p>redis-ser 17265 root 4u IPv4 59068 0t0 TCP *:6379 (LISTEN)</p>
+
+<p>2）Keepalived安装（两个节点机都要操作）</p>
+
+<p>[root@redis-master ~]# yum -y install openssl openssl-devel</p>
+
+<p>[root@redis-master ~]# cd /usr/local/src/</p>
+
+<p>[root@redis-master src]# wget <a href="http://www.keepalived.org/software/keepalived-1.4.0.tar.gz">http://www.keepalived.org/software/keepalived-1.4.0.tar.gz</a></p>
+
+<p>[root@redis-master src]# tar -zvxf keepalived-1.4.0.tar.gz</p>
+
+<p>[root@redis-master src]# cd keepalived-1.4.0</p>
+
+<p>[root@redis-master keepalived-1.4.0]# ./configure &amp;&amp; make &amp;&amp; make install</p>
+
+<p>文件配置</p>
+
+<p>[root@redis-master keepalived-1.4.0]# mkdir /etc/keepalived</p>
+
+<p>[root@redis-master keepalived-1.4.0]# mkdir /usr/local/keepalived/scripts/ -p</p>
+
+<p>[root@redis-master keepalived-1.4.0]# cp /usr/local/src/keepalived-1.4.0/keepalived/etc/keepalived/keepalived.conf /etc/keepalived/</p>
+
+<p>[root@redis-master keepalived-1.4.0]# cp /usr/local/src/keepalived-1.4.0/keepalived/etc/init.d/keepalived /etc/init.d/</p>
+
+<p>[root@redis-master keepalived-1.4.0]# cp /usr/local/sbin/keepalived /usr/sbin</p>
+
+<p>[root@redis-master keepalived-1.4.0]# cp /usr/local/src/keepalived-1.4.0/keepalived/etc/sysconfig/keepalived /etc/sysconfig/</p>
+
+<p>设置开机启动</p>
+
+<p>[root@redis-master keepalived-1.4.0]# chmod +x /etc/init.d/keepalived</p>
+
+<p>[root@redis-master keepalived-1.4.0]# chkconfig –add keepalived</p>
+
+<p>[root@redis-master keepalived-1.4.0]# chkconfig keepalived on       ####redis主从配置简单说明</p>
+
+<p>redis的主从复制实现简单却功能强大，其具有以下特点：</p>
+
+<p>1）一个master支持多个slave连接，slave可以接受其他slave的连接</p>
+
+<p>2）主从同步时，master和slave都是非阻塞的</p>
+
+<p>redis主从复制可以用来：</p>
+
+<p>1）data redundancy（数据冗余）</p>
+
+<p>2）slave作为master的扩展，提供一些read-only的服务</p>
+
+<p>3）可以将数据持久化放在slave做，从而提升master性能</p>
+
+<p>通过简单的配置slave（master端无需配置），用户就能使用redis的主从复制，即只需在slave端的redis.conf文件中配置下面一行：</p>
+
+<p>slaveof <masterip> <masterport></p>
+
+<p>表示该redis服务作为slave，masterip和masterport分别为master 的ip和port</p>
+
+<p>其他配置：</p>
+
+<p>masterauth <master-password></p>
+
+<p>如果master设置了安全密码，则此处设置为相应的密码</p>
+
+<p>slave-serve-stale-data yes 当slave丢失master或者同步正在进行时，如果发生对slave的服务请求：</p>
+
+<p>slave-serve-stale-data设置为yes则slave依然正常提供服务</p>
+
+<p>slave-serve-stale-data设置为no则slave返回client错误：”SYNC with master in progress”</p>
+
+<p>repl-ping-slave-period 10</p>
+
+<p>slave发送PINGS到master的时间间隔</p>
+
+<p>repl-timeout 60</p>
+
+<p>IO超时时间</p>
+
+<p>3）redis+keepalived配置</p>
+
+<p>a）先进行redis-master主节点的高可用配置</p>
+
+<p>[root@redis-master ~]# cp /etc/keepalived/keepalived.conf /etc/keepalived/keepalived.conf.bak</p>
+
+<p>[root@redis-master ~]# vim /etc/keepalived/keepalived.conf</p>
+
+<p>! Configuration File for keepalived</p>
+
+<p>global_defs {</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">  router_id redis-master
+
+ }</pre></td></tr></table>
+</div>
+</div>
+<p>vrrp_script chk_redis {</p>
+
+<p>script “/usr/local/keepalived/scripts/redis_check.sh 127.0.0.1 6379” #监控脚本</p>
+
+<p>interval 2 #监控时间</p>
+
+<p>timeout 2 #超时时间</p>
+
+<p>fall 3</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"> }</pre></td></tr></table>
+</div>
+</div>
+<p>vrrp_instance redis {</p>
+
+<p>state BACKUP</p>
+
+<p>interface eth0</p>
+
+<p>lvs_sync_daemon_interface eth0</p>
+
+<p>virtual_router_id 202</p>
+
+<p>priority 150 #权重值</p>
+
+<p>nopreempt #nopreempt：设置不抢占，这里只能设置在state为backup的节点上，而且这个节点的优先级必须比另外节点的高</p>
+
+<p>advert_int 1</p>
+
+<p>authentication { #all node must same</p>
+
+<p>auth_type PASS #加密</p>
+
+<p>auth_pass 1111 #密码</p>
+
+<p>}</p>
+
+<p>virtual_ipaddress {</p>
+
+<p>192.168.10.230 #VIP地址</p>
+
+<p>}</p>
+
+<p>track_script {</p>
+
+<p>chk_redis</p>
+
+<p>}</p>
+
+<p>notify_master “/usr/local/keepalived/scripts/redis_master.sh 127.0.0.1 192.168.10.206 6379”</p>
+
+<p>notify_backup “/usr/local/keepalived/scripts/redis_backup.sh 127.0.0.1 192.168.10.206 6379”</p>
+
+<p>notify_fault /usr/local/keepalived/scripts/redis_fault.sh</p>
+
+<p>notify_stop /usr/local/keepalived/scripts/redis_stop.sh</p>
+
+<p>}</p>
+
+<p>b）接着进行redis-slave从节点的高可用配置</p>
+
+<p>[root@redis-slave ~]# cp /etc/keepalived/keepalived.conf /etc/keepalived/keepalived.conf.bak</p>
+
+<p>[root@redis-slave ~]# vim /etc/keepalived/keepalived.conf</p>
+
+<p>! Configuration File for keepalived</p>
+
+<p>global_defs {</p>
+
+<p>router_id redis-slave</p>
+
+<p>}</p>
+
+<p>vrrp_script chk_redis{</p>
+
+<p>script “/usr/local/keepalived/scripts/redis_check.sh 127.0.0.1 6379”</p>
+
+<p>interval 2</p>
+
+<p>timeout 2</p>
+
+<p>fall 3</p>
+
+<p>}</p>
+
+<p>vrrp_instance redis {</p>
+
+<p>state BACKUP</p>
+
+<p>interface eth0</p>
+
+<p>lvs_sync_daemon_interface eth0</p>
+
+<p>virtual_router_id 202</p>
+
+<p>priority 100</p>
+
+<p>nopreempt</p>
+
+<p>advert_int 1</p>
+
+<p>authentication {</p>
+
+<p>auth_type PASS</p>
+
+<p>auth_pass 1111</p>
+
+<p>}</p>
+
+<p>virtual_ipaddress {</p>
+
+<p>192.168.10.230</p>
+
+<p>}</p>
+
+<p>track_script {</p>
+
+<p>chk_redis</p>
+
+<p>}</p>
+
+<p>notify_master “/usr/local/keepalived/scripts/redis_master.sh 127.0.0.1 192.168.10.205 6379”</p>
+
+<p>notify_backup “/usr/local/keepalived/scripts/redis_backup.sh 127.0.0.1 192.168.10.205 6379″</p>
+
+<p>notify_fault /usr/local/keepalived/scripts/redis_fault.sh</p>
+
+<p>notify_stop /usr/local/keepalived/scripts/redis_stop.sh</p>
+
+<p>}</p>
+
+<p>c）在redis-master和redis-slave两个节点机器上都要创建监控脚本（下面几个脚本，在两个节点上都要同样配置）</p>
+
+<p>首先配置监控脚本</p>
+
+<p>[root@redis-master ~]# vim /usr/local/keepalived/scripts/redis_check.sh</p>
+
+<p>#!/bin/bash</p>
+
+<p>ALIVE=<code>/usr/local/redis/bin/redis-cli -h $1 -p $2 PING</code></p>
+
+<p>LOGFILE=”/var/log/keepalived-redis-check.log”</p>
+
+<p>echo “[CHECK]” &gt;&gt; $LOGFILE</p>
+
+<p>date &gt;&gt; $LOGFILE</p>
+
+<p>if [ $ALIVE == “PONG” ]; then :</p>
+
+<p>echo “Success: redis-cli -h $1 -p $2 PING $ALIVE” &gt;&gt; $LOGFILE 2&gt;&amp;1</p>
+
+<p>exit 0</p>
+
+<p>else</p>
+
+<p>echo “Failed:redis-cli -h $1 -p $2 PING $ALIVE ” &gt;&gt; $LOGFILE 2&gt;&amp;1</p>
+
+<p>exit 1</p>
+
+<p>fi</p>
+
+<p>需要注意的是：</p>
+
+<p>以下负责运作的关键脚本：</p>
+
+<p>notify_master /usr/local/keepalived/scripts/redis_master.sh</p>
+
+<p>notify_backup /usr/local/keepalived/scripts/redis_backup.sh</p>
+
+<p>notify_fault /usr/local/keepalived/scripts/redis_fault.sh</p>
+
+<p>notify_stop /usr/local/keepalived/scripts/redis_stop.sh</p>
+
+<p>因为Keepalived在转换状态时会依照状态来呼叫：</p>
+
+<p>当进入Master状态时会呼叫notify_master</p>
+
+<p>当进入Backup状态时会呼叫notify_backup</p>
+
+<p>当发现异常情况时进入Fault状态呼叫notify_fault</p>
+
+<p>当Keepalived程序终止时则呼叫notify_stop</p>
+
+<p>温馨提示：</p>
+
+<p>以上的keepalived.conf文件中的切换模式设置为nopreempt，意思是：</p>
+
+<p>不抢占VIP资源，此种模式要是所有的节点都必须设置为state BACKUP模式！</p>
+
+<p>需要注意无论主备服务器都需要设置为BACKUP，与以往KeepAlived的配置不同，其目的就是防止主服务器恢复后重新抢回VIP，导致Redis切换从而影响稳定。</p>
+
+<p>接着在redis-master主节点上创建notity_master与notify_backup脚本：</p>
+
+<p>[root@redis-master ~]# vim /usr/local/keepalived/scripts/redis_master.sh</p>
+
+<p>#!/bin/bash</p>
+
+<p>REDISCLI=”/usr/local/redis/bin/redis-cli -h $1 -p $3″</p>
+
+<p>LOGFILE=”/var/log/keepalived-redis-state.log”</p>
+
+<p>echo “[master]” &gt;&gt; $LOGFILE</p>
+
+<p>date &gt;&gt; $LOGFILE</p>
+
+<p>echo “Being master….” &gt;&gt; $LOGFILE 2&gt;&amp;1</p>
+
+<p>echo “Run SLAVEOF cmd … ” &gt;&gt; $LOGFILE</p>
+
+<p>$REDISCLI SLAVEOF $2 $3 &gt;&gt; $LOGFILE 2&gt;&amp;1</p>
+
+<p>#echo “SLAVEOF $2 cmd can’t excute … ” &gt;&gt; $LOGFILE</p>
+
+<p>sleep 10 #延迟10秒以后待数据同步完成后再取消同步状态</p>
+
+<p>echo “Run SLAVEOF NO ONE cmd …” &gt;&gt; $LOGFILE</p>
+
+<p>$REDISCLI SLAVEOF NO ONE &gt;&gt; $LOGFILE 2&gt;&amp;1</p>
+
+<p>[root@redis-master ~]# vim /usr/local/keepalived/scripts/redis_backup.sh</p>
+
+<p>#!/bin/bash</p>
+
+<p>REDISCLI=”/usr/local/redis/bin/redis-cli”</p>
+
+<p>LOGFILE=”/var/log/keepalived-redis-state.log”</p>
+
+<p>echo “[BACKUP]” &gt;&gt; $LOGFILE</p>
+
+<p>date &gt;&gt; $LOGFILE</p>
+
+<p>echo “Being slave….” &gt;&gt; $LOGFILE 2&gt;&amp;1</p>
+
+<p>echo “Run SLAVEOF cmd …” &gt;&gt; $LOGFILE 2&gt;&amp;1</p>
+
+<p>$REDISCLI SLAVEOF $2 $3 &gt;&gt; $LOGFILE</p>
+
+<p>sleep 100 #延迟100秒以后待数据同步完成后再取消同步状态</p>
+
+<p>exit(0)</p>
+
+<p>[root@redis-master ~]# vim /usr/local/keepalived/scripts/redis_fault.sh</p>
+
+<p>#!/bin/bash</p>
+
+<p>LOGFILE=”/var/log/keepalived-redis-state.log”</p>
+
+<p>echo “[fault]” &gt;&gt; $LOGFILE</p>
+
+<p>date &gt;&gt; $LOGFILE</p>
+
+<p>[root@redis-master ~]# vim /usr/local/keepalived/scripts/redis_stop.sh</p>
+
+<p>#!/bin/bash</p>
+
+<p>LOGFILE=”/var/log/keepalived-redis-state.log”</p>
+
+<p>echo “[stop]” &gt;&gt; $LOGFILE</p>
+
+<p>date &gt;&gt; $LOGFILE</p>
+
+<p>[root@redis-master ~]# chmod 755 /usr/local/keepalived/scripts/*.sh</p>
+
+<p>[root@redis-master ~]# ll /usr/local/keepalived/scripts/</p>
+
+<p>total 20</p>
+
+<p>-rwxr-xr-x. 1 root root 283 May 7 07:20 redis_backup.sh</p>
+
+<p>-rwxr-xr-x. 1 root root 360 May 7 07:12 redis_check.sh</p>
+
+<p>-rwxr-xr-x. 1 root root 102 May 7 07:22 redis_fault.sh</p>
+
+<p>-rwxr-xr-x. 1 root root 445 May 7 07:16 redis_master.sh</p>
+
+<p>-rwxr-xr-x. 1 root root 101 May 7 07:23 redis_stop.sh</p>
+
+<p>将redis-master主节点上的上面5个脚本直接复制到redis-slave节点上即可。</p>
+
+<p>[root@redis-master ~]# rsync -e “ssh -p22” -avpgolr /usr/local/keepalived/scripts/*.sh root@192.168.10.206:/usr/local/keepalived/scripts/</p>
+
+<p>到redis-slave从节点上查看脚本：</p>
+
+<p>[root@redis-slave ~]# ll /usr/local/keepalived/scripts/</p>
+
+<p>total 20</p>
+
+<p>-rwxr-xr-x. 1 root root 283 May 7 07:20 redis_backup.sh</p>
+
+<p>-rwxr-xr-x. 1 root root 360 May 7 07:12 redis_check.sh</p>
+
+<p>-rwxr-xr-x. 1 root root 102 May 7 07:22 redis_fault.sh</p>
+
+<p>-rwxr-xr-x. 1 root root 445 May 7 07:16 redis_master.sh</p>
+
+<p>-rwxr-xr-x. 1 root root 101 May 7 07:23 redis_stop.sh</p>
+
+<p>d）设置环境变量（两个节点上都要设置）</p>
+
+<p>[root@redis-master ~]# vim /etc/profile</p>
+
+<p>……</p>
+
+<p>export PATH=$PATH:/usr/local/redis/bin</p>
+
+<p>[root@redis-master ~]# source /etc/profile</p>
+
+<p>e）启动两个节点上的keepalived服务</p>
+
+<p>[root@redis-master ~]# /etc/init.d/keepalived start</p>
+
+<p>Starting keepalived: [ OK ]</p>
+
+<p>[root@redis-master ~]# ps -ef|grep keepalived</p>
+
+<p>root 32509 1 0 07:29 ? 00:00:00 keepalived -D</p>
+
+<p>root 32510 32509 0 07:29 ? 00:00:00 keepalived -D</p>
+
+<p>root 32512 32509 0 07:29 ? 00:00:00 keepalived -D</p>
+
+<p>root 32515 32512 0 07:29 ? 00:00:00 keepalived -D</p>
+
+<p>root 32517 32515 0 07:29 ? 00:00:00 /bin/bash /usr/local/keepalived/scripts/redis_backup.sh 127.0.0.1
+192.168.10.206 6379</p>
+
+<p>root 32529 14122 0 07:29 pts/1 00:00:00 grep keepalived</p>
+
+<p>[root@redis-slave ~]# /etc/init.d/keepalived start</p>
+
+<p>Starting keepalived: [ OK ]</p>
+
+<p>[root@redis-slave ~]# ps -ef|grep keepalived</p>
+
+<p>root 22277 1 0 07:29 ? 00:00:00 keepalived -D</p>
+
+<p>root 22278 22277 0 07:29 ? 00:00:00 keepalived -D</p>
+
+<p>root 22279 22277 0 07:29 ? 00:00:00 keepalived -D</p>
+
+<p>root 22283 22279 0 07:29 ? 00:00:00 keepalived -D</p>
+
+<p>root 22284 22283 0 07:29 ? 00:00:00 /bin/bash /usr/local/keepalived/scripts/redis_backup.sh 127.0.0.1 192.168.10.205 6379</p>
+
+<p>root 22289 10868 0 07:29 pts/1 00:00:00 grep keepalived</p>
+
+<p>查看下redis-master主节点，发现vip资源已经有了</p>
+
+<p>[root@redis-master ~]# ip addr</p>
+
+<p>1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN</p>
+
+<p>link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</p>
+
+<p>inet 127.0.0.<sup>1</sup>&frasl;<sub>8</sub> scope host lo</p>
+
+<p>inet6 ::<sup>1</sup>&frasl;<sub>128</sub> scope host</p>
+
+<p>valid_lft forever preferred_lft forever</p>
+
+<p>2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000</p>
+
+<p>link/ether 52:54:00:b1:9c:93 brd ff:ff:ff:ff:ff:ff</p>
+
+<p>inet 192.168.10.<sup>205</sup>&frasl;<sub>24</sub> brd 192.168.10.255 scope global eth0</p>
+
+<p>inet 192.168.10.<sup>230</sup>&frasl;<sub>32</sub> scope global eth0</p>
+
+<p>inet6 fe80::5054:ff:feb1:9c93/64 scope link</p>
+
+<p>valid_lft forever preferred_lft forever</p>
+
+<p>4）redis+keepalived主从高可用故障切换测试</p>
+
+<p>a）分别启动redis-master和redis-slave两个节点的redis和keepalived服务（如上已启动）</p>
+
+<p>b）尝试通过VIP连接Redis:</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.230 INFO|grep role</p>
+
+<p>role:master</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.205 INFO|grep role</p>
+
+<p>role:master</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.206 INFO|grep role</p>
+
+<p>role:slave</p>
+
+<p>连接成功，Slave也连接上来了。</p>
+
+<p>c）尝试插入一些数据：</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.230 SET Hello Redis</p>
+
+<p>OK</p>
+
+<p>从VIP读取数据</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.230 GET Hello</p>
+
+<p>“Redis”</p>
+
+<p>从redis-master主节点读取数据</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.205 GET Hello</p>
+
+<p>“Redis”</p>
+
+<p>从redis-slave从节点读取数据</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.206 GET Hello</p>
+
+<p>“Redis”</p>
+
+<p>e）然后开始模拟故障产生：</p>
+
+<p>将redis-master主节点上的redis进程杀死：</p>
+
+<p>[root@redis-master ~]# ps -ef|grep redis</p>
+
+<p>root 4500 14122 0 08:04 pts/1 00:00:00 grep redis</p>
+
+<p>root 17265 1 0 04:00 ? 00:00:07 /usr/local/redis/bin/redis-server 0.0.0.0:6379</p>
+
+<p>[root@redis-master ~]# kill -9 17265</p>
+
+<p>[root@redis-master ~]# ps -ef|grep redis</p>
+
+<p>root 4514 14122 0 08:04 pts/1 00:00:00 grep redis</p>
+
+<p>查看redis-master主节点上的Keepalived日志</p>
+
+<p>[root@redis-master ~]# tail -f /var/log/keepalived-redis-state.log</p>
+
+<p>OK</p>
+
+<p>[master]</p>
+
+<p>Mon May 7 07:29:17 CST 2018</p>
+
+<p>Being master….</p>
+
+<p>Run SLAVEOF cmd …</p>
+
+<p>OK Already connected to specified master</p>
+
+<p>Run SLAVEOF NO ONE cmd …</p>
+
+<p>OK</p>
+
+<p>[fault]</p>
+
+<p>Mon May 7 08:05:00 CST 2018</p>
+
+<p>同时redis-slave从节点上的日志显示：</p>
+
+<p>[root@redis-slave ~]# tail -f /var/log/keepalived-redis-state.log</p>
+
+<p>Being slave….</p>
+
+<p>Run SLAVEOF cmd …</p>
+
+<p>OK</p>
+
+<p>[master]</p>
+
+<p>Mon May 7 08:05:02 CST 2018</p>
+
+<p>Being master….</p>
+
+<p>Run SLAVEOF cmd …</p>
+
+<p>OK Already connected to specified master</p>
+
+<p>Run SLAVEOF NO ONE cmd …</p>
+
+<p>OK</p>
+
+<p>然后我们可以发现，redis-slave从节点已经接管服务，并且担任Master的角色了。</p>
+
+<p>redis-slave从节点上已经接管过来VIP资源了（大概需要等待2秒左右的时间，vip资源就切过来了）</p>
+
+<p>[root@redis-slave ~]# ip addr</p>
+
+<p>1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN</p>
+
+<p>link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</p>
+
+<p>inet 127.0.0.<sup>1</sup>&frasl;<sub>8</sub> scope host lo</p>
+
+<p>inet6 ::<sup>1</sup>&frasl;<sub>128</sub> scope host</p>
+
+<p>valid_lft forever preferred_lft forever</p>
+
+<p>2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000</p>
+
+<p>link/ether 52:54:00:dd:84:6b brd ff:ff:ff:ff:ff:ff</p>
+
+<p>inet 192.168.10.<sup>206</sup>&frasl;<sub>24</sub> brd 192.168.10.255 scope global eth0</p>
+
+<p>inet 192.168.10.<sup>230</sup>&frasl;<sub>32</sub> scope global eth0</p>
+
+<p>inet6 fe80::5054:ff:fedd:846b/64 scope link</p>
+
+<p>valid_lft forever preferred_lft forever</p>
+
+<p>[root@redis-slave ~]# redis-cli -h 192.168.10.230 INFO|grep role</p>
+
+<p>role:master</p>
+
+<p>[root@redis-slave ~]# redis-cli -h 192.168.10.205 INFO|grep role</p>
+
+<p>Could not connect to Redis at 192.168.10.205:6379: Connection refused</p>
+
+<p>[root@redis-slave ~]# redis-cli -h 192.168.10.206 INFO|grep role</p>
+
+<p>role:master</p>
+
+<p>=======================================================================</p>
+
+<p>然后再恢复redis-master主节点的redis进程</p>
+
+<p>[root@redis-master ~]# /etc/init.d/redis start</p>
+
+<p>/var/run/redis.pid exists, process is already running or crashed</p>
+
+<p>Redis is running…</p>
+
+<p>[root@redis-master ~]# rm -f /var/run/redis.pid</p>
+
+<p>[root@redis-master ~]# /etc/init.d/redis start</p>
+
+<p>Starting Redis server…</p>
+
+<p>Redis is running…</p>
+
+<p>[root@redis-master ~]# ps -ef|grep redis</p>
+
+<p>root 4969 1 0 08:08 ? 00:00:00 /usr/local/redis/bin/redis-server 0.0.0.0:6379</p>
+
+<p>root 4977 4976 0 08:08 ? 00:00:00 /bin/bash /usr/local/keepalived/scripts/redis_backup.sh 127.0.0.1 192.168.10.206 6379</p>
+
+<p>root 4987 14122 0 08:08 pts/1 00:00:00 grep redis</p>
+
+<p>[root@redis-master ~]# lsof -i:6379</p>
+
+<p>COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME</p>
+
+<p>redis-ser 4969 root 4u IPv4 93698 0t0 TCP *:6379 (LISTEN)</p>
+
+<p>redis-ser 4969 root 6u IPv4 93709 0t0 TCP 192.168.10.205:43299-&gt;192.168.10.206:6379 (ESTABLISHED)</p>
+
+<p>查看redis-master上的Keepalived日志</p>
+
+<p>[root@redis-master ~]# tail -f /var/log/keepalived-redis-state.log</p>
+
+<p>OK Already connected to specified master</p>
+
+<p>Run SLAVEOF NO ONE cmd …</p>
+
+<p>OK</p>
+
+<p>[fault]</p>
+
+<p>Mon May 7 08:05:00 CST 2018</p>
+
+<p>[BACKUP]</p>
+
+<p>Mon May 7 08:08:34 CST 2018</p>
+
+<p>Being slave….</p>
+
+<p>Run SLAVEOF cmd …</p>
+
+<p>OK</p>
+
+<p>查看redis-slave上的Keepalived日志</p>
+
+<p>[root@redis-slave ~]# tail -f /var/log/keepalived-redis-state.log</p>
+
+<p>Being slave….</p>
+
+<p>Run SLAVEOF cmd …</p>
+
+<p>OK</p>
+
+<p>[master]</p>
+
+<p>Mon May 7 08:05:02 CST 2018</p>
+
+<p>Being master….</p>
+
+<p>Run SLAVEOF cmd …</p>
+
+<p>OK Already connected to specified master</p>
+
+<p>Run SLAVEOF NO ONE cmd …</p>
+
+<p>OK</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.230 INFO|grep role</p>
+
+<p>role:master</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.205 INFO|grep role</p>
+
+<p>role:slave</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.206 INFO|grep role</p>
+
+<p>role:master</p>
+
+<p>发现redis-master的redis服务再次启动后，redis-master主节点成为salve角色了，redis-slave从节点还是master角色。
+当redis-slave节点宕机或redis服务关闭后，redis-master节点再次接管服务成为master角色，如此循环~~</p>
+
+<p>关闭redis-slave从节点的reids服务</p>
+
+<p>[root@redis-slave ~]# ps -ef|grep redis</p>
+
+<p>root 15407 1 0 04:00 ? 00:00:10 /usr/local/redis/bin/redis-server 0.0.0.0:6379</p>
+
+<p>root 22900 10868 0 08:11 pts/1 00:00:00 grep redis</p>
+
+<p>[root@redis-slave ~]# kill -9 15407</p>
+
+<p>[root@redis-slave ~]# ps -ef|grep redis</p>
+
+<p>root 22902 10868 0 08:11 pts/1 00:00:00 grep redis</p>
+
+<p>查看redis-slave上的Keepalived日志</p>
+
+<p>[root@redis-slave ~]# tail -f /var/log/keepalived-redis-state.log</p>
+
+<p>…….</p>
+
+<p>[stop] //测试时发现，当redis-slave的redis服务关闭后，还需要重启或关闭keepalived，才能将vip资源漂到redis-master节点上，所以日志里也就会出现这个stop信息</p>
+
+<p>Mon May 7 09:25:03 CST 2018</p>
+
+<p>[BACKUP]</p>
+
+<p>Mon May 7 09:25:04 CST 2018</p>
+
+<p>Being slave….</p>
+
+<p>Run SLAVEOF cmd …</p>
+
+<p>OK</p>
+
+<p>查看redis-master上的Keepalived日志</p>
+
+<p>[root@redis-master ~]# tail -f /var/log/keepalived-redis-state.log</p>
+
+<p>…….</p>
+
+<p>[master]</p>
+
+<p>Mon May 7 09:25:03 CST 2018</p>
+
+<p>Being master….</p>
+
+<p>Run SLAVEOF cmd …</p>
+
+<p>OK Already connected to specified master</p>
+
+<p>Run SLAVEOF NO ONE cmd …</p>
+
+<p>OK</p>
+
+<p>查看redis-master，发现VIP资源已经接管过来了（如果没有按时切过来的话，只需重启或关闭redis-slave节点那边的keepalived服务即可）</p>
+
+<p>[root@redis-master ~]# ip addr</p>
+
+<p>1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN</p>
+
+<p>link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</p>
+
+<p>inet 127.0.0.<sup>1</sup>&frasl;<sub>8</sub> scope host lo</p>
+
+<p>inet6 ::<sup>1</sup>&frasl;<sub>128</sub> scope host</p>
+
+<p>valid_lft forever preferred_lft forever</p>
+
+<p>2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000</p>
+
+<p>link/ether 52:54:00:b1:9c:93 brd ff:ff:ff:ff:ff:ff</p>
+
+<p>inet 192.168.10.<sup>205</sup>&frasl;<sub>24</sub> brd 192.168.10.255 scope global eth0</p>
+
+<p>inet 192.168.10.<sup>230</sup>&frasl;<sub>32</sub> scope global eth0</p>
+
+<p>inet6 fe80::5054:ff:feb1:9c93/64 scope link</p>
+
+<p>valid_lft forever preferred_lft forever</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.230 INFO|grep role</p>
+
+<p>role:master</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.205 INFO|grep role</p>
+
+<p>role:master</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.206 INFO|grep role</p>
+
+<p>Could not connect to Redis at 192.168.10.206:6379: Connection refused</p>
+
+<p>发现redis-maste节点已经转变为master角色了。</p>
+
+<p>同样，当reids-slave节点的redis服务重新启动后，它将成为slave角色。</p>
+
+<p>[root@redis-slave ~]# /etc/init.d/redis start</p>
+
+<p>/var/run/redis.pid exists, process is already running or crashed</p>
+
+<p>Redis is running…</p>
+
+<p>[root@redis-slave ~]# rm -f /var/run/redis.pid</p>
+
+<p>[root@redis-slave ~]# /etc/init.d/redis start</p>
+
+<p>Starting Redis server…</p>
+
+<p>Redis is running…</p>
+
+<p>[root@redis-slave ~]# lsof -i:6379</p>
+
+<p>COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME</p>
+
+<p>redis-ser 23244 root 4u IPv4 3049509 0t0 TCP *:6379 (LISTEN)</p>
+
+<p>redis-ser 23244 root 6u IPv4 3049513 0t0 TCP dns.kevin.cn:44931-&gt;192.168.10.205:6379 (ESTABLISHED)</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.230 INFO|grep role</p>
+
+<p>role:master</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.205 INFO|grep role</p>
+
+<p>role:master</p>
+
+<p>[root@redis-master ~]# redis-cli -h 192.168.10.206 INFO|grep role</p>
+
+<p>role:slave</p>
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://veh47.github.io/tags/nosql/">NoSQl</a>
+          <a href="http://veh47.github.io/tags/redis/">Redis</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Dockerfile最佳实践</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/%E9%98%B2%E6%AD%A2%E6%89%8B%E6%AE%8Brm/">
+            <span class="next-text nav-default">防止手残rm</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="http://veh47.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+       -
+    2019
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Eleven
+        
+      </span></span>
+
+  
+  
+    <span id="busuanzi_container">
+      访客数/访问量：<span id="busuanzi_value_site_uv"></span>/<span id="busuanzi_value_site_pv"></span>
+    </span>
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css"
+    integrity="sha384-BdGj8xC2eZkQaxoQ8nSLefg4AV4/AwB3Fj+8SUSo7pnKP6Eoy18liIKTPn9oBYNG"
+    crossorigin="anonymous">
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.js"
+    integrity="sha384-JiKN5O8x9Hhs/UE5cT5AAJqieYlOZbGT3CHws/y97o3ty4R7/O5poG9F3JoiOYw1"
+    crossorigin="anonymous"></script>
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+    crossorigin="anonymous" onload="renderMathInElement(document.body);">
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        
+      });
+    });
+  </script>
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

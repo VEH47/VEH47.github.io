@@ -2,21 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>存储 on Eleven</title>
-    <link>https://veh47.github.io/tags/%E5%AD%98%E5%82%A8/</link>
+    <link>http://veh47.github.io/tags/%E5%AD%98%E5%82%A8/</link>
     <description>Recent content in 存储 on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
     <lastBuildDate>Sun, 29 Sep 2019 15:40:24 +0800</lastBuildDate>
     
-	<atom:link href="https://veh47.github.io/tags/%E5%AD%98%E5%82%A8/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://veh47.github.io/tags/%E5%AD%98%E5%82%A8/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>存储的各个概念介绍</title>
-      <link>https://veh47.github.io/2019/09/%E5%AD%98%E5%82%A8%E7%9A%84%E5%90%84%E4%B8%AA%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D/</link>
+      <link>http://veh47.github.io/post/%E5%AD%98%E5%82%A8%E7%9A%84%E5%90%84%E4%B8%AA%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D/</link>
       <pubDate>Sun, 29 Sep 2019 15:40:24 +0800</pubDate>
       
-      <guid>https://veh47.github.io/2019/09/%E5%AD%98%E5%82%A8%E7%9A%84%E5%90%84%E4%B8%AA%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D/</guid>
+      <guid>http://veh47.github.io/post/%E5%AD%98%E5%82%A8%E7%9A%84%E5%90%84%E4%B8%AA%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D/</guid>
       <description>&lt;p&gt;基于各个存储的介绍&lt;/p&gt;</description>
     </item>
     

@@ -2,21 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Kubernetes on Eleven</title>
-    <link>https://veh47.github.io/tags/kubernetes/</link>
+    <link>http://veh47.github.io/tags/kubernetes/</link>
     <description>Recent content in Kubernetes on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
     <lastBuildDate>Tue, 08 Oct 2019 11:30:12 +0800</lastBuildDate>
     
-	<atom:link href="https://veh47.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://veh47.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Kuberntes基础概念</title>
-      <link>https://veh47.github.io/2019/10/kuberntes%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</link>
+      <link>http://veh47.github.io/post/kuberntes%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</link>
       <pubDate>Tue, 08 Oct 2019 11:30:12 +0800</pubDate>
       
-      <guid>https://veh47.github.io/2019/10/kuberntes%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</guid>
+      <guid>http://veh47.github.io/post/kuberntes%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</guid>
       <description>&lt;p&gt;Kubernetes是Google开源的容器集群管理系统，是Google多年⼤规模容器管理技术Borg的开源版本，主要功能包括:&lt;/p&gt;
 
 &lt;p&gt;基于容器的应用部署、维护和滚动升级&lt;/p&gt;

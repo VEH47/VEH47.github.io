@@ -2,21 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>blog on Eleven</title>
-    <link>https://veh47.github.io/tags/blog/</link>
+    <link>http://veh47.github.io/tags/blog/</link>
     <description>Recent content in blog on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
     <lastBuildDate>Mon, 14 Oct 2019 09:57:34 +0800</lastBuildDate>
     
-	<atom:link href="https://veh47.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://veh47.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>为什么程序员在学习编程的时候什么都记不住</title>
-      <link>https://veh47.github.io/2019/10/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E5%9C%A8%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%97%B6%E5%80%99%E4%BB%80%E4%B9%88%E9%83%BD%E8%AE%B0%E4%B8%8D%E4%BD%8F/</link>
+      <link>http://veh47.github.io/post/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E5%9C%A8%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%97%B6%E5%80%99%E4%BB%80%E4%B9%88%E9%83%BD%E8%AE%B0%E4%B8%8D%E4%BD%8F/</link>
       <pubDate>Mon, 14 Oct 2019 09:57:34 +0800</pubDate>
       
-      <guid>https://veh47.github.io/2019/10/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E5%9C%A8%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%97%B6%E5%80%99%E4%BB%80%E4%B9%88%E9%83%BD%E8%AE%B0%E4%B8%8D%E4%BD%8F/</guid>
+      <guid>http://veh47.github.io/post/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E5%9C%A8%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E7%9A%84%E6%97%B6%E5%80%99%E4%BB%80%E4%B9%88%E9%83%BD%E8%AE%B0%E4%B8%8D%E4%BD%8F/</guid>
       <description>&lt;p&gt;每个人都会在学习编程语言的时候，努力记住所有一切，这也不足为奇。虽然有些人可以过目不忘，直接在脑海里就能想出问题的解决方案，但普通人却不能。特别是那些刚开始学习和探索编程世界的人，比如我自己.&lt;br /&gt;
 我逐渐了解到，记住所有你接触过的代码是一件不可能的事情!&lt;br /&gt;
 那么问题来了：我们该怎么解决这个问题呢?&lt;/p&gt;</description>
@@ -24,10 +23,10 @@
     
     <item>
       <title>技术人员必经9个阶段</title>
-      <link>https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/</link>
+      <link>http://veh47.github.io/post/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/</link>
       <pubDate>Mon, 23 Sep 2019 23:26:09 +0800</pubDate>
       
-      <guid>https://veh47.github.io/2019/09/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/</guid>
+      <guid>http://veh47.github.io/post/%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%E5%BF%85%E7%BB%8F9%E4%B8%AA%E9%98%B6%E6%AE%B5/</guid>
       <description>&lt;p&gt;1.&lt;/p&gt;
 
 &lt;p&gt;刚接触编程的时候，会觉得这是个很神奇东西，平淡的英文字母，再加上标点符号，竟然可以有这么大魔力。会觉得编程是很有自豪感的事情，因为在我们看来，它就是在创造，用这些跳动的字符，创造我们想要的效果&lt;/p&gt;</description>

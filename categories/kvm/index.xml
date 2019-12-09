@@ -2,31 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>KVM on Eleven</title>
-    <link>https://veh47.github.io/categories/kvm/</link>
+    <link>http://veh47.github.io/categories/kvm/</link>
     <description>Recent content in KVM on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
     <lastBuildDate>Sun, 29 Sep 2019 14:13:51 +0800</lastBuildDate>
     
-	<atom:link href="https://veh47.github.io/categories/kvm/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://veh47.github.io/categories/kvm/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>KVM基础技术</title>
-      <link>https://veh47.github.io/2019/09/kvm%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/</link>
+      <link>http://veh47.github.io/post/kvm%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/</link>
       <pubDate>Sun, 29 Sep 2019 14:13:51 +0800</pubDate>
       
-      <guid>https://veh47.github.io/2019/09/kvm%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/</guid>
+      <guid>http://veh47.github.io/post/kvm%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/</guid>
       <description>&lt;p&gt;什么是虚拟化？
 虚拟化，是指通过虚拟化技术将一台计算机虚拟为多台逻辑计算机。在一台计算机上同时运行多个逻辑计算机，每个逻辑计算机可运行不同的操作系统，并且应用程序都可以在相互独立的空间内运行而互不影响，从而显著提高计算机的工作效率&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>KVM常用操作</title>
-      <link>https://veh47.github.io/2019/09/kvm%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</link>
+      <link>http://veh47.github.io/post/kvm%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</link>
       <pubDate>Sun, 29 Sep 2019 14:13:44 +0800</pubDate>
       
-      <guid>https://veh47.github.io/2019/09/kvm%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</guid>
+      <guid>http://veh47.github.io/post/kvm%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</guid>
       <description>&lt;p&gt;KVM常用的一些命令, 可以自己查看&lt;/p&gt;</description>
     </item>
     

@@ -2,21 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>策略路由 on Eleven</title>
-    <link>https://veh47.github.io/tags/%E7%AD%96%E7%95%A5%E8%B7%AF%E7%94%B1/</link>
+    <link>http://veh47.github.io/tags/%E7%AD%96%E7%95%A5%E8%B7%AF%E7%94%B1/</link>
     <description>Recent content in 策略路由 on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
     <lastBuildDate>Sun, 29 Sep 2019 15:39:45 +0800</lastBuildDate>
     
-	<atom:link href="https://veh47.github.io/tags/%E7%AD%96%E7%95%A5%E8%B7%AF%E7%94%B1/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://veh47.github.io/tags/%E7%AD%96%E7%95%A5%E8%B7%AF%E7%94%B1/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Linux高级路由</title>
-      <link>https://veh47.github.io/2019/09/linux%E9%AB%98%E7%BA%A7%E8%B7%AF%E7%94%B1/</link>
+      <link>http://veh47.github.io/post/linux%E9%AB%98%E7%BA%A7%E8%B7%AF%E7%94%B1/</link>
       <pubDate>Sun, 29 Sep 2019 15:39:45 +0800</pubDate>
       
-      <guid>https://veh47.github.io/2019/09/linux%E9%AB%98%E7%BA%A7%E8%B7%AF%E7%94%B1/</guid>
+      <guid>http://veh47.github.io/post/linux%E9%AB%98%E7%BA%A7%E8%B7%AF%E7%94%B1/</guid>
       <description>&lt;p&gt;路由策略数据库的规则用于控制选择路由的算法。&lt;/p&gt;
 
 &lt;p&gt;Internet上采用的路由算法一般是基于数据包目的地址的。理论上，也可以由TOS域决定，不过这没有实际应用。要了解经典路由算法的详细情况请参考RFC-1812。&lt;/p&gt;</description>

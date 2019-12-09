@@ -2,21 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>docker on Eleven</title>
-    <link>https://veh47.github.io/categories/docker/</link>
+    <link>http://veh47.github.io/categories/docker/</link>
     <description>Recent content in docker on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
     <lastBuildDate>Sun, 29 Sep 2019 10:48:50 +0800</lastBuildDate>
     
-	<atom:link href="https://veh47.github.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://veh47.github.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Docker容器的部署管理</title>
-      <link>https://veh47.github.io/2019/09/docker%E5%AE%B9%E5%99%A8%E7%9A%84%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86/</link>
+      <link>http://veh47.github.io/post/docker%E5%AE%B9%E5%99%A8%E7%9A%84%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86/</link>
       <pubDate>Sun, 29 Sep 2019 10:48:50 +0800</pubDate>
       
-      <guid>https://veh47.github.io/2019/09/docker%E5%AE%B9%E5%99%A8%E7%9A%84%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86/</guid>
+      <guid>http://veh47.github.io/post/docker%E5%AE%B9%E5%99%A8%E7%9A%84%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86/</guid>
       <description>&lt;p&gt;Docker是通过内核虚拟化技术（namespaces及cgroups cpu、内存、磁盘io等）来提供容器的资源隔离与安全保障等。
 由于Docker通过操作系统层的虚拟化实现隔离，所以Docker容器在运行时，不需要类似虚拟机（VM）额外的操作系统开销，
 提高资源利用率。&lt;/p&gt;</description>
@@ -24,10 +23,10 @@
     
     <item>
       <title>Dockerfile最佳实践</title>
-      <link>https://veh47.github.io/2019/09/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</link>
+      <link>http://veh47.github.io/post/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</link>
       <pubDate>Sat, 28 Sep 2019 17:00:55 +0800</pubDate>
       
-      <guid>https://veh47.github.io/2019/09/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</guid>
+      <guid>http://veh47.github.io/post/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</guid>
       <description>&lt;p&gt;Docker通过读取Dockerfile中的指令自动构建镜像，一个文本文件包含构建镜像的所有指令。Dockerfile遵循特定的格式和指令集，您可以在Dockerfile中引用它们。&lt;/p&gt;</description>
     </item>
     

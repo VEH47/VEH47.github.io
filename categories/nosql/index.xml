@@ -2,21 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>NoSQl on Eleven</title>
-    <link>https://veh47.github.io/categories/nosql/</link>
+    <link>http://veh47.github.io/categories/nosql/</link>
     <description>Recent content in NoSQl on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
     <lastBuildDate>Sat, 28 Sep 2019 17:00:36 +0800</lastBuildDate>
     
-	<atom:link href="https://veh47.github.io/categories/nosql/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://veh47.github.io/categories/nosql/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Redis&#43;keepalive</title>
-      <link>https://veh47.github.io/2019/09/redis-keepalive/</link>
+      <link>http://veh47.github.io/post/redis&#43;keepalive/</link>
       <pubDate>Sat, 28 Sep 2019 17:00:36 +0800</pubDate>
       
-      <guid>https://veh47.github.io/2019/09/redis-keepalive/</guid>
+      <guid>http://veh47.github.io/post/redis&#43;keepalive/</guid>
       <description>&lt;p&gt;Keepalived 实现VRRP（虚拟路由冗余）协议，从路由级别实现VIP切换，可以完全避免类似heartbeat脑裂问题，可以很好的实现主从、主备、互备方案，尤其是无状态业务，有状态业务就需要额外花些功夫了。既然Mysql可以使用Keepalived很好的做到主从切换，那么Redis自然可以使用这种方式实现高可用。&lt;/p&gt;</description>
     </item>
     
