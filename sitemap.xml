@@ -100,14 +100,14 @@
   </url>
   
   <url>
-    <loc>http://veh47.github.io/tags/kubernetes/</loc>
+    <loc>http://veh47.github.io/categories/kubernetes/</loc>
     <lastmod>2019-10-08T11:30:12+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://veh47.github.io/categories/kubernetes/</loc>
+    <loc>http://veh47.github.io/tags/kubernetes/</loc>
     <lastmod>2019-10-08T11:30:12+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -331,14 +331,14 @@
   </url>
   
   <url>
-    <loc>http://veh47.github.io/categories/docker/</loc>
+    <loc>http://veh47.github.io/tags/docker/</loc>
     <lastmod>2019-09-29T10:48:50+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://veh47.github.io/tags/docker/</loc>
+    <loc>http://veh47.github.io/categories/docker/</loc>
     <lastmod>2019-09-29T10:48:50+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
