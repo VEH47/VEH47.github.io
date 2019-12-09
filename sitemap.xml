@@ -1,5 +1,6 @@
-<?xml-stylesheet type="text/xsl" href="http://veh47.github.io/sitemap.xsl"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
     <loc>http://veh47.github.io/categories/</loc>
@@ -37,14 +38,14 @@
   </url>
   
   <url>
-    <loc>http://veh47.github.io/tags/%E8%BF%90%E7%BB%B4/</loc>
+    <loc>http://veh47.github.io/categories/%E8%BF%90%E7%BB%B4/</loc>
     <lastmod>2019-12-06T16:43:06+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://veh47.github.io/categories/%E8%BF%90%E7%BB%B4/</loc>
+    <loc>http://veh47.github.io/tags/%E8%BF%90%E7%BB%B4/</loc>
     <lastmod>2019-12-06T16:43:06+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -65,14 +66,14 @@
   </url>
   
   <url>
-    <loc>http://veh47.github.io/tags/%E7%BD%91%E7%BB%9C/</loc>
+    <loc>http://veh47.github.io/categories/%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2019-10-17T09:57:15+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://veh47.github.io/categories/%E7%BD%91%E7%BB%9C/</loc>
+    <loc>http://veh47.github.io/tags/%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2019-10-17T09:57:15+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -121,14 +122,14 @@
   </url>
   
   <url>
-    <loc>http://veh47.github.io/tags/golang/</loc>
+    <loc>http://veh47.github.io/categories/golang/</loc>
     <lastmod>2019-10-06T14:47:28+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://veh47.github.io/categories/golang/</loc>
+    <loc>http://veh47.github.io/tags/golang/</loc>
     <lastmod>2019-10-06T14:47:28+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
