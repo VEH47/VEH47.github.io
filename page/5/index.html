@@ -63,7 +63,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://veh47.github.io/" />
 
-<meta property="og:updated_time" content="2019-12-06T16:43:06+08:00" />
+<meta property="og:updated_time" content="2019-12-10T15:27:31+08:00" />
 <meta itemprop="name" content="Eleven">
 <meta itemprop="description" content="Hugo theme jane example site.">
 
@@ -395,6 +395,61 @@
   <header class="post-header">
     <h1 class="post-title">
       
+      <a class="post-link" href="/post/dnsmasq%E4%BD%BF%E7%94%A8%E5%8F%82%E8%80%83%E5%85%A5%E9%97%A8/">Dnsmasq使用参考入门</a>
+    </h1>
+    
+    <div class="post-meta">
+      <time datetime="2019-09-29" class="post-time">
+        2019-09-29
+      </time>
+      <div class="post-category">
+          <a href="http://veh47.github.io/categories/%E7%BD%91%E7%BB%9C/"> 网络 </a>
+          
+        </div>
+      
+      
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    
+    <div class="post-summary">
+      <nav>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#dns配置">DNS配置</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<p>Dnsmasq提供DNS缓存和DHCP服务功能。作为域名解析服务器(DNS)，dnsmasq可以通过缓存DNS请求来提高对访问过的网址的连接速度。作为DHCP服务器，dnsmasq可以为局域网电脑提供内网ip地址和路由，DNS和DHCP两个功能可以同时或分别单独实现。dnsmasq轻量且易配置，此外它还自带了一个PXE服务器以及对邮件服务器的mx记录的支持，jabber的srv记录的支持等。它提供了DNS功能和可选择的DHCP功能可以取代dhcpd服务和bind等服务，配置起来更简单，更适用于虚拟化和大数据环境的部署。笔者在上海某机房中使用它的50台实体机和1000台虚拟机的各类爬虫应用提供解析服务，Dnsmasq配置文件是/etc/dnsmasq.conf，在它的配件文件中的注释已经给出了非常详细的解释。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/dnsmasq%E4%BD%BF%E7%94%A8%E5%8F%82%E8%80%83%E5%85%A5%E9%97%A8/" class="read-more-link">Read more</a>
+    </div>
+    
+  </div>
+</article>
+
+  
+    <article class="post bg-white">
+  <header class="post-header">
+    <h1 class="post-title">
+      
       <a class="post-link" href="/post/kvm%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/">KVM基础技术</a>
     </h1>
     
@@ -524,40 +579,6 @@
     </div>
     <div class="read-more">
       <a href="/post/dockerfile%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/redis&#43;keepalive/">Redis&#43;keepalive</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2019-09-28" class="post-time">
-        2019-09-28
-      </time>
-      <div class="post-category">
-          <a href="http://veh47.github.io/categories/nosql/"> NoSQl </a>
-          
-        </div>
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      <p>Keepalived 实现VRRP（虚拟路由冗余）协议，从路由级别实现VIP切换，可以完全避免类似heartbeat脑裂问题，可以很好的实现主从、主备、互备方案，尤其是无状态业务，有状态业务就需要额外花些功夫了。既然Mysql可以使用Keepalived很好的做到主从切换，那么Redis自然可以使用这种方式实现高可用。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/redis&#43;keepalive/" class="read-more-link">Read more</a>
     </div>
     
   </div>
