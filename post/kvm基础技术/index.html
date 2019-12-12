@@ -62,6 +62,7 @@
 
 <meta property="og:title" content="KVM基础技术" />
 <meta property="og:description" content="什么是虚拟化？
+
 虚拟化，是指通过虚拟化技术将一台计算机虚拟为多台逻辑计算机。在一台计算机上同时运行多个逻辑计算机，每个逻辑计算机可运行不同的操作系统，并且应用程序都可以在相互独立的空间内运行而互不影响，从而显著提高计算机的工作效率" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://veh47.github.io/post/kvm%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF/" />
@@ -69,12 +70,13 @@
 <meta property="article:modified_time" content="2019-09-29T14:13:51+08:00" />
 <meta itemprop="name" content="KVM基础技术">
 <meta itemprop="description" content="什么是虚拟化？
+
 虚拟化，是指通过虚拟化技术将一台计算机虚拟为多台逻辑计算机。在一台计算机上同时运行多个逻辑计算机，每个逻辑计算机可运行不同的操作系统，并且应用程序都可以在相互独立的空间内运行而互不影响，从而显著提高计算机的工作效率">
 
 
 <meta itemprop="datePublished" content="2019-09-29T14:13:51&#43;08:00" />
 <meta itemprop="dateModified" content="2019-09-29T14:13:51&#43;08:00" />
-<meta itemprop="wordCount" content="2501">
+<meta itemprop="wordCount" content="2135">
 
 
 
@@ -82,6 +84,7 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="KVM基础技术"/>
 <meta name="twitter:description" content="什么是虚拟化？
+
 虚拟化，是指通过虚拟化技术将一台计算机虚拟为多台逻辑计算机。在一台计算机上同时运行多个逻辑计算机，每个逻辑计算机可运行不同的操作系统，并且应用程序都可以在相互独立的空间内运行而互不影响，从而显著提高计算机的工作效率"/>
 
 <!--[if lte IE 9]>
@@ -426,16 +429,15 @@
   <div class="post-toc-content">
     <nav id="TableOfContents">
 <ul>
-<li>
+<li><a href="#什么是虚拟化">什么是虚拟化？</a></li>
+<li><a href="#kvm虚拟化软件的安装">kvm虚拟化软件的安装</a>
 <ul>
-<li>
-<ul>
-<li><a href="#1-virsh-iface-bridge-eth0-br0">1. virsh iface-bridge eth0 br0</a></li>
-<li><a href="#2-virsh-edit-centos7">2. virsh edit centos7</a></li>
-<li><a href="#3-修改kvm虚拟机的ip">3. 修改kvm虚拟机的ip</a></li>
-<li><a href="#4-验证-登录测试">4. 验证:登录测试,</a></li>
+<li><a href="#创建一台虚拟机">创建一台虚拟机</a></li>
+<li><a href="#开启虚拟机console">开启虚拟机console</a></li>
 </ul></li>
-</ul></li>
+<li><a href="#kvm虚拟机的virsh日常管理和配置">kvm虚拟机的virsh日常管理和配置</a></li>
+<li><a href="#kvm虚拟机在线热添加硬盘">kvm虚拟机在线热添加硬盘</a></li>
+<li><a href="#virt-manager和kvm虚拟机热迁移-共享的网络文件系统-部署">virt-manager和kvm虚拟机热迁移(共享的网络文件系统)部署</a></li>
 </ul>
 </nav>
   </div>
@@ -443,8 +445,9 @@
 
     
     <div class="post-content">
-      <p>什么是虚拟化？
-虚拟化，是指通过虚拟化技术将一台计算机虚拟为多台逻辑计算机。在一台计算机上同时运行多个逻辑计算机，每个逻辑计算机可运行不同的操作系统，并且应用程序都可以在相互独立的空间内运行而互不影响，从而显著提高计算机的工作效率</p>
+      <h1 id="什么是虚拟化">什么是虚拟化？</h1>
+
+<p>虚拟化，是指通过虚拟化技术将一台计算机虚拟为多台逻辑计算机。在一台计算机上同时运行多个逻辑计算机，每个逻辑计算机可运行不同的操作系统，并且应用程序都可以在相互独立的空间内运行而互不影响，从而显著提高计算机的工作效率</p>
 
 <p>虚拟化使用软件的方法重新定义划分IT资源，可以实现IT资源的动态分配、灵活调度、跨域共享，提高IT资源利用率，使IT资源能够真正成为社会基础设施，服务于各行各业中灵活多变的应用需求。</p>
 
@@ -461,7 +464,7 @@
 
 <p>场景5：业务的快速部署</p>
 
-<p>kvm虚拟化软件的安装(KVM：Kernel-based Virtual Machine )</p>
+<h1 id="kvm虚拟化软件的安装">kvm虚拟化软件的安装</h1>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -491,7 +494,7 @@ qemu-kvm qemu-img 作用：复制管理虚拟机的磁盘</pre></td></tr></table
 
 <p>KVM 全虚拟机，它有硬件支持cpu，基于内核，而且不需要使用专门的内核</p>
 
-<p>安装一台虚拟机</p>
+<p>启动并查看KVM状态</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -504,17 +507,39 @@ qemu-kvm qemu-img 作用：复制管理虚拟机的磁盘</pre></td></tr></table
 systemctl status libvirtd.service 查看状态</pre></td></tr></table>
 </div>
 </div>
-<p>建议虚拟机内存不要低于1024M，否则安装系统特别慢！</p>
+<p><strong><em>建议虚拟机内存不要低于1024M，否则安装系统特别慢！</em></strong></p>
 
-<p>virt-install –virt-type kvm –os-type=linux –os-variant rhel7 –name centos7 –memory 1024 –vcpus 1 –disk /opt/centos7.raw,format=raw,size=10 –cdrom /opt/CentOS-7-x86_64-DVD-1708.iso –network network=default –graphics vnc,listen=0.0.0.0 –noautoconsole</p>
+<h2 id="创建一台虚拟机">创建一台虚拟机</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">qemu-img create -f qcow2 02-gms.qcow2 200G
+qemu-img create -f qcow2 02-gms.qcow2 200G &gt;&gt;/var/log/kvm_install.log
+virt-install -n 02-gms -r 8192 --vcpus 4 --disk /data/kvm/02-gms.qcow2,size=200,bus=virtio --network bridge=br0,model=virtio --os-type=linux --os-variant=rhel7 --location=/data/tools/CentOS-7-x86_64-DVD-1511.iso --graphics none --accelerate --extra-args &#39;console=ttyS0,115200n8 serial&#39; -x &#34;console=ttyS0&#34;</pre></td></tr></table>
+</div>
+</div>
+<h2 id="开启虚拟机console">开启虚拟机console</h2>
 
-<p>raw：10G 不支持做快照，性能好</p>
-
-<p>qcow2：
-支持快照</p>
-
-<p>kvm虚拟机的virsh日常管理和配置
-    virsh list centos7 显示列表</p>
+<p>创建完毕后, 可以再命令行使用console进入虚拟机</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">echo ttyS0 &gt;&gt; /etc/securetty
+echo &#34;S0:12345:respawn:/sbin/agetty/ ttyS0 115200&#34; &gt;&gt; /etc/inittab
+echo &#34;console=ttyS0&#34; &gt;&gt; /etc/default/grub.conf
+登录: virsh console centos7</pre></td></tr></table>
+</div>
+</div>
+<h1 id="kvm虚拟机的virsh日常管理和配置">kvm虚拟机的virsh日常管理和配置</h1>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -528,9 +553,13 @@ systemctl status libvirtd.service 查看状态</pre></td></tr></table>
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">virsh start centos7 开机
+<pre class="chroma">virsh list centos7 显示列表
+
+virsh start centos7 开机
 
 virsh shutdown centos7 关机
 
@@ -543,49 +572,29 @@ virsh resume centos7 恢复
 virsh vncdisplay centos7 查询vnc端口</pre></td></tr></table>
 </div>
 </div>
-<p>导出配置dumpxml 例子：virsh dumpxml centos7 &gt;centos7-off.xml</p>
+<p>导出配置dumpxml
+    例子：virsh dumpxml centos7 &gt;centos7-off.xml</p>
 
-<p>导入配置define 例子virsh define centos7-off.xml</p>
+<p>导入配置define
+    例子: virsh define centos7-off.xml</p>
 
-<p>修改配置edit(自带语法检查) virsh edit centos7</p>
+<p>修改配置edit(自带语法检查)
+    virsh edit centos7</p>
 
-<p>删除undefine 推荐：先destroy，在undefine 例virsh undefine centos7</p>
+<p>删除undefine
+    推荐：先destroy，在undefine 例virsh undefine centos7</p>
 
 <p>重命名domrename （低版本不支持）</p>
 
-<p>kvm虚拟机开机启动和console登录
-开机启动autostart，前提：systemctl enable libvirtd；</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">virsh autostart centos7</pre></td></tr></table>
-</div>
-</div>
 <p>取消开机启动autostart –disable</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">virsh autostart –disable centos7
-
-centos7的kvm虚拟机：
-
-grubby –update-kernel=ALL –args=”console=ttyS0,115200n8″
-
-reboot</pre></td></tr></table>
+<pre class="chroma">virsh autostart –disable centos7</pre></td></tr></table>
 </div>
 </div>
-<p>登录: virsh console centos7</p>
-
 <p>kvm虚拟机虚拟磁盘格式转换和快照管理</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -677,76 +686,9 @@ reboot</pre></td></tr></table>
 <p>kvm虚拟机克隆
     virt-clone –auto-clone -o centos7(完整克隆)</p>
 
-<p>kvm虚拟机的桥接网络</p>
+<h1 id="kvm虚拟机在线热添加硬盘">kvm虚拟机在线热添加硬盘</h1>
 
-<h3 id="1-virsh-iface-bridge-eth0-br0">1. virsh iface-bridge eth0 br0</h3>
-
-<h3 id="2-virsh-edit-centos7">2. virsh edit centos7</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">&lt;interface type=’bridge’&gt;
-
-&lt;mac address=’52:54:00:55:aa:fa’/&gt;
-
-&lt;source bridge=’br0’/&gt;</pre></td></tr></table>
-</div>
-</div>
-<p>在宿主机上，重启虚拟机生效</p>
-
-<h3 id="3-修改kvm虚拟机的ip">3. 修改kvm虚拟机的ip</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">echo ‘TYPE=Ethernet
-
-BOOTPROTO=static
-
-NAME=eth0
-
-DEVICE=eth0
-
-ONBOOT=yes
-
-IPADDR=10.0.0.111
-
-NETMASK=255.255.255.0
-
-GATEWAY=10.0.0.254
-
-DNS1=223.5.5.5’ &gt;/etc/sysconfig/network-scripts/ifcfg-eth0</pre></td></tr></table>
-</div>
-</div>
-<h3 id="4-验证-登录测试">4. 验证:登录测试,</h3>
-
-<p>ping www.baidu.com</p>
-
-<p>kvm虚拟机在线热添加硬盘
-创建一块硬盘</p>
+<p>创建一块硬盘</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -793,7 +735,7 @@ DNS1=223.5.5.5’ &gt;/etc/sysconfig/network-scripts/ifcfg-eth0</pre></td></tr><
 <pre class="chroma">qemu-img resize /opt/centos7-add01.qcow2 +5G</pre></td></tr></table>
 </div>
 </div>
-<p>重新添加撒谎那个硬盘</p>
+<p>重新添加上那个硬盘</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -844,8 +786,9 @@ DNS1=223.5.5.5’ &gt;/etc/sysconfig/network-scripts/ifcfg-eth0</pre></td></tr><
 
 <p>如果虚拟机磁盘文件系统是ext4：resize2fs /dev/vda1</p>
 
-<p>virt-manager和kvm虚拟机热迁移(共享的网络文件系统)部署
-1):</p>
+<h1 id="virt-manager和kvm虚拟机热迁移-共享的网络文件系统-部署">virt-manager和kvm虚拟机热迁移(共享的网络文件系统)部署</h1>
+
+<p>1):</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
