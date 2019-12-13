@@ -5,10 +5,19 @@
     <link>http://veh47.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
     <description>Recent content in 数据库 on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 13 Dec 2019 16:25:41 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 13 Dec 2019 17:11:21 +0800</lastBuildDate>
     
 	<atom:link href="http://veh47.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SQL基础命令</title>
+      <link>http://veh47.github.io/post/sql%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Fri, 13 Dec 2019 17:11:21 +0800</pubDate>
+      
+      <guid>http://veh47.github.io/post/sql%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/</guid>
+      <description>&lt;p&gt;记不住那么多的数据库命令, 那就只能手写了  ^ ^&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>MySQl Atlas读写分离</title>
@@ -83,7 +92,7 @@
     </item>
     
     <item>
-      <title>Mysql体系管理及终端命令入门</title>
+      <title>MySQL体系管理及终端命令入门</title>
       <link>http://veh47.github.io/post/mysql%E4%BD%93%E7%B3%BB%E7%AE%A1%E7%90%86%E5%8F%8A%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4%E5%85%A5%E9%97%A8/</link>
       <pubDate>Thu, 12 Dec 2019 23:26:30 +0800</pubDate>
       

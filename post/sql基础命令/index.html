@@ -1,0 +1,3553 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>SQL基础命令 - Eleven</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Eleven" />
+  <meta name="description" content="记不住那么多的数据库命令, 那就只能手写了 ^ ^
+" />
+
+  <meta name="keywords" content="Eleven" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="canonical" href="http://veh47.github.io/post/sql%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="SQL基础命令" />
+<meta property="og:description" content="记不住那么多的数据库命令, 那就只能手写了  ^ ^" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://veh47.github.io/post/sql%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/" />
+<meta property="article:published_time" content="2019-12-13T17:11:21+08:00" />
+<meta property="article:modified_time" content="2019-12-13T17:11:21+08:00" />
+<meta itemprop="name" content="SQL基础命令">
+<meta itemprop="description" content="记不住那么多的数据库命令, 那就只能手写了  ^ ^">
+
+
+<meta itemprop="datePublished" content="2019-12-13T17:11:21&#43;08:00" />
+<meta itemprop="dateModified" content="2019-12-13T17:11:21&#43;08:00" />
+<meta itemprop="wordCount" content="14147">
+
+
+
+<meta itemprop="keywords" content="SQL," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SQL基础命令"/>
+<meta name="twitter:description" content="记不住那么多的数据库命令, 那就只能手写了  ^ ^"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Eleven</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+      <li class="mobile-menu-item">
+        <a id="openSearchMobile" class="mobile-menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+    
+<div class="modal-dialog">
+    
+    <div class="modal-content">
+      <div id="closeSearch" title="Close" class="close">X</div>
+      <div class="modal-header">
+        <div class="modal-title">Search</div>
+      </div>
+      <div class="modal-body">
+          <script>
+            (function() {
+              var cx = '012427586116641581695:iilii6hg9u2';
+              var gcse = document.createElement('script');
+              gcse.type = 'text/javascript';
+              gcse.async = true;
+              gcse.src = (document.location.protocol == 'https:' ? 'https:' :
+                  'http:') +
+                '//cse.google.com/cse.js?cx=' + cx;
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(gcse, s);
+            })();
+          </script>
+          <gcse:search></gcse:search>
+      </div>
+    </div>
+</div>
+
+  
+
+  
+    <style>
+      .fork-me-on-github {
+        position: absolute; top: 0; left: 0; border: 0;
+      }
+      @media (max-width: 1080px) {
+        .fork-me-on-github {
+          display: none;
+        }
+      }
+    </style>
+
+    <a href="https://github.com/veh47">
+      <img class="fork-me-on-github"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"
+        alt="Fork me on GitHub">
+    </a>
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Eleven
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+      <li class="menu-item">
+        <a id="openSearch" class="menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">SQL基础命令</h1>
+      
+      <div class="post-meta">
+        <time datetime="2019-12-13" class="post-time">
+          2019-12-13
+        </time>
+        <div class="post-category">
+            <a href="http://veh47.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"> 数据库 </a>
+            
+          </div>
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#mysql">MySQL</a>
+<ul>
+<li><a href="#ddl-数据定义">DDL:数据定义</a>
+<ul>
+<li><a href="#database-或者schema-定义">database  或者schema  定义</a></li>
+<li><a href="#table定义-创建表">table定义(创建表)</a></li>
+</ul></li>
+<li><a href="#dcl-数据控制">DCL:数据控制</a>
+<ul>
+<li><a href="#grant-授权">grant 授权+</a></li>
+<li><a href="#revoke-去除权限">revoke 去除权限</a></li>
+</ul></li>
+<li><a href="#dml-数据操作-功能-对标的行信息进行操作-增-删-改">DML:数据操作:功能,对标的行信息进行操作(增,删,改)</a>
+<ul>
+<li><a href="#给表的列中插入内容">给表的列中插入内容</a></li>
+<li><a href="#修改表内容">修改表内容</a></li>
+<li><a href="#delete-删除行">delete  删除行</a></li>
+</ul></li>
+<li><a href="#dql-selectshow-查询语句">DQL:selectshow(查询语句)</a>
+<ul>
+<li><a href="#where-条件">where 条件</a></li>
+<li><a href="#order-by-排序">order by 排序</a></li>
+<li><a href="#group-by-聚合函数">group by  聚合函数</a></li>
+<li><a href="#集合操作">集合操作</a></li>
+<li><a href="#join表连接">join表连接</a></li>
+<li><a href="#子查询">子查询</a></li>
+<li><a href="#not-null-default-非空-默认值配合">not null default  非空  默认值配合</a></li>
+</ul></li>
+<li><a href="#数据类型介绍">数据类型介绍</a>
+<ul>
+<li><a href="#数值数据类型">数值数据类型</a></li>
+<li><a href="#字符串数据类型">字符串数据类型</a></li>
+<li><a href="#二进制字符串数据类型">二进制字符串数据类型</a></li>
+<li><a href="#时间数据类型">时间数据类型</a></li>
+<li><a href="#列属性">列属性</a></li>
+</ul></li>
+<li><a href="#索引管理">索引管理</a>
+<ul>
+<li><a href="#sql中的约束一般有如下">SQL中的约束一般有如下 +</a></li>
+<li><a href="#主键索引">主键索引</a></li>
+<li><a href="#唯一键索引">唯一键索引</a></li>
+<li><a href="#普通索引">普通索引</a></li>
+<li><a href="#前缀索引根据字段的前n个字符建立索引">前缀索引根据字段的前N个字符建立索引</a></li>
+<li><a href="#复合索引-explain-查看索引情况">复合索引(explain 查看索引情况)</a></li>
+</ul></li>
+<li><a href="#数据日志管理">数据日志管理</a></li>
+<li><a href="#数据备份恢复-mysqldump逻辑备份">数据备份恢复  mysqldump逻辑备份</a>
+<ul>
+<li><a href="#单库备份">单库备份</a></li>
+<li><a href="#多库备份">多库备份</a></li>
+<li><a href="#单表备份">单表备份</a></li>
+<li><a href="#刷新binlog日志">刷新binlog日志</a></li>
+<li><a href="#压缩备份">压缩备份</a></li>
+<li><a href="#逻辑数据恢复">逻辑数据恢复</a></li>
+</ul></li>
+<li><a href="#数据备恢复-xtrabakup">数据备恢复  xtrabakup</a>
+<ul>
+<li><a href="#全备备份">全备备份</a></li>
+<li><a href="#取消时间戳-自定义备份名">取消时间戳,自定义备份名</a></li>
+<li><a href="#增量备份">增量备份</a></li>
+<li><a href="#mysql导出csv">mysql导出csv：</a></li>
+</ul></li>
+<li><a href="#案例-生产中修改表结构">案例: 生产中修改表结构</a>
+<ul>
+<li>
+<ul>
+<li><a href="#例">例:</a></li>
+<li><a href="#例-一个表分成多个表-他们之间的连接">例: 一个表分成多个表,他们之间的连接</a></li>
+</ul></li>
+<li><a href="#物理删除恢复">物理删除恢复</a></li>
+<li><a href="#逻辑损坏">逻辑损坏</a></li>
+<li><a href="#模拟删库-全备恢复">模拟删库,全备恢复</a></li>
+<li><a href="#增量备份恢复模拟">增量备份恢复模拟</a>
+<ul>
+<li><a href="#只修改了某个表-如何使用只恢复这个表-不用全部恢复-xtrabackup导出表">只修改了某个表,如何使用只恢复这个表,不用全部恢复 ( xtrabackup导出表)</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#mongodb">MongoDB</a>
+<ul>
+<li><a href="#常用操作">常用操作</a></li>
+<li><a href="#创建集合">创建集合</a></li>
+<li><a href="#删除集合">删除集合</a></li>
+<li><a href="#重命名集合">重命名集合</a></li>
+<li><a href="#插入数据">插入数据</a></li>
+<li><a href="#查询集合中的记录数">查询集合中的记录数</a></li>
+<li><a href="#查看集合存储信息">查看集合存储信息</a></li>
+<li><a href="#分片常用命令">分片常用命令</a></li>
+<li><a href="#分片键">分片键</a>
+<ul>
+<li><a href="#范围片键">范围片键</a></li>
+<li><a href="#哈希片键">哈希片键</a></li>
+<li><a href="#判断是否shard集群">判断是否Shard集群</a></li>
+<li><a href="#列出所有分片信息">列出所有分片信息</a></li>
+<li><a href="#列出开启分片的数据库">列出开启分片的数据库</a></li>
+<li><a href="#查看分片的片键">查看分片的片键</a></li>
+<li><a href="#查看分片的详细信息">查看分片的详细信息</a></li>
+<li><a href="#删除分片节点">删除分片节点</a></li>
+<li><a href="#blancer操作">blancer操作</a></li>
+</ul></li>
+<li><a href="#mongodb备份恢复-mongodump备份-mongorestore恢复">mongodb备份恢复  mongodump备份  mongorestore恢复</a></li>
+<li><a href="#mongodb数据迁移">mongodb数据迁移</a>
+<ul>
+<li><a href="#创建集合并插入数据">创建集合并插入数据：</a></li>
+<li><a href="#导出工具mongoexport">导出工具mongoexport</a></li>
+<li><a href="#导入工具mongoimport">导入工具mongoimport</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#redis">Redis</a>
+<ul>
+<li><a href="#string-字符串类型">string（字符串类型）</a></li>
+<li><a href="#hash-缓存数据库对象">hash  缓存数据库对象</a></li>
+<li><a href="#list-列表">LIST（列表）</a></li>
+<li><a href="#set">Set</a></li>
+<li><a href="#sortedset-有序集合">SortedSet（有序集合）</a></li>
+<li><a href="#消息模式">消息模式</a></li>
+<li><a href="#redis的事务">redis的事务</a></li>
+<li><a href="#sentinel配置-redis高可用">sentinel配置(redis高可用)</a>
+<ul>
+<li><a href="#sentinel管理命令">sentinel管理命令</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>记不住那么多的数据库命令, 那就只能手写了  ^ ^</p>
+
+<h1 id="mysql">MySQL</h1>
+
+<h2 id="ddl-数据定义">DDL:数据定义</h2>
+
+<h3 id="database-或者schema-定义">database  或者schema  定义</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">  create database oldboy;                                               创建新的库oldboy   
+  create database oldboy charset utf8;                                  创建新的库oldboy并定义字符集   
+  create user youndgirl@&#39;localhost&#39; identified by &#39;oldboy123&#39;           创建用户并设置密码                                                
+  delete from mysql.user where user=&#39;oldboy&#39; and host=&#39;localhost        删除用户(特殊的删除方法)     
+  drop database oldboy;                                                 删除oldboy库   
+  drop user &#39;oldboy&#39;@&#39;localhost&#39;;                                       删除oldboy用户   </pre></td></tr></table>
+</div>
+</div>
+<h3 id="table定义-创建表">table定义(创建表)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">  表名字:ti
+  列定义: 列名 数据类型 约束(非空 唯一 主键 特殊属性)
+  存储引擎
+  写 create table cmcc (telnum int primary key, 列名telnum 类型int 设置主键  
+                     cname varchar(20),         列名cname 字符长度20
+                     idcard varchar(18)         列名idcard字符长度18   
+                     not null unique,           非空 唯一键(主键)
+                     sex enum(&#39;m&#39;,&#39;f&#39;))         列的名字  二选一       
+                     engine=innodb;             innodb存储引擎
+
+删 drop table cmcc;                                    删除cmcc表
+查 show table;                                         查看表
+   show create table cmcc;                             查看创表cmcc记录
+   desc cmcc;                                          查看表cmcc的有哪些列及列定义
+
+改 alter table cmcc rename to com;                     修改表名,把表cmcc修改为com
+   alter table stu  add address varchar(30) not null;  在表的最后加一列address 类型为长度30的字符
+   alter table stu add telnum int not null after stu_name;   在表的stu_name列后边添加一列为telnum 类型为int
+   alter table stu add pid int  not null first;        在表的第一列添加pid这一列 类型为int
+   alter database oldboy charset gbk;                  修改oldboy库的字符集属性
+   alter table persons drop p_id;                      删除表persons的p_id列</pre></td></tr></table>
+</div>
+</div>
+<h2 id="dcl-数据控制">DCL:数据控制</h2>
+
+<h3 id="grant-授权">grant 授权+</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">   grant all on *.* to oldboy@&#39;localhost&#39; identified by &#39;oldboy123&#39;;                         给oldboy用户所有权限并设置密码
+   grant select(name,id) on test.t1 to oldboy@&#39;localhost&#39; identified by &#39;oldboy123&#39;;        oldboy只能查看name  id这两列
+   flush privileges；                                                                       刷新用户权限</pre></td></tr></table>
+</div>
+</div>
+<h3 id="revoke-去除权限">revoke 去除权限</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">   revoke drop  on *.* from  &#39;test&#39;@&#39;10.0.0.%&#39;;              收回test用户所有库drop(删除)权限
+   revoke all  on *.* from test@&#39;10.0.0.%&#39;                   收回test用户所有库的所有权限</pre></td></tr></table>
+</div>
+</div>
+<h2 id="dml-数据操作-功能-对标的行信息进行操作-增-删-改">DML:数据操作:功能,对标的行信息进行操作(增,删,改)</h2>
+
+<h3 id="给表的列中插入内容">给表的列中插入内容</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"> insert  into test(name) values(20)               id列插入空值(没有定义非空)
+ insert into cm(id,name) values(1,&#39;hkx&#39;);         给id name这两列分别插入1 hkx这两个内容
+ insert into test(name) values(&#39;oldgirl&#39;);        给test表的name列插入oldgirl内容
+ insert into test values(3,&#39;inca&#39;);               给test表的两列分别加入3,inca(也就是是一行)这两个数据(这里只有两列,如果还有其他列,后边的values的值就得继续添加)
+ insert into test values(4,&#39;zuma&#39;),(5,&#39;kaka&#39;);    给test表插入两行内容</pre></td></tr></table>
+</div>
+</div>
+<h3 id="修改表内容">修改表内容</h3>
+
+<p>update test set    where</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">update tt set name=&#39;old&#39; where id=11  把id列的11的那一行name列的内容修改为old(id列的11行和name列交叉处修改)
+必须加where条件 谨记</pre></td></tr></table>
+</div>
+</div>
+<h3 id="delete-删除行">delete  删除行</h3>
+
+<p>1.一定要where条件<br />
+2.伪删除（让业务觉得数据不在了），通过状态列（Enum（1,0））</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"> delete from tt where id=11                        删除tt表的id列的11这一行内容
+ delete from test;                                 删除test表所有数据</pre></td></tr></table>
+</div>
+</div>
+<h2 id="dql-selectshow-查询语句">DQL:selectshow(查询语句)</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">  show    databases;                                    查看有哪些库
+  show    grants for root@&#39;localhost&#39;                   查看用户权限 
+  show    create database oldboy                        查询如何创建oldboy这个库及其信息
+  show    create database oldboy charset utf8;          查看创建oldboy库的字符集
+  show    table;                                        查看表
+  show    create table cmcc;                            查看写入表cmcc的详细信息
+  desc    cmcc;                                         查看表cmcc的有哪些列及列定义
+  show    charset;                                      查看所有字符集
+  show    tables  from &lt;database_name&gt;：                查看指定数据库中的表
+  show    columns from &lt;table_name&gt;：                   查看表的列结构
+  show    index   from &lt;table_name&gt;：                   查看表中有关索引和索引列的信息
+  show    character set                                 查看可用的字符集及其默认整理
+  show    collation：                                   查看每个字符集的整理
+  show    status：                                      列出当前数据库状态
+  show    variables：                                   查看数据库中的参数定义值
+  show    status like &#39;innodb%&#39;;                        查看以innodab开头的  
+  show    status like &#39;%lock%&#39;                          查看中间含有locak的
+  show    processlist;                                  查看哪些线程正在运行
+  show engines;                                         查看支持哪些索引
+  show status like ‘Handler_read%’                      查看索引的使用情况
+  select  database();                                   查看当前所在数据库，类似于pwd命令的功能
+  select  user();                                       查看当前登录数据库的用户，类似于whoami命令                                      
+  select  * from mysql.user\G;                          查看mysql库user表中所有列，并且纵行显示
+  select  user,host from user;                          查看user表中指定信息，并且横行显示
+  select  user,host from mysql.user;                    查看哪些用户可以登录及管理mysql数据库 
+  select  * from tt order by id                         查看tt表并排序
+  select count(*) from city;                            统计city表总行数
+  select count(distinct name) from city;                统计city表name列不重复的
+  select ID from test;                                  查看test表的ID列
+  select  table_schema,count(table_name) from tables group by table_schema;   统计有多少表
+  mysqldump  -uroot -p123 oldboy t1 &gt; /bakcup/oldboy_t1.sql                   备份语句</pre></td></tr></table>
+</div>
+</div>
+<h3 id="where-条件">where 条件</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">建议使用的：=  &gt;  &lt;  like &#39;hang%&#39;    and  求交集
+不建议使用：or  ---替换为--&gt; union  xor   not !=
+select * from websites where url like &#39;https%&#39;;         找出以https开头的(like模糊语句)</pre></td></tr></table>
+</div>
+</div>
+<p>匹配正则regexp</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select * from websites where name regexp &#39;^[GF]&#39;;       过滤出name列以大G大F开头的 
+select * from websites where name regexp &#39;^[A-H]&#39;;      过滤出name列以A到H开头的所有
+select name from websites where name in (&#39;淘宝&#39;,&#39;微博&#39;); 过滤出name列时淘宝,微博的</pre></td></tr></table>
+</div>
+</div>
+<p>用* 会把整个表显示出来,用列名只显示这一列</p>
+
+<p>别名<br />
+    select alexa as a,country as c from websites;           给alexa列取别名a country列取别名c</p>
+
+<h3 id="order-by-排序">order by 排序</h3>
+
+<p>数字列进行排序（某东：价格字段），排序列一般情况下都有索引<br />
+limit 结果集限制<br />
+以上两种一般一起使用<br />
+语法: limit 跳过的行数, 要取多少行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select * from tt order by id                      把tt表的数据显示出来并排序
+select * from websites order by alexa desc;        降序</pre></td></tr></table>
+</div>
+</div>
+<h3 id="group-by-聚合函数">group by  聚合函数</h3>
+
+<p>聚合列一般情况下都有索引</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select countrycode,count(countrycode) from city group by countrycode ;
+ count 统计参数</pre></td></tr></table>
+</div>
+</div>
+<h3 id="集合操作">集合操作</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">union      去重复
+union all  不去重</pre></td></tr></table>
+</div>
+</div>
+<p>第一个场景:  横向分表 需要查询多表信息的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select* from t1
+union
+select* from t2
+union
+select* from t3</pre></td></tr></table>
+</div>
+</div>
+<p>第二个场景：替代or功能</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select * from city 
+where countrycode=&#39;chn&#39;
+or
+countrycode=&#39;JPN&#39;
+
+select * from city 
+where countrycode=&#39;chn&#39;
+uniot all
+select * from city 
+where countrycode=&#39;JPN&#39;</pre></td></tr></table>
+</div>
+</div>
+<h3 id="join表连接">join表连接</h3>
+
+<p>用来连接的前表或者后表的列必须都有索引</p>
+
+<p>多表连接查询<br />
+连接（join）：将一张表中的行按照某个条件（连接条件）和另一张表中的行连接起来形成一个新行的过程叫做连接</p>
+
+<p>例1：natural  join子句<br />
+自动到两张表中查找所有同名同类型的列拿来做连接列，进行相等连接</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select name,countrycode ,language,population from  city natural  join  countrylanguage where population &gt; 1000000 order by population;</pre></td></tr></table>
+</div>
+</div>
+<p>连接列是population，并且在select子句只能出现一个连接列</p>
+
+<p>例2：使用using子句</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">selectname,countrycode ,language ,population from  city join  countrylanguage  using(countrycode);</pre></td></tr></table>
+</div>
+</div>
+<p>例3：传统的连接写法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql&gt; SELECT websites.id, websites.name, access_log.count, access_log.date FROM websites INNER JOIN access_log ON websitees.id=access_log.site_id;
++----+--------------+-------+------------+
+| id | name         | count | date       |
++----+--------------+-------+------------+
+|  1 | Google       |    45 | 2016-05-10 |
+|  1 | Google       |   230 | 2016-05-14 |
+|  2 | 淘宝         |    10 | 2016-05-14 |
+|  3 | 菜鸟教程     |   100 | 2016-05-13 |
+|  3 | 菜鸟教程     |   220 | 2016-05-15 |
+|  3 | 菜鸟教程     |   201 | 2016-05-17 |
+|  4 | 微博         |    13 | 2016-05-15 |
+|  5 | Facebook     |   205 | 2016-05-14 |
+|  5 | Facebook     |   545 | 2016-05-16 |
++----+--------------+-------+------------+</pre></td></tr></table>
+</div>
+</div>
+<h3 id="子查询">子查询</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select ci.name,ci.Population from  
+(select name,Population 
+from city 
+where 
+countrycode=&#39;CHN&#39; 
+OR  
+countrycode=&#39;JPN&#39;) ci
+where ci.Population&gt;7000000</pre></td></tr></table>
+</div>
+</div>
+<h3 id="not-null-default-非空-默认值配合">not null default  非空  默认值配合</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">create table asd (id int auto increment primary key,name varchar(20) not null default &#39;小狗&#39;);
+
+desc asd
+select * from asd
+
+insert into asd values(1,&#39;小明&#39;);
+insert into asd(id) values(2);
+unique</pre></td></tr></table>
+</div>
+</div>
+<p>开发规范：<br />
+1、设计表时，要有主键（唯一，非空），最好是一个自增长的无关列<br />
+2、尽量保证列值非空（not null，特殊情况设置default）<br />
+3、能用enum尽量不要用char或者varchar<br />
+4、如果表中有大字段的列（内容非常多的列），单独拆分存放。<br />
+5、MySQL中单表超过800w行就要进行拆分了</p>
+
+<h2 id="数据类型介绍">数据类型介绍</h2>
+
+<p>四种主要类别：数值类型 字符类型 时间类型 二进制类型</p>
+
+<p>int unsigned not null   不允许负值和未知值(非空)</p>
+
+<h3 id="数值数据类型">数值数据类型</h3>
+
+<p>使用数值数据类型时的注意事项<br />
+    数据类型所表示的值的范围<br />
+    列值所需的空间量<br />
+    列精度和范围（浮点数和定点数）<br />
+    数值数据类型的类：<br />
+    整数：整数<br />
+    浮点数：小数<br />
+    定点数：精确值数值<br />
+    BIT：位字段值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">| 类     |              类型    |           描述                        |
+| ------ | :--------------------:|:---------------------------------------: |         
+整数    | tinyint      |  极小整数数据类型（0-255）                              
+整数    | smallint     |  较小整数数据类型（-2^15 到2^15-1 ）                      
+整数    | mediumint    |  中型整数数据类型                                         
+整数    | int          |  常规（平均）大小的整数数据类型（-2^31 到2^31-1 ）     
+整数    | bigint       |  较大整数数据类型（-2^63到2^63-1 ）                  
+浮点数  | float        |  小型单精度（四个字节）浮点数                       
+浮点数  | double       |  常规双精度（八个字节）浮点数                        
+定点数  | decimal      |  包含整数部分、小数部分或同时包括二者的精确值数值  
+BIT     | BIT          |  位字段值</pre></td></tr></table>
+</div>
+</div>
+<h3 id="字符串数据类型">字符串数据类型</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">表示给定字符集中的一个字母数字字符序列   
+用于存储文本或二进制数据   
+几乎在每种编程语言中都有实现   
+支持字符集和整理   
+属于以下其中一类   
+文本：真实的非结构化字符串数据类型   
+整数：结构化字符串类型   </pre></td></tr></table>
+</div>
+</div>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>文本</td>
+<td align="center">char</td>
+<td align="center">固定长度字符串，最多为 255 个字符</td>
+</tr>
+
+<tr>
+<td>文本</td>
+<td align="center">tinytext</td>
+<td align="center">可变长度字符串，最多为 255 个字符</td>
+</tr>
+
+<tr>
+<td>文本</td>
+<td align="center">varchar</td>
+<td align="center">可变长度字符串，最多为 65,535 个字符</td>
+</tr>
+
+<tr>
+<td>文本</td>
+<td align="center">text</td>
+<td align="center">可变长度字符串，最多为 65,535 个字符</td>
+</tr>
+
+<tr>
+<td>文本</td>
+<td align="center">mediumtext</td>
+<td align="center">可变长度字符串，最多为 16,777,215 个字符</td>
+</tr>
+
+<tr>
+<td>文本</td>
+<td align="center">longtext</td>
+<td align="center">可变长度字符串，最多为 4,294,967,295 个字符</td>
+</tr>
+
+<tr>
+<td>整数</td>
+<td align="center">enum</td>
+<td align="center">由一组固定的合法值组成的枚举</td>
+</tr>
+
+<tr>
+<td>整数</td>
+<td align="center">set</td>
+<td align="center">由一组固定的合法值组成的集</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="二进制字符串数据类型">二进制字符串数据类型</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">字节序列   
+二进制位按八位分组   
+存储二进制值，例如：   
+编译的计算机程序和应用程序   
+图像和声音文件   
+字符二进制数据类型的类：   
+二进制：固定长度和可变长度的二进制字符串   
+BLOB：二进制数据的可变长度非结构化集合   </pre></td></tr></table>
+</div>
+</div>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>二进制</td>
+<td align="center">binary</td>
+<td align="center">类似于 char（固定长度）类型，但存储的是二进制字节字符串，而不是非二进制字符串</td>
+</tr>
+
+<tr>
+<td>二进制</td>
+<td align="center">varbinary</td>
+<td align="center">类似于 varchar（可变长度）类型，但存储的是二进制字节字符串，而不是非二进制字符串</td>
+</tr>
+
+<tr>
+<td>BLOB</td>
+<td align="center">tinyblob</td>
+<td align="center">最大长度为 255 个字节的 BLOB 列</td>
+</tr>
+
+<tr>
+<td>BLOB</td>
+<td align="center">blob</td>
+<td align="center">最大长度为 65,535 个字节的 BLOB 列</td>
+</tr>
+
+<tr>
+<td>BLOB</td>
+<td align="center">mediudmblob</td>
+<td align="center">最大长度为 16,777,215 个字节的 BLOB 列</td>
+</tr>
+
+<tr>
+<td>BLOB</td>
+<td align="center">longblob</td>
+<td align="center">最大长度为 4,294,967,295 个字节的 BLOB 列</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="时间数据类型">时间数据类型</h3>
+
+<p>| 类     |              实例    |<br />
+| &mdash;&mdash; | :&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;: |
+           |                           |
+date       |   2006-08-04              |
+time       |   12:59:02.123456         |
+ditetime   |   2006-08-04 12:59:02.123 |
+timestamp  |   2006-08-04 12:59:02.12  |
+year       |   2006                    |</p>
+
+<h3 id="列属性">列属性</h3>
+
+<p>列属性的类别：<br />
+    数值：适用于数值数据类型（BIT 除外）<br />
+    字符串：适用于非二进制字符串数据类型<br />
+    常规：适用于所有数据类型</p>
+
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th align="center">属性</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+
+<tr>
+<td>数值</td>
+<td align="center">unsigned</td>
+<td align="center">禁止使用负值</td>
+</tr>
+
+<tr>
+<td>仅整数</td>
+<td align="center">auto_increment</td>
+<td align="center">生成包含连续唯一整数值的序列(自增长)</td>
+</tr>
+
+<tr>
+<td>字符串</td>
+<td align="center">character set</td>
+<td align="center">指定要使用的字符集</td>
+</tr>
+
+<tr>
+<td>字符串</td>
+<td align="center">collate</td>
+<td align="center">指定字符集整理</td>
+</tr>
+
+<tr>
+<td>字符串</td>
+<td align="center">binary</td>
+<td align="center">指定二进制整理</td>
+</tr>
+
+<tr>
+<td>全部*</td>
+<td align="center">null 或 not null</td>
+<td align="center">指示列是否可以包含 NULL 值</td>
+</tr>
+
+<tr>
+<td>全部</td>
+<td align="center">default</td>
+<td align="center">如果未为新记录指定值，则为其提供默认值</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="索引管理">索引管理</h2>
+
+<h3 id="sql中的约束一般有如下">SQL中的约束一般有如下 +</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">not null        指示某列不能存储 NULL 值。
+unique          保证某列的每行必须有唯一的值。每个表可以有多个 UNIQUE 约束，但是每个表只能有一个 PRIMARY KEY 约束
+primary key  NOT NULL 和 UNIQUE 的结合。确保某列（或两个列多个列的结合）有唯一标识，
+foreign key     保证一个表中的数据匹配另一个表中的值的参照完整性。
+check           保证列中的值符合指定的条件。
+default         规定没有给列赋值时的默认值。</pre></td></tr></table>
+</div>
+</div>
+<h3 id="主键索引">主键索引</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">alter table test change id id int(4) primary key not null auto_increment;(primary key 主键必须  建表后添加的)
+create table test  (id  int(4) not null auto_increment, name char(20) not null, primary key (id)) engine=innodbdefault charset=utf8;
+alter table cmcc modify id int ,drop primary key;  删除主键索引</pre></td></tr></table>
+</div>
+</div>
+<h3 id="唯一键索引">唯一键索引</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">alter table test add unique index name_idx(id);(unique唯一键)
+create unique index index_name on test(name);</pre></td></tr></table>
+</div>
+</div>
+<h3 id="普通索引">普通索引</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">create table test (id int not null varchar(20));
+添加普通索引: alter table test add index id_idx(id); 
+删除普通索引: alter table test drop index id_idx;
+select id,name from test where state=1 order by id group by name;</pre></td></tr></table>
+</div>
+</div>
+<p>用索引查询,加上条件,查询所读更快</p>
+
+<h3 id="前缀索引根据字段的前n个字符建立索引">前缀索引根据字段的前N个字符建立索引</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">alter table test add index name_idx(name(8));
+create index index_name on test(name(8));</pre></td></tr></table>
+</div>
+</div>
+<h3 id="复合索引-explain-查看索引情况">复合索引(explain 查看索引情况)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">create table t1 (id int,name varchar(20),age int,sex enum(&#39;m&#39;,&#39;f&#39;),money int);
+alter table t1 add index t1_idx(money,age,sex);
+desc t1                               注意这里创建索引列的顺序
+show index from t1</pre></td></tr></table>
+</div>
+</div>
+<p>走索引的情况：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">explain select name,age,sex,money from t1 where money=30 and age=30  and sex=&#39;m&#39;;
+explain select name,age,sex,money from t1 where money=30 and age=30  ;
+                                                           使用条件时的顺序</pre></td></tr></table>
+</div>
+</div>
+<p>部分走索引</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">explain select name,age,sex,money from t1 where money=30  and sex=&#39;m&#39;; 
+                                                         有一半的顺序正确</pre></td></tr></table>
+</div>
+</div>
+<p>不走索引的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">explain select  name,age,sex,money from t1 where  age=20    顺序不正确
+explain select name,age,sex,money from t1 where  age=30  and sex=&#39;m&#39;;
+explain select name,age,sex,money from t1 where   sex=&#39;m&#39;;
+mysql&gt; explain select name,age,sex,money from t1 where money=30 and age=30  and sex=&#39;m&#39;;</pre></td></tr></table>
+</div>
+</div>
+<p>获取适合做索引的列</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select count(*) from mysql.user;  4行
+select count(distinct user) from mysql.user;   3行，说明可定有一个重复行
+select count(distinct user,host) from mysql.user; 4行，两个条件就没有重复行了，更适合做索引条件   统计   不重复的</pre></td></tr></table>
+</div>
+</div>
+<h2 id="数据日志管理">数据日志管理</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">show variables like &#39;%log_bin%&#39;;               查询
+ll /data/mysql/mysql-bin          
+show binary logs;                              数据库二进制日志信息
+show  master status;                           正在使用的日志
+show binlog events in &#39;mysql-bin.000004&#39;       查看事件信息日志
+mysqlbinlog --start-position=6669 --stop=position=6855   mysql-bin.000004 &gt;bak.sql  把这个阶段的事件导入bak．sql　以便恢复日志
+reset master                                   删除之前的所有的二进制日志
+set sql_log_bin=0                              临时关闭二进制日志记录
+flush logs;                                    分割日志　把mysql－bin.00000x分成多个
+SET GLOBAL expire_logs_days = 7;               根据存在时间删除日志：
+或者 PURGE BINARY LOGS BEFORE now() - INTERVAL 3 day; 根据文件名删除日志：PURGE BINARY LOGS TO &#39;mysql-bin.000010&#39;;</pre></td></tr></table>
+</div>
+</div>
+<p>注意：有备份的情况下才可以设置，但是一定和全备周期有关</p>
+
+<h2 id="数据备份恢复-mysqldump逻辑备份">数据备份恢复  mysqldump逻辑备份</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">-A  --all-databases     全库备份
+-R --routines           备份存储过程和函数数据
+--triggers              备份触发器数据
+musqldump   -A  &gt;/backup/full.sql
+mysqldump -A -R --triggers &gt;/backup/full.sql</pre></td></tr></table>
+</div>
+</div>
+<h3 id="单库备份">单库备份</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1、mysqldump oldboy &gt;/backup/oldboy.sql   (只能备份一个库)
+2、mysqldump -B oldboy &gt;/backup/oldboy_b.sql   (可以备份多个库也就是多库备份)                  
+注：
+第一种方式，实现的是单库备份，但不带有create和use语句，恢复时需要事先创建好相应的库
+第二种方式，实现的是单库备份，同时带有create和use语句，恢复时不需要实现创建对应库</pre></td></tr></table>
+</div>
+</div>
+<h3 id="多库备份">多库备份</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysqldump -B oldboy oldgirl &gt;/backup/two.sql</pre></td></tr></table>
+</div>
+</div>
+<h3 id="单表备份">单表备份</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysqldump  cc test &gt;/backup/test.sql
+cc 库名
+test 表名</pre></td></tr></table>
+</div>
+</div>
+<h3 id="刷新binlog日志">刷新binlog日志</h3>
+
+<p>-F, &ndash;flush-logs</p>
+
+<p>全备结束后，全备之前的binlog不再有用了。也就意味着，我们只要保留全备完成时刻之后的所有二进制日志，就认为数据库是安全的。所以-F选项的作用是，备份完成之后，刷新出新的二进制日志开始使用。我们将来只要保留从这个文件开始所有的二进制日志文件，就可以做数据库故障时的完整恢复。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">每天晚上0点备份数据库
+mysqldump -A  -F &gt;/backup/$(date +%F).sql</pre></td></tr></table>
+</div>
+</div>
+<h3 id="压缩备份">压缩备份</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysqldump  -B --master-data=2 oldboy|gzip&gt;/backup/t1.sql.gz
+解压:
+zcat t.sql.gz&gt;t1.sql
+gzip -d t.sql.gz   
+gunzip t.sql.gz
+
+innodb引擎的备份命令如下
+mysqldump -A  -R --triggers --master-data=2 --single-transaction |gzip&gt;/backup/all.sql.gz
+
+适合多引擎混合（例如：myisam与innodb混合）的备份命令如下
+mysqldump -A  -R --triggers --master-data=2 |gzip&gt;/backup/alL_$(date +%F).sql.gz</pre></td></tr></table>
+</div>
+</div>
+<h3 id="逻辑数据恢复">逻辑数据恢复</h3>
+
+<p>利用备份恢复</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">set sql_log_bin=0
+source /backup/oldboy.sql</pre></td></tr></table>
+</div>
+</div>
+<p>备份+binlog进行恢复<br />
+每天夜里11点进行生产数据全备<br />
+生产库：oldboy world mysql<br />
+    mysqldump -B oldboy world mysql &ndash;master-data=2 &ndash;single-transaction -R &ndash;triggers |gzip&gt;/backup/alL_$(date +%F).sql.gz</p>
+
+<h2 id="数据备恢复-xtrabakup">数据备恢复  xtrabakup</h2>
+
+<p>安装软件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo
+yum -y install perl perl-devel libaio libaio-devel perl-Time-HiRes perl-DBD-MySQL   
+wget https://www.percona.com/downloads/XtraBackup/Percona-XtraBackup-2.4.4/binary/redhat/6/x86_64/percona-xtrabackup-24-2.4.4-1.el6.x86_64.rpm              
+yum -y install percona-xtrabackup-24-2.4.4-1.el6.x86_64.rpm</pre></td></tr></table>
+</div>
+</div>
+<h3 id="全备备份">全备备份</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">innobackupex --user=root --password=oldboy123 /backup  备份完成之后，会自动创建一个基于当前时间戳的目录，存放全备备份集  备份到/backup目录下
+[root@db03 /backup]# ll
+drwxr-x--- 7 root root    4096 Feb 26 16:48 2018-02-26_16-48-01</pre></td></tr></table>
+</div>
+</div>
+<h3 id="取消时间戳-自定义备份名">取消时间戳,自定义备份名</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">innobackupex --no-timestamp /backup/full/ </pre></td></tr></table>
+</div>
+</div>
+<h3 id="增量备份">增量备份</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">innobackupex --no-timestamp /backup/full/  先做全备
+innobackupex --no-timestamp --incremental /backup/inc1/  --incremental-basedir=/backup/full/  基于前一天的全备</pre></td></tr></table>
+</div>
+</div>
+<h3 id="mysql导出csv">mysql导出csv：</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select * from test_info   
+into outfile &#39;/tmp/test.csv&#39;   
+fields terminated by &#39;,&#39;　　　 ------字段间以,号分隔
+
+optionally enclosed by &#39;&#34;&#39;　　------字段用&#34;号括起
+
+escaped by &#39;&#34;&#39;   　　　　　　------字段中使用的转义符为&#34;
+
+lines terminated by &#39;\r\n&#39;;　　------行以\r\n结束
+
+
+mysql导入csv：
+load data infile &#39;/tmp/test.csv&#39;   
+
+into table test_info    
+
+fields terminated by &#39;,&#39;  
+
+optionally enclosed by &#39;&#34;&#39; 
+
+escaped by &#39;&#34;&#39;   
+
+lines terminated by &#39;\r\n&#39;; </pre></td></tr></table>
+</div>
+</div>
+<h2 id="案例-生产中修改表结构">案例: 生产中修改表结构</h2>
+
+<ol>
+<li>备份和生产表一样表结构 的备用表<br />
+create table stu_bak like stu;<br /></li>
+<li>按需求删除yy这一列<br />
+ alter table stu_bak drop yy;<br /></li>
+<li>将原表数据,除了yy列之外的数据倒入bak表中(业务需要停止)<br />
+ inset into stu_bak selectid,stu_name,telnum,oldboyage,sex,address,qq from stu;<br /></li>
+<li>确认新表旧表数据一致,重命名原表,将bak表重命名为原标<br />
+alter table stu rename stu_old;<br />
+alter table stu_bak rename stu;<br /></li>
+</ol>
+
+<h4 id="例">例:</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">create table order_table
+(ord_id varchar(20),
+ord_name varchar(20),
+ord_ms varchar(20),
+ord_date TIMESTAMP );
+
+desc order_table;
+insert into order_table values(1,&#39;袜子&#39;,&#39;42-blue&#39;,sysdate());
+select * from order_table;</pre></td></tr></table>
+</div>
+</div>
+<h4 id="例-一个表分成多个表-他们之间的连接">例: 一个表分成多个表,他们之间的连接</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">insert into student (sid,Sname) values (&#39;001&#39;,&#39;陈一&#39;);  
+insert into student (sid,Sname) values (&#39;002&#39;,&#39;郭二&#39;);  
+insert into student (sid,Sname) values (&#39;003&#39;,&#39;张三&#39;);  
+insert into student (sid,Sname) values (&#39;004&#39;,&#39;李四&#39;);  
+insert into student (sid,Sname) values (&#39;005&#39;,&#39;王五&#39;);  
+
+
+insert into teacher (tid,tname) values (&#39;001&#39;,&#39;张老师&#39;);  
+insert into teacher (tid,tname) values (&#39;002&#39;,&#39;王老师&#39;);  
+insert into teacher (tid,tname) values (&#39;003&#39;,&#39;钱老师&#39;);  
+insert into teacher (tid,tname) values (&#39;004&#39;,&#39;刘老师&#39;);  
+insert into teacher (tid,tname) values (&#39;005&#39;,&#39;胡老师&#39;);  
+
+
+insert into course (cid,cname,tid) values (&#39;001&#39;,&#39;语文&#39;,&#39;张老师&#39;);  
+insert into course (cid,cname,tid) values (&#39;002&#39;,&#39;数学&#39;,&#39;王老师&#39;);  
+insert into course (cid,cname,tid) values (&#39;003&#39;,&#39;英语&#39;,&#39;钱老师&#39;);  
+insert into course (cid,cname,tid) values (&#39;004&#39;,&#39;物理&#39;,&#39;刘老师&#39;);  
+insert into course (cid,cname,tid) values (&#39;005&#39;,&#39;政治&#39;,&#39;胡老师&#39;);  
+
+
+insert into  sc (sid,cid,score) values (&#39;001&#39;,&#39;001&#39;,50);  
+insert into  sc (sid,cid,score) values (&#39;001&#39;,&#39;002&#39;,60);  
+insert into  sc (sid,cid,score) values (&#39;001&#39;,&#39;003&#39;,70);  
+insert into  sc (sid,cid,score) values (&#39;001&#39;,&#39;004&#39;,80);  
+insert into  sc (sid,cid,score) values (&#39;001&#39;,&#39;005&#39;,90);  
+
+insert into  sc (sid,cid,score) values (&#39;002&#39;,&#39;001&#39;,90);  
+insert into  sc (sid,cid,score) values (&#39;002&#39;,&#39;002&#39;,80);  
+insert into  sc (sid,cid,score) values (&#39;002&#39;,&#39;003&#39;,70);  
+insert into  sc (sid,cid,score) values (&#39;002&#39;,&#39;004&#39;,60);  
+insert into  sc (sid,cid,score) values (&#39;002&#39;,&#39;005&#39;,50);  
+
+insert into  sc (sid,cid,score) values (&#39;003&#39;,&#39;001&#39;,81);  
+insert into  sc (sid,cid,score) values (&#39;003&#39;,&#39;002&#39;,82);  
+insert into  sc (sid,cid,score) values (&#39;003&#39;,&#39;003&#39;,83);  
+insert into  sc (sid,cid,score) values (&#39;003&#39;,&#39;004&#39;,84);  
+insert into  sc (sid,cid,score) values (&#39;003&#39;,&#39;005&#39;,85);  </pre></td></tr></table>
+</div>
+</div>
+<h3 id="物理删除恢复">物理删除恢复</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">rm -rf /application/mysql/data/*　　　　误删整个数据库
+[root@db03 /data/mysql]# ll　　　　　　　在这个目录下是binlog日志
+total 12
+-rw-r--r-- 1 root  root  2989 Feb  9 13:20 bak.sql
+-rw-rw---- 1 mysql mysql  764 Feb  9 13:25 mysql-bin.000001
+-rw-rw---- 1 mysql mysql  764 Feb  9 13:25　mysql-bin.000002
+-rw-rw---- 1 mysql mysql  764 Feb  9 13:25　mysql-bin.000003
+-rw-rw---- 1 mysql mysql   29 Feb  9 13:25 mysql-bin.index
+
+[root@db03 /data/mysql]#　mysqlbinlog mysql-bin.000001 mysql-bin.000002 mysql-bin.000003  &gt;bak.sql　　　把所有的日志记录导入一个sql文件
+[root@db03 /data/mysql]# ll
+total 12
+-rw-r--r-- 1 root  root  2989 Feb  9 13:20 bak.sql
+初始化数据化
+/application/mysql/scripts/mysql_install_db --user=mysql --datadir=/application/mysql/data/ --basedir=/application/mysql
+启动数据库
+/etc/init.d/mysqld start
+把之前的日志清除
+reset master
+导入日志
+mysql&gt; source bak.sql   </pre></td></tr></table>
+</div>
+</div>
+<h3 id="逻辑损坏">逻辑损坏</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql&gt; create database oldboy;
+mysql&gt; use oldboy;
+mysql&gt; create table test(id int,name varchar(20));
+mysql&gt; insert into test values(1,&#39;zuma&#39;),(2,&#39;kaka&#39;);
+mysql&gt; show binary logs;
++------------------+-----------+
+| Log_name         | File_size |
++------------------+-----------+
+| mysql-bin.000001 |       340 |
++------------------+-----------+
+mysql&gt; show binlog events in &#39;mysql-bin.000001&#39;;
+
+mysql&gt; drop database oldboy;
+[root@db03 /data/mysql]# mysqlbinlog --stop-position=764 mysql-bin.000001&gt;bak.sql
+source /data/mysql/bak.sql
+mysql&gt; reset master
+mysql&gt; source bak.sql</pre></td></tr></table>
+</div>
+</div>
+<h3 id="模拟删库-全备恢复">模拟删库,全备恢复</h3>
+
+<p>关闭数据库(因为/mysql/data目录下文件全部被删,所以无法正常关闭)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">pkill mysqld</pre></td></tr></table>
+</div>
+</div>
+<p>恢复数据前准备<br />
+将已提交的事务redo合并到磁盘备份中（模拟的是crash safe recovery），并且将未提交的数据进行回滚</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">innobackupex --apply-log /backup/2018-02-09_18-28-26</pre></td></tr></table>
+</div>
+</div>
+<p>恢复备份</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">cp -a  /backup/2018-02-09_18-28-26/*   /application/mysql/data
+或者
+innobackupex --copy-back  /backup/2018-02-09_18-28-26</pre></td></tr></table>
+</div>
+</div>
+<p>改权限并启动数据库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 /application/mysql/data]# chown -R mysql.mysql /application/
+[root@db03 /application/mysql/data]# /etc/init.d/mysqld start</pre></td></tr></table>
+</div>
+</div>
+<h3 id="增量备份恢复模拟">增量备份恢复模拟</h3>
+
+<p>周3上午10点，oldboy下的test表，数据被误修改</p>
+
+<p>思路：<br />
+1、关闭业务<br />
+2、查找备份，周日全备 周一增量 周二增量<br />
+3、找临时库<br />
+4、合并所有增量到全备当中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">（1）全备的apply-log
+innobackupex --apply-log --use-memory=32M --redo-only /backup/full
+（2）周一增量合并到全备
+innobackupex --apply-log --use-memory=32M --redo-only --incremental-dir=/backup/inc1 /backup/full/
+（3）周2增量合并到全备
+innobackupex --apply-log --use-memory=32M --incremental-dir=/backup/inc2 /backup/full/
+（4）合并完成之后进行整体apply-log
+innobackupex --apply-log /backup/full/</pre></td></tr></table>
+</div>
+</div>
+<p>5、恢复数据到临时库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">pkill mysqld   关闭数据库
+innobackupex --copy-back  /backup/full</pre></td></tr></table>
+</div>
+</div>
+<p>目前的状态是 周2 备份时间的数据状态<br />
+6、使用binlog补全，周2  00:10之后到误update 之间的数据操作<br />
+7、测试库恢复完成后，导出问题表，倒回到生产库，测试应用，测试没问题开启业务。</p>
+
+<h4 id="只修改了某个表-如何使用只恢复这个表-不用全部恢复-xtrabackup导出表">只修改了某个表,如何使用只恢复这个表,不用全部恢复 ( xtrabackup导出表)</h4>
+
+<p>(1)“导出”表<br />
+导出表是在备份的prepare阶段进行的，因此，一旦完全备份完成，就可以在prepare过程中通过&ndash;export选项将某表导出了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">innobackupex --apply-log --export /path/to/backup</pre></td></tr></table>
+</div>
+</div>
+<p>此命令会为每个innodb表的表空间创建一个以.exp结尾的文件，这些以.exp结尾的文件则可以用于导入至其它服务器。</p>
+
+<p>(2)“导入”表<br />
+要在mysql服务器上导入来自于其它服务器的某innodb表，需要先在当前服务器上创建一个跟原表表结构一致的表，而后才能实现将表导入：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">create table mytable (...)  engine=InnoDB;</pre></td></tr></table>
+</div>
+</div>
+<p>然后将此表的表空间删除：</p>
+
+<p>alter table mydatabase.mytable  discard tablespace;</p>
+
+<p>接下来，将来自于“导出”表的服务器的mytable表的mytable.ibd和mytable.exp文件复制到当前服务器的数据目录，然后使用如下命令将其“导入”：</p>
+
+<p>alter table mydatabase.mytable  import tablespace;</p>
+
+<h1 id="mongodb">MongoDB</h1>
+
+<h2 id="常用操作">常用操作</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">db.version()                查看当前db版本
+db 或 db.getName()          显示当前数据库
+show dbs                    查询所有数据库
+use local                   切换数据库/显示当前数据库状态
+local&gt; db.stats()           先切换到该数据库查看local数据
+db.getMongo()               查看当前数据库的连接机器地址
+mongo 192.168.1.24/admin    指定数据库进行连接：（默认连接本机test数据库）</pre></td></tr></table>
+</div>
+</div>
+<p>&ndash;创建数据库：当use的时候，系统就会自动创建一个数据库。如果use之后没有创建任何集合。系统就会删除这个数据库。<br />
+&ndash;删除数据库：（如果没有选择任何数据库，会删除默认的test数据库）<br />
+//删除test数据库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">test&gt; show dbs
+local  0.000GB
+test   0.000GB
+test&gt; use test
+switched to db test
+test&gt; db.dropDatabase()
+{ &#34;dropped&#34; : &#34;test&#34;, &#34;ok&#34; : 1 }</pre></td></tr></table>
+</div>
+</div>
+<h2 id="创建集合">创建集合</h2>
+
+<p>方法1</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin&gt; use app
+switched to db app
+app&gt; db.createCollection(&#39;a&#39;)   在app库下创建一个集合a
+{ &#34;ok&#34; : 1 }
+app&gt; db.createCollection(&#39;b&#39;)   在app库下创建一个集合b
+{ &#34;ok&#34; : 1 }
+
+&gt; show collections //           查看当前数据下的所有集合
+a
+b
+或
+&gt; db.getCollectionNames()
+[ &#34;a&#34;, &#34;b&#34; ]</pre></td></tr></table>
+</div>
+</div>
+<p>方法2：当插入一个文档的时候，一个集合就会自动创建。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin&gt; use app
+switched to db app
+app&gt; db.c.insert({username:&#34;mongodb&#34;})
+WriteResult({ &#34;nInserted&#34; : 1 })
+app&gt; show collections
+a
+b
+c
+app&gt; db.c.find()
+{ &#34;_id&#34; : ObjectId(&#34;5743c9a9bf72d9f7b524713d&#34;), &#34;username&#34; : &#34;mongodb&#34; }</pre></td></tr></table>
+</div>
+</div>
+<h2 id="删除集合">删除集合</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">app&gt; use app
+switched to db app
+app&gt; db.log.drop() //删除集合</pre></td></tr></table>
+</div>
+</div>
+<h2 id="重命名集合">重命名集合</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//把log改名为log1
+app&gt; db.log.renameCollection(&#34;log1&#34;)
+{ &#34;ok&#34; : 1 }
+app&gt; show collections
+a
+b
+c
+log1
+app&gt;</pre></td></tr></table>
+</div>
+</div>
+<h2 id="插入数据">插入数据</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">app&gt; for(i=0;i&lt;10000;i++){ db.log.insert({&#34;uid&#34;:i,&#34;name&#34;:&#34;mongodb&#34;,&#34;age&#34;:6,&#34;date&#34;:new Date()}); }</pre></td></tr></table>
+</div>
+</div>
+<h2 id="查询集合中的记录数">查询集合中的记录数</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">app&gt; db.log.find()            //查询所有记录
+注：默认每页显示20条记录，当显示不下的的情况下，可以用it迭代命令查询下一页数据。
+设置每页显示数据的大小：
+&gt; DBQuery.shellBatchSize=50;     //每页显示50条记录
+50                              //
+app&gt; db.log.findOne()           //查看第1条记录
+app&gt; db.log.count()             //查询总的记录数
+                                //
+--删除集合中的记录数           //
+app&gt; db.log.remove({})          //删除集合中所有记录
+&gt; db.log.distinct(&#34;name&#34;)       //查询去掉当前集合中某列的重复数据：
+[ &#34;mm&#34; ]</pre></td></tr></table>
+</div>
+</div>
+<h2 id="查看集合存储信息">查看集合存储信息</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">app&gt; db.log.stats()
+app&gt; db.log.dataSize()          //集合中数据的原始大小
+app&gt; db.log.totalIndexSize()   //集合中索引数据的原始大小
+app&gt; db.log.totalSize()        //集合中索引+数据压缩存储之后的大小
+app&gt; db.log.storageSize()      //集合中数据压缩存储的大小</pre></td></tr></table>
+</div>
+</div>
+<h2 id="分片常用命令">分片常用命令</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1、激活数据库分片功能
+mongo 10.0.0.54:28017/admin   进入mongos节点
+admin&gt;  ( { enablesharding : &#34;数据库名称&#34; } )
+
+例：
+admin&gt; db.runCommand( { enablesharding : &#34;test&#34; } )
+
+2、指定分片建对集合分片
+
+eg：范围片键
+--创建索引
+admin&gt; db.vast.ensureIndex( { id: 1 } )
+
+admin&gt; db.runCommand( { shardcollection : &#34;test.vast&#34;,key : {id: 1} } )
+
+3、集合分片验证
+admin&gt; use test
+
+test&gt; for(i=0;i&lt;2000000;i++){ db.vast.insert({&#34;id&#34;:i,&#34;name&#34;:&#34;shenzheng&#34;,&#34;age&#34;:70,&#34;date&#34;:new Date()}); }
+
+test&gt; db.vast.stats()</pre></td></tr></table>
+</div>
+</div>
+<h2 id="分片键">分片键</h2>
+
+<h3 id="范围片键">范围片键</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin&gt; sh.shardCollection(&#34;数据库名称.集合名称&#34;,key : {分片键: 1}  )
+或
+admin&gt; db.runCommand( { shardcollection : &#34;数据库名称.集合名称&#34;,key : {分片键: 1} } )
+
+例：
+admin &gt; sh.shardCollection(&#34;test.vast&#34;,key : {id: 1}  )
+或
+admin&gt; db.runCommand( { shardcollection : &#34;test.vast&#34;,key : {id: 1} } )</pre></td></tr></table>
+</div>
+</div>
+<h3 id="哈希片键">哈希片键</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin &gt; sh.shardCollection( &#34;数据库名.集合名&#34;, { 片键: &#34;hashed&#34; } )
+
+例：
+创建哈希索引
+use admin
+admin&gt; db.runCommand( { enablesharding : &#34;oldboy&#34; } )
+use oldboy
+oldboy&gt; db.vast.ensureIndex( { id: &#34;hashed&#34; } )
+use admin
+admin &gt; sh.shardCollection( &#34;oldboy.vast&#34;, { id: &#34;hashed&#34; } )
+use oldboy
+for(i=0;i&lt;10000;i++){ db.vast.insert({&#34;id&#34;:i,&#34;name&#34;:&#34;shenzheng&#34;,&#34;age&#34;:70,&#34;date&#34;:new Date()}); }
+oldboy&gt; db.vast.stats()</pre></td></tr></table>
+</div>
+</div>
+<h3 id="判断是否shard集群">判断是否Shard集群</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin&gt; db.runCommand({ isdbgrid : 1})</pre></td></tr></table>
+</div>
+</div>
+<h3 id="列出所有分片信息">列出所有分片信息</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin&gt; db.runCommand({ listshards : 1})</pre></td></tr></table>
+</div>
+</div>
+<h3 id="列出开启分片的数据库">列出开启分片的数据库</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin&gt; use config
+config&gt; db.databases.find( { &#34;partitioned&#34;: true } )
+config&gt; db.databases.find() //列出所有数据库分片情况</pre></td></tr></table>
+</div>
+</div>
+<h3 id="查看分片的片键">查看分片的片键</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">config&gt; db.collections.find()
+{
+    &#34;_id&#34; : &#34;test.vast&#34;,
+    &#34;lastmodEpoch&#34; : ObjectId(&#34;58a599f19c898bbfb818b63c&#34;),
+    &#34;lastmod&#34; : ISODate(&#34;1970-02-19T17:02:47.296Z&#34;),
+    &#34;dropped&#34; : false,
+    &#34;key&#34; : {
+        &#34;id&#34; : 1
+    },
+    &#34;unique&#34; : false
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="查看分片的详细信息">查看分片的详细信息</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin&gt; db.printShardingStatus()
+或
+admin&gt; sh.status()</pre></td></tr></table>
+</div>
+</div>
+<h3 id="删除分片节点">删除分片节点</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">sh.getBalancerState()
+mongos&gt; db.runCommand( { removeShard: &#34;shard2&#34; } )</pre></td></tr></table>
+</div>
+</div>
+<h3 id="blancer操作">blancer操作</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mongos&gt; sh.stopBalancer()
+mongos&gt; sh.startBalancer()
+
+
+自定义 自动平衡进行的时间段
+// connect to mongos
+&gt; db.settings.update({ _id : &#34;balancer&#34; }, { $set : { activeWindow : { start : &#34;00:00&#34;, stop : &#34;5:00&#34; } } }, true )</pre></td></tr></table>
+</div>
+</div>
+<p>关于集合的balance</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">关闭某个集合的balance   
+sh.disableBalancing(&#34;students.grades&#34;)   
+打开某个集合的balance   
+sh.enableBalancing(&#34;students.grades&#34;)   
+确定某个集合的balance是开启或者关闭   
+db.getSiblingDB(&#34;config&#34;).collectio   </pre></td></tr></table>
+</div>
+</div>
+<h2 id="mongodb备份恢复-mongodump备份-mongorestore恢复">mongodb备份恢复  mongodump备份  mongorestore恢复</h2>
+
+<p>mongodump用法如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ mongodump --help
+参数说明：
+-h:指明数据库宿主机的IP
+
+-u:指明数据库的用户名
+
+-p:指明数据库的密码
+
+-d:指明数据库的名字
+
+-c:指明collection的名字
+
+-o:指明到要导出的文件名
+
+-q:指明导出数据的过滤条件
+
+-j, --numParallelCollections=  number of collections to dump in parallel (4 by default)</pre></td></tr></table>
+</div>
+</div>
+<p>具体使用示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ cd /home/mongod/backup/
+
+--备份test库
+$ mongodump -h 10.0.0.54:30000 -uroot -proot --authenticationDatabase admin  -d test -o /home/mongod/backup/
+
+--备份test库下的vast集合
+$ mongodump -h 10.0.0.54:30000 -uroot -proot --authenticationDatabase admin  -d test -c vast -o /home/mongod/backup/
+
+--压缩备份
+$ mongodump -h 10.0.0.54:30000 -uroot -proot --authenticationDatabase admin  -d test -o /home/mongod/backup/ --gzip
+
+$ mongodump -h 10.0.0.54:30000 -uroot -proot --authenticationDatabase admin  -d test -c vast -o /home/mongod/backup/ --gzip</pre></td></tr></table>
+</div>
+</div>
+<p>mongorestore是Mongodb从备份中恢复数据的工具，它主要用来获取mongodump的输出结果，并将备份的数据插入到运行的Mongodb中。<br />
+mongorestore命令使用方法如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ mongorestore --help
+参数说明：
+-h:指明数据库宿主机的IP
+
+-u:指明数据库的用户名
+
+-p:指明数据库的密码
+
+-d:指明数据库的名字
+
+-c:指明collection的名字
+
+-j, --numParallelCollections=        number of collections to restore in parallel (4 by default)
+
+--恢复test库
+$ mongorestore -h 10.0.0.54:30000 -uroot -proot --authenticationDatabase admin -d test /home/mongod/backup/test/
+
+--恢复test库下的vast集合
+$ mongorestore -h 10.0.0.54:30000 -uroot -proot --authenticationDatabase admin -d test -c vast /home/mongod/backup/test/vast.bson
+
+注：--drop表示恢复的时候把之前的集合drop掉
+$ mongorestore -h 10.0.0.54:30000 -uroot -proot --authenticationDatabase admin -d test --drop /home/mongod/backup/test/
+
+$ mongorestore -h 10.0.0.54:30000 -uroot -proot --authenticationDatabase admin -d test -c vast --drop /home/mongod/backup/test/vast.bson</pre></td></tr></table>
+</div>
+</div>
+<h2 id="mongodb数据迁移">mongodb数据迁移</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mongoexport  数据导出  mongoimport数据导入</pre></td></tr></table>
+</div>
+</div>
+<h3 id="创建集合并插入数据">创建集合并插入数据：</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">admin&gt; use app
+switched to db app
+
+app&gt; for(i=0;i&lt;200;i++){ db.vast.insert({&#34;id&#34;:i,&#34;name&#34;:&#34;shenzheng&#34;,&#34;age&#34;:70,&#34;date&#34;:new Date()}); }
+
+app&gt; db.vast.find()</pre></td></tr></table>
+</div>
+</div>
+<h3 id="导出工具mongoexport">导出工具mongoexport</h3>
+
+<p>Mongodb中的mongoexport工具可以把一个collection导出成JSON格式或CSV格式的文件。<br />
+可以通过参数指定导出的数据项，也可以根据指定的条件导出数据。</p>
+
+<p>mongoexport具体用法如下所示：
+    $ mongoexport &ndash;help<br />
+    参数说明：
+    -h:指明数据库宿主机的IP</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">-u:指明数据库的用户名
+
+-p:指明数据库的密码
+
+-d:指明数据库的名字
+
+-c:指明collection的名字
+
+-f:指明要导出那些列
+
+-o:指明到要导出的文件名
+
+-q:指明导出数据的过滤条件
+
+--authenticationDatabase admin</pre></td></tr></table>
+</div>
+</div>
+<p>&ndash;备份app库下的vast集合</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ mongoexport -h 192.168.1.21:30000 -uroot -pgrjin --authenticationDatabase admin -d app -c vast -o /home/mongod/backup/vasts.dat
+注：备份文件的名字可以自定义，默认导出了JSON格式的数据。</pre></td></tr></table>
+</div>
+</div>
+<p>如果我们需要导出CSV格式的数据，则需要使用&ndash;csv参数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ mongoexport -h 192.168.1.21:30000 -uroot -pgrjin --authenticationDatabase admin  -d app -c vast --type=csv -f id,name -o /home/mongod/backup/vast_csv.dat</pre></td></tr></table>
+</div>
+</div>
+<h3 id="导入工具mongoimport">导入工具mongoimport</h3>
+
+<p>Mongodb中的mongoimport工具可以把一个特定格式文件中的内容导入到指定的collection中。<br />
+该工具可以导入JSON格式数据，也可以导入CSV格式数据。具体使用如下所示：<br />
+    $ mongoimport &ndash;help
+    参数说明：
+    -h:指明数据库宿主机的IP</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">-u:指明数据库的用户名
+
+-p:指明数据库的密码
+
+-d:指明数据库的名字
+
+-c:指明collection的名字
+
+-f:指明要导入那些列
+
+-j, --numInsertionWorkers=&lt;number&gt;  number of insert operations to run concurrently                                                  (defaults to 1)
+//并行
+
+示例：先删除vast中的数据，并验证
+app&gt; db.vast.remove({})</pre></td></tr></table>
+</div>
+</div>
+<p>然后再导入上面导出的vasts.dat文件中的内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ mongoimport -h 192.168.1.21:30000 -uroot -pgrjin --authenticationDatabase admin  -d app -c vast vasts.json</pre></td></tr></table>
+</div>
+</div>
+<p>上面演示的是导入JSON格式的文件中的内容，如果要导入CSV格式文件中的内容，则需要通过&ndash;type参数指定导入格式，具体如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">先删除数据
+app&gt; db.vast.remove({})</pre></td></tr></table>
+</div>
+</div>
+<p>再导入之前导出的vast_csv.dat文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ mongoimport -h 192.168.1.21:30000 -uroot -pgrjin --authenticationDatabase admin -d app -c vast --type=csv --headerline --file vast_csv.dat </pre></td></tr></table>
+</div>
+</div>
+<p>-headerline:指明第一行是列名，不需要导入。</p>
+
+<h1 id="redis">Redis</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">redis备份就是备份rdb持久化文件。
+
+KEYS * 查看KEY支持通配符
+
+DEL删除给定的一个或多个key
+
+EXISTS 检查是否存在
+
+RENAME 变更KEY名
+
+SORT 键值排序，有非数字时报错
+
+TYPE返回键所存储值的类型
+
+DUMP RESTORE序例化与反序列化
+
+EXPIRE\PEXPIRE 以秒\毫秒设定生存时间
+
+TTL\PTTL 以秒\毫秒为单位返回生存时间
+
+PERSIST 取消生存实现设置
+
+RANDOMKEY 返回数据库中的任意键</pre></td></tr></table>
+</div>
+</div>
+<h2 id="string-字符串类型">string（字符串类型）</h2>
+
+<p>应用场景
+常规计数：微博数，粉丝数等。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">增
+set mykey &#34;test&#34;                为键设置新值，并覆盖原有值
+
+getset mycounter 0              设置值,取值同时进行，取以前值
+
+setex mykey 10 &#34;hello&#34;          设置指定 Key 的过期时间为10秒,在存活时间可以获取value
+或者
+set mykey hello ex 10
+
+setnx mykey &#34;hello&#34;             若该键不存在，则为键设置新值
+mset key3  &#34;zyx&#34;  key4 &#34;xyz&#34;    批量设置键
+
+删
+del mykey                       删除已有键
+
+改
+append mykey &#34;hello&#34;            若该键并不存在,返回当前 Value 的长度
+                                该键已经存在，返回追加后 Value的长度
+
+incr mykey                      值增加1,若该key不存在,创建key,初始值设为0,增加后结果为1
+
+decrby  mykey  5                值减少5
+setrange mykey 20 dd            把第21和22个字节,替换为dd, 超过value长度,自动补0
+
+查  
+exists mykey                    判断该键是否存在，存在返回 1，否则返回0
+get mykey                       获取Key对应的value
+strlen mykey                    获取指定 Key 的字符长度
+ttl mykey                       查看一下指定 Key 的剩余存活时间(秒数)
+getrange mykey 1 20             获取第2到第20个字节,若20超过value长度,则截取第2个和后面所有的
+mget key3 key4                  批量获取键</pre></td></tr></table>
+</div>
+</div>
+<p>***incr   ***<br />
+***incrby ***<br />
+***decr   ***<br />
+***decrby ***</p>
+
+<h2 id="hash-缓存数据库对象">hash  缓存数据库对象</h2>
+
+<p>应用场景：
+存储部分变更的数据，如用户信息等。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">增
+hset myhash field1 &#34;s&#34;    
+若字段field1不存在,创建该键及与其关联的Hashes, Hashes中,key为field1 ,并设value为s ，若存在会覆盖原value
+hsetnx myhash field1 s    
+若字段field1不存在,创建该键及与其关联的Hashes, Hashes中,key为field1 ,并设value为s， 若字段field1存在,则无效
+hmset myhash field1 &#34;hello&#34; field2 &#34;world     一次性设置多个字段
+
+删
+hdel myhash field1                            删除 myhash 键中字段名为 field1 的字段
+del myhash                                    删除键
+改                                            
+hincrby myhash field 1                        给field的值加1
+
+查                                            
+hget myhash field1                            获取键值为 myhash,字段为 field1 的值
+hlen myhash                                   获取myhash键的字段数量
+hexists myhash field1                         判断 myhash 键中是否存在字段名为 field1 的字段
+hmget myhash field1 field2 field3             一次性获取多个字段
+hgetall myhash                                返回 myhash 键的所有字段及其值
+hkeys myhash                                  获取myhash 键中所有字段的名字
+hvals myhash            </pre></td></tr></table>
+</div>
+</div>
+<p>***hmset     ***<br />
+***hmget     ***<br />
+***hgetall   ***</p>
+
+<hr />
+
+<h2 id="list-列表">LIST（列表）</h2>
+
+<p>应用场景</p>
+
+<p>消息队列系统</p>
+
+<p>比如sina微博:<br />
+在Redis中我们的最新微博ID使用了常驻缓存，这是一直更新的。但是做了限制不能超过5000个ID，因此获取ID的函数会一直询问Redis。<br />
+只有在start/count参数超出了这个范围的时候，才需要去访问数据库。<br />
+系统不会像传统方式那样“刷新”缓存，Redis实例中的信息永远是一致的。<br />
+SQL数据库（或是硬盘上的其他类型数据库）只是在用户需要获取“很远”的数据时才会被触发，而主页或第一个评论页是不会麻烦到硬盘上的数据库了</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">增 
+lpush mykey a b             若key不存在,创建该键及与其关联的List,依次插入a ,b， 若List类型的key存在,则插入value中
+lpushx mykey2 e             若key不存在,此命令无效， 若key存在,则插入value中
+linsert mykey before a a1   在 a 的前面插入新元素 a1
+linsert mykey after e e2    在e 的后面插入新元素 e2
+rpush mykey a b             在链表尾部先插入b,在插入a
+rpushx mykey e              若key存在,在尾部插入e, 若key不存在,则无效
+rpoplpush mykey mykey2      将mykey的尾部元素弹出,再插入到mykey2 的头部(原子性的操作)
+
+删
+del mykey                   删除已有键 
+lrem mykey 2 a              从头部开始找,按先后顺序,值为a的元素,删除数量为2个,若存在第3个,则不删除
+ltrim mykey 0 2             从头开始,索引为0,1,2的3个元素,其余全部删除
+
+改
+lset mykey 1 e              从头开始, 将索引为1的元素值,设置为新值 e,若索引越界,则返回错误信息
+rpoplpush mykey mykey       将 mykey 中的尾部元素移到其头部
+
+查
+lrange mykey 0 -1           取链表中的全部元素，其中0表示第一个元素,-1表示最后一个元素。
+lrange mykey 0 2            从头开始,取索引为0,1,2的元素
+lrange mykey 0 0            从头开始,取第一个元素,从第0个开始,到第0个结束
+lpop mykey                  获取头部元素,并且弹出头部元素,出栈
+lindex mykey 6              从头开始,获取索引为6的元素 若下标越界,则返回nil </pre></td></tr></table>
+</div>
+</div>
+<p>**lpush mykey a b      **<br />
+**lrange mykey 0 100   **</p>
+
+<h2 id="set">Set</h2>
+
+<p>应用场景：<br />
+    排行榜应用，取TOP N操作 这个需求与上面需求的不同之处在 于，前面操作以时间为权重，这个 是以某个条件为权重，<br />
+比如按顶的 次数排序，这时候就需要我们的 sorted set出马了，将你要排序的 值设置成sorted set的score，<br />
+将 具体的数据设置成相应的value， 每次只需要执行一条ZADD命令即 可</p>
+
+<p>案例：?在微博应用中，可以将一个用户所有的关注人存在一个集合中，将其所有粉丝存在一个集合。<br />
+Redis还为集合提供了求交集、并集、差集等操作，可以非常方便的实现如共同关注、共同喜好、二度好友等功能，对上面的所有集合操作，<br />
+你还可以使用不同的命令选择将结果返回给客户端还是存集到一个新的集合中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">增
+sadd myset a b c  
+若key不存在,创建该键及与其关联的set,依次插入a ,b,若key存在,则插入value中,若a 在myset中已经存在,则插入了 d 和 e 两个新成员。
+
+删
+spop myset              尾部的b被移出,事实上b并不是之前插入的第一个或最后一个成员
+srem myset a d f        若f不存在, 移出 a、d ,并返回2
+
+改
+smove myset myset2 a        将a从 myset 移到 myset2，
+
+查
+sismember myset a               判断 a 是否已经存在，返回值为 1 表示存在。
+smembers myset          查看set中的内容
+scard myset             获取Set 集合中元素的数量
+srandmember myset       随机的返回某一成员
+sdiff myset1 myset2 myset3      1和2得到一个结果,拿这个集合和3比较,获得每个独有的值
+sdiffstore diffkey myset myset2 myset3      3个集和比较,获取独有的元素,并存入diffkey 关联的Set中
+sinter myset myset2 myset3              获得3个集合中都有的元素
+sinterstore interkey myset myset2 myset3  把交集存入interkey 关联的Set中
+sunion myset myset2 myset3              获取3个集合中的成员的并集
+sunionstore unionkey myset myset2 myset3  把并集存入unionkey 关联的Set中</pre></td></tr></table>
+</div>
+</div>
+<p>***sadd   myset a b c                 ***<br />
+***sdiff  myset1  myset2    myset3    ***<br />
+***sinter myset myset2 myset3         ***<br />
+***sunion myset myset2 myset3         ***<br />
+***smembers myset                     ***<br />
+***scard myset                        ***</p>
+
+<h2 id="sortedset-有序集合">SortedSet（有序集合）</h2>
+
+<p>应用场景：<br />
+排行榜应用，取TOP N操作<br />
+  这个需求与上面需求的不同之处在于，前面操作以时间为权重，这个是以某个条件为权重，比如按顶的次数排序，<br />
+这时候就需要我们的sorted set出马了，将你要排序的值设置成sorted set的score，将具体的数据设置成相应的value，<br />
+每次只需要执行一条ZADD命令即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">增
+zadd myzset 2 &#34;two&#34; 3 &#34;three&#34;           添加两个分数分别是 2 和 3 的两个成员
+删
+zrem myzset one two                 删除多个成员变量,返回删除的数量
+改
+zincrby myzset 2 one                将成员 one 的分数增加 2，并返回该成员更新后的分数
+查 
+zrange myzset 0 -1 WITHSCORES       返回所有成员和分数,不加WITHSCORES,只返回成员
+zrank myzset one                    获取成员one在Sorted-Set中的位置索引值。0表示第一个位置
+zcard myzset                        获取 myzset 键中成员的数量
+zcount myzset 1 2                   获取分数满足表达式 1 &lt;= score &lt;= 2 的成员的数量
+zscore myzset three                 获取成员 three 的分数
+zrangebyscore myzset  1 2           获取分数满足表达式 1 &lt; score &lt;= 2 的成员</pre></td></tr></table>
+</div>
+</div>
+<p><strong><em>-inf 表示第一个成员，+inf最后一个成员</em></strong><br />
+<strong><em>limit限制关键字</em></strong><br />
+<strong><em>2  3  是索引号</em></strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">zrangebyscore myzset -inf +inf limit 2 3  返回索引是2和3的成员
+zremrangebyscore myzset 1 2         删除分数 1&lt;= score &lt;= 2 的成员，并返回实际删除的数量
+zremrangebyrank myzset 0 1              删除位置索引满足表达式 0 &lt;= rank &lt;= 1 的成员
+zrevrange myzset 0 -1 WITHSCORES        按位置索引从高到低,获取所有成员和分数</pre></td></tr></table>
+</div>
+</div>
+<p><strong><em>原始成员:位置索引从小到大</em></strong><br />
+      one  0<br />
+      two  1</p>
+
+<p><strong><em>执行顺序:把索引反转</em></strong><br />
+      位置索引:从大到小
+      one 1
+      two 0</p>
+
+<p>输出结果: two<br />
+          one</p>
+
+<p>zrevrange myzset 1 3                获取位置索引,为1,2,3的成员</p>
+
+<p><strong><em>相反的顺序:从高到低的顺序</em></strong></p>
+
+<p>zrevrangebyscore myzset 3 0             获取分数 3&gt;=score&gt;=0的成员并以相反的顺序输出<br />
+zrevrangebyscore myzset 4 0 limit 1 2    获取索引是1和2的成员,并反转位置索引</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">ZADD regebang 1000 timian 2000 ssjs 
+
+zrange regebang 0 -1 WITHSCORES 
+
+ZREVRANGE regebang 0 -1 WITHSCORES
+
+zincrby regebang  10000 timian
+
+zincrby regebang  -10000 timian</pre></td></tr></table>
+</div>
+</div>
+<h2 id="消息模式">消息模式</h2>
+
+<p>队列模式（queuing） *  只能被一个读者读取数据</p>
+
+<p>发布-订阅模式(publish-subscribe)  *能同时被许多读者读取数据</p>
+
+<p>开启三个redis连接</p>
+
+<p>redis-cli(1) 订阅者,订阅了chn1(相等于微博的关注了某个人的微博)<br />
+SUBSCRIBE chn1</p>
+
+<p>redis-cli(2)  订阅者,订阅了chn1(相等于微博的关注了某个人的微博)<br />
+SUBSCRIBE chn1</p>
+
+<p>redis-cli(3)   发布者,再chn1这个频道发布了hello这个消息,所有订阅者都能看到(相等于被关注者)<br />
+publish chn1   hello</p>
+
+<p>PSUBSCRIBE</p>
+
+<h2 id="redis的事务">redis的事务</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">multi  开启事务
+exec   事务结束
+Info   服务端嘻嘻
+Clinet list  客户端信息
+Client kill ip:port
+config get *
+CONFIG RESETSTAT 重置统计
+CONFIG GET/SET 动态修改
+Dbsize
+FLUSHALL 清空所有数据 
+select 1
+FLUSHDB 清空当前库
+MONITOR 监控实时指令
+
+SHUTDOWN 关闭服务器
+save   将当前数据保存
+
+SLAVEOF host port 主从配置
+SLAVEOF NO ONE
+SYNC 主从同步
+ROLE返回主从角色</pre></td></tr></table>
+</div>
+</div>
+<h2 id="sentinel配置-redis高可用">sentinel配置(redis高可用)</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mkdir /data/26380
+vim /data/26380/sentinel.conf
+
+port 26380
+dir &#34;/tmp&#34;
+sentinel auth-pass mymaster root                         安全信息
+sentinel monitor mymaster 127.0.0.1 6380 2             指定监控master  2表示多少个sentinel同意(最少三台)
+sentinel down-after-milliseconds mymaster 60000          超过60000毫秒后认为主机宕机
+sentinel failover-timeout mymaster 900000                当主从切换多久后认为主从切换失败
+这两个配置后面的数量主从机需要一样，epoch为master的版本
+sentinel leader-epoch mymaster 1
+sentinel config-epoch mymaster 1
+启动
+
+redis-sentinel /data/26380/sentinel.conf &amp;</pre></td></tr></table>
+</div>
+</div>
+<h3 id="sentinel管理命令">sentinel管理命令</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">redis-cli -p 26380
+
+PING ：返回 PONG 。
+SENTINEL masters ：列出所有被监视的主服务器
+SENTINEL slaves &lt;master name&gt; 
+SENTINEL get-master-addr-by-name &lt;master name&gt; ： 返回给定名字的主服务器的 IP 地址和端口号。 
+SENTINEL reset &lt;pattern&gt; ： 重置所有名字和给定模式 pattern 相匹配的主服务器。 
+SENTINEL failover &lt;master name&gt; ： 当主服务器失效时， 在不询问其他 Sentinel 意见的情况下， 强制开始一次自动故障迁移。
+redis-cli -p 26380  SENTINEL get-master-addr-by-name  &lt;master name&gt;  在sentinel的主机上知道master的主机和端口</pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://veh47.github.io/tags/sql/">SQL</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/mysql-atlas%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/">
+            <span class="next-text nav-default">MySQl Atlas读写分离</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  <div id="comments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 700);
+              clearInterval(checkExist);
+            }
+        }, 10);
+    }
+  </script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#comments' ,
+        appId: 'UsB52d49clgSaLyt9W25ff6J-gzGzoHsz',
+        appKey: 'A7x1tqpCpuAXKQX5BwcwXGdF',
+        notify:  false , 
+        verify:  false , 
+        avatar:'mm', 
+        placeholder: '',
+        visitor:  false 
+    });
+  </script>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:13522339471@163.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://github.com/veh47" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://www.weibo.com/u/5706670145/" rel="me noopener" class="iconfont"
+      title="weibo"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M385.714286 733.714286q12-19.428571 6.285714-39.428571t-25.714286-28.571429q-19.428571-8-41.714286-0.571429t-34.285714 26.285714q-12.571429 19.428571-7.428571 39.142857t24.571429 28.857143 42.571429 1.428571 35.714286-27.142857zm53.714286-69.142857q4.571429-7.428571 2-15.142857t-10-10.571429q-8-2.857143-16.285714 2.857143t-12.285714 10.571429q-9.714286 17.714286 7.428571 25.714286 8 2.857143 16.571429 2.857143t12.571429-10.571429zm99.428571 61.142857q-25.714286 58.285714-90.285714 85.714286t-128 6.857143q-61.142857-19.428571-84.285714-72.285714t3.714286-107.142857q26.857143-53.142857 86.571429-79.428571t120.285714-10.857143q63.428571 16.571429 90.571429 68.285714t1.428571 108.857143zm178.285714-91.428571q-5.142857-54.857143-50.857143-97.142857t-119.142857-62.285714-156.857143-12q-127.428571 13.142857-211.142857 80.857143t-75.714286 151.142857q5.142857 54.857143 50.857143 97.142857t119.142857 62.285714 156.857143 12q127.428571-13.142857 211.142857-80.857143t75.714286-151.142857zm176 2.285714q0 38.857143-21.142857 79.714286t-62.285714 78.285714-96.285714 67.142857-129.142857 47.428571-154.571429 17.714286-157.142857-19.142857-137.428571-53.142857-98-86.285714-37.142857-114q0-65.714286 39.714286-140t112.857143-147.428571q96.571429-96.571429 195.142857-134.857143t140.857143 4q37.142857 36.571429 11.428571 119.428571-2.285714 8-0.571429 11.428571t5.714286 4 8.285714 2.857143 7.714286-2l3.428571-1.142857q79.428571-33.714286 140.571429-33.714286t87.428571 34.857143q25.714286 36 0 101.714286-1.142857 7.428571-2.571429 11.428571t2.571429 7.142857 6.857143 4.285714 9.714286 3.428571q32.571429 10.285714 58.857143 26.857143t45.714286 46.571429 19.428571 66.571429zm-42.285714-356.571429q24 26.857143 31.142857 62t-3.714286 67.142857q-4.571429 13.142857-16.857143 19.428571t-25.428571 2.285714q-13.142857-4.571429-19.428571-16.857143t-2.285714-25.428571q11.428571-36-13.714286-63.428571t-61.142857-20q-13.714286 2.857143-25.714286-4.571429t-14.285714-21.142857q-2.857143-13.714286 4.571429-25.428571t21.142857-14.571429q34.285714-7.428571 68 3.142857t57.714286 37.428571zm103.428571-93.142857q49.714286 54.857143 64.285714 127.142857t-7.714286 138q-5.142857 15.428571-19.428571 22.857143t-29.714286 2.285714-22.857143-19.428571-2.857143-29.714286q16-46.857143 5.714286-98.285714t-45.714286-90.285714q-35.428571-39.428571-84.571429-54.571429t-98.857143-4.857143q-16 3.428571-29.714286-5.428571t-17.142857-24.857143 5.428571-29.428571 24.857143-16.857143q70.285714-14.857143 139.428571 6.571429t118.857143 76.857143z"></path>
+</svg>
+
+    </a>
+
+
+<a href="http://veh47.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+
+  <span class="copyright-year">
+    &copy;
+    
+       -
+    2019
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Eleven
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css"
+    integrity="sha384-BdGj8xC2eZkQaxoQ8nSLefg4AV4/AwB3Fj+8SUSo7pnKP6Eoy18liIKTPn9oBYNG"
+    crossorigin="anonymous">
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.js"
+    integrity="sha384-JiKN5O8x9Hhs/UE5cT5AAJqieYlOZbGT3CHws/y97o3ty4R7/O5poG9F3JoiOYw1"
+    crossorigin="anonymous"></script>
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+    crossorigin="anonymous" onload="renderMathInElement(document.body);">
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        
+      });
+    });
+  </script>
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    $("#openSearch, #openSearchMobile").click(function(){
+      $(".modal-dialog").addClass("visible");
+    });
+
+    $("#closeSearch").click(function(){
+      $(".modal-dialog").removeClass("visible");
+    });
+
+    $(document).click(function(event) {
+    
+      if (!$(event.target).closest(".modal-content, #openSearch, #openSearchMobile").length) {
+        $("body").find(".modal-dialog").removeClass("visible");
+      }
+    });
+  </script>
+
+
+
+
+
+</body>
+</html>
