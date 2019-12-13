@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Eleven</title>
+  <title>Mysql体系管理及终端命令入门 - Eleven</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,7 +23,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="Eleven" />
-  <meta name="description" content="Hugo theme jane example site." />
+  <meta name="description" content="MySQL是一种开放源代码的关系型数据库管理系统（RDBMS），MySQL数据库系统使用最常用的数据库管理语言&amp;ndash;结构化查询语言（SQL）进行数据库管理。在这里对其基础入门介绍
+" />
+
   <meta name="keywords" content="Eleven" />
 
 
@@ -34,8 +36,8 @@
 <meta name="generator" content="Hugo 0.58.3" />
 
 
-<link rel="canonical" href="http://veh47.github.io/" />
-<link href="/index.xml" rel="alternate" type="application/rss+xml" title="Eleven" />
+<link rel="canonical" href="http://veh47.github.io/post/mysql%E4%BD%93%E7%B3%BB%E7%AE%A1%E7%90%86%E5%8F%8A%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4%E5%85%A5%E9%97%A8/" />
+
 
 
 
@@ -58,18 +60,26 @@
 
 
 
-<meta property="og:title" content="Eleven" />
-<meta property="og:description" content="Hugo theme jane example site." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="http://veh47.github.io/" />
+<meta property="og:title" content="Mysql体系管理及终端命令入门" />
+<meta property="og:description" content="MySQL是一种开放源代码的关系型数据库管理系统（RDBMS），MySQL数据库系统使用最常用的数据库管理语言&ndash;结构化查询语言（SQL）进行数据库管理。在这里对其基础入门介绍" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://veh47.github.io/post/mysql%E4%BD%93%E7%B3%BB%E7%AE%A1%E7%90%86%E5%8F%8A%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4%E5%85%A5%E9%97%A8/" />
+<meta property="article:published_time" content="2019-12-12T23:26:30+08:00" />
+<meta property="article:modified_time" content="2019-12-12T23:26:30+08:00" />
+<meta itemprop="name" content="Mysql体系管理及终端命令入门">
+<meta itemprop="description" content="MySQL是一种开放源代码的关系型数据库管理系统（RDBMS），MySQL数据库系统使用最常用的数据库管理语言&ndash;结构化查询语言（SQL）进行数据库管理。在这里对其基础入门介绍">
 
-<meta property="og:updated_time" content="2019-12-13T16:25:41+08:00" />
-<meta itemprop="name" content="Eleven">
-<meta itemprop="description" content="Hugo theme jane example site.">
 
+<meta itemprop="datePublished" content="2019-12-12T23:26:30&#43;08:00" />
+<meta itemprop="dateModified" content="2019-12-12T23:26:30&#43;08:00" />
+<meta itemprop="wordCount" content="1490">
+
+
+
+<meta itemprop="keywords" content="MySQL," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Eleven"/>
-<meta name="twitter:description" content="Hugo theme jane example site."/>
+<meta name="twitter:title" content="Mysql体系管理及终端命令入门"/>
+<meta name="twitter:description" content="MySQL是一种开放源代码的关系型数据库管理系统（RDBMS），MySQL数据库系统使用最常用的数据库管理语言&ndash;结构化查询语言（SQL）进行数据库管理。在这里对其基础入门介绍"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -288,7 +298,7 @@
   <ul id="menu" class="menu">
     
     
-        <li class="menu-item active">
+        <li class="menu-item">
         
           
           
@@ -383,250 +393,490 @@
     <main id="main" class="main bg-llight">
       <div class="content-wrapper">
         <div id="content" class="content container">
-          
-<section id="posts" class="posts">
-  
-  
+          <article class="post bg-white">
     
-  
-  
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
+    <header class="post-header">
+      <h1 class="post-title">Mysql体系管理及终端命令入门</h1>
       
-      <a class="post-link" href="/post/shell%E8%84%9A%E6%9C%AC-for%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BA%94/">Shell脚本 For循环语句企业面试题(五)</a>
-    </h1>
+      <div class="post-meta">
+        <time datetime="2019-12-12" class="post-time">
+          2019-12-12
+        </time>
+        <div class="post-category">
+            <a href="http://veh47.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"> 数据库 </a>
+            
+          </div>
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
     
-    <div class="post-meta">
-      <time datetime="2019-09-29" class="post-time">
-        2019-09-29
-      </time>
-      <div class="post-category">
-          <a href="http://veh47.github.io/categories/shell/"> shell </a>
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#mysql逻辑结构">mysql逻辑结构</a>
+<ul>
+<li><a href="#mysql的结构">mysql的结构</a></li>
+<li><a href="#表空间">表空间</a></li>
+</ul></li>
+<li><a href="#mysql数据库基础管理">mysql数据库基础管理</a>
+<ul>
+<li><a href="#mysql客户端连接">mysql客户端连接</a></li>
+<li><a href="#配置文件的构成">配置文件的构成</a></li>
+</ul></li>
+<li><a href="#多实例配置-端口分别是3306-3307-3308">多实例配置(端口分别是3306  3307  3308)</a>
+<ul>
+<li><a href="#创建实例目录">创建实例目录</a></li>
+<li><a href="#配置文件">配置文件</a></li>
+<li><a href="#授予目录权限">授予目录权限</a></li>
+<li><a href="#初始化数据">初始化数据</a></li>
+<li><a href="#启动实例">启动实例</a></li>
+<li><a href="#查看">查看</a></li>
+</ul></li>
+<li><a href="#mysql用户管理">mysql用户管理</a>
+<ul>
+<li><a href="#mysql用户的作用">mysql用户的作用</a></li>
+<li><a href="#mysql用户权限">mysql用户权限</a></li>
+<li><a href="#用户的管理命令">用户的管理命令</a>
+<ul>
+<li><a href="#创建删除用户">创建删除用户</a></li>
+<li><a href="#设定用户权限">设定用户权限</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>MySQL是一种开放源代码的关系型数据库管理系统（RDBMS），MySQL数据库系统使用最常用的数据库管理语言&ndash;结构化查询语言（SQL）进行数据库管理。在这里对其基础入门介绍</p>
+
+<h1 id="mysql逻辑结构">mysql逻辑结构</h1>
+
+<h2 id="mysql的结构">mysql的结构</h2>
+
+<p>mysql中含有多个库(database或scheme),  每个库中含有多个表(table),  表中含有行:(数据行,  将来需要获取的数据),  列定义: (1)数据的含义(列名字),  (2)数据的约束(数据的类型, 特殊属性,  非空,  唯一等)</p>
+
+<h2 id="表空间">表空间</h2>
+
+<p>表空间也就是数据文件
+    performance_schema  辅助优化的视图库（默认情况没开启）
+    information_schema  查询元数据的视图库（虚拟的，操作系统层面看不见）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 /application/mysql/data]# ll
+total 110624
+-rw-rw---- 1 mysql mysql       56 Feb  2 16:31 auto.cnf
+-rw-rw---- 1 mysql mysql     5253 Feb  5 10:47 db03.err
+-rw-rw---- 1 mysql mysql        5 Feb  5 11:59 db03.pid
+-rw-rw---- 1 mysql mysql 12582912 Feb  5 16:35 ibdata1                共享表空间数据文件
+-rw-rw---- 1 mysql mysql 50331648 Feb  5 16:35 ib_logfile0            日志文件（redo日志
+-rw-rw---- 1 mysql mysql 50331648 Feb  2 16:27 ib_logfile1
+drwx------ 2 mysql mysql     4096 Feb  2 16:27 mysql                  系统的验证相关的库(user.frm 表
+drwx------ 2 mysql mysql     4096 Feb  5 16:35 oldboy                 结构定义文件  user.MYD  数据
+drwx------ 2 mysql mysql     4096 Feb  2 16:27 performance_schema     文件  user.MYI  索
+drwx------ 2 mysql mysql     4096 Feb  5 16:21 world                  引文件)</pre></td></tr></table>
+</div>
+</div>
+<h1 id="mysql数据库基础管理">mysql数据库基础管理</h1>
+
+<h2 id="mysql客户端连接">mysql客户端连接</h2>
+
+<p>mysql  -u+数据库用户名 –p+密码 –h+连接的ip  -P+端口 –S+socket文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">设定密码mysqladmin –uroot –p password 123
+修改密码mysqladmin –uroot –p123 password 456</pre></td></tr></table>
+</div>
+</div>
+<h2 id="配置文件的构成">配置文件的构成</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# vim /etc/my.cnf
+[mysqld]                              服务端标签
+basedir=/application/mysql            服务
+datadir=/application/mysql/data       各个文件
+server-id=20
+port=3306   端口
+log-bin=/data/mysql/mysql-bin
+socket=/tmp/mysql.sock                服务端启动的socket文件
+log-error=/var/log/mysql.log          日志文件
+[root@db03 ~]# mkdir -p /data/mysql/     
+[root@db03 ~]# chown -R mysql.mysql /data/mysql   
+[root@db03 ~]# /etc/init.d/mysqld restart</pre></td></tr></table>
+</div>
+</div>
+<h1 id="多实例配置-端口分别是3306-3307-3308">多实例配置(端口分别是3306  3307  3308)</h1>
+
+<p>多个mysqld 进程（mysqld_safe）<br />
+多个配置文件(port server_id datadir log-error log-bin socket)<br />
+管理多套数据（多个数据目录，分别初始化数据）</p>
+
+<h2 id="创建实例目录">创建实例目录</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# mkdir -p /data/3306/data
+[root@db03 ~]# mkdir -p /data/3307/data
+[root@db03 ~]# mkdir -p /data/3308/data</pre></td></tr></table>
+</div>
+</div>
+<h2 id="配置文件">配置文件</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# vim /data/3306/my.cnf 
+[mysqld]
+basedir=/application/mysql
+datadir=/data/3306/data
+server-id=3306
+port=3306
+log-bin=/data/3306/mysql-bin
+socket=/data/3306/mysql.sock
+log-error=/data/3306/mysql.log
+
+[root@db03 ~]# vim /data/3307/my.cnf 
+[mysqld]
+basedir=/application/mysql
+datadir=/data/3307/data
+server-id=3307
+port=3307
+log-bin=/data/3307/mysql-bin
+socket=/data/3307/mysql.sock
+log-error=/data/3307/mysql.log
+
+[root@db03 ~]# vim /data/3308/my.cnf 
+[mysqld]
+basedir=/application/mysql
+datadir=/data/3308/data
+server-id=3308
+port=3308
+log-bin=/data/3308/mysql-bin
+socket=/data/3308/mysql.sock
+log-error=/data/3308/mysql.log</pre></td></tr></table>
+</div>
+</div>
+<h2 id="授予目录权限">授予目录权限</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# chown -R mysql.mysql /data/</pre></td></tr></table>
+</div>
+</div>
+<h2 id="初始化数据">初始化数据</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# cd /application/mysql/scripts  
+[root@db03 /application/mysql/scripts]#./mysql_install_db  --defaults-file=/data/3306/my.cnf --basedir=/application/mysql --datadir=/data/3306/data --user=mysql
+[root@db03 /application/mysql/scripts]#./mysql_install_db  --defaults-file=/data/3307/my.cnf --basedir=/application/mysql --datadir=/data/3307/data --user=mysql
+[root@db03 /application/mysql/scripts]#./mysql_install_db  --defaults-file=/data/3308/my.cnf --basedir=/application/mysql --datadir=/data/3308/data --user=mysql</pre></td></tr></table>
+</div>
+</div>
+<h2 id="启动实例">启动实例</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# /application/mysql/bin/mysqld_safe --defaults-file=/data/3306/my.cnf &amp;
+[root@db03 ~]# /application/mysql/bin/mysqld_safe --defaults-file=/data/3307/my.cnf &amp;
+[root@db03 ~]# /application/mysql/bin/mysqld_safe --defaults-file=/data/3308/my.cnf &amp;</pre></td></tr></table>
+</div>
+</div>
+<h2 id="查看">查看</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@db03 ~]# netstat -lntup|grep 330
+tcp        0      0 :::3306                     :::*                        LISTEN      5648/mysqld         
+tcp        0      0 :::3307                     :::*                        LISTEN      5610/mysqld         
+tcp        0      0 :::3308                     :::*                        LISTEN      5174/mysqld         </pre></td></tr></table>
+</div>
+</div>
+<h1 id="mysql用户管理">mysql用户管理</h1>
+
+<h2 id="mysql用户的作用">mysql用户的作用</h2>
+
+<p>1、用户登录 例如:mysqld  mysqladmin  mysqldump</p>
+
+<p>2、用于管理数据库及数据  管理库 表 表结构 表行</p>
+
+<h2 id="mysql用户权限">mysql用户权限</h2>
+
+<p>对数据库的读、写等操作 （insert update、select等）<br />
+权限范围：全库级别： <em>.</em><br />
+单库级别：oldboy.*<br />
+单表级别：oldboy.t1</p>
+
+<h2 id="用户的管理命令">用户的管理命令</h2>
+
+<h3 id="创建删除用户">创建删除用户</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select user,host from mysql.user;                   查看当前用户
+create user &#39;用户&#39;@&#39;主机&#39; identified by &#39;密码&#39;;    创建用户
+create user &#39;oldboy&#39;@&#39;localhost&#39; identified by &#39;oldboy123&#39;;
+drop user &#39;user&#39;@&#39;主机域&#39;                  删除用户</pre></td></tr></table>
+</div>
+</div>
+<p>企业里创建用户一般是授权一个内网网段登录，最常见的网段写法有两种。<br />
+方法1：172.16.1.%（%为通配符，匹配所有内容<br />
+方法2：172.16.1.0/255.255.255.0，但是不能使用172.16.1.0/24，是个小遗憾。</p>
+
+<p><strong><em>标准的建用户方法：</em></strong></p>
+
+<p>create user &lsquo;web&rsquo;@&lsquo;172.16.1.%&rsquo; identified by &lsquo;web123&rsquo;;<br />
+查看用户对应的权限  show grants for oldboy@localhost\G</p>
+
+<h3 id="设定用户权限">设定用户权限</h3>
+
+<p>grant 权限大小  on  权限范围  to 用户  [identified by &lsquo;密码&rsquo;];<br />
+grant select on <em>.</em>  to youndgirl@&lsquo;localhost&rsquo; ;</p>
+
+<p><strong><em>方便的用法：</em></strong></p>
+
+<p>授予test所有库的所有权限</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">grant all  on *.* to test@&#39;10.0.0.%&#39;  identified by &#39;123&#39;;   </pre></td></tr></table>
+</div>
+</div>
+<p>查看test权限</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">show  grants for test@&#39;10.0.0.%&#39;;</pre></td></tr></table>
+</div>
+</div>
+<p>收回test所有库drop(删除)权限</p>
+
+<p>revoke drop  on <em>.</em> from  &lsquo;test&rsquo;@&lsquo;10.0.0.%&rsquo;;</p>
+
+<p>收回test所有库的所有权限</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">revoke all  on *.* from test@&#39;10.0.0.%&#39;   </pre></td></tr></table>
+</div>
+</div>
+<p>授予app用户对app库的这些权限</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">grant SELECT, INSERT, UPDATE, DELETE, CREATE on app.* to app@&#39;10.0.0.5%&#39;  identified by &#39;123&#39;;  </pre></td></tr></table>
+</div>
+</div>
+<p>刷新用户权限</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">flush privileges;                                                                                    </pre></td></tr></table>
+</div>
+</div>
+<p>当给一个用户授予多次权限,  以最大权限为准</p>
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://veh47.github.io/tags/mysql/">MySQL</a>
           
         </div>
+
       
-      
-      
-    </div>
-  </header>
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/mysql-dml-dql-dcl%E8%AF%AD%E5%8F%A5%E5%8F%8A%E5%85%83%E6%95%B0%E6%8D%AE/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">MySQL DML DQL DCL语句及元数据</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/%E4%B8%80%E6%96%87%E8%AF%A6%E8%A7%A3-lvsnginx-%E5%8F%8A-haproxy-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">
+            <span class="next-text nav-default">一文详解 LVS、Nginx 及 HAProxy 工作原理</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
   
-  <div class="post-content">
+  
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
     
-    <div class="post-summary">
-      <p>For循环语句企业面试题</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/shell%E8%84%9A%E6%9C%AC-for%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BA%94/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
 
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/shell%E8%84%9A%E6%9C%AC-if%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E7%BB%83%E4%B9%A0%E9%A2%98%E5%8F%8Acase%E8%AF%AD%E5%8F%A5%E5%9B%9B/">Shell脚本 If语句企业练习题及case语句(四)</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2019-09-29" class="post-time">
-        2019-09-29
-      </time>
-      <div class="post-category">
-          <a href="http://veh47.github.io/categories/shell/"> shell </a>
-          
-        </div>
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      <p>练习nginx启动脚本</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/shell%E8%84%9A%E6%9C%AC-if%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E7%BB%83%E4%B9%A0%E9%A2%98%E5%8F%8Acase%E8%AF%AD%E5%8F%A5%E5%9B%9B/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/shell%E8%84%9A%E6%9C%AC-%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8Cif%E8%AF%AD%E5%8F%A5%E4%B8%89/">shell脚本 条件表达式和if语句(三)</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2019-09-29" class="post-time">
-        2019-09-29
-      </time>
-      <div class="post-category">
-          <a href="http://veh47.github.io/categories/shell/"> shell </a>
-          
-        </div>
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      <p>条件表达式和if语句</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/shell%E8%84%9A%E6%9C%AC-%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8Cif%E8%AF%AD%E5%8F%A5%E4%B8%89/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/shell%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0-%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%AD%97%E4%B8%B2%E5%92%8C%E8%AE%A1%E7%AE%97%E4%BA%8C/">Shell基础学习—定义变量方式及变量的字串和计算(二)</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2019-09-29" class="post-time">
-        2019-09-29
-      </time>
-      <div class="post-category">
-          <a href="http://veh47.github.io/categories/shell/"> shell </a>
-          
-        </div>
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      <p>定义变量方式及变量的字串和计算</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/shell%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0-%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%AD%97%E4%B8%B2%E5%92%8C%E8%AE%A1%E7%AE%97%E4%BA%8C/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/shell%E5%9F%BA%E7%A1%80%E4%B8%80/">Shell基础(一)</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2019-09-29" class="post-time">
-        2019-09-29
-      </time>
-      <div class="post-category">
-          <a href="http://veh47.github.io/categories/shell/"> shell </a>
-          
-        </div>
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      <p>基础的shell脚本, 适合新手入门,但是想要写的好, 就需要多多练习</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/shell%E5%9F%BA%E7%A1%80%E4%B8%80/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-</section>
-
-
-
-
-
-
-  
-  
-  
-
-  
-  
-
-  
-  
-
-  
-  
-
-  
-  
-  <nav class="pagination">
-    <ul>
-      
-      <li >
-        <a href="/">1</a>
-      </li>
-      
-      <li >
-        <a href="/page/2/">2</a>
-      </li>
-      
-      <li >
-        <a href="/page/3/">3</a>
-      </li>
-      
-      <li >
-        <a href="/page/4/">4</a>
-      </li>
-      
-      <li  class="active" >
-        <a href="/page/5/">5</a>
-      </li>
-      
-      <li >
-        <a href="/page/6/">6</a>
-      </li>
-      
-      <li >
-        <a href="/page/7/">7</a>
-      </li>
-      
-      <li >
-        <a href="/page/8/">8</a>
-      </li>
-      
-    </ul>
-  </nav>
-
-  
-  
-
-
-
-
+  <div id="comments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 700);
+              clearInterval(checkExist);
+            }
+        }, 10);
+    }
+  </script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#comments' ,
+        appId: 'UsB52d49clgSaLyt9W25ff6J-gzGzoHsz',
+        appKey: 'A7x1tqpCpuAXKQX5BwcwXGdF',
+        notify:  false , 
+        verify:  false , 
+        avatar:'mm', 
+        placeholder: '',
+        visitor:  false 
+    });
+  </script>
 
         </div>
       </div>

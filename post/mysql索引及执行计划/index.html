@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Eleven</title>
+  <title>MySQL索引及执行计划 - Eleven</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,7 +23,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="Eleven" />
-  <meta name="description" content="Hugo theme jane example site." />
+  <meta name="description" content="MySQL索引在其使用过程中关乎到数据库的优化及性能, 在这里简单介绍索引入门
+" />
+
   <meta name="keywords" content="Eleven" />
 
 
@@ -34,8 +36,8 @@
 <meta name="generator" content="Hugo 0.58.3" />
 
 
-<link rel="canonical" href="http://veh47.github.io/" />
-<link href="/index.xml" rel="alternate" type="application/rss+xml" title="Eleven" />
+<link rel="canonical" href="http://veh47.github.io/post/mysql%E7%B4%A2%E5%BC%95%E5%8F%8A%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/" />
+
 
 
 
@@ -58,18 +60,26 @@
 
 
 
-<meta property="og:title" content="Eleven" />
-<meta property="og:description" content="Hugo theme jane example site." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="http://veh47.github.io/" />
+<meta property="og:title" content="MySQL索引及执行计划" />
+<meta property="og:description" content="MySQL索引在其使用过程中关乎到数据库的优化及性能, 在这里简单介绍索引入门" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://veh47.github.io/post/mysql%E7%B4%A2%E5%BC%95%E5%8F%8A%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/" />
+<meta property="article:published_time" content="2019-12-13T10:14:38+08:00" />
+<meta property="article:modified_time" content="2019-12-13T10:14:38+08:00" />
+<meta itemprop="name" content="MySQL索引及执行计划">
+<meta itemprop="description" content="MySQL索引在其使用过程中关乎到数据库的优化及性能, 在这里简单介绍索引入门">
 
-<meta property="og:updated_time" content="2019-12-13T16:25:41+08:00" />
-<meta itemprop="name" content="Eleven">
-<meta itemprop="description" content="Hugo theme jane example site.">
 
+<meta itemprop="datePublished" content="2019-12-13T10:14:38&#43;08:00" />
+<meta itemprop="dateModified" content="2019-12-13T10:14:38&#43;08:00" />
+<meta itemprop="wordCount" content="2486">
+
+
+
+<meta itemprop="keywords" content="MySQL," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Eleven"/>
-<meta name="twitter:description" content="Hugo theme jane example site."/>
+<meta name="twitter:title" content="MySQL索引及执行计划"/>
+<meta name="twitter:description" content="MySQL索引在其使用过程中关乎到数据库的优化及性能, 在这里简单介绍索引入门"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -288,7 +298,7 @@
   <ul id="menu" class="menu">
     
     
-        <li class="menu-item active">
+        <li class="menu-item">
         
           
           
@@ -383,250 +393,450 @@
     <main id="main" class="main bg-llight">
       <div class="content-wrapper">
         <div id="content" class="content container">
-          
-<section id="posts" class="posts">
-  
-  
+          <article class="post bg-white">
     
-  
-  
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
+    <header class="post-header">
+      <h1 class="post-title">MySQL索引及执行计划</h1>
       
-      <a class="post-link" href="/post/shell%E8%84%9A%E6%9C%AC-for%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BA%94/">Shell脚本 For循环语句企业面试题(五)</a>
-    </h1>
+      <div class="post-meta">
+        <time datetime="2019-12-13" class="post-time">
+          2019-12-13
+        </time>
+        <div class="post-category">
+            <a href="http://veh47.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"> 数据库 </a>
+            
+          </div>
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
     
-    <div class="post-meta">
-      <time datetime="2019-09-29" class="post-time">
-        2019-09-29
-      </time>
-      <div class="post-category">
-          <a href="http://veh47.github.io/categories/shell/"> shell </a>
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#索引的作用及类型">索引的作用及类型</a>
+<ul>
+<li><a href="#索引作用">索引作用</a></li>
+<li><a href="#设计理念">设计理念</a></li>
+<li><a href="#索引的类型">索引的类型</a></li>
+</ul></li>
+<li><a href="#索引管理">索引管理</a>
+<ul>
+<li><a href="#添加普通索引">添加普通索引</a></li>
+<li><a href="#主键索引">主键索引</a></li>
+<li><a href="#唯一索引-内容唯一-但不是主键">唯一索引 内容唯一，但不是主键</a></li>
+<li><a href="#前缀索引根据字段的前n个字符建立索引">前缀索引根据字段的前N个字符建立索引</a></li>
+<li><a href="#复合索引-explain-查看索引情况">复合索引(explain 查看索引情况)</a></li>
+<li><a href="#获取适合做索引的列">获取适合做索引的列</a></li>
+</ul></li>
+<li><a href="#不走索引及创建索引的规范">不走索引及创建索引的规范</a>
+<ul>
+<li><a href="#数据库索引设计原则">数据库索引设计原则</a></li>
+<li><a href="#不走索引">不走索引</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>MySQL索引在其使用过程中关乎到数据库的优化及性能, 在这里简单介绍索引入门</p>
+
+<h2 id="索引的作用及类型">索引的作用及类型</h2>
+
+<h3 id="索引作用">索引作用</h3>
+
+<p>影响对表数据的操作(select update delete)</p>
+
+<h3 id="设计理念">设计理念</h3>
+
+<p>索引好比目录,让你更快找到想要的东西,让获取的数据更有目的性,从而提高数据库检索数据的性能 , 比较类似于linux操作系统的inode</p>
+
+<h3 id="索引的类型">索引的类型</h3>
+
+<p>BTREE:B+树索引
+HASH：HASH索引
+FULLTEXT：全文索引
+RTREE：R树索引</p>
+
+<h2 id="索引管理">索引管理</h2>
+
+<p>索引分为主键索引, 唯一索引,  普通索引</p>
+
+<h3 id="添加普通索引">添加普通索引</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">use world
+create table test (id int not null varchar(20));
+添加普通索引: alter table test add index id_idx(id); 
+删除普通索引:alter table test drop index id_idx;</pre></td></tr></table>
+</div>
+</div>
+<p>用索引查询,加上条件,查询所读更快
+    select id,name from test where state=1 order by id group by name;</p>
+
+<h3 id="主键索引">主键索引</h3>
+
+<p>一般选择或添加一个自增长 唯一 非空的列作为主键列,  添加主键一般在创建表时就添加主键索引</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">alter table test change id id int(4) primary key not null auto_increment;(primary key 主键必须  建表后添加的)   
+create table test  (id  int(4) not null auto_increment, name char(20) not null, primary key (id)) engine=innodbdefault charset=utf8;   </pre></td></tr></table>
+</div>
+</div>
+<h3 id="唯一索引-内容唯一-但不是主键">唯一索引 内容唯一，但不是主键</h3>
+
+<p>唯一键:
+    alter table test add unique index name_idx(id);(unique唯一键)
+    create unique index index_name on test(name);</p>
+
+<h3 id="前缀索引根据字段的前n个字符建立索引">前缀索引根据字段的前N个字符建立索引</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">alter table test add index name_idx(name(8));
+create index index_name on test(name(8));</pre></td></tr></table>
+</div>
+</div>
+<h3 id="复合索引-explain-查看索引情况">复合索引(explain 查看索引情况)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">create table t1 (id int,name varchar(20),age int,sex enum(&#39;m&#39;,&#39;f&#39;),money int);
+alter table t1 add index t1_idx(money,age,sex);
+desc t1                               注意这里创建索引列的顺序
+show index from t1</pre></td></tr></table>
+</div>
+</div>
+<h3 id="获取适合做索引的列">获取适合做索引的列</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select count(*) from mysql.user;   ----------&gt;4行
+select count(distinct user) from mysql.user;   -----&gt;3行，说明可定有一个重复行
+select count(distinct user,host) from mysql.user; 4行，两个条件就没有重复行了，更适合做索引条件   统计   不重复的</pre></td></tr></table>
+</div>
+</div>
+<h2 id="不走索引及创建索引的规范">不走索引及创建索引的规范</h2>
+
+<h3 id="数据库索引设计原则">数据库索引设计原则</h3>
+
+<p>1 选择唯一性索引<br />
+唯一性索引的值是唯一的，可以更快速的通过该索引来确定某条记录。<br />
+例如，学生表中学号是具有唯一性的字段。为该字段建立唯一性索引可以很快的确定某个学生的信息。如果使用姓名的话，可能存在同名现象，从而降低查询速度。</p>
+
+<p>2 为经常需要排序、分组和联合操作的字段建立索引<br />
+经常需要ORDER BY、GROUP BY、distinct和UNION等操作的字段，排序操作会浪费很多时间。如果为其建立索引，可以有效地避免排序操作。</p>
+
+<p>3 为常作为查询条件的字段建立索引<br />
+如果某个字段经常用来做查询条件，那么该字段的查询速度会影响整个表的查询速度。因此，为这样的字段建立索引，可以提高整个表的查询速度。</p>
+
+<p>4 尽量使用前缀来索引<br />
+如果索引字段的值很长，最好使用值的前缀来索引。例如，TEXT和BLOG类型的字段，进行全文检索会很浪费时间。如果只检索字段的前面的若干个字符，这样可以提高检索速度。</p>
+
+<p>5 限制索引的数目<br />
+索引的数目不是越多越好。每个索引都需要占用磁盘空间，索引越多，需要的磁盘空间就越大。修改表时，对索引的重构和更新很麻烦。越多的索引，会使更新表变得很浪费时间。</p>
+
+<p>6 尽量使用数据量少的索引<br />
+如果索引的值很长，那么查询的速度会受到影响。例如，对一个CHAR（100）类型的字段进行全文检索需要的时间肯定要比对CHAR（10）类型的字段需要的时间要多。</p>
+
+<p>7 删除不再使用或者很少使用的索引<br />
+表中的数据被大量更新，或者数据的使用方式被改变后，原有的一些索引可能不再需要。数据库管理员应当定期找出这些索引，将它们删除，从而减少索引对更新操作的影响。</p>
+
+<p>8 小表不应建立索引</p>
+
+<p>9 包含大量的列并且不需要搜索非空值的时候可以考虑不建索引</p>
+
+<h3 id="不走索引">不走索引</h3>
+
+<p><strong><em>1)  没有查询条件，或者查询条件没有建立索引</em></strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">select * from tab;   全表扫描。在业务数据库中，特别是数据量比较大的表。</pre></td></tr></table>
+</div>
+</div>
+<p>例:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">（1）select * from tab
+SQL改写成以下语句：
+selec  * from tab  order by  price  limit 10      需要在price列上建立索引,只显示10行
+（2）
+select  * from  tab where name=&#39;zhangsan&#39;  name  列没有索引</pre></td></tr></table>
+</div>
+</div>
+<p>改：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">1、换成有索引的列作为查询条件
+2、将name列建立索引</pre></td></tr></table>
+</div>
+</div>
+<p>***2)  查询的数量是大表的大部分，应该是30％以上。 ***
+查询的结果集，超过了总数行数30%，优化器觉得就没有必要走索引了。<br />
+假如：tab表 id，name    id:1-100w<br />
+select * from tab  where id&gt;700000<br />
+怎么改写 ？<br />
+结合业务判断，有没有更好的方式。如果没有更好的改写方案<br />
+尽量不要在mysql存放这个数据了。放到redis里面。</p>
+
+<p>*** 3) 索引本身失效，统计数据不真实 ***<br />
+索引有自我维护的能力。对于表内容变化比较频繁的情况下，有可能会出现索引失效。</p>
+
+<p>*<strong>4) 查询条件使用函数在索引列上，或者对索引列进行运算，运算包括(+，-，*，/，! 等)</strong>*</p>
+
+<p>例：
+    select * from test where id=10;</p>
+
+<p><strong><em>5)隐式转换导致索引失效.这一点应当引起重视.也是开发中经常会犯的错误.</em></strong></p>
+
+<p>由于表的字段tu_mdn定义为varchar2(20),但在查询时把该字段作为number类型以where条件传给数据库,(字符串要用引号)这样会导致索引失效.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">正确的例子：select * from test where tu_mdn=&#39;13333333333&#39;; </pre></td></tr></table>
+</div>
+</div>
+<p><strong><em>6) &lt;&gt;  ，not in 不走索引</em></strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"> explain select * from teltab where telnum &lt;&gt; &#39;110&#39;;
+ explain  select * from teltab where telnum  not  in(&#39;110&#39;,&#39;119&#39;);</pre></td></tr></table>
+</div>
+</div>
+<p>单独的&gt;,&lt;,in 有可能走，也有可能不走，和结果集有关</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">or或in  尽量改成union
+explain  select * from teltab where telnum   in (&#39;110&#39;,&#39;119&#39;);
+
+改写成：
+explain select * from teltab where telnum=&#39;110&#39;
+union all  
+select * from teltab whereE telnum=&#39;119&#39;</pre></td></tr></table>
+</div>
+</div>
+<p><strong><em>7)   like &ldquo;%_&rdquo; 百分号在最前面不走</em></strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">explain select* from teltab whereE telnum LIKE &#39;31%&#39;   走range索引扫描
+explain select * from teltab whereE telnum LIKE &#39;%110&#39;  不走索引</pre></td></tr></table>
+</div>
+</div>
+<p>***8) 单独引用复合索引里非第一位置的索引列. ***</p>
+
+<p>例 复合索引：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">create table t1 (id int,name varchar(20),age int ,sex enum(&#39;m&#39;,&#39;f&#39;),money INT);
+alter table t1 ADD INDEX t1_idx(money,age,sex);
+DESC t1
+SHOW INDEX from t1</pre></td></tr></table>
+</div>
+</div>
+<p>走索引的情况测试：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">explain select name,age,sex,money from t1 where money=30 and age=30  and sex=&#39;m&#39;;
+explain select name,age,sex,money from t1 where money=30 and age=30  ;
+explain select name,age,sex,money from t1 where money=30  and sex=&#39;m&#39;;  部分走索引</pre></td></tr></table>
+</div>
+</div>
+<p>不走索引的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">explain select  name,age,sex,money from t1 where  age=20
+explain select name,age,sex,money from t1 where  age=30  and sex=&#39;m&#39;;
+explain select name,age,sex,money from t1 where   sex=&#39;m&#39;;</pre></td></tr></table>
+</div>
+</div>
+<p>1)  CBO（基于成本的优化器）计算走索引花费过大的情况。其实也包含了上面的情况，这里指的是表占有的block要比索引小。<br />
+2)  B-tree索引 is null不会走,is not null会走,位图索引 is null,is not null 都会走<br />
+3)  联合索引 is not null 只要在建立的索引列（不分先后）都会走, in null时 必须要和建立索引第一列一起使用,当建立索引第一位置条件是is null 时,其他建立索引的列可以是is null（但必须在所有列 都满足is null的时候）,或者=一个值； 当建立索引的第一位置是=一个值时,其他索引列可以是任何情况（包括is null =一个值）,<br />
+以上两种情况索引都会走。其他情况不会走。</p>
+
+<p>4)  BLOB 和TEXT 类型的列只能创建前缀索引；<br />
+5)  MySQL 目前不支持函数索引；<br />
+6)  Join 语句中Join 条件字段类型不一致的时候MySQL 无法使用索引；</p>
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://veh47.github.io/tags/mysql/">MySQL</a>
           
         </div>
+
       
-      
-      
-    </div>
-  </header>
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/mysql%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">MySQL存储引擎</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/mysql-dml-dql-dcl%E8%AF%AD%E5%8F%A5%E5%8F%8A%E5%85%83%E6%95%B0%E6%8D%AE/">
+            <span class="next-text nav-default">MySQL DML DQL DCL语句及元数据</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
   
-  <div class="post-content">
+  
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
     
-    <div class="post-summary">
-      <p>For循环语句企业面试题</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/shell%E8%84%9A%E6%9C%AC-for%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BA%94/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
 
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/shell%E8%84%9A%E6%9C%AC-if%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E7%BB%83%E4%B9%A0%E9%A2%98%E5%8F%8Acase%E8%AF%AD%E5%8F%A5%E5%9B%9B/">Shell脚本 If语句企业练习题及case语句(四)</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2019-09-29" class="post-time">
-        2019-09-29
-      </time>
-      <div class="post-category">
-          <a href="http://veh47.github.io/categories/shell/"> shell </a>
-          
-        </div>
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      <p>练习nginx启动脚本</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/shell%E8%84%9A%E6%9C%AC-if%E8%AF%AD%E5%8F%A5%E4%BC%81%E4%B8%9A%E7%BB%83%E4%B9%A0%E9%A2%98%E5%8F%8Acase%E8%AF%AD%E5%8F%A5%E5%9B%9B/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/shell%E8%84%9A%E6%9C%AC-%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8Cif%E8%AF%AD%E5%8F%A5%E4%B8%89/">shell脚本 条件表达式和if语句(三)</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2019-09-29" class="post-time">
-        2019-09-29
-      </time>
-      <div class="post-category">
-          <a href="http://veh47.github.io/categories/shell/"> shell </a>
-          
-        </div>
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      <p>条件表达式和if语句</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/shell%E8%84%9A%E6%9C%AC-%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8Cif%E8%AF%AD%E5%8F%A5%E4%B8%89/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/shell%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0-%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%AD%97%E4%B8%B2%E5%92%8C%E8%AE%A1%E7%AE%97%E4%BA%8C/">Shell基础学习—定义变量方式及变量的字串和计算(二)</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2019-09-29" class="post-time">
-        2019-09-29
-      </time>
-      <div class="post-category">
-          <a href="http://veh47.github.io/categories/shell/"> shell </a>
-          
-        </div>
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      <p>定义变量方式及变量的字串和计算</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/shell%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0-%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%AD%97%E4%B8%B2%E5%92%8C%E8%AE%A1%E7%AE%97%E4%BA%8C/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/shell%E5%9F%BA%E7%A1%80%E4%B8%80/">Shell基础(一)</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2019-09-29" class="post-time">
-        2019-09-29
-      </time>
-      <div class="post-category">
-          <a href="http://veh47.github.io/categories/shell/"> shell </a>
-          
-        </div>
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      <p>基础的shell脚本, 适合新手入门,但是想要写的好, 就需要多多练习</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/shell%E5%9F%BA%E7%A1%80%E4%B8%80/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-</section>
-
-
-
-
-
-
-  
-  
-  
-
-  
-  
-
-  
-  
-
-  
-  
-
-  
-  
-  <nav class="pagination">
-    <ul>
-      
-      <li >
-        <a href="/">1</a>
-      </li>
-      
-      <li >
-        <a href="/page/2/">2</a>
-      </li>
-      
-      <li >
-        <a href="/page/3/">3</a>
-      </li>
-      
-      <li >
-        <a href="/page/4/">4</a>
-      </li>
-      
-      <li  class="active" >
-        <a href="/page/5/">5</a>
-      </li>
-      
-      <li >
-        <a href="/page/6/">6</a>
-      </li>
-      
-      <li >
-        <a href="/page/7/">7</a>
-      </li>
-      
-      <li >
-        <a href="/page/8/">8</a>
-      </li>
-      
-    </ul>
-  </nav>
-
-  
-  
-
-
-
-
+  <div id="comments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 700);
+              clearInterval(checkExist);
+            }
+        }, 10);
+    }
+  </script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#comments' ,
+        appId: 'UsB52d49clgSaLyt9W25ff6J-gzGzoHsz',
+        appKey: 'A7x1tqpCpuAXKQX5BwcwXGdF',
+        notify:  false , 
+        verify:  false , 
+        avatar:'mm', 
+        placeholder: '',
+        visitor:  false 
+    });
+  </script>
 
         </div>
       </div>

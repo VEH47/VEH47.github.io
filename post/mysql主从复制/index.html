@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>MySQl主从复制 - Eleven</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Eleven" />
+  <meta name="description" content="Mysql 主从复制
+" />
+
+  <meta name="keywords" content="Eleven" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="canonical" href="http://veh47.github.io/post/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="MySQl主从复制" />
+<meta property="og:description" content="Mysql 主从复制" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://veh47.github.io/post/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" />
+<meta property="article:published_time" content="2019-12-13T14:19:58+08:00" />
+<meta property="article:modified_time" content="2019-12-13T14:19:58+08:00" />
+<meta itemprop="name" content="MySQl主从复制">
+<meta itemprop="description" content="Mysql 主从复制">
+
+
+<meta itemprop="datePublished" content="2019-12-13T14:19:58&#43;08:00" />
+<meta itemprop="dateModified" content="2019-12-13T14:19:58&#43;08:00" />
+<meta itemprop="wordCount" content="2914">
+
+
+
+<meta itemprop="keywords" content="MySQL," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MySQl主从复制"/>
+<meta name="twitter:description" content="Mysql 主从复制"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Eleven</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+      <li class="mobile-menu-item">
+        <a id="openSearchMobile" class="mobile-menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+    
+<div class="modal-dialog">
+    
+    <div class="modal-content">
+      <div id="closeSearch" title="Close" class="close">X</div>
+      <div class="modal-header">
+        <div class="modal-title">Search</div>
+      </div>
+      <div class="modal-body">
+          <script>
+            (function() {
+              var cx = '012427586116641581695:iilii6hg9u2';
+              var gcse = document.createElement('script');
+              gcse.type = 'text/javascript';
+              gcse.async = true;
+              gcse.src = (document.location.protocol == 'https:' ? 'https:' :
+                  'http:') +
+                '//cse.google.com/cse.js?cx=' + cx;
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(gcse, s);
+            })();
+          </script>
+          <gcse:search></gcse:search>
+      </div>
+    </div>
+</div>
+
+  
+
+  
+    <style>
+      .fork-me-on-github {
+        position: absolute; top: 0; left: 0; border: 0;
+      }
+      @media (max-width: 1080px) {
+        .fork-me-on-github {
+          display: none;
+        }
+      }
+    </style>
+
+    <a href="https://github.com/veh47">
+      <img class="fork-me-on-github"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"
+        alt="Fork me on GitHub">
+    </a>
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Eleven
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+      <li class="menu-item">
+        <a id="openSearch" class="menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">MySQl主从复制</h1>
+      
+      <div class="post-meta">
+        <time datetime="2019-12-13" class="post-time">
+          2019-12-13
+        </time>
+        <div class="post-category">
+            <a href="http://veh47.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"> 数据库 </a>
+            
+          </div>
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#复制的实现前提">复制的实现前提</a></li>
+<li><a href="#主从复制的原理">主从复制的原理</a></li>
+<li><a href="#半同步复制">半同步复制</a>
+<ul>
+<li>
+<ul>
+<li><a href="#为了解决主从一致性问题">为了解决主从一致性问题</a></li>
+<li><a href="#配置过程-加载插件">配置过程 加载插件</a></li>
+<li><a href="#查看是否加载成功">查看是否加载成功:</a></li>
+<li><a href="#启动">启动:</a></li>
+<li><a href="#重启从库上的io线程">重启从库上的IO线程</a></li>
+<li><a href="#查看是否在运行">查看是否在运行</a></li>
+<li><a href="#测试">测试:</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#主从复制中的failover过程">主从复制中的Failover过程</a></li>
+<li><a href="#gtid复制">GTID复制</a>
+<ul>
+<li>
+<ul>
+<li><a href="#mysql-gtid简介">MySQL GTID简介</a></li>
+<li><a href="#uuid-tx-id">UUID:TX_ID</a></li>
+<li><a href="#gtid例子">GTID例子：</a></li>
+<li><a href="#gtid中的tx-id都是连续的">GTID中的TX_ID都是连续的</a></li>
+<li><a href="#gtid优势">GTID优势</a></li>
+<li><a href="#gtid复制原理的新特性">GTID复制原理的新特性</a></li>
+<li><a href="#gtid复制模式">GTID复制模式：</a></li>
+<li><a href="#gtid复制实践-1主2从">GTID复制实践（1主2从）</a></li>
+<li><a href="#初始化数据-三个节点都要做">初始化数据（三个节点都要做）</a></li>
+<li><a href="#主库-db01-创建复制用户">主库（db01）创建复制用户</a></li>
+<li><a href="#构建主从">构建主从</a></li>
+<li><a href="#开启并查看主从状态">开启并查看主从状态</a></li>
+<li><a href="#故障处理">故障处理：</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>Mysql 主从复制</p>
+
+<h1 id="复制的实现前提">复制的实现前提</h1>
+
+<p>1、至少两台机器，1主1从<br />
+2、主服务器需要开启二进制日志<br />
+3、主从节点之间需要有唯一的标识，server_id<br />
+4、二进制日志是从库请求主库才会得到的，主库不会主动发给从库<br />
+5、节点之间网络要畅通，防火墙需要关闭<br />
+6、主库必须有一个专门用作复制的用户（replication slave）<br />
+7、从库请求二进制日志需要有一个起点，在第一次构建主从的时候，需要人为设置起点。</p>
+
+<p><strong><em>注：</em></strong><br />
+    情况一：两个库都是新搭建的，直接指定第一个二进制日志开始位置即可<br />
+    情况二：主库已经运行了很长时间了，从库是新加的。如果你能保证主库所有二进制日志都在的话，也可以从第一个的开头位置开始<br />
+但是需要很长时间。我们也可借助备份主库当前的数据，然后告诉从库从备份完成时刻之后的二进制日志位置开始请求即可。<br />
+8、第一次搭建的时候，需要通过change mater to 语句告诉从库他需要的：用户名+密码+主库地址+端口号+二进制日志文件名+二进制日志起始请求位置<br />
+9、需要从库执行 start slave 开启主从复制需要的一堆线程</p>
+
+<h1 id="主从复制的原理">主从复制的原理</h1>
+
+<p>从库关键文件：<br />
+1 master.info
+    用户名 密码 主机名 端口号<br />
+    上次请求主库到哪一个二进制文件和position号</p>
+
+<p>2 relay-log<br />
+    记录从库请求过来的二进制日志的事件，已经执行过的relay log会被自动清理</p>
+
+<p>3 relay-log.info<br />
+    记录已经执行过的relay log的事件信息</p>
+
+<p>从中关键的线程：<br />
+start slave命令执行完成之后，从库会开启IO线程和SQL线程来完成复制过程<br />
+1、IO线程：会拿着master.info 中二进制文件信息（文件名+position），去问主库有没有更新的二进制日志事件。<br />
+    主库会接收请求，通过dump线程和从库IO线程进行交互，如果有更新的binlog就发送给从库IO线程。IO线程接收binlog之后，<br />
+    会将binlog 事件写入到relay-log中存储。同时IO线程会将新请求过来的binlog信息写入到master.info中<br />
+2、SQL线程：SQL线程会检查relay-log.info，会去relay-log中找没执行过的relay-log事件继续执行。执行完成后，再次更新relay-log.info<br />
+<img src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAisAAAGiCAYAAAAm+YalAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAG/8SURBVHhe7b2L30zl/v//+ys+38/jk91hd9611bZTSSei0oEOKpTsHaUkhJwqkkgpaaPkECLnM5VQlEPSjigVhUop2kp709Hu+s3zumexrHtmzcyaw70Or+fjcT2YNXPPzD33rGs9r/f1vt7X/2eEEEIIIUKMZEUIIYQQoUayIoQQQohQI1kRQgghRKiRrAghhBAi1EhWhBBCCBFqJCtCCCGECDWSFSGEEEKEGsmKEEIIIUKNZEUIIYQQoUayIoQQQohQI1kRQgghRKiRrAghhBAi1EhWhBBCCBFqJCtCCCGECDWSFSGEEEKEGsmKEEIIIUKNZEUIIYQQoUayIoQQQohQI1kRQgghRKiRrAghhBAi1EhWhBBCCBFqJCtCCCGECDWSFSGEEEKEGsmKEEIIIUKNZEUIIYQQoUayIoQQQohQI1kRQgghRKiRrAghhBAi1EhWhBBCCBFqJCtCCCGECDWSFSGEEEKEGsmKEEIIIUKNZEUIIYQQoUayIoQQQohQI1kRQgghRKiRrAghhBAi1EhWhBBCCBFqJCtCCCGECDWSFSGEEEKEGsmKEEIIIUKNZEUIIYQQoSYhsrI11Tak2poKtXXmxx/fMD//vDf1fyGEKDffpFol+7hMba05cOBNc/DgvtT/hSgtCZGVVen2coXa0tRJO9ps2zZWJ64QogJsSbVK9nGZ2mLzyy/Pm+3bx5nffvsudVuI0pEQWVmbaq+k2owKtTlm165hZuPG3uaLLyZKWIQQZebTVKtkH5epzTR79owwW7f2Nzt2SFhEaZGslKXNMV99NcysW9fdfPDBg2lh+SF1XAghykE4ZOWbb4abDRv6mC1b+qX6vQkpYfk+dVyI4pGslKVVycrbb3c369f3Mps3O8Ly79R9QghRasIjK+vX9zbvvtvTRlh27pwoYRElQbJSlnZYVt59t1dqpNHbCsvnn2tKSAhRDsIlK//8Z0/b9yEsVREW9XuiOCQrZWlHygqNCMtHH/VNCYtCo0KIUhNOWeHfTz55KJ3Don5PBEeyEqjNSrXZnmPuVl1WDgtLPxthUfKZEKJ0hFNWnPbJJ/21SkgUhWSloDbT/rtx41Nmw4ahqf9nE5bMskLjREZYCI1qSkgIURrCLSsM1LZuVYRFBEeyUlCbbQ4ceNH069fGXHttI7N58z9Sx+Z6HkPLLivOifvhh0wJEWGRsAghiiXcslLV7/U2W7Y8ZD777PlUv6eCmaIwJCtZG1ETRMTbFqUkZIi54IJ6ZuTIjqnbc1Jtvut+2nxfWaFVrRJ6QMuahRAlIPyyQmOxARGWzz9HWDQlJPJHslKtVU31bN060ixe3N+89tqAI9ry5QPt8T59WpuBA9vaY6+//sih+7lv8+YRKQkZatatuy/jCeu0DRt6ueqwaFmzECIo0ZAVGvcjLFXLmiUsIj8kK9XaLPP77zPMuHFdTIMG9c1VVzU4ol1zzSX2eO3aZ5pGjS4wzZpdcsT9DRqcZwYPvsPs2PFE6oTtkfFkdTdO3Ko6LMphEUIEJTqy4jSSbhGWX3+VsIjcSFaqtarIyu7d41IS8bT56KPhR7RPPx1tnnuusznppNPM+PFdU7efO+J+fuarr543n3/+pFm9uoudCsrViMBs2tTbbNs2xvz88+7U6wshRCGEQ1Z27Xra9mdr13bL2Ne529q13VN95gOpfm+0+eknNmIUIjuSlayN5cnko3jbYjvVc/zxf7JTQlUbeHkfM9fs3z/efP31P1LSMyKvxp4aP/wwMSUrb6d+XgghCqGUssKAjdy7qoFb7uOH24EDE2x/RoTF28dlbsNTP/N8SlbYtflgqgmRGcmKb+OkRFrc7SXz0kv9zAkn/MnmqJBwW/0xzs95JSZXey3V3k01IYQohFLJCpsRjjNTp/ZMDbgm2dvO8f37J5tp03qZf/1rfOo2/Zv3Z2lB+r2FqbYu1X5LNSEyI1nJ2maa77+faLZvf9Z89tmoQ23PnglmwoSudhpoypQeqZHB+CPu5/HffTfB/nzm5/Vri1NNsiKEKJRSycpsO5V9ww2Xpfq651O3HSmZlerrxpkbb7zMbN06InUbyfD+bNBGtEayIvyRrGRtC8wLL3Q3F19c3ybROu366xvZxNozz/yLadz4AnPddY2OuP+SS843Y8Z0tj+f+Xn9mmRFCBGE0snKpk3DrKwcGUGZZb7+eqyVlU8+eSZ1W7IiKotkJWubbUcQCxb0tTkqTlu+/FEzaFA7c+qpfzZDhtxhXn990BH3L1zY13z0EcXi/MrxZ2uSFSFEEEonK+vXDzUtWlxuc+jcsvLFF89ZWfnss+dStyUrorJIVnxbMTkrmZ4vV5OsCCGCUCpZmWXefvtx06rV5ebnn6fY21XHqwZvzZs3Njt2jErdlqyIyiJZKbgttNETZGXJkodTt4NM92RrkhUhRBBKJysrVgw0t9xyhfn99+n2dtXx2XY/tKuvbmjeeutxe7v6zwZtkhWRG8lK1kZ0JFNbZBYtqoqsLF1KZIVM9kyPy/ScuZpkRQgRhFLICv3WLLN48UOmYcPzzfz5D6ZuIxIcn21LNXCcXL7i+jlvk6yI3EhWsjbnZPQ2ZKWvOf74U1OyQmQlm6zQMj2vX5OsCCGCUCpZmWlmz+5jLr74PLuAYNkyBmTIxDwzeXJ3c845Z5nu3VumbrujLsU2yYrIjWSlWptn3nuPBLMm5u9/b2puu+3Idvvt19hVP6effobdeZnb3seQST93bp/Uczmjkkyvk6lJVoQQQSidrDz11J3moYf+lvr3LnPppReaN998NHV8oend++Z0/3apXcYsWRGVRLJSrc0x27c/Yx577HZ7sg4bdmTjRB4xoqPdO2jEiLvtbe9jHn20nVmz5jH7XJlfI1uTrAghglAaWTl4cJpp1+4aM316L5tg26fPLaZ580vNwoX9zK23XmVefrmfueuu62zRuKr+LUgE2dskKyI3kpUsjeSy4lrm5/VvkhUhRBBKIStVBeHYrJVaKywe2L59lJk0qbvp3PlG0779tbZQ3IQJ3Uzr1leaf/+bCrelSLSVrIjcSFaytqqQaLAWdPmyZEUIEYRSyMpcM3ToXXZq+8CByanbiMgCKy5Nmlxkpk3rkbo9z+zcOdpceWUD8+yz96RuE10pdjpIsiJyI1kJVZOsCCGCUKyszLPbhTRteomZMaN36jYCMt/s3Tve/O1vV5sOHa5P/f+F1LG55r//nWmrdF9wQT1XAm4xwiJZEbmRrISqSVaEEEEoRlZmme+/n2x69Ghl81K+/569zeaZL74YY+688zpbW+WTT0baY1WPn22ngMhdOe+8c8y8efebH390F5ArtElWRG4kK4EaUzyEP0tZGIkmWRFCBKEYWZljZQRRYcsQpOTAgRdNr1432+mf9957yh7z/syuXWNMmzZXmQcfbC1ZEWVHspKzuXNRaIwqXrAl96tGG5xo3sfQMj1XriZZEUIEoRhZmZmSjRdtf1ZVYn+2+eWXKWbVqsHm/fefTt12+jjvz822Cbe7do1N/V/TQKK8SFZ8GycoJ6G7zbMjCuZx27VrZr7+mnoDjDq8jwsiLJIVIUQQis1Zob9CGui7KPjm3M61PJn7aZnuy7dJVkRuJCtZ22zz8ccjbDXHOXP6mFmzetv/z559v1m48EHTpcuNpm7ds2xdlfnz+6bvq2rTpvU077wzxNYsKExaJCtCiCAUKys12SQrIjeSlaxtofnHPzqYP//5DHP99ZfaLdNvuqmqXXddY1vF9vrrG9st053jTiMhbfjwuz27lubTJCtCiCCUW1aCRIrzbZIVkRvJSta20FaxRUx27hxjfv99lvnttxnm++8n2sq2I0d2tPO8Bw/OML/+OvVQ++23aeann15Mi0qm5/VrkhUhRBDKKSuIijPdUw5pkayI3EhWsraF5vHHbzctWzYxO3Y8a2sM7N07ybz99hBz4YXnmvvvv8X861/jzZ49tOcPtW++GWf276egUiERFadJVoQQQSiXrMyyA68FCx4077zzROo2slJqYZGsiNxIVrK2hWbIkDvscr5Bg24zrVtfYZfpsUnhiSf+yTRufL4tOc30kLtdccXFZuzYLqmfX+B5vnyaZEUIEYRSycr8VGMnefov2iJ7jCjzLbdcYX74YWLq9suu+50WZHDmNMmKyI1kJWuriqy0anWFWbz4ITNrVj/zyCO3mdq1zzQPPnirmTOnX+pYH7NwYV/774wZvWxjH413330y9fNBMuQlK0KIIBQrK0RLZtsNWu+99ybTvXvLdGthevW61e62fMYZZ9p/u3e/+dD9XbveZB544FazdatTxiHTc+dqkhWRG8lK1lYlKyTMkoPCCKNv31vN3/9+tS2YZMxr5osvnjMPPdTG7NvHaGNpqjHi4HUYnbD8L9Pz+jXJihAiCKWQlTmp/u4yc/PNV5jJk7ubF1+8zw7ABg5smxKWW8zMmb3M9Ok97X2TJ99n2wsvdLfHvv6aWitBi2RKVkRuJCtZ2wIb+uTE3bt3gj1x69c/x0ZR/v3vF1PHppg5c+43derUMW+8Mcje/u67CTaPpWoTsCDzupIVIUQQShNZIXIyalSn1P+pHVU1DTR6dGe74/IPP7A3ENNC3OduSEoxeSySFZEbyUrWNt8MGtTW/P3vTa2sEPKsV+8cuyyZzb5Yuty48QXmrLP+ai677CJ7u2nThubii88zzzzDbqSc6Jme169JVoQQQSiNrFDokpINK1cOMqtXDzZLljxsrrmmkR20vf76I3aBwYoVA83y5Y+YpUsfNu+++4RdFamcFVFuJCsZGyfuTNOnzy3mnnua22mgjz8ebt58c5A9UTlp33xzsD2pibaMH981dfsxe5y9NY7c9KuQJlkRQgShNLJyxx3X2IUFnTrdaKe8L7qonrnwwnopibnGtGx5eer2eXZhQdu211iBIY/vm2+KmQKiSVZEbiQrGdtss3//JLvjaP/+f7NTO99/P8mGQZ22f/9Uuz8Qy5jXrHksdXuaPc6+QUwH8fOZn9uvSVaEEEEo3TTQM890TP1/gc1DueGGS82YMZ1Tt18xGzY8aUs50B9WrRhCMkpRe0WyInIjWcnY5ppt2561Uz6s7hk6tL1dsswyZqcx6iA8WrfuX03z5pfa28593Gb5clW5fVWwFUKUm9LJCn3XTz9NtYm1f/tb07SczDcrVz5qSzPs3Plc6nax+wG5m2RF5EaykrEtsPOx9eqdbVatetS89tpg89xznex0z+F2n13CzGMefbSdve3cx2P5uf/+19kQLNNrZGqSFSFEEIqXlYMHp9taUjNm9LZCcvrpZ5hLLjnfdOvWwnTq1NxO+9DftW3bzN5myog+8NNPmfYuRl4kKyI3kpVqbZY5cGCKrVBLCPSrr0anjrEkmSx4d1tik81IqN2+/Rl7+8j7lbMihKgUxcrKLLN373hb2JK6Ur/8Mt2sXDnY5uG9/HK/VHvYbtrasOH5dskytxct6mtz+KpKNyhnRZQXyUq1Ns/8859P2CXJrOr5/XdOpEzRkXlm2bIBqZFGXbNhw1B7u/pjCm2SFSFEEIqVlTlm06ZhdlXj+vVDze7dz5tvvx1vV0IiMfv2TbLS0qTJxeb99582P/wwyd7HFiNffjkmXYsqaO6KZEXkRrJSrc0x27c/azcr3LJleOo2J1Kmx821ibXkp3z44T/s7cyPK6RJVoQQQShWVuabqVN72JU+rGa8++7rbd/mbCPSqlUTm8N3zjl17W7z3OY40efbb78m3QcGHbBJVkRuJCtZ2u+/Zz7ubuSksMlXVW5K5scU1iQrQoggFCMrs8z+/VNs4TdWP/700xS7spHEWqdxuyqycpF5//1hR9z/3Xfj7Y7zmZ87nyZZEbmRrGRt+YQ0eQyrfYKGP71NsiKECEIxsjLPrFo12Ba7pBBcVYSEfs3d5ttK3RdcUM9O+1RtKeK+v5g+ULIiciNZCVWTrAghglCMrMw2n3/+nE2mJWJSJR/ex8yy00MjRtxt60hlfkzQJlkRuZGshKpJVoQQQSg2ZwX5QBr8IiSs+GEbkVJFkp0mWRG5kayEqklWhBBBKFZWarJJVkRuEiIrb6XaslSjcFGY22up9s9UE0KIQpCsiHiTEFlBAJAVEsfC3JCV91JNCCEKQbIi4k1CZIWT4NdU+yXkjfeoE1YIUSiSFRFvEiIrQggRZyQrIt5IVoQQIvJIVkS8kawIIUTkkayIeCNZEUKIyCNZEfEmErKyZs0a06VLF3PPPfeYu+++Wy3P1rFjR9O5c2czdy6dgRAivkhWRLyJhKz84x//MOeee66pX7++Of/889UKaHxud9xxR/qTFELEE8mKiDeRkJVhw4aZ2rVrm2XLlpndu3er5dm2b99uGjZsaNq0aZP+JIUQ8USyIuJNZCIrf/7zn83GjRvTR0Q+/Pzzz+aSSy4xf/vb39JHhBDxZFeqRaFKd6a2MNXUtwt/IiUr//ynStEXwr///W/JihAR4D//+Y956623zJtvvllwW758RWogt8D861/TzO7d4yLX9uyZaLZunWFWrlxh3ngj8++Yq23evNkcPHgw/WmKOCJZiTGSFSGiwdq1a03dunVtP3fCCScU1I455jhTr96ZpnXrS0yLFg0i11q1amgaNTrbnHzyieb444/P+Dv6tTp16phmzZpZ4RPxRbISYyQrQkSDFStW2D6OFXwTJkwouI0d+7x59tnRqTYmkm3MmHFm/PjMv1uu1rRpU3P22Webffv2pT9NEUckKzFGsiJENGAqg6jC1KlT00dEvnTo0MFGV3744Yf0ERFHJCsxRrIiRDRAVpjSeP7559NHRL5QmuGvf/2rZCXmSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGggWQmOZCUZSFZijGRFiGiwcuVKyUpAJCvJQLISYyQrQkSDNWvWWFmZMGFC+ojIF8lKMpCsxBhHVv7+97+njwghKs3BgwfNZ599ZubPn2+efPJJ8+CDD5p77rnHtGnTxtx6662mU6dO5rbbbjPHH3+86dmzp33sr7/+mv5pkQvJSjKQrMSYX375xcoKHeJPP/1k9u/fbwVm37595rvvvjN79+61/3Kb49z/448/mt9++y39DEKIIPz8889m8+bNVk5uvPFGc/HFF5sLLrjAnH/++eaiiy4yDRs2NJdeeqlt/J9j9evXt43/X3vttWbAgAFm/fr19pwU2QkiKwgkfeKBAwfMf/7zH/uz9IPff/+97Rf/9a9/HeobuY/HqH+sWSQrMeP333+3J9vnn39uQ8vnnXeebYzkbr75ZnPNNdeYRo0amXPPPdeceeaZ9l9uc5z777rrLvPoo4+aWbNmmffee88+DycuzyuE8IcL2urVq829995r6tatay688EJz3XXXmc6dO5uxY8eaFStWmPfff99GT7gYcnH84osvzAcffGDzVshZ6dixo7n66qvtz3IRbt++vVm2bJkiB1nwkxX6LYTjyy+/NJ988ontE6dPn24lskuXLnYgh0zyedMPIot16tSxfSP9JiJ55ZVXmubNm5tbbrnF/m3oH1988UX7t9yyZYvZuXOn7XMRIFE+JCsx4auvvjJvvfWWGTFihJUOTt4TTzzRdpiM3q6//np7nNBzu3btrJRw4vEvtznO/TyOx59zzjnm1FNPNWeddZZp1aqVGTlypH1+TnohRHU+/vhjc99995nTTjvNNGnSxE7pLFmyJJBkMOLnYtinTx9z2WWX2XPx9ttvNxs2bEg/QjggK/RTjiwggUjE8uXLzTPPPGM/N6JaJ598sqldu7apV6+eady4sR2gtWzZ0koIeX30g3feeaftF2n8n2NMo7du3do+FvHk74HUIDT0sQz4kB4EiL83EbVvv/3WvhdROiQrEYZQ86pVq8xTTz1lbrjhBnvicAJxUtFpPvHEE2batGn2MZ9++qnZvXu37TiZHnLDbY5zP4/j8fzc0KFDTa9eveyJzMnO8/M6Tz/9tH2M93mESCKcB3PnzrWSz3kyaNCgkvZVRGI4lxlAcJGcNGmSnZYQVSAVf/nLX8xrr71mI1MdOnSwfwcEj8gIotG9e3czcOBAM2rUKBs1fuONN8yHH35oB3mIBdPgmfozcof4rImc7Nq1y0oQkbN58+aZMWPGmMGDB1spRWj4+59++ul2gNi2bVvbT/I6yJMoHslKBCG0yUnASYKcMJIjMoK0vPrqqyWPfvB8PC8nHx0D8+6EShEZ3ocQSYW8hyFDhpgzzjjDDhIYWZcLLpJEOU855RRz//33a1ooBdNpDKBOOukkG01G6BCHhx9+2EycONFGV3jMf//73/RPlAdEhr8P00PIKtEehIlIDn0mEkXERQRHshIx1q1bZ6MmnJSMJvr27WujHN988036EeWF1+H1HnnkEZs0yLxujx49zNtvv51+hBDJgFE3osKAAXHfvn17+p7yQSTgoYceslEDpoiSGmHhwo8UkIjMteGqq64yjz/+uJUT8uzKLSe54O9EP8m0PBLLeyQvhpVg5M2IwpGsRARClNRgcJLukBTmrxnZ1QS8LisV6DCQFlYdMZLR1JBIAuRHDB8+3A4YiHD6hfqJhDot00WU52KFCffnA/ksRA7+9Kc/mf79+9dYH1ATMFWNIJJzQkSZXBGWhDN9Hdbl3kR2li5daoWWqHSDBg2stJDwK/JHshIBvv76azuKYj4USye6EpYOivfxzjvv2DlaOm7C07xfIeIMeQ9831lRwgXUD6KRTN9cfvnlZubMmemjVRfeZ5991uZYMHXRu3dvO+rOR1qIqHDxo1987rnn0kfjC58JU2wkuNIPkhz7yiuv2NVUUYG8GP6+TAuREEyiLiuTtBQ6PyQrIYcksBYtWthQM9GUPXv2pO/JDCM3OsFK12bgfTE1dPbZZ9uOmaWYQkQBIht8f7mY5MOOHTvs9AO5Evw/F1yMHnvsMZuo7uSZkNRJOQEiIyTQkhc2e/Zsm3vGRTgfYeE5brrpJrvkduPGjemj8YO+jCgWF3iiEqNHj7YJr1GFyBh/a5ZDk/vXr1+/SElXTSFZCTFkntMpIgCsAMinA6PDZZRGXYZKw/ubMmWKLWrFCGjr1q3pe4QIL+Q48H1FHqjJ4QfTnKzMIarCCqB8IcGyW7du6VvG5jIQlfG+HiNtyglQuyMfWN7MdBBRljhOByF3DzzwgJ3yYRnxRx99lL4n+pCUy+/G6iGia5XKO4wqkpWQQiE2RmJEVOjA8oVRHEv1WL1TUxDqZoklo0R+DyHCDLlffF/JBWMa0y//hERy6nR07dq1oCWpLHOlUBxwjjJtylSSFwrEcf7mm4RJ1IH8B1adEJGJE4gKUQdWPzFFFuVoSjYQTFZZMiBlekj9ZXYkKyGEzozMdk5SRmC5YLS3YMEC+zkhKSSdkRVPaHvhwoWHEs943sWLF5tt27bZsCM/w2fKnDcF3+h86UCptOksfyZE/frrr9sOnVAso8l8RnDMxbOck9+D1xUirDCFQpI4IXn6GS7+mS6M1DViOgex4ZwoBLescBFmqpSKtV64D1kp5PmpNE2kh1WCVNCNA/QZ9EMsSeb3cqbP4gjfK2paIcus9GKaSFRHshJC6MQwbUZfuebR+aIjG4RIKXjE6hwyzteuXWveffddWyraeQ5OAua4EQ6y56kDQG0Wck3oIJk/p1Itr0uHjQSNHz/erkCi4+D5qfbInHGuVT+8JmF1qjuyhE+IsIKIIytUOmUZPlMOhOe9eQTkp/C4fKaLvLhlhXOHqCODBS9MDTCNW8jyVgYPRB4oZxCXCrf0X+SosKAgV55eufBOu5PbVK4VRyRMI2UM8BhgiupIVkIGIwjmtsl454TNBcvfmG9nhRCQ50Kpb4SHESMnu1OLgZAxUvPSSy/Z6ErTpk0PdW6Ul6YTJkGXJcnkyhCSJAeFRDA6USAyQ2JhPvOrvH/Eid8nqfUgRPjZtGmTFXKWxBJR4ftKHgjC7hYWoh3UNyFqWCjjxo2zU0cOVFMlz4TBhhsqo3Iu5puz4kDC5tFHH13QlHFYoQ8kn4doUU0WnZwzZ46NVDvLzckPoj9k8cDkyZMzRnt4rFP2v1CoHcMqJ1pNCVqYkayEDKZjGFFg2fms6OEEYrWQc4IwymK7eaaBCA8jK05YkY6R0SOyguQgHc4IkZVGRFnAuQ8hoXaKu5OlZgBylM8qCN4/I1SiRHSmPC8nuppaWBqr7bgAEZUgsghIOt95hIXvrzO1QqieyEqhyetcwOjDyElwIpKcP+Sk8ZyICRc+ck6ciItzgcwXoqgMDBCsfPqNMMMgh318KNeQawqZ35WtQTp16mQ/O0STz8KBvo/7kR8ixkSg3NNv9GdIo3fwhaQSCXNHhZEXIm9Ml/P35O/F3xPZJXLGFA4bViIdCC1VbHk8jT6ZOlm5IH+FgSrSKo5EshIiCDuy8daxxx5rIxj5QESFKIhT24STDzN/88037cZqbEzoJAIyakReOMkcIXFGjnRyjqzwc+xEygnMKiQEx5Ehnpf5difSkgtei78d8/wsO2SlkJpamBqiQvidaIcDI1tHWLgIkcNFxINp1EJXuXFuch4y7Tpjxoz00aooKK/JRRRx4aLGICPIyJyKqUzlcn5Huc4Rv/uwYcNs/tDLL7+cPpoZ+kv6LKSGWk/0W3x+CCgwcCNB15EOpr6RAMSB3Dx+ntVFTJXTb7pBcJgCJ2cPGeHvz21+lmgP0+Lsvsw1Cdkkt5DvC2UjEJi7777b9n3cpjHoQ4pyQaSb94N8RV06S41kJUQgE4y+mMbJt0NERPgZIiOMKDB6PitGD4wImf9GgDjh6ChZXcRJREd5xRVXHEokZKMvTj5gZMAJg5DwM2wGxslN1IcOm7+HN3ydDX4POmqShXmfjF55r2pqYWlETwYMGGCnP90gLIzUOZ+4+HBeMlouNF+FKAnToDRvcjo5EERVGDQUc3HieXmvCBEDkajC50BeHFPPuaK3/M48Folw4+SaMCWGCHqfh8gy0+FMhbNsnddiFZYDUkNfhdjQXzE9yGfLwgWi2ETimBJEZPjb8RwM6phGR5TI10M2eH0EikYuICvNcsHvxHeMKJmmgo5EshIiuLBTtp5QYqb50GwgHnS4hDo5wagDgZwAnxknCZ0yS4pZnYPUMBJDTpxcEk42p24EIwXuo+PgOCc8G3RRCwDxKeS9ceJyov/f//2f3ehLiCjhCAsjfVamOEmyYYREeXJquIhGFaJCXKipNZNPMivTJkxL03e5V3AhLPzdMq2mZJqPaDGRGwZkXlmhfySaRsSaaIgzdYegsLUC/S2PIcKC4DKgQ5rIASRCjewgUDyWvhjZ4XtDnks+0JdzvaOPFoeRrIQITgDCzmw7HhaYi0WCigFB+n//7/9lXKopRNghesmF6JhjjrEXoLDChZH3SK5aVGGgxGosIr35wMCJVYoICxEJcviAXBdukyvnBflAhpAM5MgrK4CkIn9EZXhPU6dOtVNKRFZYvk4ZB24zOCRyxuCOqTyiY0SmeQxTSYsWLbI5SBQFZOCXa3UnOEUHn3zySRvRDmPjc/VGIsuNZCVEsFzxD3/4gw0ZhgXeC6OQYiAa8z//8z+KrIhIwveWjfPIJSM/IgjFrBLJF/I3jjrqqIpfREoJYsCALV9ZcWCqhfyfZs2a2QgIkRWmZZAELwgOssIS4UyRFYSCaDRT3kSUkQ5yToiW8L7If+EzRj4AmSUKQ54fSbQvvPCCnSriZ8iJ4j0gOyRm5zOFiKSQQ8XChPPOOy90jaKINKbSComyF4tkJUQQeSACQR2TsMD8t7MsOij8PvxeZNMzYqFDUlMLS+NClW0pPufkVVddZSvEskIl38gKm+6RG+asZuEc4gLGVC8XrmwXrUJXAblhugGhinJkhUgHF0SmnIMUkyTawfQPkL9H7og3mkHuHRdakmudnBX3lAsCQ1SFzxNRcYsMS9DZ8Zppde7juZmC4vl4babfkSBemwgJmxUiH/w/33pTPDfRJV6LyEzYGr838k5CN8nDlUKyEiJYskdnw+9bDCRpOfOsQGiSzpHRRjGdYVAImR533HE2aZcwKquQ1NTC0rhYMY3AKhQ35CQgKlw8iQ4ymswnZ4XzjZU9yIoDq/u4cDIK53wgyZOLMRGBSakROtMGPDerQZAaRv4ss6Xx/0wRAi8kCROViHLOCp8PK5qIUninZrywgOC1116zS9DJb0E4yDFxVjWy0SPSQ6FMVvPweTPV3r59e1tIk9vknxCNoSYVfSQ/4/zL6yOZjvzRpyIqJDETJeFCzdJzpIKBGHkuQO4MP8d743vFv4gKYpQLXoPkXr5rYa1ky2fNZ8bijXwiRaVCshIiOCkI/9HpOBntQaDzw36dsDNhUU5gRhIkpDmjCE5WxIaTgpElJz+rfDjZ3I3HBIXfg86C1UB0QHzBmdtVU6vpxneRhowwSGBZsgOicvXVV9sS6IiFk7eSz2ogRp9Mn5K7wDnHOcTFjDogTPUyVcCUBfsMcQEj54IL1Pbt2+25SGSAZEzyJWiczyTd+4EgsXSW4nYkeEYV+iQiGmzuR3TKDy7sRG1ZpcNni9QhIU45BuDzI2eOyAfigJySq+L0r3zmHGMa5+abb7bfAR5PP0muHu+FvyfREgSUvpnXIW+D4/RtRFf4u5IYC/SXNKLIPDd9K++Vx+XqSxEvvme8RlhlhQRlzg3OHfdnXW4kKyGCE4svATkimH0QOEEoKEeo04HaA8zfsvLHSfSiw0WOGBnQETI/y6gOqWFkw9wsjf+7608UCr8Hr80IlVEknaqaWpgaOSnUAWLUDNQS4vuKqDjFubjIMEpHuBmNZ4MRPBc5pga40JF4iXxwMWUJP3kPRFyoC4LEcCEjAZPnRlwYMHBRZKqIkT2N/7sLM2aC12VFCjWQsk1pRQWiECeeeKKNVOSKBPP3o49h+oh/M60gYgBGv8hSYv5+/A2YruFnGNCRd8Fnxm0a/TDSwP/pJ5nGYYqHPhWBYHkyf1Oey+lnec9OZIU+lu8A/TD9J/8S8aEfpC/2gwgeU46s3AwrkhUfkiIrmDcnAR1nkFAuJzYjMqIqhCEZmWD8hJ0ZMTAaYCRCyJmTjC8aWd3OHC84CWQOzNnn6ij9oFOgnku+FXmFqDScayRCsgqP84WOmD2t3Hv3OMXKeNzSpUvTR6vD953kTKaWuDgRkQGEiPOMnBUuhJyfRF64KNHpU8OFfBjeC+cwP4voMHJn+ihXiX/6RiJE5DtE/TyjXyKyQIKpe9BVChgw8Zkij0S78gFRJeLjBqlEgByZQnCc7wWPJZKCOHE//3Kb5pdkzXeD7w39ZZiXLUtWfEiKrABRD1YEEaosFEZ8hEQJK9PxISmELensGHURtiSLnROBE4iOlbAp982fP9+O4hgB8DM8lsZos5jaEvwezKOTIS9EGCHCSOFDQvZUf6bOB+eDF5bFMp3J6NcPRuOcQ5xfdOxMISBCDBgQEKYYmDJgpQnnIecpEREGK1z0uJ8oABc/cl3IYUFguD8bSA/9RphH5IVAdIsp8UpfEGsKhIgaLU5UpZg0gHIjWfEhSbLCqIvCcEiHMyrLF6cYEeFJZ/4U+NwQDubIibbQSbJBFx0h4WeSpegwqehIoSTC18gFS+/4fxBxAt4/c/FcCPi9hAgjJFey5w+1LUiezLQbMlCSnXOTarbZOmmiGogJkQHOG6SDaCaNc5DETKInjqjweESFc5BcFs45EjadZa+cl/yfgQPTRpngOZg6IimT3yUOEIXgd3emg+IclSUSwwCTPB0Gi35SGgYkKz4kSVY4SensOEkzje5ywbI7Rm90rCw7JgeFjoxRI8+LhBDOdjZjY0kdc+l8AcmU52Shk+DkodPk50kW5P5CYURJ5U9eN9/y/EJUGiIrfE/ZI8jvnOPc5HxhuiXbVBArRIiqEJFEPtyl74maMgXB/ewtw1QC+Ssk7TJNStSTc4YBB9M+TA055x+Rhmzwc0QhOHfjdFFHzui7iGaxlDjsF/EgICp8FxBNBqj032FHsuJDkmQFmFe9/PLL7Rr9fJa7ORB+5uRmsy0+M0Z1JHQhJiSIEcZmeTQlqDlJiHwwR0oSGCM/OlM6YaIvjCCdUDSfu1OWP1+c+gV0uPw+QoQVOlzOCaIXueBcYJqIpPRMkQ6iJXTmTLUiQTQHktkRHYSIZFAGBLwukRyWKAM/yzlL5JMpKXLK+L+zOZ8XEj75Wfb8yrV6JorweRCRYhsBPvNC+sOwQ//LwJL8KHJovJsphhXJig9JkxVgBQCjJU7UfEWBLxGjMkZ0dFzuJC3mvAlNk4DHVA8jQELRTqY6Ro+YMPJDbJAVOkEqdhYa4WHEyHMyWuX3ECLseBMos8HjiHYgBySse2FVDtEXktK5EBEpoc4G+Qice0RR+DmWRrNJHqtQyG3hPAQnAZPXYRDhjLS5TWTHCwMRLuQk9cY1eskgjM+SfA5WadGnhHVZbz7wN0ZAiaTQx5N4zcqjqCBZ8SGJskLnxFwtlQwJKecT3qWzIkmW/BBkhRUIjPTo8JxiRoSTGRFym0gKozjEAkjq4ovI45lH53mQmkJCyzwW4WH+H+nJ9yIgRFRgdM/UKXU7vDVNOLdYlkz+F+cSybKcXwwEuOgSIWHFHXU9nKlYSgY45yCDCiIIREh5fqSH+ygt4C4yB5ybRC8vvfTS2OeE0Y+xeodoM6LIogD6sihJC/0zOUXICRE2InRMtTO4ixKSFR+SKCvA+n86NoSFDitX/QTCiEgIa/z5zFjCzMlAh0ceCvJAvgqbExKSdk4eXgMoPc5yShIAqTZLZ8AUDiO/fMyfx/AaRFQYKRY6dSREVKD+Ct9zJMIvz4BzwCv7SAvnGhdg4P9OUi+rQsjN4Of4Pxcy/s8xd2SF5+CiR7+YT3XbuEAfR4SKCz0DIqLFRK6IItdEde58QCpZgk3fzGIDSlMgpPSrUUSy4kNSZQX4MhAuJgTKKIpRWzbo2BAGJ5TMlBAFjZwiVtQFoMYKOS0k0wJz6oSogdULTPsQ0aEjRDw4wVgG7YwCs0HdCMKadOC830JXMgkRJYhCsuyfCyaDATrwSoG8cM5SEoAoZqbpobjDIIv+iQgVxfuIdLGknP4xDEXxyEniPbKSi4s6/SJ5iJSRoC8N89LkXEhWfEiyrADywTwtowmSschJYTQWFHdhIr54iEZQeB+ckIRnWWrJ+3Q/vxBxhZE80zwMJJyCb+WGaV4GFLwmZeGTuMqOiBTTPwy+yL+j72HFENND9JGUYyByzLQRfVsl8kGQE2c1F1FsIifk/Z1++ul2EEeekzNAjDqSFR+SLisOnHjsdHnSSSfZWipIAgl9NQGSwjJo9lghSYxoTTHSI0QU4cKJsHChJPLJxapco2byyzjvGaUz/cGeRVEeoWeCfoVpaPp6Vi/yeVIUj9WKCAiRXqaY+f2RAFbRsB8SUyssBGCam4soy9ARBaIZJDXzc6y8YlEB9aXoq8grQjKYYkP6Mn2WHOM+HsNFmmkopIQcJFZLssSc7UiYDiT5l76QRs4fS9T5G0V9+wMvkhUfJCuH4YvPyUsRKWdzQEyek6/c4WCenzArdR+QJjpokgB5P3E7IYXIF5LIuShRJp3ESaYnKNtfKrg4UmeEomG8BgUfuUgTRUCU4gI5HAgIF0Jy5ojUImb0c0cffbSpVauWzd9DTHgMS7uZAkIOGjRocChnhRwRPjPkhegTGxRSuv+EE06wfRZyw/Oz2qpt27a2cCWy4ezn46yC5P+sxuQ+HtOuXTv7XGw0SBFBXpuBI1OBTEMhRKz0oi+uqUFkJZCs+CBZqQ4nA6MEOi9GEI0aNbJRDpZNsgooW7XLQiH3hOcj94XoCSFXOgdGEbx+nE9KIQqBKRryvc466yx7njAVQGSAzr1QSKBl9E4+DNMJnHP8n76QAQLnPBdfLsIkmMYBptH47BATfi9nSwKSmYmyMI3CqicK7fFZE4Vp3769lRnkgQUJXpiSZiBF3h4/T1SFImz8nZAPPkv6UBJfmWJHZk4++WRblJPPnGM8N/WiyI+hj2WZOBEV/raICTtrk+CblCk5yYoPkpXsICWM4rB6RiKcYJxcjBxY3scJz4ogljJTbp/RC+FP5nEREf7lNsedcvysLiDjntEbX0pGLYwYGzdubBP76DiYLxZCVE0VkNzOxYrzCclgmoK8EqIfiD15FFzguI+LJhdmLqKcRyx/Zvny66+/bgvFses60xdOjhqje6aAuMhybhNZIBmeWh1UPuVcdxefiyp8jnwOXASpHcNmju5aUZlAHJC2bLKSDf5WPJ4LL38D/ha8FgLEVA+N/3OM+4jW8FgkktVdcZt+KwTJig+SFX8QFjpB5mYZcR1//PF2tEEIlZEC4WM6PmdtP2FQTm5GE/zLbed+GrcZzdFhEpalIBNFrJAb1U0R4kjYfJBpWSSCXAkEgkED5yDCwvmE6DOY4PzicRxjEEDj/87P8i9RUqYomMKglAAXVfpAZ0UJUuNAeQJeh4EJF9c4wFJwViDyGXJBJIcl27Jk8kX4/flsC5EVERzJig+Slepg+kRCmJ4h5MxIBPkgtMnKBDpBOj3CqYy8qK3CsmXCn9RVYeTHfC3/cpvjdI4s/6PmA+HWKFeJFKJSUI8IkSCCwoDBaeQ3ICDUSOICTFE38su4wFL0jSkMoihcmMmJYJBBrgSPdY/ciXxyMT7qqKOqbSpKHhkrTfhZponiUtuI34uoyf/+7//a6bRsIsLnidQgfJKVyiBZ8UGyUgWhZj4Dli4zRUMHxciNredJwGPERSEpYPqHZDTmgOkIhRDlgagj5xmi7wbJYCDhlNL3gz27mM5ghZ8XBg30geRSMLDwCgkXDOSH/oABSRzqrjDdwkCK3BH6u2y/E/cROaY6t2SlMkhWfEi6rCApjKjokIiYEPYkKYy8EpLPMiW5UniIqR2mgRjlCSHKgyMr9FNuSLykFL5TIdqPlStXWlnJVo2WizerVHgM07Leize5FUzZ0jcgPFHOqUDOyI1Dvlj+6xctmjt3ru3naJKVyiBZ8SHpssJcNIl2LN2jsyJ0nGsvEE7wG264wUZeJCtClI9sssI+QPnKClNJfrICJHpygWDKl4iCF7bGYBDDktqo7sDM6h0iVCwJJrLChdENIsPqJ6fQG/9n+ptcIMlKZZCs+JB0WWFqh0gJKwqYnyUXhXluluH5LZcjn4VOlDwWIUR5qJSsAEtwyY1BSDj/vRChIUmXBPkorhAiUswAiwJ7bBjpBpGhxhN5QOTbIWcM2sjJYzAnWakMkhUfki4rDqzGWbVqlbn77ruttHCCkhibrbw9y5FJPKM2gBCiPFRSVoA+ACEhosBSXy9MGdM/UDCSeiRRgc3+HNHKVJp+9uzZdsEAKx7ZF4lCbOx/xr+swJKsVAbJig+SlSMhmsLKHRLuEJdsskIpcEYgFDRiFCKEKD2VlhVg3xsqpxKBoCaIG5b58l6YLqJ/iMJFnLozRIxIlmXVlBciRggJCcskI1MsjggLq7AQmELrrIjgSFZ8kKxUh2kgwqV0lG7Y64LwMB0lnRZhVToAli4LIUpPTcgKsNcNQkJuBwm4bihcRkIuAxoKRjqrBMMIRdmI/hIxoYClFwZaTPUgJe6pL6QGeaEflKxUDsmKD5KVI2FkQd0FTnA6JQfkhOS0Y445xo5CmN9FVpguYvlyHJY0ChE2akpWOPcpUUAyav/+/avVRWLgwgUFoaH6bRgLOrJBIAMvfodBgwbZaLAb6kmxyokyDJmSiukLiRxrGqhySFZ8kKwchg6HkRL1Byi37Ya6DlTSZHlzixYt7AnOSUxHSlKu9/FCiOKpKVkBLhysDiSCQvTUKySU8ufCQgmDl19+OX00HDCdzUaM9GWU1vfKBhdCatTwubBcO5tsEVki4ViyUhkkKz5IVg6zceNGm4CGjHg3K2TkQVSFDo95bHZDZgqIjoqlfYxchBClpSZlBbZv3253IGY6ZNGiRemjhyH6QOIq0dhMias1BTsUM6CiqKV3DyBEhsq8fCbshkwEJhuUZpCsVA7Jig+SlSoo9DRs2DArJCTYuQs/cbKTFU/nSLIaMC2E2NBIyHXvKSKEKA01LSvwzjvvWBmhOBr/98J0MCuEkBr2MqppSJglQZY9k1i16GX69Om2wB1bFnhFxotkpbJIVnyQrFTB1uhsZMa25t6qtSzrQ2KQGWd1EKMRRIU5X0Yq2oRQiNITBlmB+fPn24t206ZN7ZSwG859ctgQAKaNvFHZSsLnQmIsCbNswOqFXd35POnrMomMF8lKZZGs+CBZqYIkuaOPPrpaOW2+POzSipgwTeTgyApfKiFEeQiLrDBIGT16tJ1aoWQBCbZuGLCwRQfCQmIutysNURL6KqasJk2aVG1bAHZYJr+OXLtMIpMJyUplkaz4IFmpKrnP8j0SaL2jJpbzsY8GibduHFlRUTghykdYZAWcBHyEhB2cvUuWubiwMpCiakRamCquFGwBcu+999r39sQTT1QTFaLF5OIhMtRRyRfJSmWRrPiQdFnhpGYO99hjj7Vborthk0OmeagzsG7duvTRKiQrQpSfMMkKcNGmGBxSgJB4i0aSfM9UMkXl2AiwErAk2SlkyefhXWZNX9W5c2f7ntkmpBAkK5VFsuJD0mWFLwcRlUyVaOnkCPt269at2khFsiJE+QmbrABl9tnIlKTaTELCqiAnIXfNmjXpo+Vj8uTJtp9q3bq13ZDRDfWfBg8ebEWGpcpekcmFZKWySFZ8SLqsLFy40J7IjzzySPpIFYyY2rdvb5cl09l5kawIUX7CKCvARobUXKJ/yCQk1F0husKFh+T9csHOyJRQYLD10UcfpY8ehtwVpqWIEFMErlAkK5VFsuJDkmWFKpXM47JpmTt5Ft5++23bCXCyeis/gmRFiPITVlkB8tkQEvbd8UZlyVehvD0Dodtuu83s2rUrfU/poM8iYZZlynxOXpYsWWI/O0SGzysIkpXKIlnxIcmysmzZMtvZ9OjRo9o0T9euXe2Jnq0yrWRFiPITZlmhz6BYJLkg9AOZiq9RLPKPf/yjTcj17jFUDBSrcyppsxO0F6aiGISxHUgmkckXyUplkaz4kFRZYeTTrl07G8Zl+3Q3bA1PUm2rVq2yblImWRGi/IRZVoCoKzkhPH+vXr2qXdS5TXIr95PAX4p6TFzQOnXqZEvp85zeJF9WNJJTw+aFM2fOTB8NhmSlskhWfEiqrNCBUW+gQ4cO1ZYYPvTQQ/ZEpxBUNiQrQpSfsMsKcCEnEos8sB+PV0g+//xzO/AhClKsPJAwS7SGcgrUdfEOprjYsVqJ98JqJW/EuFAkK5VFsuJDEmWFkQidC1NAVHR0s3nzZlvdkRVCfl8WyYoQ5ScKsgKsELrllltsMuu0adPSRw/DtAz9Srb8knxh2ok8GCQi08qfAQMG2N8VkXHvGh8UyUplkaz4kERZoWYK0zws9fOOTNjgi1EJHY7fqESyIkT5iYqsANPHCAml7pcvX54+ehgSXskh4TEMigrllVdesQOsa6+9NuPKH6pwn3TSSXYVo1dkgiJZqSySFR+SJitM+TDNQ1Ic2fxumOtlMzI6k1zZ+5IVIcpPlGQFSNpHSNifh/L2Xl544QU7xcxAybsHmR/0zyyVvuCCC8zq1avTRw9DCQZ2gKf/2rJlS/po8UhWKotkxYekycoHH3xgO7nmzZtX+zKw1JBKtuPHj6+WtOZFsiJE+YmarADl7MlPYVdjKtq6oV+hHD7RW1Yh5nNB+vTTT21/la0I3dq1a22kGJHh/6VEslJZJCs+JE1WmOY57rjjzJw5c46Y5mGUc+ONN9rlfnQOuZCsCFF+oigrCAll7UmC5f15d2FmGw+Ocz87uWeq4+RAITcnYXbUqFHpo4ehvgvl/RGZBQsWpI+WDslKZZGs+JAkWaGSJBsWss27tyYCtQrYdTnTUsBMSFaEKD9RlBVASHr27GlrrBBJIfnVDYMjEnJPPfXUjAm5QIIslbV5DqauvTs5k5dy11132TyVMWPGpI+WFslKZZGs+JAkWWGap1atWmbixIlHRFUYvbC0kDnhTPPMmZCsCFF+oiorwICIiw6rdyh772XTpk22uiy/H7kuXhAQRITyCnv27EkfrYI9fvr162ejxAiNV2RKhWSlskhWfEiKrLC0kIgKpbGp/uiGLHtO+oEDB+Zdl0CyIkT5ibKsAEJCn1OnTp2M1bDZ24d6T/QlrCZyoMZT7dq1ba7K1q1b00erYJHAM888Y3+njh07VhOZUiJZqSySFR+SICsIiDPNM2LEiPTRKpAOhINdUlnSnC+SFSHKT9RlBfgd6tevb5Ng169fnz56mOnTp1sxuemmm8zOnTttP8TjyZ9jjzIvs2fPtgm85NiVc5NEkKxUFsmKD0mQlW+//dZcf/31djkhnZyblStX2mXMzC/nk6viIFkRovzEQVYAwSAJlkgJFW3dMJji9+N+LlJEYthElZ2bvdBfEYlBZCg0V24kK5VFsuJDEmTlpZdesp0VZard0zyUxb7zzjvtKMZbyTYXkhUhyk9cZAUof8/AiNU93gsRxSnZW4gVQlTBpVKtF+qnsECAzyPbBqulRrJSWSQrPsRdVsjKJ3k200iE35kTkYx6b7Z+LiQrQpSfOMkKq3vuv/9+uwyZ/Dj3kmX+z++CqDCo8ibMsgiACxirhzKJTLmQrFQWyYoPcZeV119/3f5+jFq80zzdunWze3WQYFsokhUhyk+cZAVIhr3tttuslLA60YHfj8q299xzj9m3b1/6aBWs/Ondu7ddVYTIFDqwKgbJSmWRrPgQZ1lhmqddu3bm/PPPr1aieuPGjbbiI7UOgpz8khUhyk/cZAWYziEvBQlgyw+q0lIq/4YbbqiWzwIUjkNUOnXqVE1kyo1kpbJIVnyIs6ysWrXKJqoxzeNdkkyRpWzlq/NBsiJE+YmjrABl8Rs1amRXCJEw27hxY/Pee++l762CPmvKlCl22TOl+ym/UGkkK5VFsuJDXGWFWgRdunSxskItAzeUqGazQuquBD0JJStClJ+4ygqwB9kf/vAHu/Ght48CjhH9JU+FgVdNIFmpLJIVH+IqKyTTUjsl0zTP0KFDbQfAqCUokhUhyk9cZYVS+eSuUC9l6tSp6aOHYcNVVv6Q20IEmITcSuaqOEhWKotkxYe4ykrfvn1twpo3eZZdUNlGnRDs119/nT5aOJIVIcpPHGWFhNn77rvPvic2VvWu/KFfYpBFv0yl2s6dO9slz88991z6EZVDslJZJCs+xFFWNm/ebDsyCsF5TzL222BjMDquQorAeZGsCFF+4iYrTE+zsSHLl3nv3gvSf/7zH9O1a1d7P48Dkm6vvfZa85e//MWW4a8kkpXKIlnxIY6y8vjjj9viSnPmzDkisZaNxVq0aGGnh7z7AxWKZEWI8hM3WZk8ebLtb0mY9UZ2GTw99thjdmqIitrulT+U4L/wwgtt3/XWW2+lj5YfyUplkaz4EDdZYdMvlgXSvJ0Be3Acc8wxdn+gYqIqIFkRovzESVaWLl1qk2kzbfsBFHtj6poICuX5vVB+n/uuu+46u/y5ElDhm8+fCrui/EhWfIibrIwePdpuWMiW7O6oChUgb731Vptd//7776ePBkeyIkT5iYussCyZFYgUoeT9eCG3jnpQLGPm92VTw48++ih972H4Hai50r59e7vnmRemmYiC7N2713z33XdFN5KAiawwFcVzJr0VO8jNhWTFhzjJijO3S6fgneahMzjuuONsBUhO6GKRrAhRfuIgK19++aWd9mF6Z+bMmemjh9mwYYP9Xc477zz7+zLQYrVi27ZtbcVbN0Q4HnnkEfv7PPjgg9WSc6nFQuSFz4xCc8U2EnvJn2FFUpIbwsYeci+88EJZhUWy4kNcZIUoCtM8RFXIoHdHVRhpcOIzcsm05XoQJCtClJ+oywr9BPWeuOA//fTTR+wHBMgFURSmf5ypH5YoP/roozbvjm1CWD3khogKmyGedNJJdkqbSt0OfC78ruyFdvvttxfdmAbq0KFD4hurs5BJKqLzNy0XkhUf4iIrjEBuvPFGuySZ1UBu2FadE5v9NbwjkaBIVoQoP1GWFaIgSAevjXR4k1RJoGUvIO5HOtwiw0XLuQ/JcQsJ7Nixw5bnR3JmzZqVPmrs1FGtWrXM4MGD00dEKWB7liuuuML079+/rPVuJCs+xEVWFi1aZJckk03vPrH5YmHGWDGbGpYKyYoQ5SeqssJUMwmzTKPQR1AEzg07MFPojehJnz59Mo7WnagL00czZsxIHz0MeTBEUMhzcSrcknhLVVymioC+kAKZ5J+I4LAaq0mTJnabFslKDREHWeFEb926tWnQoEG134PbzDkSNi1lRrtkRYjyE1VZefXVV+2ePqxKZIWiG0SG90KiLAms3rwUN5s2bbLR4myJuUuWLLGfDxdS5Gbbtm1WVqjRgqgMGTLE9lNU6y5Frl5SIX1AslLDxEFW2EODhLT777//iKgKeSt0ZpzoL730UvpoaZCsCFF+oigr69evtxsUsvJwzZo16aOHYQkyyatU0v7000/TR7OzbNky24dlWvJMHzdx4kQ7HcSGrXxeSBD/J7pCZIcpcPYhcufxicKQrISAqMsKXxwKF5E8693siyXKhEiJupT6CyZZEaL8RE1W2M6D1ThEVShK6YUpmSDF3ViFQj+dqZgcuS7kqPCavDa1WGhs4soxGpEeERzJSgiIuqyw1TonI9M83jAnXyzucyeglQrJihDlJ0qywsWF1TNsPkjCrDeSQVIspRXok+bNm5c+mh/0beTjESm59957q60Qokw/x4mi8Bheg5pT/fr1s/17JavelhNyf/hd8wGpoIQFn3uxKQCSlRAQZVmhM+AEJURKqNTNJ598Yud6mzVrZsWi1EhWhCg/UZEVEmYRA6ZgHnjggWoXNC48RIARGUorBMEREl6DXBTva7CdCBc5poucHeVZvcLv/vHHH9vblWDXrl1lS+glaZnoVC6Qk2effdZGolgFWuz2KpKVEBBlWWE5GdM/TPN46xdwMjOP65y0pUayIkT5iYKskCfHjsjkzSEkVDp1g2SwCzy1Vvi3mPIJiECrVq3sCiH2GfJGkylA5y7dwKaIPJbk20qBtC1cuDB9q2ZgsEoUy5kyKza5WLISAqIsK1RwZKUPy5bdcGISUSGyQpn9ciBZEaL8REFWuDDTD5Ewy5SDG0dkiIYgMqWIOPC7Ez05++yz7eKCbHBRZVqKAR2S44b3xc9yEaYYHY2LI9NFRCTc1wOmXlg6PXLkSFuzyqngipRRkZfHU4UXGEDSL1JQjqkw54LLz7ByiWNz5849NI1FX03CMe8D+fK+Tze8ZyLorHjiefk5EpTJ52E3fXf0iBwe8oIYtDpRdz57Xpv38OKLL9qK5/kiWQkBUZUVih81btzY2rN3mmfUqFF27nbcuHFlW64nWRGi/IRdVqi/waofkmbfeeed9NHDIDK1a9e2ia9ekSkGPhemv6mzgiBkggsf+6E1bdq02vJoZIH7qMjKhZ7oNIXrhg0bZv+lYiufMfD5cYGnLgw/s2LFCnucrUuYluJnnARe3gv9MnsXObJCJInpG4rcMQXWqVMn20czdcZzsbkjz8Vj/CJAvGd2zScHkeXgfO7k8bDSieekSrnzGXMcWaEoH5K0c+dOO7jt0aOHfV9M1XXu3DnvDSElKyEgqrLy+OOP20Qy714bhEH5QtN5kJlfLiQrQpSfMMsKo3pEgJU33ugukPzPfjIsY0ZqSgnRAp6bQdny5cvTR4+E/o8qt23atKl24UMUEArqsQCRE6I1XOy5GCMvTiE6Ku8S1aBv5bmcn6FiOKID7kEhU0/ulVBMS1Hcjpox8MEHH9jbCAcSQGVYlnvngvdMxGbBggX2s6eGjRM1IcrD+3G2LKBgHsLlgBwR2XKkbf/+/VZckKR8kKyEgCjKCvORdBJXXnlltWkeclSoZDt8+PCyRVVAsiJE+QmrrHDRo6AbCbNcsL2b2zFip39iA7xS5m/QpxFZQIAYkE2dOjVrDgylG3gP7E3kXUHDhZ+oyvz58+1tqns7F3cWLhAFYaoEELH77rvPSgpCQNQCiKYQzSBiwdQMkDvYsWPHQz8LyBQVxJEFPjP6TKIi/A2pQ0MSrDfnMBNuWUF0eC/OtBqfP6/LVBIwncWg1fls+J4QUXHDtQJhywfJSgiIoqxgyZSpphiSG+ZWMX9ODCeEWS4kK0KUnzDKChdNClCSh0LhNe+FlgEU/QIJ/mPHji3ZoIloABdcIjmICoUuiXhkgz6dPooLrFdoHFlxllAToXBkxbnwT5s2zUoO0RnyW9hAkWkfplYcOIasIDfA+6EgnSMNsHr1ajtdzyoeojNM9RD14aLP8waVFd4XF3fwSpIjK86SZaaw2NbA+Vvw79ChQ+10UD5IVkJA1GSFpKjmzZvb5FnvHDAnL1EVkqvy+fIXg2RFiPITNlnhIocwsPKHi6N3c0IuqOR8IDJcIL0Rl2J48skn7dQ35fTpe3h+IsgM2ojeUBSTKRaW6SIF7EJPEi4bIXrfB/kfrCpypnoWL15s82qAxxIxIXGVfg4p4P98jnzmzr5D5JtwEae/Jf/DgQs6OSRETZAkhKZbt242t4X3x88wLUYfTT4Jicn5CADvGbFhqodkWqaPnGkdnov3TP4KkAjMRR/BA16TvpqBLtLEZ0PyMcfzQbISAqImK9j+scceaxO13CMWdjAlzEiyVqnnhzMhWRGi/IRNVrhQkjDLFIR3NQkXed4nQkGkwSsyxcKqopYtW1p5YLUjiaxMpyAkvCcEid+TyDKfDVNQRx11lJk0aVL6GQ6DRDz11FM26gGs5nGmd+hXWfnj5MIwDcTvw+/Gxd7JE+TzpM9FXpiad+Bvg7AhMIgK8FmRH4IgMKXkPDcJuciOX4TIgfeM8BA1QcZ4Xecz5ud5z85mtSzA4PXcESXyYlg6ztQP0lHINU+yEgKiJCuEVxkNMF/rriUAdEgkmxHWK+WGhdmQrAhRfsIkK1zYSWplBY6zVNcNuST0pYgMq0/KARdnnpv+j8gFeSPIA9NNTGuQ3ErUh88GMeCil08RNeGPZCUERElWMPzjjjvOrgRyT/MQeiXsyFI+x6zLjWRFiPITFllxJ8wyZeKFaQciGvQJrESpKRCZo48+2l5UmQIhAVUbGBaPZCUEREVWGFGQSU7Y01vPgPdOMhvC4hQbKjeSFSHKTxhkBQHgPGd6x5vUD0Q5EBneJzkYNQnTH+S05LskV+SHZCUEREVWmONkmofMc3dUhXninj172nlbEmwrhWRFiPJT07LCBYP8C1YfeiO6QC4GhdKYenGvgKkpHFlxkmBFaZCshIAoyArTPCyHY76YjscNnRZboSMN3uV55USyIkT5qUlZIWmTlTSICq/DOe+GiwnJotzPSp1SrvwJimSlPEhWQkAUZIUvCu+RpYLuFUDArqLMI3sr2ZYbyYoQ5acmZYWVh0RMiJx4y8AjMggKokIlVK/I1BSSlfIgWQkBYZcV5IRCRCxJ9s4HU2elQYMGdp1+pTsLyYoQ5aemZIVEfSK21PLItPKHyrGIDOe/3342lQZZqVWr1qFlyKI0sFUAeUnsKC1ZqSHCLiuUjEZUqEzr/ZKwoya7nWaqI1BuJCtClJ+akBUuTNQwYXWPs/eMG6quIjJcvLJtIlhTICvUoWKAx3tjZZJacY3PkWJzlMwgki9ZqSHCLiuUta5Tp44tsezmq6++svsD0ak4hYcqiWRFiPJTaVlh5Q+1nFhdyN4xXrhw8br16tXLuoFgTcLnQhVv9ixCtijnUEzjAk0fy+/MRodJbEz/MGDmOkTEKp8CdkGRrPgQZllh/wfK6lMG2rsR17PPPmtOO+00M3r06PSRyiJZEaL8VFJWqElCUbUTTzzRVnf15sexn40jMuSzhBEucPSJDz/8sI0C8G/QxvJn+jiuDxTbJA+G50xiGzBggK20m8/u0MUgWfEhzLLChlm8N/ZxcENUhU2qqLniLXldKSQrQpSfSskKS5JZmkzCLEuVWYHoBpFhagWR4b14RSZsMPpndVIxjWJybBxIRIHfn9850+OS0JzPs9xIVnwIq6yw1wR/NEJw3mkedtZkHwyWFdZUdUbJihDlp1KywkZ9FH3jIvH111+nj1aByBD+R2R69+59aHO8JMA+Oqy2TNLvXJNIVnwIq6ywUSFC4uyi6cD+QPwhKQJHMllNIVkRovxUQlZeeeUVGz246qqrqu05BhMmTLB9ERW0d+3alT6aDNioEFkp9aaMIjOSFR/CKCssBWQzMJYle5cFsj8QoVjvjpqVRrIiRPkpt6zQ75FEmqngJCAyf/nLX+wFJJPIxB3JSmWRrPgQRllhmoeQK9EV9zzhvn37TIcOHezJ490fqNJIVoQoP+WUFRJmmzdvbmrXrm3mzp2bPnoY+sSLLrrInH/++XbH5SQiWakskhUfwiYre/bssRUj6SC80zwrVqw4tD9QpTYszIZkRYjyUy5ZYeBz99132+kdVhZ6cUTmzDPPzCgySUGyUlkkKz6ETVaop3LccceZJ5544ojiO2Tns6yQueUw1DeQrAhRfsohKyTMsgyX6eRMAx8uEuxFhsiMGjWqxpL4w4BkpbJIVnwIk6zwx2nXrp0tuOR9P0z7UN6a5YM1HVUByYoQ5aeUskKiLIwZM8YWTaOv4eLghgESdTWI4Pbt27faEuakIVmpLJIVH8IkK+zHQa4Km0W5t2KnA+nTp489aUiwDQOSFSHKz8qVK31lhU0Ec4GsEEWhIi1TyfQjXBAoj+CFSAoiQ32RvXv3po8mF8lKZZGs+BAWWaFCLXPIRFXooNzQMZGRz9LBsIx0JCtClJ9ckRUirblAVkiipWYI1bBZ+cMuul7mzJljp5mbNWtmPv300/TRZCNZqSySFR/CIivr1q2zIxo6H2+lQMKynDAzZsxIH6l5JCtClA6mdhmkzJs3zyxcuND+SyPKykBl6NCh6UdWwQanDRs2tFWskQweO3/+fJvzxnJjqlw7uSarVq2ydZkok8+/maKzPIaVPzwffZGoQrJSWSQrPoRBVijj3K1bN7tx1quvvpo+WgVZ+XQgZOaH6YSRrAhROqhhwvlPFIWLIxvHcZuICIMYb3HIbdu2mWuuucau1kFA2LSPqCxiw47ITOc4JfGRII7zXCTZehNm2YPs2muvtfcjOuIwkpXKIlnxIQyyQkdFB8M0z08//ZQ+WsWQIUNsaHbixInpI+FAsiJE6WApMRvFca5zcSSaOmvWLDNixAi7Z4+3cizR16VLl9qkWeoyISEIB/Jy/fXXm02bNtnH0Z+w4oc+jkKS3rLxXBzITyGnhedK8sqfTEhWKotkxYcwyAo7eiIr3noGdFBXXHGFufzyy6vtD1TTSFaEKC1cEBEKhOO+++4rqLNmMHPhhRfaytdbtmyxxxCPkSNH2sjMPffcY7fqcIPI3H///Tapn9cNwyrDsCFZqSySFR9qWlYIwVLu+oYbbqjWWdDRnHHGGTakGzYkK0KUHs4rxAHBoNbJzp070/dkht1wKerGVNBNN910SFRg9uzZVnxatmxZbXd2RGb48OG2lkrHjh3tRUJUR7JSWSQrPtS0rDz66KO2QyGU64adTxEY8lW+/PLL9NHwIFkRojxwbg0cONDWVfITFqaCEBVyW1q0aHGEqJCnQt9x5ZVXmg0bNqSPHmbmzJl2IEQkxrv/mDiMZKWySFZ8qElZ2b59u93ptEmTJtVqGrBl+2mnnWZXAYRxHlmyIkT5IMpKlVlHWLwDFpJnHVFxT/0A23Q0bdrUTguR1+KFpcxs58Fqoo0bN6aPikxIViqLZMWHmpQVpnkQkrFjx6aPVEF+Cn8s8ljcnVCYkKwIUV4QlgEDBlSbEiKiwianrBhileDHH39sj8M333xj2rZta6eFJk2alD56GESGiwEX4CVLlqSPimxIViqLZMWHmpIVRkrMMTP68YZ5qZnAiIq5a/f+QGFCsiJE+UFYmBJiUENuCbJBRIVlykwTu0Xl559/Nr169bLLlFlF6O07SLDlfEV+iNyK3EhWKotkxYeakpXJkyfb/TdYmkiSnAMnBZ0SeSzr169PHw0fkhUhKgPLjRm4sKyZaAq1WJj6cYsKIkL+G3koPXv2rNbRUyGb4+wRxBJpxEbkRrJSWSQrPtSErDDNw0We+WbvNA/7A51yyil2E7EwLyWUrAhROZANpw4LERVvv0FVWqZ+6MtWr16dPloFYjJs2DBbS6VLly4VvQhEHclKZZGs+FATskJZbGobeEO1jKCor0AlSZLgwoxkRYjKw15B3nopQN/BAIfICnuMuff2mTp1qp1GovhbmAdAYUSyUlkkKz5UWla+++47c+edd9rk2XfffTd9tAo2FyOq0rVr19B3KpIVkXSWL19ui6qxIzq5IuVuVKJlqof9gjLd165dOxt5YXqZpcxr1661ckNeHIMjpo769etnevfuXZbmvBfKMDil/qOOZKWySFZ8qLSsvPbaa7bjoMNxR1WoJkklW3JVXnrppfTR8CJZEUkHUSHRlemXMDRnXyESbEnQ5/ykkVDLfWxkSN9TzlarVi1z2WWXhXZhQKFIViqLZMWHSsoKF/hOnTrZqIp3mof9gQjhEqr17t8RRiQrIumQsIokkCPChqNhamzdgUjR17DnT6bHlKNxoaGGS1wSeCUrlUWy4kMlZeWdd96xIx6medwnM0XfKABFCHfGjBnpo+FGsiKSDlMeyArVpsMIlWuJ5FayqKRTdVuyIoIgWfGhUrLy66+/mh49etiRjncbdkYk9evXt/PMlfwDFYNkRSQdR1Y4f0UV7PgsWRFBkaz4UClZYZqHuWSmeViG6ObJJ5+0JwTbvEcFyYpIOpKV6khWRDFIVnyolKywrJAkt1mzZqWPVEEI+fLLL7cbjlF/JSpIVkTSkaxUR7IiikGy4kMlZOWTTz6xJzDl9b1RFfb4IOJCJdsoIVkRSUeyUh3JiigGyYoPlZAVKk/yhfduLEZxJzYiow6Cd1fVsCNZEUmnXLLCuUXByA8//DB9pDhIsGV7jzlz5qSPlA/JiigGyYoP5ZaVzz//3DRp0sRcccUV1T585IXlynRMUUOyIpJOuWSF6eBmzZqZFStWpI8UB7LSvXt3u4NzuZGsiGKQrPhQblkZOXKkFZLRo0enj1RBJVv+IJwITBNFDcmKSDqFyMqPP/5oO999+/aZr776yq4OdI5/8cUXdud1p5AaHXarVq3MqlWr7G0KRhJ5ZeDD44HHuIWA/+/duzdj5VhkhQq37kERj+c5d+zYkTFXjoszvxf38X/v9HU2JCuiGCQrPpRTVkiedaZ56KDczJs3z1aUZLQTxRNbsiKSTiGywvlOaQKEAXGgP6Azfvzxx81tt91m2rRpY5577rlDUoOsrFmzxv7s4sWLbTFJjrH7Mv1Kt27djphWZpqH0giOzLjxygrPz8aG7du3txeFu+66y7z66quHdn9HYIjE3HrrrbY8f+vWrc2zzz5r78uFZEUUg2TFh3LKysSJE22p6+HDh5uDBw+mj1ZtOnbPPfdYWaFwUxSRrIikU4issArwoosuslM7TpE2ctnY64fbdNIIyYIFC2yExS0r27dvtxf/Dz74wFx77bVmyZIlZuHChXbDQiI0nItsgIqwZMKRlSeeeMLefuyxx0znzp1tpAaodnvzzTcf2quMyrxsB0I/RckFznP6sHyQrIhikKz4UC5ZISTLhZzOzDvNs2zZMisx7C0ShdL6mZCsiKRTiKxMmzbNRlCc6AXTKkRaiGCMGzfOjBkzxua2IS9M5SArlPEHJIUoCo+jzAGJspx/t9xyi+1b1q1bZzdHdSrpUnSSfo1IDVNJyAqlE4YOHWpfn9d1b/eBHHXs2NG+Bv8nGuweRCE6/Gw+SFZEMUhWfCiXrNChsPspYV73pl50UoxckBXv/kBRQrIikk4hsjJ16lQrFA7krrALMhER+qCnn37ali9AEugjkBV2YUdAkBymYSid37JlSzN9+nT7HEzl8HOjRo06Ih+FKSekB8F4/fXX7TFk5amnnrKRGF7XidoAAkOkBVlht3eEg4iKA7tKS1YkK5VAsuJDOWSFqArzwHzJvdM8dECICvsD0TFEFcmKSDqFyMqUKVNs9WoHoieICnWWHJAUck5Ivif6sXbtWtsvUTCS+3idRo0aHZKVLVu2mKuuusp06NDBRl+yQWSFKK4jNIgLOS+UTgB2eW/btq3ZtGmTfWy7du1sVW3eI8/La7JQIB8kK6IYJCs+lENWli5dak488UTTv3//Q1n/QEdEwhq5Ki+//HL6aDSRrIikU0xkBT799FP7HHTMiAzRiz179tgLIzkkDGyYJkYsSHJFNpiicTY7JSLCxfTee+/NuArIwZkGcnJWdu3aZRP7ERRel58nauPk1TGtRDTHkRZeWzkrkpVKIFnxodSywkWck58dlJ2lhw6EVs8880ybhR/1L79kRSSdQmSF88WJZLghivLxxx/bAnBM+SAdNP7PkmWg0+Yx33zzjV1KzHMB/xLBXbRokb3tBxcBXsuBSM3WrVttn+Tkurjh8awKInrTpUsXM2HChPQ9/khWRDFIVnwotawwGjr11FNt4px7GSGjFuaRa9eufWhkFGUkKyLpFCIrpQZ5IWeFXJNSJ+mTz/LWW2/Z5F3yYYgI8Xr5IFkRxSBZ8aGUssIJSvIsURUy8t3QoZ133nk2cS5KGxZmQ7Iikk5NygpTOkwPlaOgJIn/1GxhioipbHJZ8kWyIopBsuJDKWWFZDSmeRiJeL/cZOKzYSHLD+OAZEUknZqUlbAiWRHFIFnxoVSyQhIbhZSIqlAAyg1zwmTUN23a1CbQxQHJikg6kpXqSFZEMUhWfCiVrGzbts3Uq1fPZvF7v9jUSEBieK24IFkRSUeyUh3JiigGyYoPpZIV5pD5Ur/wwgvpI1Xw4VMiu0GDBnbjsLggWRFJx5EVNiIUVUhWRDFIVnwohaywKdmll15qCzS5lwcCVSGJqrAfR5yQrIiko8hKdSQrohgkKz6UQlaoQknyLMv83PAFZ+fSunXr2mmiOCFZEUmHCrTnnHOOHYiwtw/nf1gbU9GU86c8P31eORqF45gKZ5d5yYoIgmTFB06yYmSFhNnrrrvO7qhKZUg37A90xhlnmIcffviISrZxQLIikg4VZxs3bmzP/bA2pp/r169vB1OIBLczPa5UjfIMVMaNS38nWakskhUfipWViRMn2kJvLE1mRZADhZrYwv20004z7733XvpofJCsiKRDvaQVK1bYrTMWL14cykYZffqmk08+2U5bsbFhpseVolFb6tVXX7VVb919YZSRrFQWyYoPxcgK+Slt2rSx0zzs8+GGk5bnZQMxdyXbuCBZESIaUI32hBNOqJb8L3IjWakskhUfipGV2bNn2x2UBw8ebDcVc2DfDSpAUnZ/9erV6aPxQrIiRDSgIi2y8vzzz6ePiHyRrFQWyYoPQWWFqApbs1OxduPGjemjVbC3BlNDXbt2Lfm+HWFBsiJENJCsBEeyUlkkKz4ElZWlS5eaU045xW697s58Z8qH/TS4j6mguCJZESIaSFaCI1mpLJIVH4LIChdqNhEjeuKd5nn//fdt5n379u2r1VyJE5IVIaKBZCU4kpXKIlnxIYisrF271q7y6d69u81PcSBvhfwV8lhmzpyZPhpPJCtCRAPJSnAkK5VFsuJDobLClA8rfPgZluu5ofDbueeeawvB7d69O300nkhWhIgGkpXgSFYqi2TFh0JlZdOmTbbQ21133VXtw6Q6JM+VhE5BsiJENJCsBEeyUlkkKz4UIisHDx40jzzyiJUV7zTP119/bRo2bGg3Lfzmm2/SR+OLZEWIaCBZCY5kpbJIVnwoRFYo/OZM8+zbty99tIqxY8faxFqeLwlIVoSIBpKV4EhWKotkxYd8ZeW///2vGTJkiBUSSuy7YdVP06ZNTaNGjcyXX36ZPhpvJCtCRAPJSnAkK5VFsuJDvrJCYi1TPJz0rVu3Nu++++6hqrVTpkwxderUsSuBkoJkRYhoIFkJjmSlskhWfChkGoiT/s4777Q7l1588cXm3nvvNcuXLzetWrWyt727LscZyYoQ0UCyEhwWUiAr5CuK8iNZ8cEtKyTJfvDBB1nbhx9+aCMqTzzxhLnwwgvN6aefbs466yybcIvEUHY/089FqVHUjiXYubZ4l6wIEQ2SJCv0W+QW0o9l6t8KbTfffLONmq9bty7j/Ulr5d4+RrLiA7KCbCAhREo4qY866ihTq1atau0Pf/iDOeaYY8yxxx5rjjvuOPsvt/k/LdPPRK398Y9/tBKyY8eO9CeUGcmKENEgSbKyfft2c9FFF9l+LFP/Vmijj+e5jj/++ES3k08+2UrbU089ZX755Zf0p116JCs+ICtsRkhk5cYbbzR169Y1jz32mG97/PHHbbKtu3Es02Oj1q6//np7chJF8kOyIkQ0SJKs0G9xcaUfy9S/Fdq8/XxSG9XaL7jgApvD467aXmokKz64ZaV58+bmyiuvTN+TTPhiMqL46KOP0kcyI1kRIhokSVbot+i/6MdE6di8ebO9Ng4YMCBnikAxSFZ8cMvKDTfcYC6//PL0PcmEondMd0lWhIgHSZMV+i/6MVE63n77bdOkSRPz0EMPaRqoppCsHIlkRYh4IVmpDL///rutx1UqSv18xSBZCQGSlSORrAgRLyQrlYFioeS5lIr169ebTp06lX0FTj5IVkKAZOVIJCtCxAvJSmUYOnSo6dq1a/pW8axatcpcc801oShIJ1kJAZKVI5GsCBEvJCvB4KJMbZEvvvjCrF692nz22Wf2OAmm77zzjlmyZIn5+OOP7THgWtKzZ0/7f36WHfp5zHvvvWenc3bu3FmtX6UeDBfoTKxZs8bcdNNNtq8FCtNRy4vn5G/67bff2uMOSM3KlSvNG2+8Yd8rSbGlmkaSrIQAycqRSFaEiBeSlWBQJLRZs2amW7dudhUMIsCyXTatpQgoy3mpcLt27Vr7+OHDhx+SlS1bttgpIWp3tWnTxixdutTMnTvXboL71Vdf2cdQfJMVqAhRJhxZ+fHHH82BAwfs369Dhw72Ne655x7Tq1evQ/Ww9u7dawYNGmT74379+tn7r7rqKvPTTz/Z+4tFshICSikrWPb8+fPTt46EL+i8efPSt7LjmHFNIVkRIl5IVoKBrFCvhekdh5deesm0bdv2UFRj9uzZpmPHjjbaMnLkyEOywua2iAL7xw0cONDKA0KB3CxcuNA+Zty4cebBBx/MGv0gmoOscD+yw/83bNhg7yOPhdfq37+/vT1jxgxzyy23HBKhYcOG2SkkyUp+JE5W+MJgypnYs2ePWbFiRfpWdvjyYsw1hWRFiHghWQkGskKhUK4NDs8884zdG45+Glm47bbbTOPGjW3kg/scWSHi8fTTT9utWZAZBAe43iAvTNkgLs7AlCmbzp072ygOBUaRIV63ZcuWVjioHHv//ffbxzq8+uqrNlID/L5EVhyYpuJneV+lQLISAkopK0RV+PJCvnOF3sc9+uij5uGHH07fqiLXEjbuLxWSFSHihWQlGMgK0QxyThwQEjauJW+EaMeyZcvstYP+mWmg3r1728fxL1NH5JgQcXGuC9y+7777zJgxY0yfPn0O5avs3r3bLFiwwCxatMgKDJETBAHhQA54XW/yLlEdpqMAAUIkHHh/iBZTSKVAshICSikrfNEIxTHdQ1liQn98OYE/Nl9OwoWjR4+2pjxp0iT7R+FLuHXrVvs4t6xwAvBcGDdSgLVjzA7Mn/L+uc/5shJaLAbJihDxQrISDHbRv/baa4+IrBAdb9eunc0nYYqHaRcScIE+HREBIikjRoywF1/6dzZEBJJk6avPP/98O7j1G2iSEsDr8zPsXYckTZkyxU4xIVDkrxDNB649RPX5GSSLfJqmTZuan3/+2d5fLEFkhesX1wmuWcws5INkxYdSysrixYvNxRdfbL9QX375pS35TKjPmQLCdPlDY9yXXXaZXZrGxlt8wXv06GGfg6QsR1ZefPFF+6XnZ8kkJ7GLPyJZ5sB75wvLbZ6LnaA5EYpBsiJEvJCsBIN+mykcdwIs4vDyyy/bwWjr1q2tFDgyM2HCBDN48GD7f6Zo6Bu5n5wX99Q+ibaIBLtD+4Gg8PpM5SA19PFdunSxUz8cnzVrlhUmYBDM6yM0vBZRHicqUwrylRXeB8KBoDAFRt5Mw4YNbc2YfJCs+FBKWSGMx5eFCzmwfIznRCYwcb5k/KFJiiJj2+H1118/9MVCVpAZvpyEDh1zBkKDRFmQFu7H1hEkB+ZRJStCCDeSleAgJ5miH0Qs6I/JJ3Gm6PmXxzvQnzv3u48TPaflmqLhdb2vz3M6r+sGaXGLC9NMRPbdr1sMfrLC6zE4JyGY6BJJyWeddZbdpZl///rXv1rxyod9+/ZZkZOsZKCUskJYz0mkApKkkBAyuN2ywh8c63R466237PQRX0CSqxAOvmT8LB2NG5KssGa+mLxf93wqVl/sSSpZESJeSFbCweeff26j7e3btz+UHlAqiNKMHz/ezJw50w5mb7/9dptPUyocWXE+V65jXHvI23nyySfttQgpceSEhqzw73nnnWcjLUiXI1WZGlLHtBoJy5KVDJRSVljWxs6UzoUeeWGNPdbJXKJbVty7giIyjqw4kRVgaohoiZPRTQEhoi18QYA/KIlXQMiS9++EIYMiWREiXkhWwgGCQn/uzjssFUyfkDbAtYUBL1GOUkItGa6NpB2Q5sDvQf/vFhTkxNs4XrduXbttAKuVeH/ZGn8zVkOdc8459lpJbk6lSJyssH7+ggsusMLBh8+FnPlJoiTMYRIeQ1aYU3SEBOhMSKQiLMgUEYm4QN0WkrNoPB/zlVizIy88J1NBPB/L5Eiw4otaDJIVIeKFZEUUiyMrJBdzPUJAkAo/UXEa95999tnm3HPP9W08H/+S40Lepne6qZwkTlbIwl63bp358MMPbTiO0Jkzn8nSNO7jNmvqqXDogBVzH1KDoPDzDoTFSOji+ZguYn7QDfkwRHB4LWyXYkDFIFkRIl5IVkSxONNASATXMlIbSPBliTZy4Z7+ccsL/0dAuH5xrWLqKFcjGZeVWJUkcbJSaTgxESQgSRdxIGO8GCQrQsQLyUplYUBKgmu2MvpueKyzuqhv37521WcYcSfYuhN+uQ588skndlaBCD/i4pYWJIYoTD6fRU0iWSkzJFCxhI35vbvvvtvmzBSb/S1ZESJeSFYqD/kW+dQ4IcLeokUL89prr9ncxlJVnC01blnJNj3De0e2uA6Rb0l5jnr16llZKUeeTimRrJQZpoRY6sWeExSIKwWSFSHihWSlshAtYaqEHEQWTSAh9JdEF0gBYOkxEKGgNgp1Rbj+8DNAv87qHqZakJlSFXYrhnxkxQ2/g1OV94EHHjgitSGMSFYiiGRFiHghWaks9I1Eu4l8s4KTuiFMCzFNwiIIaqwwuCQKzjJmcjooMDd16lT7s1Q4p5goK2+YHqISLnsJ1SSFykrUkKxEEMmKEPFCslJZ6BuRD2SFaEqjRo1sMioQLSGSwt8E2AcIsXGYPHmyve1EIlhwQYkKtmapSSQrIUCyciSSFSHihWSlstA3Ul+LPBRWt5CTwjFgWohaWUyPAEJDjS0HylOMGjUqfasKNkKkbH9NIlkJAZKVI5GsCBEvJCuVJZOsODmFyArVZbPJyr333mvlxA0Vy5lCqkkkKyFAsnIklPqXrAgRHyQrlYW+kWKdiAjTPuSpOJEVkm7pM9lNH5YsWWJlxlnFOW3aNPuzyAHHWEWD3Lzyyiv2/ppCshIC3LLCl4oqemRoT5w40f6bpEaCFyfKsccemzN7W7IiRDSQrFQWoigkzrJbPoXQyDlxIivICuUmqK0Cy5cvt1VhHVkh8kJ+CoJCdIbNCKmC7i0GWmkkKyHALSt8MShkQ8n8JLYLL7zQrou/+OKLzbZt29KfUGYkK0JEA8lKZWFJMqt3uKizQR//dwqp8S99p7Mcmcd4V/qw9JlNcFnyTHVzdxG2mkKyEgKQldq1a9strNkVc86cOWbGjBm2PHASG787my7mWtsvWREiGkhWRLFIVkIAsvLnP//ZRlZE/khWhIgGkhVRLJKVECBZCYZkRYhokDRZqVWrli28JkoHuTdXXnml6devn2SlppCsBEOyIkQ0SJqssECgU6dOdtkwq2nUimsbN240Q4cOtZV2BwwYIFmpKSQrwZCsCBENkiYrp5xyit08j2mLxo0bF9V4DiIKSW7NmjWzonLGGWeYIUOG1PjKpHIgWYkxkhUhokGSZIWVNePGjTN9+/a1G+g9+OCDgVv//v3tysg//elPpmfPnnYKJNPj4t74HPksBg0aZKMsYVidVGokKzFGsiJENEiSrAAXU+qVsKKxmMZ0R7t27Ww5C5YSczvT45LU4opkJcZIVoSIBkmTlVJCcTdkZf/+/ekjIo5IVmKMZEWIaCBZCc4dd9xhZcVbuE3EC8lKjJGsCBENJCvBkawkg8jIyumnn26zyEVhNGrUSLIiRMiRrARHspIMIiErw4YNM2eddZbdXIpsb7X8Wp8+fUz9+vXtJl1CiPAiWQmOZCUZREJWpk+fbndaPvnkk83xxx+vlmej86tTp45d0iaECC+SleBIVpJBJGTlwIEDZseOHXaXYbXC23fffZf+JIUQYUSyEhzJSjKIhKwIIUScQVaIhk6ePDl9ROTLXXfdZSPIkpV4I1kRQogaZsWKFebUU081AwcONBs2bFAroLVq1cpGVvbt25f+NEUckawIIUQNs3r1apuXR4Sgdu3aagU09hhq2LChIisxR7IihBA1zO7du83YsWPtysennnpKrYDGZzZ37lzz22+/pT9NEUckK0IIIYQINZIVIYQQQoQayYoQQgghQo1kRQghhBChRrIihBBCiFAjWRFCCCFEqJGsCCGEECLUSFaEEEIIEWokK0IIIYQINZIVIYQQQoQayYoQQgghQo1kRQghhBChRrIihBBCiFAjWRFCCCFEqJGsCCGEECLUSFaEEEIIEWokK0IIIYQINZIVIYQQQoQayYoQQgghQo1kRQghhBChRrIihBBCiFAjWRFCCCFEqJGsCCGEECLUSFaEEEIIEWokK0IIIYQINZIVIYQQQoQYY/5/SJwJu+Lnjs4AAAAASUVORK5CYII=" alt="images" /></p>
+
+<p>#主从复制部署</p>
+
+<p>1 准备两个Mysql实例(单独主机或多实例)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">3306（master） 和 3307（slave）多实例</pre></td></tr></table>
+</div>
+</div>
+<p>2  配置文件修改</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">3306 ：
+log-bin=/data/3306/mysql-bin
+server-id=3306
+3307:
+server-id=3307</pre></td></tr></table>
+</div>
+</div>
+<p>3 启动多实例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysqld_safe --defaults-file=/data/3306/my.cnf &amp;
+mysqld_safe --defaults-file=/data/3307/my.cnf &amp;
+mysqld_safe --defaults-file=/data/3308/my.cnf &amp;
+netstat -lnp|grep 330   </pre></td></tr></table>
+</div>
+</div>
+<p>4  主库创建复制用户</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql  -S /data/3306/mysql.sock
+grant replication slave on *.* to repl@&#39;10.0.0.5%&#39; identified by &#39;123&#39;;</pre></td></tr></table>
+</div>
+</div>
+<p>5 备份主库并记录position</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysqldump -A --master-data=2 --single-transaction -S /data/3306/mysql.sock &gt;/backup/full.sql   全备文件</pre></td></tr></table>
+</div>
+</div>
+<p>6 从库恢复备份</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mysql  -S /data/3307/mysql.sock
+set sql_log_bin=0;
+source /backup/full.sql;</pre></td></tr></table>
+</div>
+</div>
+<p>7 从库change master to并开启主从复制</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">CHANGE MASTER TO
+MASTER_HOST=&#39;10.0.0.52&#39;,     主库ip
+MASTER_USER=&#39;repl&#39;,          主库创建的复制用户
+MASTER_PASSWORD=&#39;123&#39;,       复制用户的密码
+MASTER_PORT=3306,            主库      
+MASTER_LOG_FILE=&#39;mysql-bin.000004&#39;,
+MASTER_LOG_POS=326;</pre></td></tr></table>
+</div>
+</div>
+<p><strong><em>全备文件的第22行(打开全备文件就能找到以下信息,输入到从库 的change  master to中)</em></strong>
+<strong><em>&ndash; CHANGE MASTER TO MASTER_LOG_FILE=&lsquo;mysql-bin.000004&rsquo;, MASTER_LOG_POS=326;</em></strong></p>
+
+<p>8 从库启动并查询复制状态：</p>
+
+<p>start slave;
+show slave status\G;</p>
+
+<p>9 主从复制故障处理</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Slave_IO_Running: Connecting
+Slave_SQL_Running: Yes
+
+Last_IO_Errno: 1045
+Last_IO_Error: error connecting to master &#39;repl@10.0.0.52:3306&#39; - retry-time: 60  retries: 1
+
+Last_SQL_Errno: 0
+Last_SQL_Error: </pre></td></tr></table>
+</div>
+</div>
+<p><strong><em>IO线程问题情况：</em></strong><br />
+1、连接不上：网络、用户、密码、端口号、解析<br />
+2、其他：主库二进制日志不连续或不存在<br />
+3、relay-log文件权限不足<br />
+等等。<br />
+以上问题解决：<br />
+主库参数文件中加入：<br />
+skip_name_resolve</p>
+
+<p><strong><em>SQL线程出现问题情况：</em></strong><br />
+主要原因是从库做了写入操作。<br />
+临时解决方案:<br />
+    stop slave;<br />
+    set global sql_slave_skip_counter= 1<br />
+    start slave;<br />
+    /etc/my.cnf<br />
+    slave-skip-errors = 1032,1062,1007<br />
+最有效最稳妥的解决方案：重新搭建主从。(看实际情况而定)</p>
+
+<p><strong><em>如何避免？</em></strong><br />
+设置从库只读<br />
+read_only=1</p>
+
+<h1 id="半同步复制">半同步复制</h1>
+
+<h3 id="为了解决主从一致性问题">为了解决主从一致性问题</h3>
+
+<p>1主1从情况，从库必须确认将请求过来的二进制日志落地，才返回ACK给主库<br />
+1主多从的情况，只要其中一台机器，二进制日志落地，就返回ACK给主库</p>
+
+<h3 id="配置过程-加载插件">配置过程 加载插件</h3>
+
+<p>主:<br />
+install pluginrpl_semi_sync_master soname &lsquo;semisync_master.so&rsquo;;<br />
+从:<br />
+install pluginrpl_semi_sync_slave soname &lsquo;semisync_slave.so&rsquo;;</p>
+
+<h3 id="查看是否加载成功">查看是否加载成功:</h3>
+
+<p>show plugins;</p>
+
+<h3 id="启动">启动:</h3>
+
+<p>主:<br />
+set global rpl_semi_sync_master_enabled = 1;<br />
+从:<br />
+set global rpl_semi_sync_slave_enabled = 1;</p>
+
+<h3 id="重启从库上的io线程">重启从库上的IO线程</h3>
+
+<p>STOP SLAVE IO_THREAD;<br />
+START SLAVE IO_THREAD;</p>
+
+<h3 id="查看是否在运行">查看是否在运行</h3>
+
+<p>主:<br />
+show status like &lsquo;Rpl_semi_sync_master_status&rsquo;;<br />
+从:<br />
+show status like &lsquo;Rpl_semi_sync_slave_status&rsquo;;</p>
+
+<h3 id="测试">测试:</h3>
+
+<p>查看延迟时间:<br />
+show variables like &lsquo;%rpl_semi_sync%&lsquo;;</p>
+
+<h1 id="主从复制中的failover过程">主从复制中的Failover过程</h1>
+
+<p>0、实时监控所有节点的状态<br />
+1、选择一个新主，选择标准是和主库越接近越好 , 通过对比SLAVE 的master.info<br />
+2、APP应用程序需要连接到新的主库继续工作，通过切换VIP实现，让应用程序感知不到。<br />
+3、数据补偿<br />
+SSH可以通的话，通过Master.info的信息，去主库 保存缺失部分的binlog即可<br />
+SSH不通的情况：<br />
+    1) S2到S1的数据补偿<br />
+    2) 通过对比两个节点的relay的position号，计算差异, 拿到S2节点恢复即可。但是这里要有一个前提：①两个节点的relay是对等的（file和postion） ②relaylog设置为不自动purge<br />
+但是这种classic传统的主从复制的方式，要以上relay的对等性，所有一点都是在同一时间加入集群</p>
+
+<h1 id="gtid复制">GTID复制</h1>
+
+<h3 id="mysql-gtid简介">MySQL GTID简介</h3>
+
+<p>GTID(Global Transaction ID)是对于一个已提交事务的编号，并且是全局唯一的编号。<br />
+它的官方定义如下：<br />
+GTID = source_id ：transaction_id</p>
+
+<h3 id="uuid-tx-id">UUID:TX_ID</h3>
+
+<p>UUID 存放在数据目录下的auto.cnf, 数据库初始化完成之后都会生成一串唯一号码。<br />
+在构建GTID模式复制环境时，需要保证节点之间，除了server_id不同还要保证uuid不同</p>
+
+<h3 id="gtid例子">GTID例子：</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">7E11FA47-31CA-19E1-9E56-C43AA21293967:29
+7E11FA47-31CA-19E1-9E56-C43AA21293967:1-29
+7E11FA47-31CA-19E1-9E56-C43AA21293967:10-29</pre></td></tr></table>
+</div>
+</div>
+<h3 id="gtid中的tx-id都是连续的">GTID中的TX_ID都是连续的</h3>
+
+<p>GTID开启方式：<br />
+gtid-mode=on                     &mdash;&mdash;&gt;GTID模式开关<br />
+enforce-gtid-consistency=true    &mdash;&mdash;&gt;强制GTID的一致性<br />
+log-slave-updates=1              &mdash;&mdash;&gt;5.6版本，强制更新binlog</p>
+
+<h3 id="gtid优势">GTID优势</h3>
+
+<p>1、Failover时数据补偿很方便<br />
+2、构建主从时也更方便了</p>
+
+<h3 id="gtid复制原理的新特性">GTID复制原理的新特性</h3>
+
+<p>change  master  to语句<br />
+Classic复制模式：<br />
+从库会一致拿着master从库会一致拿着master.info中的最后一个从主库请求过来的position号问主库，有没有比这个更新的事件， 如果有就拿过来。请求过来后，保存到relaylog中，并且更新master.info binlog信息。</p>
+
+<h3 id="gtid复制模式">GTID复制模式：</h3>
+
+<p>从库读取relaylog最后一个事件信息，获取到最后一个GTID号码，去主库中问，有没有比这个GTID还新的事务，有的话就拿过来。也存放到relaylog当中，也会更新master.info  新的binlog的信息。<br />
+第一次开启GTID主从的时候，我们是不需要人为告诉从库从哪个开始请求主库的binlog，会自动先去读relaylog，发现没有东西。那么他会直接去找主库要所有binlog中的事务，默认是从第一个事务开始请求的。<br />
+如果主库binlog中事务记录不全或者或者有断点，从库复制就会异常。这时，我们可以备份主库，让从库从备份结束后的那个GTID开始往后复制即可。</p>
+
+<p>搭建GTID复制的两种场景
+        1、全新搭建的
+        change master to
+        master_host=&lsquo;10.0.0.51&rsquo;,
+        master_user=&lsquo;repl&rsquo;,
+        master_password=&lsquo;123&rsquo;,
+        master_auto_position=1;
+        2、如果运行很长时间主库，需要开启主从，我们建议
+        先备份恢复到从库，让从库从备份后的gtid开始请求。
+        change master to
+        master_host=&lsquo;10.0.0.51&rsquo;,
+        master_user=&lsquo;repl&rsquo;,
+        master_password=&lsquo;123&rsquo;,
+        master_auto_position=1;</p>
+
+<h3 id="gtid复制实践-1主2从">GTID复制实践（1主2从）</h3>
+
+<p>设置配置参数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">-----------db01--------
+server-id=10
+port=3306
+log-bin=/data/mysql/mysql-bin
+binlog_format=row
+gtid-mode=on                    
+enforce-gtid-consistency=true    
+log-slave-updates=1 
+---------------------------------
+----------db02-------------------
+server-id=20
+port=3306
+log-bin=/data/mysql/mysql-bin
+binlog_format=row
+gtid-mode=on                    
+enforce-gtid-consistency=true    
+log-slave-updates=1 
+----------------------------------
+--------------db03----------------
+server-id=30
+port=3306
+log-bin=/data/mysql/mysql-bin
+binlog_format=row
+gtid-mode=on                    
+enforce-gtid-consistency=true    
+log-slave-updates=1 
+---------------------------------</pre></td></tr></table>
+</div>
+</div>
+<h3 id="初始化数据-三个节点都要做">初始化数据（三个节点都要做）</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">/application/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --user=mysql --basedir=/application/mysql --datadir=/application/mysql/data
+/etc/init.d/mysqld start</pre></td></tr></table>
+</div>
+</div>
+<h3 id="主库-db01-创建复制用户">主库（db01）创建复制用户</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">GRANT REPLICATION SLAVE ON *.* TO repl@&#39;10.0.0.%&#39; IDENTIFIED BY &#39;123&#39;;</pre></td></tr></table>
+</div>
+</div>
+<h3 id="构建主从">构建主从</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">change master to
+master_host=&#39;10.0.0.52&#39;,
+master_user=&#39;repl&#39;,
+master_password=&#39;123&#39;,
+master_auto_position=1;</pre></td></tr></table>
+</div>
+</div>
+<h3 id="开启并查看主从状态">开启并查看主从状态</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">start  slave;
+show slave status;</pre></td></tr></table>
+</div>
+</div>
+<h3 id="故障处理">故障处理：</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">stop slave;
+set gtid_next=&#39;ffcf237c-1cfb-11e8-9a86-000c2939ea23:4&#39;;
+begin;commit;
+set gtid_next=&#39;AUTOMATIC&#39;;
+start slave;</pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://veh47.github.io/tags/mysql/">MySQL</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/mysql-mha%E9%AB%98%E5%8F%AF%E7%94%A8/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">MySQl MHA高可用</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/mysql%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/">
+            <span class="next-text nav-default">MySQL备份与恢复</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  <div id="comments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 700);
+              clearInterval(checkExist);
+            }
+        }, 10);
+    }
+  </script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#comments' ,
+        appId: 'UsB52d49clgSaLyt9W25ff6J-gzGzoHsz',
+        appKey: 'A7x1tqpCpuAXKQX5BwcwXGdF',
+        notify:  false , 
+        verify:  false , 
+        avatar:'mm', 
+        placeholder: '',
+        visitor:  false 
+    });
+  </script>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:13522339471@163.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://github.com/veh47" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://www.weibo.com/u/5706670145/" rel="me noopener" class="iconfont"
+      title="weibo"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M385.714286 733.714286q12-19.428571 6.285714-39.428571t-25.714286-28.571429q-19.428571-8-41.714286-0.571429t-34.285714 26.285714q-12.571429 19.428571-7.428571 39.142857t24.571429 28.857143 42.571429 1.428571 35.714286-27.142857zm53.714286-69.142857q4.571429-7.428571 2-15.142857t-10-10.571429q-8-2.857143-16.285714 2.857143t-12.285714 10.571429q-9.714286 17.714286 7.428571 25.714286 8 2.857143 16.571429 2.857143t12.571429-10.571429zm99.428571 61.142857q-25.714286 58.285714-90.285714 85.714286t-128 6.857143q-61.142857-19.428571-84.285714-72.285714t3.714286-107.142857q26.857143-53.142857 86.571429-79.428571t120.285714-10.857143q63.428571 16.571429 90.571429 68.285714t1.428571 108.857143zm178.285714-91.428571q-5.142857-54.857143-50.857143-97.142857t-119.142857-62.285714-156.857143-12q-127.428571 13.142857-211.142857 80.857143t-75.714286 151.142857q5.142857 54.857143 50.857143 97.142857t119.142857 62.285714 156.857143 12q127.428571-13.142857 211.142857-80.857143t75.714286-151.142857zm176 2.285714q0 38.857143-21.142857 79.714286t-62.285714 78.285714-96.285714 67.142857-129.142857 47.428571-154.571429 17.714286-157.142857-19.142857-137.428571-53.142857-98-86.285714-37.142857-114q0-65.714286 39.714286-140t112.857143-147.428571q96.571429-96.571429 195.142857-134.857143t140.857143 4q37.142857 36.571429 11.428571 119.428571-2.285714 8-0.571429 11.428571t5.714286 4 8.285714 2.857143 7.714286-2l3.428571-1.142857q79.428571-33.714286 140.571429-33.714286t87.428571 34.857143q25.714286 36 0 101.714286-1.142857 7.428571-2.571429 11.428571t2.571429 7.142857 6.857143 4.285714 9.714286 3.428571q32.571429 10.285714 58.857143 26.857143t45.714286 46.571429 19.428571 66.571429zm-42.285714-356.571429q24 26.857143 31.142857 62t-3.714286 67.142857q-4.571429 13.142857-16.857143 19.428571t-25.428571 2.285714q-13.142857-4.571429-19.428571-16.857143t-2.285714-25.428571q11.428571-36-13.714286-63.428571t-61.142857-20q-13.714286 2.857143-25.714286-4.571429t-14.285714-21.142857q-2.857143-13.714286 4.571429-25.428571t21.142857-14.571429q34.285714-7.428571 68 3.142857t57.714286 37.428571zm103.428571-93.142857q49.714286 54.857143 64.285714 127.142857t-7.714286 138q-5.142857 15.428571-19.428571 22.857143t-29.714286 2.285714-22.857143-19.428571-2.857143-29.714286q16-46.857143 5.714286-98.285714t-45.714286-90.285714q-35.428571-39.428571-84.571429-54.571429t-98.857143-4.857143q-16 3.428571-29.714286-5.428571t-17.142857-24.857143 5.428571-29.428571 24.857143-16.857143q70.285714-14.857143 139.428571 6.571429t118.857143 76.857143z"></path>
+</svg>
+
+    </a>
+
+
+<a href="http://veh47.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+
+  <span class="copyright-year">
+    &copy;
+    
+       -
+    2019
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Eleven
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css"
+    integrity="sha384-BdGj8xC2eZkQaxoQ8nSLefg4AV4/AwB3Fj+8SUSo7pnKP6Eoy18liIKTPn9oBYNG"
+    crossorigin="anonymous">
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.js"
+    integrity="sha384-JiKN5O8x9Hhs/UE5cT5AAJqieYlOZbGT3CHws/y97o3ty4R7/O5poG9F3JoiOYw1"
+    crossorigin="anonymous"></script>
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+    crossorigin="anonymous" onload="renderMathInElement(document.body);">
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        
+      });
+    });
+  </script>
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    $("#openSearch, #openSearchMobile").click(function(){
+      $(".modal-dialog").addClass("visible");
+    });
+
+    $("#closeSearch").click(function(){
+      $(".modal-dialog").removeClass("visible");
+    });
+
+    $(document).click(function(event) {
+    
+      if (!$(event.target).closest(".modal-content, #openSearch, #openSearchMobile").length) {
+        $("body").find(".modal-dialog").removeClass("visible");
+      }
+    });
+  </script>
+
+
+
+
+
+</body>
+</html>
