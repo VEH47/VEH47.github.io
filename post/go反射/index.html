@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Go反射 - Eleven</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Eleven" />
+  <meta name="description" content="本文介绍了Go语言反射的意义和基本使用。 变量的内在机制 Go语言中的变量是分为两部分的: 类型信息：预先定义好的元信息。 值信息：程序运行过程中可" />
+
+  <meta name="keywords" content="Eleven" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="canonical" href="http://veh47.github.io/post/go%E5%8F%8D%E5%B0%84/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Go反射" />
+<meta property="og:description" content="本文介绍了Go语言反射的意义和基本使用。 变量的内在机制 Go语言中的变量是分为两部分的: 类型信息：预先定义好的元信息。 值信息：程序运行过程中可" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://veh47.github.io/post/go%E5%8F%8D%E5%B0%84/" />
+<meta property="article:published_time" content="2019-12-31T17:29:38+08:00" />
+<meta property="article:modified_time" content="2019-12-31T17:29:38+08:00" />
+<meta itemprop="name" content="Go反射">
+<meta itemprop="description" content="本文介绍了Go语言反射的意义和基本使用。 变量的内在机制 Go语言中的变量是分为两部分的: 类型信息：预先定义好的元信息。 值信息：程序运行过程中可">
+
+
+<meta itemprop="datePublished" content="2019-12-31T17:29:38&#43;08:00" />
+<meta itemprop="dateModified" content="2019-12-31T17:29:38&#43;08:00" />
+<meta itemprop="wordCount" content="5114">
+
+
+
+<meta itemprop="keywords" content="Golang," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Go反射"/>
+<meta name="twitter:description" content="本文介绍了Go语言反射的意义和基本使用。 变量的内在机制 Go语言中的变量是分为两部分的: 类型信息：预先定义好的元信息。 值信息：程序运行过程中可"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Eleven</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+      <li class="mobile-menu-item">
+        <a id="openSearchMobile" class="mobile-menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+    
+<div class="modal-dialog">
+    
+    <div class="modal-content">
+      <div id="closeSearch" title="Close" class="close">X</div>
+      <div class="modal-header">
+        <div class="modal-title">Search</div>
+      </div>
+      <div class="modal-body">
+          <script>
+            (function() {
+              var cx = '012427586116641581695:iilii6hg9u2';
+              var gcse = document.createElement('script');
+              gcse.type = 'text/javascript';
+              gcse.async = true;
+              gcse.src = (document.location.protocol == 'https:' ? 'https:' :
+                  'http:') +
+                '//cse.google.com/cse.js?cx=' + cx;
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(gcse, s);
+            })();
+          </script>
+          <gcse:search></gcse:search>
+      </div>
+    </div>
+</div>
+
+  
+
+  
+    <style>
+      .fork-me-on-github {
+        position: absolute; top: 0; left: 0; border: 0;
+      }
+      @media (max-width: 1080px) {
+        .fork-me-on-github {
+          display: none;
+        }
+      }
+    </style>
+
+    <a href="https://github.com/veh47">
+      <img class="fork-me-on-github"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"
+        alt="Fork me on GitHub">
+    </a>
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Eleven
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+      <li class="menu-item">
+        <a id="openSearch" class="menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Go反射</h1>
+      
+      <div class="post-meta">
+        <time datetime="2019-12-31" class="post-time">
+          2019-12-31
+        </time>
+        <div class="post-category">
+            <a href="http://veh47.github.io/categories/golang/"> Golang </a>
+            
+          </div>
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#反射介绍">反射介绍</a></li>
+<li><a href="#reflect包">reflect包</a></li>
+<li><a href="#typeof">TypeOf</a></li>
+<li><a href="#type-name和type-kind">type name和type kind</a></li>
+<li><a href="#valueof">ValueOf</a></li>
+<li><a href="#通过反射获取值">通过反射获取值</a></li>
+<li><a href="#通过反射设置变量的值">通过反射设置变量的值</a></li>
+<li><a href="#isnil-和isvalid">isNil()和isValid()</a>
+<ul>
+<li><a href="#isnil">isNil()</a></li>
+<li><a href="#isvalid">isValid()</a></li>
+</ul></li>
+<li><a href="#结构体反射">结构体反射</a></li>
+<li><a href="#structfield类型">StructField类型</a></li>
+<li><a href="#结构体反射示例">结构体反射示例</a></li>
+<li><a href="#示例">示例</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p>本文介绍了Go语言反射的意义和基本使用。</p>
+
+<p>变量的内在机制<br />
+Go语言中的变量是分为两部分的:</p>
+
+<p>类型信息：预先定义好的元信息。<br />
+值信息：程序运行过程中可动态变化的。</p>
+
+<!---more--->
+
+<h3 id="反射介绍">反射介绍</h3>
+
+<p>反射是指在程序运行期对程序本身进行访问和修改的能力。程序在编译时，变量被转换为内存地址，变量名不会被编译器写入到可执行部分。在运行程序时，程序无法获取自身的信息。</p>
+
+<p>支持反射的语言可以在程序编译期将变量的反射信息，如字段名称、类型信息、结构体信息等整合到可执行文件中，并给程序提供接口访问反射信息，这样就可以在程序运行期获取类型的反射信息，并且有能力修改它们。</p>
+
+<p>Go程序在运行期使用reflect包访问程序的反射信息。</p>
+
+<p>在上一篇博客中我们介绍了空接口。 空接口可以存储任意类型的变量，那我们如何知道这个空接口保存的数据是什么呢？ 反射就是在运行时动态的获取一个变量的类型信息和值信息。</p>
+
+<h3 id="reflect包">reflect包</h3>
+
+<p>在Go语言的反射机制中，任何接口值都由是一个具体类型和具体类型的值两部分组成的(我们在上一篇接口的博客中有介绍相关概念)。 在Go语言中反射的相关功能由内置的reflect包提供，任意接口值在反射中都可以理解为由reflect.Type和reflect.Value两部分组成，并且reflect包提供了reflect.TypeOf和reflect.ValueOf两个函数来获取任意对象的Value和Type。</p>
+
+<h3 id="typeof">TypeOf</h3>
+
+<p>在Go语言中，使用reflect.TypeOf()函数可以获得任意值的类型对象（reflect.Type），程序通过类型对象可以访问任意值的类型信息。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+    <span class="s">&#34;reflect&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">reflectType</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+    <span class="nx">v</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nf">TypeOf</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;type:%v\n&#34;</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">a</span> <span class="kt">float32</span> <span class="p">=</span> <span class="mf">3.14</span>
+    <span class="nf">reflectType</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="c1">// type:float32
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">b</span> <span class="kt">int64</span> <span class="p">=</span> <span class="mi">100</span>
+    <span class="nf">reflectType</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span> <span class="c1">// type:int64
+</span><span class="c1"></span><span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<h3 id="type-name和type-kind">type name和type kind</h3>
+
+<p>在反射中关于类型还划分为两种：类型（Type）和种类（Kind）。因为在Go语言中我们可以使用type关键字构造很多自定义类型，而种类（Kind）就是指底层的类型，但在反射中，当需要区分指针、结构体等大品种的类型时，就会用到种类（Kind）。 举个例子，我们定义了两个指针类型和两个结构体类型，通过反射查看它们的类型和种类。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+    <span class="s">&#34;reflect&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">myInt</span> <span class="kt">int64</span>
+
+<span class="kd">func</span> <span class="nf">reflectType</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+    <span class="nx">t</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nf">TypeOf</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;type:%v kind:%v\n&#34;</span><span class="p">,</span> <span class="nx">t</span><span class="p">.</span><span class="nf">Name</span><span class="p">(),</span> <span class="nx">t</span><span class="p">.</span><span class="nf">Kind</span><span class="p">())</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">a</span> <span class="o">*</span><span class="kt">float32</span> <span class="c1">// 指针
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">b</span> <span class="nx">myInt</span>    <span class="c1">// 自定义类型
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">c</span> <span class="kt">rune</span>     <span class="c1">// 类型别名
+</span><span class="c1"></span>    <span class="nf">reflectType</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="c1">// type: kind:ptr
+</span><span class="c1"></span>    <span class="nf">reflectType</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span> <span class="c1">// type:myInt kind:int64
+</span><span class="c1"></span>    <span class="nf">reflectType</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span> <span class="c1">// type:int32 kind:int32
+</span><span class="c1"></span>
+    <span class="kd">type</span> <span class="nx">person</span> <span class="kd">struct</span> <span class="p">{</span>
+        <span class="nx">name</span> <span class="kt">string</span>
+        <span class="nx">age</span>  <span class="kt">int</span>
+    <span class="p">}</span>
+    <span class="kd">type</span> <span class="nx">book</span> <span class="kd">struct</span><span class="p">{</span> <span class="nx">title</span> <span class="kt">string</span> <span class="p">}</span>
+    <span class="kd">var</span> <span class="nx">d</span> <span class="p">=</span> <span class="nx">person</span><span class="p">{</span>
+        <span class="nx">name</span><span class="p">:</span> <span class="s">&#34;沙河小王子&#34;</span><span class="p">,</span>
+        <span class="nx">age</span><span class="p">:</span>  <span class="mi">18</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="kd">var</span> <span class="nx">e</span> <span class="p">=</span> <span class="nx">book</span><span class="p">{</span><span class="nx">title</span><span class="p">:</span> <span class="s">&#34;《跟小王子学Go语言》&#34;</span><span class="p">}</span>
+    <span class="nf">reflectType</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="c1">// type:person kind:struct
+</span><span class="c1"></span>    <span class="nf">reflectType</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="c1">// type:book kind:struct
+</span><span class="c1"></span><span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<p>Go语言的反射中像数组、切片、Map、指针等类型的变量，它们的.Name()都是返回空。</p>
+
+<p>在reflect包中定义的Kind类型如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">type Kind uint
+const (
+    Invalid Kind = iota  // 非法类型
+    Bool                 // 布尔型
+    Int                  // 有符号整型
+    Int8                 // 有符号8位整型
+    Int16                // 有符号16位整型
+    Int32                // 有符号32位整型
+    Int64                // 有符号64位整型
+    Uint                 // 无符号整型
+    Uint8                // 无符号8位整型
+    Uint16               // 无符号16位整型
+    Uint32               // 无符号32位整型
+    Uint64               // 无符号64位整型
+    Uintptr              // 指针
+    Float32              // 单精度浮点数
+    Float64              // 双精度浮点数
+    Complex64            // 64位复数类型
+    Complex128           // 128位复数类型
+    Array                // 数组
+    Chan                 // 通道
+    Func                 // 函数
+    Interface            // 接口
+    Map                  // 映射
+    Ptr                  // 指针
+    Slice                // 切片
+    String               // 字符串
+    Struct               // 结构体
+    UnsafePointer        // 底层指针
+)</pre></td></tr></table>
+</div>
+</div>
+<h3 id="valueof">ValueOf</h3>
+
+<p>reflect.ValueOf()返回的是reflect.Value类型，其中包含了原始值的值信息。reflect.Value与原始值之间可以互相转换。</p>
+
+<p>reflect.Value类型提供的获取原始值的方法如下：</p>
+
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Interface() interface {}</td>
+<td align="center">将值以 interface{} 类型返回，可以通过类型断言转换为指定类型</td>
+</tr>
+
+<tr>
+<td>Int() int64</td>
+<td align="center">将值以 int 类型返回，所有有符号整型均可以此方式返回</td>
+</tr>
+
+<tr>
+<td>Uint() uint64</td>
+<td align="center">将值以 uint 类型返回，所有无符号整型均可以此方式返回</td>
+</tr>
+
+<tr>
+<td>Float() float64</td>
+<td align="center">将值以双精度（float64）类型返回，所有浮点数（float32、float64）均可以此方式返回</td>
+</tr>
+
+<tr>
+<td>Bool() bool</td>
+<td align="center">将值以双精度（float64）类型返回，所有浮点数（float32、float64）均可以此方式返回</td>
+</tr>
+
+<tr>
+<td>Bytes() []bytes</td>
+<td align="center">将值以字节数组 []bytes 类型返回</td>
+</tr>
+
+<tr>
+<td>String() string</td>
+<td align="center">将值以字符串类型返回</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="通过反射获取值">通过反射获取值</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func reflectValue(x interface{}) {
+    v := reflect.ValueOf(x)
+    k := v.Kind()
+    switch k {
+    case reflect.Int64:
+        // v.Int()从反射中获取整型的原始值，然后通过int64()强制类型转换
+        fmt.Printf(&#34;type is int64, value is %d\n&#34;, int64(v.Int()))
+    case reflect.Float32:
+        // v.Float()从反射中获取浮点型的原始值，然后通过float32()强制类型转换
+        fmt.Printf(&#34;type is float32, value is %f\n&#34;, float32(v.Float()))
+    case reflect.Float64:
+        // v.Float()从反射中获取浮点型的原始值，然后通过float64()强制类型转换
+        fmt.Printf(&#34;type is float64, value is %f\n&#34;, float64(v.Float()))
+    }
+}
+func main() {
+    var a float32 = 3.14
+    var b int64 = 100
+    reflectValue(a) // type is float32, value is 3.140000
+    reflectValue(b) // type is int64, value is 100
+    // 将int类型的原始值转换为reflect.Value类型
+    c := reflect.ValueOf(10)
+    fmt.Printf(&#34;type c :%T\n&#34;, c) // type c :reflect.Value
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="通过反射设置变量的值">通过反射设置变量的值</h3>
+
+<p>想要在函数中通过反射修改变量的值，需要注意函数参数传递的是值拷贝，必须传递变量地址才能修改变量值。而反射中使用专有的Elem()方法来获取指针对应的值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+    <span class="s">&#34;reflect&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">reflectSetValue1</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+    <span class="nx">v</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">v</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Int64</span> <span class="p">{</span>
+        <span class="nx">v</span><span class="p">.</span><span class="nf">SetInt</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> <span class="c1">//修改的是副本，reflect包会引发panic
+</span><span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">func</span> <span class="nf">reflectSetValue2</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+    <span class="nx">v</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+    <span class="c1">// 反射中使用 Elem()方法获取指针对应的值
+</span><span class="c1"></span>    <span class="k">if</span> <span class="nx">v</span><span class="p">.</span><span class="nf">Elem</span><span class="p">().</span><span class="nf">Kind</span><span class="p">()</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Int64</span> <span class="p">{</span>
+        <span class="nx">v</span><span class="p">.</span><span class="nf">Elem</span><span class="p">().</span><span class="nf">SetInt</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">a</span> <span class="kt">int64</span> <span class="p">=</span> <span class="mi">100</span>
+    <span class="c1">// reflectSetValue1(a) //panic: reflect: reflect.Value.SetInt using unaddressable value
+</span><span class="c1"></span>    <span class="nf">reflectSetValue2</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">a</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<h3 id="isnil-和isvalid">isNil()和isValid()</h3>
+
+<h4 id="isnil">isNil()</h4>
+
+<p>func (v Value) IsNil() bool</p>
+
+<p>IsNil()报告v持有的值是否为nil。v持有的值的分类必须是通道、函数、接口、映射、指针、切片之一；否则IsNil函数会导致panic。</p>
+
+<h4 id="isvalid">isValid()</h4>
+
+<p>func (v Value) IsValid() bool</p>
+
+<p>IsValid()返回v是否持有一个值。如果v是Value零值会返回假，此时v除了IsValid、String、Kind之外的方法都会导致panic。</p>
+
+<p>举个例子</p>
+
+<p>IsNil()常被用于判断指针是否为空；IsValid()常被用于判定返回值是否有效。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func main() {
+    // *int类型空指针
+    var a *int
+    fmt.Println(&#34;var a *int IsNil:&#34;, reflect.ValueOf(a).IsNil())
+    // nil值
+    fmt.Println(&#34;nil IsValid:&#34;, reflect.ValueOf(nil).IsValid())
+    // 实例化一个匿名结构体
+    b := struct{}{}
+    // 尝试从结构体中查找&#34;abc&#34;字段
+    fmt.Println(&#34;不存在的结构体成员:&#34;, reflect.ValueOf(b).FieldByName(&#34;abc&#34;).IsValid())
+    // 尝试从结构体中查找&#34;abc&#34;方法
+    fmt.Println(&#34;不存在的结构体方法:&#34;, reflect.ValueOf(b).MethodByName(&#34;abc&#34;).IsValid())
+    // map
+    c := map[string]int{}
+    // 尝试从map中查找一个不存在的键
+    fmt.Println(&#34;map中不存在的键：&#34;, reflect.ValueOf(c).MapIndex(reflect.ValueOf(&#34;娜扎&#34;)).IsValid())
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="结构体反射">结构体反射</h3>
+
+<p>与结构体相关的方法
+任意值通过reflect.TypeOf()获得反射对象信息后，如果它的类型是结构体，可以通过反射值对象（reflect.Type）的NumField()和Field()方法获得结构体成员的详细信息。</p>
+
+<p>reflect.Type中与获取结构体成员相关的的方法如下表所示。</p>
+
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Field(i int) StructField</td>
+<td align="center">根据索引，返回索引对应的结构体字段的信息。</td>
+</tr>
+
+<tr>
+<td>NumField() int</td>
+<td align="center">返回结构体成员字段数量。</td>
+</tr>
+
+<tr>
+<td>FieldByName(name string) (StructField, bool)</td>
+<td align="center">根据给定字符串返回字符串对应的结构体字段的信息。</td>
+</tr>
+
+<tr>
+<td>FieldByIndex(index []int) StructField</td>
+<td align="center">多层成员访问时，根据 []int 提供的每个结构体的字段索引，返回字段的信息。</td>
+</tr>
+
+<tr>
+<td>FieldByNameFunc(match func(string) bool) (StructField,bool)</td>
+<td align="center">根据传入的匹配函数匹配需要的字段。</td>
+</tr>
+
+<tr>
+<td>NumMethod() int</td>
+<td align="center">返回该类型的方法集中方法的数目</td>
+</tr>
+
+<tr>
+<td>Method(int) Method</td>
+<td align="center">返回该类型方法集中的第i个方法</td>
+</tr>
+
+<tr>
+<td>MethodByName(string)(Method, bool)</td>
+<td align="center">根据方法名返回该类型方法集中的方法</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="structfield类型">StructField类型</h3>
+
+<p>StructField类型用来描述结构体中的一个字段的信息。</p>
+
+<p>StructField的定义如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">type StructField struct {
+    // Name是字段的名字。PkgPath是非导出字段的包路径，对导出字段该字段为&#34;&#34;。
+    // 参见http://golang.org/ref/spec#Uniqueness_of_identifiers
+    Name    string
+    PkgPath string
+    Type      Type      // 字段的类型
+    Tag       StructTag // 字段的标签
+    Offset    uintptr   // 字段在结构体中的字节偏移量
+    Index     []int     // 用于Type.FieldByIndex时的索引切片
+    Anonymous bool      // 是否匿名字段
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="结构体反射示例">结构体反射示例</h3>
+
+<p>当我们使用反射得到一个结构体数据之后可以通过索引依次获取其字段信息，也可以通过字段名去获取指定的字段信息。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">type student struct {
+    Name  string `json:&#34;name&#34;`
+    Score int    `json:&#34;score&#34;`
+}
+
+func main() {
+    stu1 := student{
+        Name:  &#34;小王子&#34;,
+        Score: 90,
+    }
+
+    t := reflect.TypeOf(stu1)
+    fmt.Println(t.Name(), t.Kind()) // student struct
+    // 通过for循环遍历结构体的所有字段信息
+    for i := 0; i &lt; t.NumField(); i++ {
+        field := t.Field(i)
+        fmt.Printf(&#34;name:%s index:%d type:%v json tag:%v\n&#34;, field.Name, field.Index, field.Type, field.Tag.Get(&#34;json&#34;))
+    }
+
+    // 通过字段名获取指定结构体字段信息
+    if scoreField, ok := t.FieldByName(&#34;Score&#34;); ok {
+        fmt.Printf(&#34;name:%s index:%d type:%v json tag:%v\n&#34;, scoreField.Name, scoreField.Index, scoreField.Type, scoreField.Tag.Get(&#34;json&#34;))
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>接下来编写一个函数printMethod(s interface{})来遍历打印s包含的方法。</p>
+
+<p>// 给student添加两个方法 Study和Sleep(注意首字母大写)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func (s student) Study() string {
+    msg := &#34;好好学习，天天向上。&#34;
+    fmt.Println(msg)
+    return msg
+}
+
+func (s student) Sleep() string {
+    msg := &#34;好好睡觉，快快长大。&#34;
+    fmt.Println(msg)
+    return msg
+}
+
+func printMethod(x interface{}) {
+    t := reflect.TypeOf(x)
+    v := reflect.ValueOf(x)
+
+    fmt.Println(t.NumMethod())
+    for i := 0; i &lt; v.NumMethod(); i++ {
+        methodType := v.Method(i).Type()
+        fmt.Printf(&#34;method name:%s\n&#34;, t.Method(i).Name)
+        fmt.Printf(&#34;method:%s\n&#34;, methodType)
+        // 通过反射调用方法传递的参数必须是 []reflect.Value 类型
+        var args = []reflect.Value{}
+        v.Method(i).Call(args)
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>反射是把双刃剑<br />
+反射是一个强大并富有表现力的工具，能让我们写出更灵活的代码。但是反射不应该被滥用，原因有以下三个。</p>
+
+<p>基于反射的代码是极其脆弱的，反射中的类型错误会在真正运行的时候才会引发panic，那很可能是在代码写完的很长时间之后。<br />
+大量使用反射的代码通常难以理解。<br />
+反射的性能低下，基于反射实现的代码通常比正常代码运行速度慢一到两个数量级。</p>
+
+<h3 id="示例">示例</h3>
+
+<p>//获取类型信息和值信息
+    package main</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">import (
+    &#34;fmt&#34;
+    &#34;reflect&#34;
+)
+
+
+
+func reflect_type_value(a 接口{})  {
+    t := 反射.TypeOf(a)
+    k1 := t.Kind()
+    fmt.Println(&#34;a类型信息是&#34;,k1)
+
+    v :=反射.ValueOf(a)
+    k2 := v.Kind()
+    fmt.Println(&#34;a的值类型信息是:&#34;,k2)
+
+
+
+    switch k1 {
+    case 反射.Float64:
+        fmt.Println(&#34;a is Float64\n&#34;)
+    case 反射.String:
+        fmt.Println(&#34;a is string&#34;)
+    }
+
+    switch k2 {
+    case 反射.Float64:
+        fmt.Println(&#34;a is:&#34;,v.Float())
+    }
+}
+
+func main()  {
+    var x = 3.4
+    reflect_type_value(x)
+
+}</pre></td></tr></table>
+</div>
+</div>
+<p>//反射修改值的信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+    <span class="kn">import</span> <span class="p">(</span>
+        <span class="s">&#34;fmt&#34;</span>
+        <span class="s">&#34;reflect&#34;</span>
+    <span class="p">)</span>
+<span class="kd">func</span> <span class="nf">reflect_set_value</span><span class="p">(</span><span class="nx">a</span> <span class="nx">接口</span><span class="p">{})</span>  <span class="p">{</span>
+
+    <span class="nx">v</span> <span class="o">:=</span> <span class="nx">反射</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+    <span class="nx">k</span> <span class="o">:=</span> <span class="nx">v</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span>
+
+    <span class="k">switch</span> <span class="nx">k</span> <span class="p">{</span>
+        <span class="c1">//修改反射值
+</span><span class="c1"></span>    <span class="k">case</span> <span class="nx">反射</span><span class="p">.</span><span class="nx">Ptr</span><span class="p">:</span>
+        <span class="c1">//Elem()获取地址指向的值
+</span><span class="c1"></span>        <span class="nx">v</span><span class="p">.</span><span class="nf">Elem</span><span class="p">().</span><span class="nf">SetFloat</span><span class="p">(</span><span class="mf">7.9</span><span class="p">)</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;case:&#34;</span><span class="p">,</span><span class="nx">v</span><span class="p">.</span><span class="nf">Elem</span><span class="p">().</span><span class="nf">Float</span><span class="p">())</span>
+
+        <span class="c1">//打印v的地址
+</span><span class="c1"></span>        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nf">Pointer</span><span class="p">())</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">x</span> <span class="p">=</span> <span class="mf">3.4</span>
+    <span class="c1">//反射认为下面是指针类型, 不行float64
+</span><span class="c1"></span>    <span class="nf">reflect_set_value</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">x</span><span class="p">)</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<p>//结构体与反射 ,查看结构体类型和匿名字段</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+    <span class="kn">import</span> <span class="p">(</span>
+        <span class="s">&#34;fmt&#34;</span>
+        <span class="s">&#34;reflect&#34;</span>
+    <span class="p">)</span>
+<span class="kd">type</span> <span class="nx">User</span> <span class="nx">结构体</span> <span class="p">{</span>
+    <span class="nx">ID</span>   <span class="kt">int</span>
+    <span class="nx">Name</span> <span class="kt">string</span>
+    <span class="nx">Age</span>  <span class="kt">int</span>
+<span class="p">}</span>
+
+<span class="c1">//匿名字段
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Boy</span> <span class="nx">结构体</span> <span class="p">{</span>
+    <span class="nx">User</span>
+    <span class="nx">Addr</span> <span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">u</span> <span class="nx">User</span><span class="p">)</span> <span class="nf">Hello</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Hello&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">//传入interface
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">Poni</span><span class="p">(</span><span class="nx">o</span> <span class="nx">接口</span><span class="p">{})</span> <span class="p">{</span>
+
+    <span class="nx">t</span> <span class="o">:=</span> <span class="nx">反射</span><span class="p">.</span><span class="nf">TypeOf</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;类型是:&#34;</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span> <span class="c1">//传入的结构体类型
+</span><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;字符串类型是:&#34;</span><span class="p">,</span> <span class="nx">t</span><span class="p">.</span><span class="nf">Name</span><span class="p">())</span> <span class="c1">//结构体中元素的类型
+</span><span class="c1"></span>
+    <span class="nx">v</span> <span class="o">:=</span> <span class="nx">反射</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;值是:&#34;</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+
+    <span class="c1">//获取所有属性
+</span><span class="c1"></span>
+    <span class="c1">//获取结构体字段数量 t.NumFiled()
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">t</span><span class="p">.</span><span class="nf">NumField</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+
+        <span class="c1">//获取每个字段类型信息
+</span><span class="c1"></span>        <span class="nx">f</span> <span class="o">:=</span> <span class="nx">t</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%s :%v\n&#34;</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">Type</span><span class="p">)</span>
+
+        <span class="c1">//获取每个字段的值信息
+</span><span class="c1"></span>        <span class="c1">//Interface()获取字段对应的值
+</span><span class="c1"></span>        <span class="nx">value</span> <span class="o">:=</span> <span class="nx">v</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nf">Interface</span><span class="p">()</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;value:&#34;</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
+    <span class="p">}</span>
+        <span class="c1">//t.NumMethod()方法个数
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">t</span><span class="p">.</span><span class="nf">NumMethod</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="nx">m</span> <span class="o">:=</span> <span class="nx">t</span><span class="p">.</span><span class="nf">Method</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">m</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="nx">m</span><span class="p">.</span><span class="nx">Type</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">u</span> <span class="o">:=</span> <span class="nx">User</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#34;zs&#34;</span><span class="p">,</span> <span class="mi">23</span><span class="p">}</span>
+    <span class="nf">Poni</span><span class="p">(</span><span class="nx">u</span><span class="p">)</span>
+
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">()</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;========以下为匿名字段=========&#34;</span><span class="p">)</span>
+
+    <span class="c1">//查看匿名字段
+</span><span class="c1"></span>    <span class="nx">q</span> <span class="o">:=</span> <span class="nx">Boy</span><span class="p">{</span><span class="nx">User</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#34;qwe&#34;</span><span class="p">,</span> <span class="mi">45</span><span class="p">},</span> <span class="s">&#34;BJ&#34;</span><span class="p">}</span>
+    <span class="nx">t</span> <span class="o">:=</span> <span class="nx">反射</span><span class="p">.</span><span class="nf">TypeOf</span><span class="p">(</span><span class="nx">q</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span>
+    <span class="c1">//匿名Anonymous
+</span><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%#v\n&#34;</span><span class="p">,</span> <span class="nx">t</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="c1">//值信息
+</span><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%#v\n&#34;</span><span class="p">,</span> <span class="nx">反射</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">q</span><span class="p">).</span><span class="nf">Field</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="p">}</span>
+
+
+
+
+
+<span class="c1">//反射修改结构体的值和调用方法
+</span><span class="c1"></span><span class="o">/*</span>
+<span class="kd">type</span> <span class="nx">User</span> <span class="nx">结构体</span> <span class="p">{</span>
+    <span class="nx">ID</span>   <span class="kt">int</span>
+    <span class="nx">Name</span> <span class="kt">string</span>
+    <span class="nx">Age</span>  <span class="kt">int</span>
+<span class="p">}</span>
+
+<span class="c1">//定义方法
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">u</span> <span class="nx">User</span><span class="p">)</span><span class="nf">Hello</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Hello:&#34;</span><span class="p">,</span><span class="nx">name</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">//修改结构体的值
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">SetValue</span><span class="p">(</span><span class="nx">o</span> <span class="nx">接口</span><span class="p">{})</span>  <span class="p">{</span>
+    <span class="nx">v</span> <span class="o">:=</span> <span class="nx">反射</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span>
+
+    <span class="c1">//获取指针指向的元素
+</span><span class="c1"></span>    <span class="nx">v</span> <span class="p">=</span> <span class="nx">v</span><span class="p">.</span><span class="nf">Elem</span><span class="p">()</span>
+
+    <span class="c1">//先取字段
+</span><span class="c1"></span>    <span class="nx">f</span> <span class="o">:=</span> <span class="nx">v</span><span class="p">.</span><span class="nf">FieldByName</span><span class="p">(</span><span class="s">&#34;Name&#34;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">f</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="o">==</span> <span class="nx">反射</span><span class="p">.</span><span class="nx">String</span><span class="p">{</span>
+
+        <span class="c1">//修改值之前, 先得判断是不是string
+</span><span class="c1"></span>        <span class="nx">f</span><span class="p">.</span><span class="nf">SetString</span><span class="p">(</span><span class="s">&#34;wangwu&#34;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+
+    <span class="c1">//修改结构体的值
+</span><span class="c1"></span>    <span class="nx">u</span> <span class="o">:=</span> <span class="nx">User</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="s">&#34;sz&#34;</span><span class="p">,</span><span class="mi">20</span><span class="p">}</span>
+    <span class="nf">SetValue</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">u</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">u</span><span class="p">)</span>
+
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">()</span>
+
+    <span class="c1">//调用方法
+</span><span class="c1"></span>    <span class="nx">v</span> <span class="o">:=</span> <span class="nx">反射</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">u</span><span class="p">)</span>
+    <span class="c1">//获取方法
+</span><span class="c1"></span>    <span class="nx">m</span> <span class="o">:=</span> <span class="nx">v</span><span class="p">.</span><span class="nf">MethodByName</span><span class="p">(</span><span class="s">&#34;Hello&#34;</span><span class="p">)</span>
+    <span class="nx">args</span> <span class="o">:=</span> <span class="p">[]</span><span class="nx">反射</span><span class="p">.</span><span class="nx">Value</span><span class="p">{</span><span class="nx">反射</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="s">&#34;666&#34;</span><span class="p">)}</span>
+    <span class="c1">//传入方法的参数
+</span><span class="c1"></span>    <span class="nx">m</span><span class="p">.</span><span class="nf">Call</span><span class="p">(</span><span class="nx">args</span><span class="p">)</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<p>//获取字段的tag</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">    <span class="kn">package</span> <span class="nx">main</span>
+
+        <span class="kn">import</span> <span class="p">(</span>
+            <span class="s">&#34;fmt&#34;</span>
+            <span class="s">&#34;reflect&#34;</span>
+        <span class="p">)</span>
+<span class="kd">type</span> <span class="nx">Student</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">Name</span> <span class="kt">string</span> <span class="s">`json:&#34;name1&#34; db:&#34;name2&#34;`</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">s</span> <span class="nx">Student</span>
+    <span class="nx">v</span> <span class="o">:=</span><span class="nx">reflect</span><span class="p">.</span><span class="nf">TypeOf</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">s</span><span class="p">)</span>
+
+    <span class="c1">//获取字段
+</span><span class="c1"></span>    <span class="nx">f</span> <span class="o">:=</span> <span class="nx">v</span><span class="p">.</span><span class="nf">Elem</span><span class="p">().</span><span class="nf">Field</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">Tag</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;json&#34;</span><span class="p">))</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">Tag</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;db&#34;</span><span class="p">))</span>
+
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://veh47.github.io/tags/golang/">Golang</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Go语言中的并发编程</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/go%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F/">
+            <span class="next-text nav-default">Go数据格式</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  <div id="comments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 700);
+              clearInterval(checkExist);
+            }
+        }, 10);
+    }
+  </script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#comments' ,
+        appId: 'UsB52d49clgSaLyt9W25ff6J-gzGzoHsz',
+        appKey: 'A7x1tqpCpuAXKQX5BwcwXGdF',
+        notify:  false , 
+        verify:  false , 
+        avatar:'mm', 
+        placeholder: '',
+        visitor:  false 
+    });
+  </script>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:13522339471@163.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://github.com/veh47" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://www.weibo.com/u/5706670145/" rel="me noopener" class="iconfont"
+      title="weibo"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M385.714286 733.714286q12-19.428571 6.285714-39.428571t-25.714286-28.571429q-19.428571-8-41.714286-0.571429t-34.285714 26.285714q-12.571429 19.428571-7.428571 39.142857t24.571429 28.857143 42.571429 1.428571 35.714286-27.142857zm53.714286-69.142857q4.571429-7.428571 2-15.142857t-10-10.571429q-8-2.857143-16.285714 2.857143t-12.285714 10.571429q-9.714286 17.714286 7.428571 25.714286 8 2.857143 16.571429 2.857143t12.571429-10.571429zm99.428571 61.142857q-25.714286 58.285714-90.285714 85.714286t-128 6.857143q-61.142857-19.428571-84.285714-72.285714t3.714286-107.142857q26.857143-53.142857 86.571429-79.428571t120.285714-10.857143q63.428571 16.571429 90.571429 68.285714t1.428571 108.857143zm178.285714-91.428571q-5.142857-54.857143-50.857143-97.142857t-119.142857-62.285714-156.857143-12q-127.428571 13.142857-211.142857 80.857143t-75.714286 151.142857q5.142857 54.857143 50.857143 97.142857t119.142857 62.285714 156.857143 12q127.428571-13.142857 211.142857-80.857143t75.714286-151.142857zm176 2.285714q0 38.857143-21.142857 79.714286t-62.285714 78.285714-96.285714 67.142857-129.142857 47.428571-154.571429 17.714286-157.142857-19.142857-137.428571-53.142857-98-86.285714-37.142857-114q0-65.714286 39.714286-140t112.857143-147.428571q96.571429-96.571429 195.142857-134.857143t140.857143 4q37.142857 36.571429 11.428571 119.428571-2.285714 8-0.571429 11.428571t5.714286 4 8.285714 2.857143 7.714286-2l3.428571-1.142857q79.428571-33.714286 140.571429-33.714286t87.428571 34.857143q25.714286 36 0 101.714286-1.142857 7.428571-2.571429 11.428571t2.571429 7.142857 6.857143 4.285714 9.714286 3.428571q32.571429 10.285714 58.857143 26.857143t45.714286 46.571429 19.428571 66.571429zm-42.285714-356.571429q24 26.857143 31.142857 62t-3.714286 67.142857q-4.571429 13.142857-16.857143 19.428571t-25.428571 2.285714q-13.142857-4.571429-19.428571-16.857143t-2.285714-25.428571q11.428571-36-13.714286-63.428571t-61.142857-20q-13.714286 2.857143-25.714286-4.571429t-14.285714-21.142857q-2.857143-13.714286 4.571429-25.428571t21.142857-14.571429q34.285714-7.428571 68 3.142857t57.714286 37.428571zm103.428571-93.142857q49.714286 54.857143 64.285714 127.142857t-7.714286 138q-5.142857 15.428571-19.428571 22.857143t-29.714286 2.285714-22.857143-19.428571-2.857143-29.714286q16-46.857143 5.714286-98.285714t-45.714286-90.285714q-35.428571-39.428571-84.571429-54.571429t-98.857143-4.857143q-16 3.428571-29.714286-5.428571t-17.142857-24.857143 5.428571-29.428571 24.857143-16.857143q70.285714-14.857143 139.428571 6.571429t118.857143 76.857143z"></path>
+</svg>
+
+    </a>
+
+
+<a href="http://veh47.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+
+  <span class="copyright-year">
+    &copy;
+    
+       -
+    2019
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Eleven
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css"
+    integrity="sha384-BdGj8xC2eZkQaxoQ8nSLefg4AV4/AwB3Fj+8SUSo7pnKP6Eoy18liIKTPn9oBYNG"
+    crossorigin="anonymous">
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.js"
+    integrity="sha384-JiKN5O8x9Hhs/UE5cT5AAJqieYlOZbGT3CHws/y97o3ty4R7/O5poG9F3JoiOYw1"
+    crossorigin="anonymous"></script>
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+    crossorigin="anonymous" onload="renderMathInElement(document.body);">
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        
+      });
+    });
+  </script>
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    $("#openSearch, #openSearchMobile").click(function(){
+      $(".modal-dialog").addClass("visible");
+    });
+
+    $("#closeSearch").click(function(){
+      $(".modal-dialog").removeClass("visible");
+    });
+
+    $(document).click(function(event) {
+    
+      if (!$(event.target).closest(".modal-content, #openSearch, #openSearchMobile").length) {
+        $("body").find(".modal-dialog").removeClass("visible");
+      }
+    });
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>函数示例 - Eleven</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Eleven" />
+  <meta name="description" content="函数是组织好的、可重复使用的、用于执行指定任务的代码块。本文介绍了Go语言中函数的相关内容。
+Go语言中支持函数、匿名函数和闭包，并且函数在Go语言中属于“一等公民”。
+" />
+
+  <meta name="keywords" content="Eleven" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="canonical" href="http://veh47.github.io/post/go%E5%87%BD%E6%95%B0%E7%A4%BA%E4%BE%8B/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="函数示例" />
+<meta property="og:description" content="函数是组织好的、可重复使用的、用于执行指定任务的代码块。本文介绍了Go语言中函数的相关内容。
+
+Go语言中支持函数、匿名函数和闭包，并且函数在Go语言中属于“一等公民”。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://veh47.github.io/post/go%E5%87%BD%E6%95%B0%E7%A4%BA%E4%BE%8B/" />
+<meta property="article:published_time" content="2019-12-31T13:57:22+08:00" />
+<meta property="article:modified_time" content="2019-12-31T13:57:22+08:00" />
+<meta itemprop="name" content="函数示例">
+<meta itemprop="description" content="函数是组织好的、可重复使用的、用于执行指定任务的代码块。本文介绍了Go语言中函数的相关内容。
+
+Go语言中支持函数、匿名函数和闭包，并且函数在Go语言中属于“一等公民”。">
+
+
+<meta itemprop="datePublished" content="2019-12-31T13:57:22&#43;08:00" />
+<meta itemprop="dateModified" content="2019-12-31T13:57:22&#43;08:00" />
+<meta itemprop="wordCount" content="3390">
+
+
+
+<meta itemprop="keywords" content="Golang," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="函数示例"/>
+<meta name="twitter:description" content="函数是组织好的、可重复使用的、用于执行指定任务的代码块。本文介绍了Go语言中函数的相关内容。
+
+Go语言中支持函数、匿名函数和闭包，并且函数在Go语言中属于“一等公民”。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Eleven</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+      <li class="mobile-menu-item">
+        <a id="openSearchMobile" class="mobile-menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+    
+<div class="modal-dialog">
+    
+    <div class="modal-content">
+      <div id="closeSearch" title="Close" class="close">X</div>
+      <div class="modal-header">
+        <div class="modal-title">Search</div>
+      </div>
+      <div class="modal-body">
+          <script>
+            (function() {
+              var cx = '012427586116641581695:iilii6hg9u2';
+              var gcse = document.createElement('script');
+              gcse.type = 'text/javascript';
+              gcse.async = true;
+              gcse.src = (document.location.protocol == 'https:' ? 'https:' :
+                  'http:') +
+                '//cse.google.com/cse.js?cx=' + cx;
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(gcse, s);
+            })();
+          </script>
+          <gcse:search></gcse:search>
+      </div>
+    </div>
+</div>
+
+  
+
+  
+    <style>
+      .fork-me-on-github {
+        position: absolute; top: 0; left: 0; border: 0;
+      }
+      @media (max-width: 1080px) {
+        .fork-me-on-github {
+          display: none;
+        }
+      }
+    </style>
+
+    <a href="https://github.com/veh47">
+      <img class="fork-me-on-github"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"
+        alt="Fork me on GitHub">
+    </a>
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Eleven
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+      <li class="menu-item">
+        <a id="openSearch" class="menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">函数示例</h1>
+      
+      <div class="post-meta">
+        <time datetime="2019-12-31" class="post-time">
+          2019-12-31
+        </time>
+        <div class="post-category">
+            <a href="http://veh47.github.io/categories/golang/"> Golang </a>
+            
+          </div>
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#函数定义">函数定义</a></li>
+<li><a href="#函数的调用">函数的调用</a></li>
+<li><a href="#函数类型与变量">函数类型与变量</a></li>
+<li><a href="#高阶函数">高阶函数</a></li>
+<li><a href="#匿名函数和闭包">匿名函数和闭包</a></li>
+<li><a href="#闭包">闭包</a></li>
+<li><a href="#闭包进阶示例2">闭包进阶示例2：</a></li>
+<li><a href="#闭包进阶示例3">闭包进阶示例3：</a></li>
+<li><a href="#defer语句">defer语句</a>
+<ul>
+<li><a href="#defer经典案例">defer经典案例</a></li>
+</ul></li>
+<li><a href="#内置函数">内置函数</a></li>
+<li><a href="#panic-recover">panic/recover</a></li>
+</ul></li>
+<li><a href="#示例">示例</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>函数是组织好的、可重复使用的、用于执行指定任务的代码块。本文介绍了Go语言中函数的相关内容。</p>
+
+<p>Go语言中支持函数、匿名函数和闭包，并且函数在Go语言中属于“一等公民”。</p>
+
+<h3 id="函数定义">函数定义</h3>
+
+<p>Go语言中定义函数使用func关键字，具体格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func 函数名(参数)(返回值){
+    函数体
+}</pre></td></tr></table>
+</div>
+</div>
+<p>其中：<br />
+函数名：由字母、数字、下划线组成。但函数名的第一个字母不能是数字。在同一个包内，函数名也称不能重名（包的概念详见后文）。<br />
+参数：参数由参数变量和参数变量的类型组成，多个参数之间使用,分隔。<br />
+返回值：返回值由返回值变量和其变量类型组成，也可以只写返回值的类型，多个返回值必须用()包裹，并用,分隔。<br />
+函数体：实现指定功能的代码块。</p>
+
+<h3 id="函数的调用">函数的调用</h3>
+
+<p>以下例子, 定义函数intsum. 参数 x y 为int类型, 返回值则也是int类型.
+    package main</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">import &#34;fmt&#34;
+
+func intsum(x,y int)int  {      //当两个参数的类型相同时, 可以使用逗号分隔两个参数, 写一个参数类型
+    return x-y                  //返回x与y的差
+}
+
+func main()  {
+    cc := intsum(3,2)          //传入x和y的值, 函数中定义了是int类型, 这里就必须传入int类型
+    fmt.Println(&#34;x-y=&#34;,cc)     //打印出最终返回值
+}</pre></td></tr></table>
+</div>
+</div>
+<p><strong><em>示例: 计算圆面积</em></strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+
+<span class="kd">const</span> <span class="nx">PI</span>  <span class="p">=</span> <span class="mf">3.12</span>        <span class="c1">//定义常量 PI 
+</span><span class="c1"></span>
+<span class="kd">func</span> <span class="nf">mianji</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">radius</span> <span class="p">=</span> <span class="mi">10</span>     <span class="c1">//定义半径这个变量为10
+</span><span class="c1"></span>    <span class="nx">ares</span> <span class="o">:=</span> <span class="nx">PI</span> <span class="o">*</span> <span class="nb">float32</span><span class="p">(</span><span class="nx">radius</span><span class="p">)</span><span class="o">*</span><span class="nb">float32</span><span class="p">(</span><span class="nx">radius</span><span class="p">)</span>    <span class="c1">//圆面积的Πr²
+</span><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">ares</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nf">mianji</span><span class="p">()</span>          <span class="c1">//调用函数mianji
+</span><span class="c1"></span><span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<h3 id="函数类型与变量">函数类型与变量</h3>
+
+<p>定义函数类型<br />
+我们可以使用type关键字来定义一个函数类型，具体格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">type calculation func(int, int) int</pre></td></tr></table>
+</div>
+</div>
+<p>上面语句定义了一个calculation类型，它是一种函数类型，这种函数接收两个int类型的参数并且返回一个int类型的返回值。</p>
+
+<p>简单来说，凡是满足这个条件的函数都是calculation类型的函数，例如下面的add和sub是calculation类型。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func add(x, y int) int {
+    return x + y
+}
+
+func sub(x, y int) int {
+    return x - y
+}</pre></td></tr></table>
+</div>
+</div>
+<p>add和sub都能赋值给calculation类型的变量。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">var c calculation
+c = add</pre></td></tr></table>
+</div>
+</div>
+<p>函数类型变量
+我们可以声明函数类型的变量并且为该变量赋值：
+     package main</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">import &#34;fmt&#34;
+
+func main() {
+    var c calculation               // 声明一个calculation类型的变量c
+    c = add                         // 把add赋值给c
+    fmt.Printf(&#34;type of c:%T\n&#34;, c) // type of c:main.calculation
+    fmt.Println(c(1, 2))            // 像调用add一样调用c
+
+    f := add                        // 将函数add赋值给变量f1
+    fmt.Printf(&#34;type of f:%T\n&#34;, f) // type of f:func(int, int) int
+    fmt.Println(f(10, 20))          // 像调用add一样调用f
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="高阶函数">高阶函数</h3>
+
+<p>高阶函数分为函数作为参数和函数作为返回值两部分。</p>
+
+<p>函数可以作为参数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+
+<span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span>
+<span class="p">}</span>
+<span class="kd">func</span> <span class="nf">calc</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">op</span> <span class="kd">func</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">op</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">ret2</span> <span class="o">:=</span> <span class="nf">calc</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="nx">add</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">ret2</span><span class="p">)</span> <span class="c1">//30
+</span><span class="c1"></span><span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<p>函数作为返回值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+
+<span class="kd">func</span> <span class="nf">do</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="nx">s</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="s">&#34;+&#34;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nx">add</span><span class="p">,</span> <span class="kc">nil</span>
+    <span class="k">case</span> <span class="s">&#34;-&#34;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nx">sub</span><span class="p">,</span> <span class="kc">nil</span>
+    <span class="k">default</span><span class="p">:</span>
+        <span class="nx">err</span> <span class="o">:=</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;无法识别的操作符&#34;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+    <span class="p">}</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<h3 id="匿名函数和闭包">匿名函数和闭包</h3>
+
+<p>匿名函数<br />
+函数当然还可以作为返回值，但是在Go语言中函数内部不能再像之前那样定义函数了，只能定义匿名函数。匿名函数就是没有函数名的函数，匿名函数的定义格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func(参数)(返回值){
+    函数体
+}</pre></td></tr></table>
+</div>
+</div>
+<p>匿名函数因为没有函数名，所以没办法像普通函数那样调用，所以匿名函数需要保存到某个变量或者作为立即执行函数:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 将匿名函数保存到变量
+</span><span class="c1"></span>    <span class="nx">add</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nf">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="c1">// 通过变量调用匿名函数
+</span><span class="c1"></span>
+    <span class="c1">//自执行函数：匿名函数定义完加()直接执行
+</span><span class="c1"></span>    <span class="kd">func</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">)</span>
+    <span class="p">}(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<p>匿名函数多用于实现回调函数和闭包。</p>
+
+<p><strong><em>示例</em></strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+
+<span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span> <span class="kt">int</span><span class="p">)</span><span class="kt">int</span>  <span class="p">{</span>
+    <span class="k">return</span>  <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">test1</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nx">f1</span> <span class="o">:=</span> <span class="nx">add</span>
+    <span class="nx">sum</span> <span class="o">:=</span> <span class="nf">f1</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">sum</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">test2</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nx">f2</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">a</span> <span class="p">,</span><span class="nx">b</span> <span class="kt">int</span><span class="p">)</span><span class="kt">int</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span>
+    <span class="p">}</span>
+    <span class="nx">sum2</span> <span class="o">:=</span> <span class="nf">f2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">sum2</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">test3</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">i</span> <span class="p">=</span> <span class="mi">0</span>
+    <span class="k">defer</span> <span class="kd">func</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span> <span class="kt">int</span><span class="p">)</span><span class="kt">int</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nx">a</span><span class="o">+</span><span class="nx">b</span>
+    <span class="p">}(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="nx">i</span> <span class="p">=</span> <span class="mi">100</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+
+<span class="p">}</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nf">test1</span><span class="p">()</span>
+    <span class="nf">test2</span><span class="p">()</span>
+    <span class="nf">test3</span><span class="p">()</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<p><strong><em>匿名函数作为参数</em></strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+
+<span class="kd">func</span> <span class="nf">test</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span> <span class="kt">int</span> <span class="p">,</span> <span class="nx">my</span> <span class="kd">func</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">)</span><span class="kt">int</span><span class="p">)</span><span class="kt">int</span>  <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">my</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="kd">func</span> <span class="nf">sub</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span> <span class="kt">int</span><span class="p">)</span><span class="kt">int</span>  <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">a</span> <span class="o">-</span> <span class="nx">b</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nx">res</span> <span class="o">:=</span> <span class="nf">test</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="nx">sub</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<h3 id="闭包">闭包</h3>
+
+<p>闭包指的是一个函数和与其相关的引用环境组合而成的实体。简单来说，闭包=函数+引用环境。 首先我们来看一个例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func adder() func(int) int {
+    var x int
+    return func(y int) int {
+        x += y
+        return x
+    }
+}
+func main() {
+    var f = adder()
+    fmt.Println(f(10)) //10
+    fmt.Println(f(20)) //30
+    fmt.Println(f(30)) //60
+
+    f1 := adder()
+    fmt.Println(f1(40)) //40
+    fmt.Println(f1(50)) //90
+}</pre></td></tr></table>
+</div>
+</div>
+<p>变量f是一个函数并且它引用了其外部作用域中的x变量，此时f就是一个闭包。 在f的生命周期内，变量x也一直有效。 闭包进阶示例1：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func adder2(x int) func(int) int {
+    return func(y int) int {
+        x += y
+        return x
+    }
+}
+func main() {
+    var f = adder2(10)
+    fmt.Println(f(10)) //20
+    fmt.Println(f(20)) //40
+    fmt.Println(f(30)) //70
+
+    f1 := adder2(20)
+    fmt.Println(f1(40)) //60
+    fmt.Println(f1(50)) //110
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="闭包进阶示例2">闭包进阶示例2：</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func makeSuffixFunc(suffix string) func(string) string {
+    return func(name string) string {
+        if !strings.HasSuffix(name, suffix) {
+            return name + suffix
+        }
+        return name
+    }
+}
+
+func main() {
+    jpgFunc := makeSuffixFunc(&#34;.jpg&#34;)
+    txtFunc := makeSuffixFunc(&#34;.txt&#34;)
+    fmt.Println(jpgFunc(&#34;test&#34;)) //test.jpg
+    fmt.Println(txtFunc(&#34;test&#34;)) //test.txt
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="闭包进阶示例3">闭包进阶示例3：</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func calc(base int) (func(int) int, func(int) int) {
+    add := func(i int) int {
+        base += i
+        return base
+    }
+
+    sub := func(i int) int {
+        base -= i
+        return base
+    }
+    return add, sub
+}
+
+func main() {
+    f1, f2 := calc(10)
+    fmt.Println(f1(1), f2(2)) //11 9
+    fmt.Println(f1(3), f2(4)) //12 8
+    fmt.Println(f1(5), f2(6)) //13 7
+}</pre></td></tr></table>
+</div>
+</div>
+<p>闭包其实并不复杂，只要牢记闭包=函数+引用环境。</p>
+
+<h3 id="defer语句">defer语句</h3>
+
+<p>Go语言中的defer语句会将其后面跟随的语句进行延迟处理。在defer归属的函数即将返回时，将延迟处理的语句按defer定义的逆序进行执行，也就是说，先被defer的语句最后被执行，最后被defer的语句，最先被执行。</p>
+
+<p>举个例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func main() {
+    fmt.Println(&#34;start&#34;)
+    defer fmt.Println(1)
+    defer fmt.Println(2)
+    defer fmt.Println(3)
+    fmt.Println(&#34;end&#34;)
+}
+输出结果：
+
+start
+end
+3
+2
+1</pre></td></tr></table>
+</div>
+</div>
+<p>由于defer语句延迟调用的特性，所以defer语句能非常方便的处理资源释放问题。比如：资源清理、文件关闭、解锁及记录时间等。</p>
+
+<p>defer执行时机<br />
+在Go语言的函数中return语句在底层并不是原子操作，它分为给返回值赋值和RET指令两步。而defer语句执行的时机就在返回值赋值操作后，RET指令执行前。具体如下图所示：</p>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAx8AAAErCAYAAAC/0D43AAABfGlDQ1BJQ0MgUHJvZmlsZQAAKJFjYGAqSSwoyGFhYGDIzSspCnJ3UoiIjFJgv8PAzcDDIMRgxSCemFxc4BgQ4MOAE3y7xsAIoi/rgsxK8/x506a1fP4WNq+ZclYlOrj1gQF3SmpxMgMDIweQnZxSnJwLZOcA2TrJBUUlQPYMIFu3vKQAxD4BZIsUAR0IZN8BsdMh7A8gdhKYzcQCVhMS5AxkSwDZAkkQtgaInQ5hW4DYyRmJKUC2B8guiBvAgNPDRcHcwFLXkYC7SQa5OaUwO0ChxZOaFxoMcgcQyzB4MLgwKDCYMxgwWDLoMjiWpFaUgBQ65xdUFmWmZ5QoOAJDNlXBOT+3oLQktUhHwTMvWU9HwcjA0ACkDhRnEKM/B4FNZxQ7jxDLX8jAYKnMwMDcgxBLmsbAsH0PA4PEKYSYyjwGBn5rBoZt5woSixLhDmf8xkKIX5xmbARh8zgxMLDe+///sxoDA/skBoa/E////73o//+/i4H2A+PsQA4AJHdp4IxrEg8AAEAASURBVHgB7J0HeFRFF4YPvYUQivRepRcBQURAuoKAAvJTBFGkqIBUKUoHEaQIKE2KYKEJCDYsgCCKCog0ASGhRLrUQOj/fHOZzd3NbprJspt853k2e8vcmbnv3czcM+ecmWR3lQiFBEiABEiABEiABEiABEiABBKYQPIEzp/ZkwAJkAAJkAAJkAAJkAAJkIAmQOWDPwQSIAESIAESIAESIAESIAGvEKDy4RXMLIQESIAESIAESIAESIAESIDKB38DJEACJEACJEACJEACJEACXiFA5cMrmFkICZAACZAACZAACZAACZAAlQ/+BkiABEiABEiABEiABEiABLxCgMqHVzCzEBIgARIgARIgARIgARIgASof/A2QAAmQAAmQAAmQAAmQAAl4hQCVD69gZiEkQAIkQAIkQAIkQAIkQAJUPvgbIAESIAESIAESIAESIAES8AoBKh9ewcxCSIAESIAESIAESIAESIAEqHzwN0ACJEACJEACJEACJEACJOAVAlQ+vIKZhZAACZAACZAACZAACZAACVD54G+ABEiABEiABEiABEiABEjAKwSofHgFMwshARIgARIgARIgARIgARKg8sHfAAmQAAmQAAmQAAmQAAmQgFcIUPnwCmYWQgIkQAIkQAIkQAIkQAIkQOWDvwESIAESIAESIAESIAESIAGvEKDy4RXMLIQESIAESIAESIAESIAESIDKB38DJEACJEACJEACJEACJEACXiFA5cMrmFkICZAACZAACZAACZAACZAAlQ/+BkiABEiABEiABEiABEiABLxCgMqHVzCzEBIgARIgARIgARIgARIgASof/A2QAAmQAAmQAAmQAAmQAAl4hQCVD69gZiEkQAIkQAIkQAIkQAIkQAJUPvgbIAESIAESIAESIAESIAES8AoBKh9ewcxCSIAESIAESIAESIAESIAEqHzwN0ACJEACJEACJEACJEACJOAVAlQ+vIKZhZAACZAACZAACZAACZAACVD54G+ABEiABEiABEiABEiABEjAKwSofHgFMwshARIgARIgARIgARIgARKg8sHfAAmQAAmQAAmQAAmQAAmQgFcIUPnwCmYWQgIkQAIkQAIkQAIkQAIkQOWDvwESIAESIAESIAESIAESIAGvEKDy4RXMLIQESIAESIAESIAESIAESIDKB38DJEACJEACJEACJEACJEACXiFA5cMrmFkICZAACZAACZAACZAACZAAlQ/+BkiABEiABEiABEiABEiABLxCgMqHVzCzEBIgARIgARIgARIgARIgASof/A2QAAmQAAmQAAmQAAmQAAl4hQCVD69gZiEkQAIkQAIkQAIkQAIkQAJUPvgbIAESIAESIAESIAESIAES8AoBKh9ewcxCSIAESIAESIAESIAESIAEqHzwN0ACJEACJEACJEACJEACJOAVAlQ+vIKZhZAACZAACZAACZAACZAACVD54G+ABEiABEiABEiABEiABEjAKwSofHgFMwshARIgARIgARIgARIgARKg8sHfAAmQAAmQAAmQAAmQAAmQgFcIUPnwCmYWQgIkQAIkQAIkQAIkQAIkQOWDvwESIAESIAESIAESIAESIAGvEKDy4RXMLIQESIAESIAESIAESIAESIDKB38DJEACJEACJEACJEACJEACXiFA5cMrmFkICZAACZAACZAACZAACZAAlQ/+BkiABEiABEiABEiABEiABLxCgMqHVzCzEBIgARIgARIgARIgARIgASof/A2QAAmQAAmQAAmQAAmQAAl4hQCVD69gZiEkQAIkQAIkQAIkQAIkQAJUPvgbIAESIAESIAESIAESIAES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llUFli8ET6LeFBIgARKILwJof0JDLdfj+Mozunx+32YN+I0a4ZwSbV531U+/p9rLmL78zl+oLBaqD8ACgrDI2KfBhbUFA41od5s1teL/0JbD8uxuUhFYgeBiBusJrOBGUC9YfjAbJgayjCAmEJZz9D2wZJv4QXMe37BIQCGMqu2GGxisLoUKWgs22mNJkYcnOXFCxSUus86i/8LEK/b7t183eqwaaFPKHuoCpQUrqbsK+k3cK+J87P2pazru+w0BKh9+86hYURIgARIgARIgARIgARLwbwJKLaaQAAmQAAmQAAmQAAmQAAmQQMIToPKR8IxZAgmQAAmQAAmQAAmQAAmQgCJA5YM/AxIgARIgARIgARIgARIgAa8QoPLhFcwshARIgARIgARIgARIgARIgMoHfwMkQAIkQAIkQAIkQAIkQAJeIUDlwyuYWQgJkAAJkAAJkAAJkAAJkACVD/4GSIAESIAESIAESIAESIAEvEKAyodXMLMQEiABEiABEiABEiABEiABKh/8DZAACZAACZAACZAACZAACXiFAJUPr2BmISRAAiRAAiRAAiRAAiRAAlQ++BsgARIgARIgARIgARIgARLwCgEqH17BzEJIgARIgARIgARIgARIgASofPA3QAIkQAIkQAIkQAIkQAIk4BUCVD68gpmFkAAJkAAJkAAJkAAJkAAJUPngb4AESIAESIAESIAESIAESMArBKh8eAUzCyEBEiABEiABEiABEiABEqDywd8ACZAACZAACZAACZAACZCAVwhQ+fAKZhZCAiRAAiRAAiRAAiRAAiRA5YO/ARIgARIgARIgARIgARIgAa8QoPLhFcwshARIgARIgARIgARIgARIgMoHfwMkQAIkQAIkQAIkQAIkQAJeIUDlwyuYWQgJkAAJkAAJkAAJkAAJkACVD/4GSIAESIAESIAESIAESIAEvEIgpVdKYSEkQAIkQAIkQAIkQAJ+QSA8PFxmzJghmzZtktDQUME+xb8IpEmTRnLlyiUVKlSQ/v37S2BgoM/cQLK7SnymNqwICZAACZAACZAACZDAfSMARaN169YSHBx83+rAguOXQObMmWXlypWSNWvW+M04jrnR8hFHcLyMBEiABEiABEiABBIbgdmzZ2vFI1NQgHTs1Vwq1ywj2XJkTmy3mejv58qlq7Jz636ZP2Wl/HP0lIwaNUqmTJni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" alt="images" /></p>
+
+<h4 id="defer经典案例">defer经典案例</h4>
+
+<p>阅读下面的代码，写出最后的打印结果。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func f1() int {
+    x := 5
+    defer func() {
+        x++
+    }()
+    return x
+}
+
+func f2() (x int) {
+    defer func() {
+        x++
+    }()
+    return 5
+}
+
+func f3() (y int) {
+    x := 5
+    defer func() {
+        x++
+    }()
+    return x
+}
+func f4() (x int) {
+    defer func(x int) {
+        x++
+    }(x)
+    return 5
+}
+func main() {
+    fmt.Println(f1())
+    fmt.Println(f2())
+    fmt.Println(f3())
+    fmt.Println(f4())
+}</pre></td></tr></table>
+</div>
+</div>
+<p>defer面试题</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func calc(index string, a, b int) int {
+    ret := a + b
+    fmt.Println(index, a, b, ret)
+    return ret
+}
+
+func main() {
+    x := 1
+    y := 2
+    defer calc(&#34;AA&#34;, x, calc(&#34;A&#34;, x, y))
+    x = 10
+    defer calc(&#34;BB&#34;, x, calc(&#34;B&#34;, x, y))
+    y = 20
+}</pre></td></tr></table>
+</div>
+</div>
+<p>问，上面代码的输出结果是？（提示：defer注册要延迟执行的函数时该函数所有的参数都需要确定其值）</p>
+
+<h3 id="内置函数">内置函数</h3>
+
+<table>
+<thead>
+<tr>
+<th>内置函数</th>
+<th align="center">介绍</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>close</td>
+<td align="center">主要用来关闭channel</td>
+</tr>
+
+<tr>
+<td>len</td>
+<td align="center">用来求长度，比如string、array、slice、map、channel</td>
+</tr>
+
+<tr>
+<td>new</td>
+<td align="center">用来分配内存，主要用来分配值类型，比如int、struct。返回的是指针</td>
+</tr>
+
+<tr>
+<td>make</td>
+<td align="center">用来分配内存，主要用来分配引用类型，比如chan、map、slice</td>
+</tr>
+
+<tr>
+<td>append</td>
+<td align="center">用来追加元素到数组、slice中</td>
+</tr>
+
+<tr>
+<td>panic和recover</td>
+<td align="center">用来做错误处理</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="panic-recover">panic/recover</h3>
+
+<p>Go语言中目前（Go1.12）是没有异常机制，但是使用panic/recover模式来处理错误。 panic可以在任何地方引发，但recover只有在defer调用的函数中有效。 首先来看一个例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func funcA() {
+    fmt.Println(&#34;func A&#34;)
+}
+
+func funcB() {
+    panic(&#34;panic in B&#34;)
+}
+
+func funcC() {
+    fmt.Println(&#34;func C&#34;)
+}
+func main() {
+    funcA()
+    funcB()
+    funcC()
+}</pre></td></tr></table>
+</div>
+</div>
+<p>输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func A
+panic: panic in B
+
+goroutine 1 [running]:
+main.funcB(...)
+        .../code/func/main.go:12
+main.main()
+        .../code/func/main.go:20 +0x98</pre></td></tr></table>
+</div>
+</div>
+<p>程序运行期间funcB中引发了panic导致程序崩溃，异常退出了。这个时候我们就可以通过recover将程序恢复回来，继续往后执行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func funcA() {
+    fmt.Println(&#34;func A&#34;)
+}
+
+func funcB() {
+    defer func() {
+        err := recover()
+        //如果程序出出现了panic错误,可以通过recover恢复过来
+        if err != nil {
+            fmt.Println(&#34;recover in B&#34;)
+        }
+    }()
+    panic(&#34;panic in B&#34;)
+}
+
+func funcC() {
+    fmt.Println(&#34;func C&#34;)
+}
+func main() {
+    funcA()
+    funcB()
+    funcC()
+}</pre></td></tr></table>
+</div>
+</div>
+<p>注意：</p>
+
+<p><strong><em>recover()必须搭配defer使用。</em></strong>
+<strong><em>defer一定要在可能引发panic的语句之前定义。</em></strong></p>
+
+<h2 id="示例">示例</h2>
+
+<p>//打印1到100的所有质数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func zhishu(n int)bool  {
+    if n &lt;= 1{
+        return false
+    }
+    for i := 2; i&lt;n;i++ {
+        if n%i == 0 {
+
+        return false
+      }
+    }
+    return true
+}
+func main()  {
+    for i := 2; i&lt;100;i++{
+        if zhishu(i){
+            fmt.Printf(&#34;%d是质数\n&#34;,i)
+        }
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>//打印100到1000水仙花数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func huahua(n int)bool  {
+    first := n%10
+    second := (n/10)%10
+    third := (n/100)%10
+    sum := first*first-first + second*second*second + third*third*third
+    if sum == n {
+        return true
+    }
+    return false
+}
+
+func main()  {
+    for i:= 100; i&lt;=1000;i++{
+        if huahua(i) {
+            fmt.Printf(&#34;%d is huahua\n&#34;, i)
+        }
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>//传入一行字符，分别统计出其中英文字母、空格、数字和其他字符的个数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func test1(str string)(charCount int,numCount int, spaceCount int,otherCount int)  {
+    utf := []rune(str)
+    for i := 0 ;i &lt; len(utf); i++ {
+
+            if (utf[i] &gt;= &#39;a&#39; &amp;&amp; utf[i] &lt;= &#39;z&#39;) || (utf[i] &gt;= &#39;A&#39; &amp;&amp; utf[i] &lt;= &#39;Z&#39;){
+                charCount++
+                continue
+            }
+            if (utf[i] &gt;= 0 &amp;&amp; utf[i]&lt;=9){
+                numCount++
+                continue
+            }
+            if (utf[i] == &#39; &#39;){
+                spaceCount++
+                continue
+            }
+            otherCount++
+        }
+    return
+    }
+
+
+func main()  {
+    var str = &#34;sdfh 54考试的结果和&#34;
+    fmt.Println(test1(str))
+}</pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://veh47.github.io/tags/golang/">Golang</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/go%E6%95%B0%E7%BB%84%E7%A4%BA%E4%BE%8B/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Go数组示例</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/nginx%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
+            <span class="next-text nav-default">Nginx性能优化</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  <div id="comments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 700);
+              clearInterval(checkExist);
+            }
+        }, 10);
+    }
+  </script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#comments' ,
+        appId: 'UsB52d49clgSaLyt9W25ff6J-gzGzoHsz',
+        appKey: 'A7x1tqpCpuAXKQX5BwcwXGdF',
+        notify:  false , 
+        verify:  false , 
+        avatar:'mm', 
+        placeholder: '',
+        visitor:  false 
+    });
+  </script>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:13522339471@163.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://github.com/veh47" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://www.weibo.com/u/5706670145/" rel="me noopener" class="iconfont"
+      title="weibo"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M385.714286 733.714286q12-19.428571 6.285714-39.428571t-25.714286-28.571429q-19.428571-8-41.714286-0.571429t-34.285714 26.285714q-12.571429 19.428571-7.428571 39.142857t24.571429 28.857143 42.571429 1.428571 35.714286-27.142857zm53.714286-69.142857q4.571429-7.428571 2-15.142857t-10-10.571429q-8-2.857143-16.285714 2.857143t-12.285714 10.571429q-9.714286 17.714286 7.428571 25.714286 8 2.857143 16.571429 2.857143t12.571429-10.571429zm99.428571 61.142857q-25.714286 58.285714-90.285714 85.714286t-128 6.857143q-61.142857-19.428571-84.285714-72.285714t3.714286-107.142857q26.857143-53.142857 86.571429-79.428571t120.285714-10.857143q63.428571 16.571429 90.571429 68.285714t1.428571 108.857143zm178.285714-91.428571q-5.142857-54.857143-50.857143-97.142857t-119.142857-62.285714-156.857143-12q-127.428571 13.142857-211.142857 80.857143t-75.714286 151.142857q5.142857 54.857143 50.857143 97.142857t119.142857 62.285714 156.857143 12q127.428571-13.142857 211.142857-80.857143t75.714286-151.142857zm176 2.285714q0 38.857143-21.142857 79.714286t-62.285714 78.285714-96.285714 67.142857-129.142857 47.428571-154.571429 17.714286-157.142857-19.142857-137.428571-53.142857-98-86.285714-37.142857-114q0-65.714286 39.714286-140t112.857143-147.428571q96.571429-96.571429 195.142857-134.857143t140.857143 4q37.142857 36.571429 11.428571 119.428571-2.285714 8-0.571429 11.428571t5.714286 4 8.285714 2.857143 7.714286-2l3.428571-1.142857q79.428571-33.714286 140.571429-33.714286t87.428571 34.857143q25.714286 36 0 101.714286-1.142857 7.428571-2.571429 11.428571t2.571429 7.142857 6.857143 4.285714 9.714286 3.428571q32.571429 10.285714 58.857143 26.857143t45.714286 46.571429 19.428571 66.571429zm-42.285714-356.571429q24 26.857143 31.142857 62t-3.714286 67.142857q-4.571429 13.142857-16.857143 19.428571t-25.428571 2.285714q-13.142857-4.571429-19.428571-16.857143t-2.285714-25.428571q11.428571-36-13.714286-63.428571t-61.142857-20q-13.714286 2.857143-25.714286-4.571429t-14.285714-21.142857q-2.857143-13.714286 4.571429-25.428571t21.142857-14.571429q34.285714-7.428571 68 3.142857t57.714286 37.428571zm103.428571-93.142857q49.714286 54.857143 64.285714 127.142857t-7.714286 138q-5.142857 15.428571-19.428571 22.857143t-29.714286 2.285714-22.857143-19.428571-2.857143-29.714286q16-46.857143 5.714286-98.285714t-45.714286-90.285714q-35.428571-39.428571-84.571429-54.571429t-98.857143-4.857143q-16 3.428571-29.714286-5.428571t-17.142857-24.857143 5.428571-29.428571 24.857143-16.857143q70.285714-14.857143 139.428571 6.571429t118.857143 76.857143z"></path>
+</svg>
+
+    </a>
+
+
+<a href="http://veh47.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+
+  <span class="copyright-year">
+    &copy;
+    
+       -
+    2019
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Eleven
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css"
+    integrity="sha384-BdGj8xC2eZkQaxoQ8nSLefg4AV4/AwB3Fj+8SUSo7pnKP6Eoy18liIKTPn9oBYNG"
+    crossorigin="anonymous">
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.js"
+    integrity="sha384-JiKN5O8x9Hhs/UE5cT5AAJqieYlOZbGT3CHws/y97o3ty4R7/O5poG9F3JoiOYw1"
+    crossorigin="anonymous"></script>
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+    crossorigin="anonymous" onload="renderMathInElement(document.body);">
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        
+      });
+    });
+  </script>
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    $("#openSearch, #openSearchMobile").click(function(){
+      $(".modal-dialog").addClass("visible");
+    });
+
+    $("#closeSearch").click(function(){
+      $(".modal-dialog").removeClass("visible");
+    });
+
+    $(document).click(function(event) {
+    
+      if (!$(event.target).closest(".modal-content, #openSearch, #openSearchMobile").length) {
+        $("body").find(".modal-dialog").removeClass("visible");
+      }
+    });
+  </script>
+
+
+
+
+
+</body>
+</html>

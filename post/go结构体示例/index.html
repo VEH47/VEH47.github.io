@@ -1,0 +1,2507 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Go结构体示例 - Eleven</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Eleven" />
+  <meta name="description" content="Go语言中没有“类”的概念，也不支持“类”的继承等面向对象的概念。Go语言中通过结构体的内嵌再配合接口比面向对象具有更高的扩展性和灵活性。 G" />
+
+  <meta name="keywords" content="Eleven" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="canonical" href="http://veh47.github.io/post/go%E7%BB%93%E6%9E%84%E4%BD%93%E7%A4%BA%E4%BE%8B/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Go结构体示例" />
+<meta property="og:description" content="Go语言中没有“类”的概念，也不支持“类”的继承等面向对象的概念。Go语言中通过结构体的内嵌再配合接口比面向对象具有更高的扩展性和灵活性。 G" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://veh47.github.io/post/go%E7%BB%93%E6%9E%84%E4%BD%93%E7%A4%BA%E4%BE%8B/" />
+<meta property="article:published_time" content="2019-12-31T15:29:44+08:00" />
+<meta property="article:modified_time" content="2019-12-31T15:29:44+08:00" />
+<meta itemprop="name" content="Go结构体示例">
+<meta itemprop="description" content="Go语言中没有“类”的概念，也不支持“类”的继承等面向对象的概念。Go语言中通过结构体的内嵌再配合接口比面向对象具有更高的扩展性和灵活性。 G">
+
+
+<meta itemprop="datePublished" content="2019-12-31T15:29:44&#43;08:00" />
+<meta itemprop="dateModified" content="2019-12-31T15:29:44&#43;08:00" />
+<meta itemprop="wordCount" content="8717">
+
+
+
+<meta itemprop="keywords" content="Golang," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Go结构体示例"/>
+<meta name="twitter:description" content="Go语言中没有“类”的概念，也不支持“类”的继承等面向对象的概念。Go语言中通过结构体的内嵌再配合接口比面向对象具有更高的扩展性和灵活性。 G"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Eleven</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+      <li class="mobile-menu-item">
+        <a id="openSearchMobile" class="mobile-menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+    
+<div class="modal-dialog">
+    
+    <div class="modal-content">
+      <div id="closeSearch" title="Close" class="close">X</div>
+      <div class="modal-header">
+        <div class="modal-title">Search</div>
+      </div>
+      <div class="modal-body">
+          <script>
+            (function() {
+              var cx = '012427586116641581695:iilii6hg9u2';
+              var gcse = document.createElement('script');
+              gcse.type = 'text/javascript';
+              gcse.async = true;
+              gcse.src = (document.location.protocol == 'https:' ? 'https:' :
+                  'http:') +
+                '//cse.google.com/cse.js?cx=' + cx;
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(gcse, s);
+            })();
+          </script>
+          <gcse:search></gcse:search>
+      </div>
+    </div>
+</div>
+
+  
+
+  
+    <style>
+      .fork-me-on-github {
+        position: absolute; top: 0; left: 0; border: 0;
+      }
+      @media (max-width: 1080px) {
+        .fork-me-on-github {
+          display: none;
+        }
+      }
+    </style>
+
+    <a href="https://github.com/veh47">
+      <img class="fork-me-on-github"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"
+        alt="Fork me on GitHub">
+    </a>
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Eleven
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/veh47" rel="noopener" target="_blank">
+              GitHub
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+      <li class="menu-item">
+        <a id="openSearch" class="menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Go结构体示例</h1>
+      
+      <div class="post-meta">
+        <time datetime="2019-12-31" class="post-time">
+          2019-12-31
+        </time>
+        <div class="post-category">
+            <a href="http://veh47.github.io/categories/golang/"> Golang </a>
+            
+          </div>
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#自定义类型">自定义类型</a></li>
+<li><a href="#结构体的定义">结构体的定义</a></li>
+<li><a href="#结构体实例化">结构体实例化</a></li>
+<li><a href="#匿名结构体">匿名结构体</a></li>
+<li><a href="#取结构体的地址实例化">取结构体的地址实例化</a></li>
+<li><a href="#结构体初始化">结构体初始化</a></li>
+<li><a href="#使用键值对初始化">使用键值对初始化</a></li>
+<li><a href="#使用值的列表初始化">使用值的列表初始化</a></li>
+<li><a href="#构造函数">构造函数</a></li>
+<li><a href="#方法和接收者">方法和接收者</a></li>
+<li><a href="#指针类型的接收者">指针类型的接收者</a></li>
+<li><a href="#值类型的接收者">值类型的接收者</a></li>
+<li><a href="#任意类型添加方法">任意类型添加方法</a></li>
+<li><a href="#结构体的匿名字段">结构体的匿名字段</a></li>
+<li><a href="#嵌套结构体">嵌套结构体</a></li>
+<li><a href="#嵌套匿名结构体">嵌套匿名结构体</a></li>
+<li><a href="#嵌套结构体的字段名冲突">嵌套结构体的字段名冲突</a></li>
+<li><a href="#结构体的-继承">结构体的“继承”</a></li>
+<li><a href="#结构体字段的可见性">结构体字段的可见性</a></li>
+<li><a href="#结构体与json序列化">结构体与JSON序列化</a></li>
+<li><a href="#结构体标签-tag">结构体标签（Tag）</a></li>
+</ul></li>
+<li><a href="#示例">示例</a>
+<ul>
+<li><a href="#练习">练习</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p>Go语言中没有“类”的概念，也不支持“类”的继承等面向对象的概念。Go语言中通过结构体的内嵌再配合接口比面向对象具有更高的扩展性和灵活性。</p>
+
+<p>Go语言中的基础数据类型可以表示一些事物的基本属性，但是当我们想表达一个事物的全部或部分属性时，这时候再用单一的基本数据类型明显就无法满足需求了，Go语言提供了一种自定义数据类型，可以封装多个基本数据类型，这种数据类型叫结构体，英文名称struct。 也就是我们可以通过struct来定义自己的类型了。</p>
+
+<p>Go语言中通过struct来实现面向对象。
+<!---more---></p>
+
+<h3 id="自定义类型">自定义类型</h3>
+
+<p>在Go语言中有一些基本的数据类型，如string、整型、浮点型、布尔等数据类型， Go语言中可以使用type关键字来定义自定义类型。</p>
+
+<p>自定义类型是定义了一个全新的类型。我们可以基于内置的基本类型定义，也可以通过struct定义。例如：</p>
+
+<p>//将MyInt定义为int类型</p>
+
+<p>type MyInt int<br />
+通过Type关键字的定义，MyInt就是一种新的类型，它具有int的特性。</p>
+
+<p>类型别名<br />
+类型别名是Go1.9版本添加的新功能。</p>
+
+<p>类型别名规定：TypeAlias只是Type的别名，本质上TypeAlias与Type是同一个类型。就像一个孩子小时候有小名、乳名，上学后用学名，英语老师又会给他起英文名，但这些名字都指的是他本人。</p>
+
+<p>type TypeAlias = Type<br />
+我们之前见过的rune和byte就是类型别名，他们的定义如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">type byte = uint8
+type rune = int32</pre></td></tr></table>
+</div>
+</div>
+<p>类型定义和类型别名的区别<br />
+类型别名与类型定义表面上看只有一个等号的差异，我们通过下面的这段代码来理解它们之间的区别。</p>
+
+<p>//类型定义<br />
+    type NewInt int</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//类型别名   
+type MyInt = int
+
+func main() {
+    var a NewInt
+    var b MyInt
+
+    fmt.Printf(&#34;type of a:%T\n&#34;, a) //type of a:main.NewInt
+    fmt.Printf(&#34;type of b:%T\n&#34;, b) //type of b:int
+}</pre></td></tr></table>
+</div>
+</div>
+<p>结果显示a的类型是main.NewInt，表示main包下定义的NewInt类型。b的类型是int。MyInt类型只会在代码中存在，编译完成时并不会有MyInt类型。</p>
+
+<h3 id="结构体的定义">结构体的定义</h3>
+
+<p>使用type和struct关键字来定义结构体，具体代码格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">type 类型名 struct {
+    字段名 字段类型
+    字段名 字段类型
+    …
+}</pre></td></tr></table>
+</div>
+</div>
+<p>其中：</p>
+
+<p>类型名：标识自定义结构体的名称，在同一个包内不能重复。<br />
+字段名：表示结构体字段名。结构体中的字段名必须唯一。<br />
+字段类型：表示结构体字段的具体类型。<br />
+举个例子，我们定义一个Person（人）结构体，代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">type person struct {
+    name string
+    city string
+    age  int8
+}</pre></td></tr></table>
+</div>
+</div>
+<p>同样类型的字段也可以写在一行，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">type person1 struct {
+    name, city string
+    age        int8
+}</pre></td></tr></table>
+</div>
+</div>
+<p>这样我们就拥有了一个person的自定义类型，它有name、city、age三个字段，分别表示姓名、城市和年龄。这样我们使用这个person结构体就能够很方便的在程序中表示和存储人信息了。</p>
+
+<p>语言内置的基础数据类型是用来描述一个值的，而结构体是用来描述一组值的。比如一个人有名字、年龄和居住城市等，本质上是一种聚合型的数据类型</p>
+
+<h3 id="结构体实例化">结构体实例化</h3>
+
+<p>只有当结构体实例化时，才会真正地分配内存。也就是必须实例化后才能使用结构体的字段。</p>
+
+<p>结构体本身也是一种类型，我们可以像声明内置类型一样使用var关键字声明结构体类型。</p>
+
+<p>var 结构体实例 结构体类型<br />
+基本实例化<br />
+举个例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">type person struct {
+    name string
+    city string
+    age  int8
+}
+
+func main() {
+    var p1 person
+    p1.name = &#34;沙河娜扎&#34;
+    p1.city = &#34;北京&#34;
+    p1.age = 18
+    fmt.Printf(&#34;p1=%v\n&#34;, p1)  //p1={沙河娜扎 北京 18}
+    fmt.Printf(&#34;p1=%#v\n&#34;, p1) //p1=main.person{name:&#34;沙河娜扎&#34;, city:&#34;北京&#34;, age:18}
+}</pre></td></tr></table>
+</div>
+</div>
+<p>我们通过.来访问结构体的字段（成员变量）,例如p1.name和p1.age等。</p>
+
+<h3 id="匿名结构体">匿名结构体</h3>
+
+<p>在定义一些临时数据结构等场景下还可以使用匿名结构体。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">user</span> <span class="kd">struct</span><span class="p">{</span><span class="nx">Name</span> <span class="kt">string</span><span class="p">;</span> <span class="nx">Age</span> <span class="kt">int</span><span class="p">}</span>
+    <span class="nx">user</span><span class="p">.</span><span class="nx">Name</span> <span class="p">=</span> <span class="s">&#34;小王子&#34;</span>
+    <span class="nx">user</span><span class="p">.</span><span class="nx">Age</span> <span class="p">=</span> <span class="mi">18</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%#v\n&#34;</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<p>创建指针类型结构体<br />
+我们还可以通过使用new关键字对结构体进行实例化，得到的是结构体的地址。 格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">var p2 = new(person)
+fmt.Printf(&#34;%T\n&#34;, p2)     //*main.person
+fmt.Printf(&#34;p2=%#v\n&#34;, p2) //p2=&amp;main.person{name:&#34;&#34;, city:&#34;&#34;, age:0}</pre></td></tr></table>
+</div>
+</div>
+<p>从打印的结果中我们可以看出p2是一个结构体指针。</p>
+
+<p>需要注意的是在Go语言中支持对结构体指针直接使用.来访问结构体的成员。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">var p2 = new(person)
+p2.name = &#34;小王子&#34;
+p2.age = 28
+p2.city = &#34;上海&#34;
+fmt.Printf(&#34;p2=%#v\n&#34;, p2) //p2=&amp;main.person{name:&#34;qwe&#34;, city:&#34;上海&#34;, age:28}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="取结构体的地址实例化">取结构体的地址实例化</h3>
+
+<p>使用&amp;对结构体进行取地址操作相当于对该结构体类型进行了一次new实例化操作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">p3 := &amp;person{}
+fmt.Printf(&#34;%T\n&#34;, p3)     //*main.person
+fmt.Printf(&#34;p3=%#v\n&#34;, p3) //p3=&amp;main.person{name:&#34;&#34;, city:&#34;&#34;, age:0}
+p3.name = &#34;Eleven&#34;
+p3.age = 30
+p3.city = &#34;北京&#34;
+fmt.Printf(&#34;p3=%#v\n&#34;, p3) //p3=&amp;main.person{name:&#34;Eleven&#34;, city:&#34;北京&#34;, age:30}</pre></td></tr></table>
+</div>
+</div>
+<p>p3.name = &ldquo;Eleven&rdquo;其实在底层是(*p3).name = &ldquo;Eleven&rdquo;，这是Go语言帮我们实现的语法塘。</p>
+
+<h3 id="结构体初始化">结构体初始化</h3>
+
+<p>没有初始化的结构体，其成员变量都是对应其类型的零值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">type person struct {
+    name string
+    city string
+    age  int8
+}
+
+func main() {
+    var p4 person
+    fmt.Printf(&#34;p4=%#v\n&#34;, p4) //p4=main.person{name:&#34;&#34;, city:&#34;&#34;, age:0}
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="使用键值对初始化">使用键值对初始化</h3>
+
+<p>使用键值对对结构体进行初始化时，键对应结构体的字段，值对应该字段的初始值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">p5 := person{
+    name: &#34;小王&#34;,
+    city: &#34;北京&#34;,
+    age:  18,
+}
+fmt.Printf(&#34;p5=%#v\n&#34;, p5) //p5=main.person{name:&#34;小王&#34;, city:&#34;北京&#34;, age:18}</pre></td></tr></table>
+</div>
+</div>
+<p>也可以对结构体指针进行键值对初始化，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">p6 := &amp;person{
+    name: &#34;小王&#34;,
+    city: &#34;北京&#34;,
+    age:  18,
+}
+fmt.Printf(&#34;p6=%#v\n&#34;, p6) //p6=&amp;main.person{name:&#34;小王&#34;, city:&#34;北京&#34;, age:18}</pre></td></tr></table>
+</div>
+</div>
+<p>当某些字段没有初始值的时候，该字段可以不写。此时，没有指定初始值的字段的值就是该字段类型的零值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">p7 := &amp;person{
+    city: &#34;北京&#34;,
+}
+fmt.Printf(&#34;p7=%#v\n&#34;, p7) //p7=&amp;main.person{name:&#34;&#34;, city:&#34;北京&#34;, age:0}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="使用值的列表初始化">使用值的列表初始化</h3>
+
+<p>初始化结构体的时候可以简写，也就是初始化的时候不写键，直接写值：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">p8 := &amp;person{
+    &#34;Eleven&#34;,
+    &#34;北京&#34;,
+    28,
+}
+fmt.Printf(&#34;p8=%#v\n&#34;, p8) //p8=&amp;main.person{name:&#34;Eleven&#34;, city:&#34;北京&#34;, age:28}</pre></td></tr></table>
+</div>
+</div>
+<p>使用这种格式初始化时，需要注意：</p>
+
+<p>必须初始化结构体的所有字段。<br />
+初始值的填充顺序必须与字段在结构体中的声明顺序一致。<br />
+该方式不能和键值初始化方式混用。<br />
+结构体内存布局<br />
+结构体占用一块连续的内存。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">type test struct {
+    a int8
+    b int8
+    c int8
+    d int8
+}
+n := test{
+    1, 2, 3, 4,
+}
+fmt.Printf(&#34;n.a %p\n&#34;, &amp;n.a)
+fmt.Printf(&#34;n.b %p\n&#34;, &amp;n.b)
+fmt.Printf(&#34;n.c %p\n&#34;, &amp;n.c)
+fmt.Printf(&#34;n.d %p\n&#34;, &amp;n.d)</pre></td></tr></table>
+</div>
+</div>
+<p>输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">n.a 0xc0000a0060
+n.b 0xc0000a0061
+n.c 0xc0000a0062
+n.d 0xc0000a0063</pre></td></tr></table>
+</div>
+</div>
+<p>【进阶知识点】关于Go语言中的内存对齐推荐阅读:在 Go 中恰到好处的内存对齐</p>
+
+<h3 id="构造函数">构造函数</h3>
+
+<p>Go语言的结构体没有构造函数，我们可以自己实现。 例如，下方的代码就实现了一个person的构造函数。 因为struct是值类型，如果结构体比较复杂的话，值拷贝性能开销会比较大，所以该构造函数返回的是结构体指针类型。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func newPerson(name, city string, age int8) *person {
+    return &amp;person{
+        name: name,
+        city: city,
+        age:  age,
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>调用构造函数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">p9 := newPerson(&#34;张三&#34;, &#34;沙河&#34;, 90)
+fmt.Printf(&#34;%#v\n&#34;, p9) //&amp;main.person{name:&#34;张三&#34;, city:&#34;沙河&#34;, age:90}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="方法和接收者">方法和接收者</h3>
+
+<p>Go语言中的方法（Method）是一种作用于特定类型变量的函数。这种特定类型变量叫做接收者（Receiver）。接收者的概念就类似于其他语言中的this或者 self。</p>
+
+<p>方法的定义格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func (接收者变量 接收者类型) 方法名(参数列表) (返回参数) {
+    函数体
+}</pre></td></tr></table>
+</div>
+</div>
+<p>其中，</p>
+
+<p>接收者变量：接收者中的参数变量名在命名时，官方建议使用接收者类型名的第一个小写字母，而不是self、this之类的命名。例如，Person类型的接收者变量应该命名为 p，Connector类型的接收者变量应该命名为c等。</p>
+
+<p>接收者类型：接收者类型和参数类似，可以是指针类型和非指针类型。</p>
+
+<p>方法名、参数列表、返回参数：具体格式与函数定义相同。</p>
+
+<p>举个例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//Person 结构体
+type Person struct {
+    name string
+    age  int8
+}
+
+//NewPerson 构造函数
+func NewPerson(name string, age int8) *Person {
+    return &amp;Person{
+        name: name,
+        age:  age,
+    }
+}
+
+//Dream Person做梦的方法
+func (p Person) Dream() {
+    fmt.Printf(&#34;%s的梦想是学好Go语言！\n&#34;, p.name)
+}
+
+func main() {
+    p1 := NewPerson(&#34;小王&#34;, 25)
+    p1.Dream()
+}</pre></td></tr></table>
+</div>
+</div>
+<p>方法与函数的区别是，函数不属于任何类型，方法属于特定的类型。</p>
+
+<h3 id="指针类型的接收者">指针类型的接收者</h3>
+
+<p>指针类型的接收者由一个结构体的指针组成，由于指针的特性，调用方法时修改接收者指针的任意成员变量，在方法结束后，修改都是有效的。这种方式就十分接近于其他语言中面向对象中的this或者self。 例如我们为Person添加一个SetAge方法，来修改实例变量的年龄。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// SetAge 设置p的年龄
+// 使用指针接收者
+func (p *Person) SetAge(newAge int8) {
+    p.age = newAge
+}</pre></td></tr></table>
+</div>
+</div>
+<p>调用该方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func main() {
+    p1 := NewPerson(&#34;小王子&#34;, 25)
+    fmt.Println(p1.age) // 25
+    p1.SetAge(30)
+    fmt.Println(p1.age) // 30
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="值类型的接收者">值类型的接收者</h3>
+
+<p>当方法作用于值类型接收者时，Go语言会在代码运行时将接收者的值复制一份。在值类型接收者的方法中可以获取接收者的成员值，但修改操作只是针对副本，无法修改接收者变量本身。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// SetAge2 设置p的年龄
+// 使用值接收者
+func (p Person) SetAge2(newAge int8) {
+    p.age = newAge
+}
+
+func main() {
+    p1 := NewPerson(&#34;小王子&#34;, 25)
+    p1.Dream()
+    fmt.Println(p1.age) // 25
+    p1.SetAge2(30) // (*p1).SetAge2(30)
+    fmt.Println(p1.age) // 25
+}</pre></td></tr></table>
+</div>
+</div>
+<p>什么时候应该使用指针类型接收者<br />
+需要修改接收者中的值<br />
+接收者是拷贝代价比较大的大对象<br />
+保证一致性，如果有某个方法使用了指针接收者，那么其他的方法也应该使用指针接收者。</p>
+
+<h3 id="任意类型添加方法">任意类型添加方法</h3>
+
+<p>在Go语言中，接收者的类型可以是任何类型，不仅仅是结构体，任何类型都可以拥有方法。 举个例子，我们基于内置的int类型使用type关键字可以定义新的自定义类型，然后为我们的自定义类型添加方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//MyInt 将int定义为自定义MyInt类型
+type MyInt int
+
+//SayHello 为MyInt添加一个SayHello的方法
+func (m MyInt) SayHello() {
+    fmt.Println(&#34;Hello, 我是一个int。&#34;)
+}
+func main() {
+    var m1 MyInt
+    m1.SayHello() //Hello, 我是一个int。
+    m1 = 100
+    fmt.Printf(&#34;%#v  %T\n&#34;, m1, m1) //100  main.MyInt
+}</pre></td></tr></table>
+</div>
+</div>
+<p>注意事项： 非本地类型不能定义方法，也就是说我们不能给别的包的类型定义方法。</p>
+
+<h3 id="结构体的匿名字段">结构体的匿名字段</h3>
+
+<p>结构体允许其成员字段在声明时没有字段名而只有类型，这种没有名字的字段就称为匿名字段。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//Person 结构体Person类型
+type Person struct {
+    string
+    int
+}
+
+func main() {
+    p1 := Person{
+        &#34;小王&#34;,
+        18,
+    }
+    fmt.Printf(&#34;%#v\n&#34;, p1)        //main.Person{string:&#34;北京&#34;, int:18}
+    fmt.Println(p1.string, p1.int) //北京 18
+}</pre></td></tr></table>
+</div>
+</div>
+<p>匿名字段默认采用类型名作为字段名，结构体要求字段名称必须唯一，因此一个结构体中同种类型的匿名字段只能有一个。</p>
+
+<h3 id="嵌套结构体">嵌套结构体</h3>
+
+<p>一个结构体中可以嵌套包含另一个结构体或结构体指针。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//Address 地址结构体
+type Address struct {
+    Province string
+    City     string
+}
+
+//User 用户结构体
+type User struct {
+    Name    string
+    Gender  string
+    Address Address
+}
+
+func main() {
+    user1 := User{
+        Name:   &#34;小王子&#34;,
+        Gender: &#34;男&#34;,
+        Address: Address{
+            Province: &#34;山东&#34;,
+            City:     &#34;威海&#34;,
+        },
+    }
+    fmt.Printf(&#34;user1=%#v\n&#34;, user1)//user1=main.User{Name:&#34;小王子&#34;, Gender:&#34;男&#34;, Address:main.Address{Province:&#34;山东&#34;, City:&#34;威海&#34;}}
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="嵌套匿名结构体">嵌套匿名结构体</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//Address 地址结构体
+type Address struct {
+    Province string
+    City     string
+}
+
+//User 用户结构体
+type User struct {
+    Name    string
+    Gender  string
+    Address //匿名结构体
+}
+
+func main() {
+    var user2 User
+    user2.Name = &#34;小王&#34;
+    user2.Gender = &#34;男&#34;
+    user2.Address.Province = &#34;山东&#34;    //通过匿名结构体.字段名访问
+    user2.City = &#34;威海&#34;                //直接访问匿名结构体的字段名
+    fmt.Printf(&#34;user2=%#v\n&#34;, user2) //user2=main.User{Name:&#34;小王&#34;, Gender:&#34;男&#34;, Address:main.Address{Province:&#34;山东&#34;, City:&#34;威海&#34;}}
+}</pre></td></tr></table>
+</div>
+</div>
+<p>当访问结构体成员时会先在结构体中查找该字段，找不到再去匿名结构体中查找。</p>
+
+<h3 id="嵌套结构体的字段名冲突">嵌套结构体的字段名冲突</h3>
+
+<p>嵌套结构体内部可能存在相同的字段名。这个时候为了避免歧义需要指定具体的内嵌结构体的字段。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//Address 地址结构体
+type Address struct {
+    Province   string
+    City       string
+    CreateTime string
+}
+
+//Email 邮箱结构体
+type Email struct {
+    Account    string
+    CreateTime string
+}
+
+//User 用户结构体
+type User struct {
+    Name   string
+    Gender string
+    Address
+    Email
+}
+
+func main() {
+    var user3 User
+    user3.Name = &#34;沙河娜扎&#34;
+    user3.Gender = &#34;男&#34;
+    // user3.CreateTime = &#34;2019&#34; //ambiguous selector user3.CreateTime
+    user3.Address.CreateTime = &#34;2000&#34; //指定Address结构体中的CreateTime
+    user3.Email.CreateTime = &#34;2000&#34;   //指定Email结构体中的CreateTime
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="结构体的-继承">结构体的“继承”</h3>
+
+<p>Go语言中使用结构体也可以实现其他编程语言中面向对象的继承。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//Animal 动物
+type Animal struct {
+    name string
+}
+
+func (a *Animal) move() {
+    fmt.Printf(&#34;%s会动！\n&#34;, a.name)
+}
+
+//Dog 狗
+type Dog struct {
+    Feet    int8
+    *Animal //通过嵌套匿名结构体实现继承
+}
+
+func (d *Dog) wang() {
+    fmt.Printf(&#34;%s会汪汪汪~\n&#34;, d.name)
+}
+
+func main() {
+    d1 := &amp;Dog{
+        Feet: 4,
+        Animal: &amp;Animal{ //注意嵌套的是结构体指针
+            name: &#34;乐乐&#34;,
+        },
+    }
+    d1.wang() //乐乐会汪汪汪~
+    d1.move() //乐乐会动！
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="结构体字段的可见性">结构体字段的可见性</h3>
+
+<p>结构体中字段大写开头表示可公开访问，小写表示私有（仅在定义当前结构体的包中可访问）。</p>
+
+<h3 id="结构体与json序列化">结构体与JSON序列化</h3>
+
+<p>JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式。易于人阅读和编写。同时也易于机器解析和生成。JSON键值对是用来保存JS对象的一种方式，键/值对组合中的键名写在前面并用双引号&rdquo;&ldquo;包裹，使用冒号:分隔，然后紧接着值；多个键值之间使用英文,分隔。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//Student 学生
+type Student struct {
+    ID     int
+    Gender string
+    Name   string
+}
+
+//Class 班级
+type Class struct {
+    Title    string
+    Students []*Student
+}
+
+func main() {
+    c := &amp;Class{
+        Title:    &#34;101&#34;,
+        Students: make([]*Student, 0, 200),
+    }
+    for i := 0; i &lt; 10; i++ {
+        stu := &amp;Student{
+            Name:   fmt.Sprintf(&#34;stu%02d&#34;, i),
+            Gender: &#34;男&#34;,
+            ID:     i,
+        }
+        c.Students = append(c.Students, stu)
+    }
+    //JSON序列化：结构体--&gt;JSON格式的字符串
+    data, err := json.Marshal(c)
+    if err != nil {
+        fmt.Println(&#34;json marshal failed&#34;)
+        return
+    }
+    fmt.Printf(&#34;json:%s\n&#34;, data)
+    //JSON反序列化：JSON格式的字符串--&gt;结构体
+    str := `{&#34;Title&#34;:&#34;101&#34;,&#34;Students&#34;:[{&#34;ID&#34;:0,&#34;Gender&#34;:&#34;男&#34;,&#34;Name&#34;:&#34;stu00&#34;},{&#34;ID&#34;:1,&#34;Gender&#34;:&#34;男&#34;,&#34;Name&#34;:&#34;stu01&#34;},{&#34;ID&#34;:2,&#34;Gender&#34;:&#34;男&#34;,&#34;Name&#34;:&#34;stu02&#34;},{&#34;ID&#34;:3,&#34;Gender&#34;:&#34;男&#34;,&#34;Name&#34;:&#34;stu03&#34;},{&#34;ID&#34;:4,&#34;Gender&#34;:&#34;男&#34;,&#34;Name&#34;:&#34;stu04&#34;},{&#34;ID&#34;:5,&#34;Gender&#34;:&#34;男&#34;,&#34;Name&#34;:&#34;stu05&#34;},{&#34;ID&#34;:6,&#34;Gender&#34;:&#34;男&#34;,&#34;Name&#34;:&#34;stu06&#34;},{&#34;ID&#34;:7,&#34;Gender&#34;:&#34;男&#34;,&#34;Name&#34;:&#34;stu07&#34;},{&#34;ID&#34;:8,&#34;Gender&#34;:&#34;男&#34;,&#34;Name&#34;:&#34;stu08&#34;},{&#34;ID&#34;:9,&#34;Gender&#34;:&#34;男&#34;,&#34;Name&#34;:&#34;stu09&#34;}]}`
+    c1 := &amp;Class{}
+    err = json.Unmarshal([]byte(str), c1)
+    if err != nil {
+        fmt.Println(&#34;json unmarshal failed!&#34;)
+        return
+    }
+    fmt.Printf(&#34;%#v\n&#34;, c1)
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="结构体标签-tag">结构体标签（Tag）</h3>
+
+<p>Tag是结构体的元信息，可以在运行的时候通过反射的机制读取出来。 Tag在结构体字段的后方定义，由一对反引号包裹起来，具体的格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">`key1:&#34;value1&#34; key2:&#34;value2&#34;`</pre></td></tr></table>
+</div>
+</div>
+<p>结构体标签由一个或多个键值对组成。键与值使用冒号分隔，值用双引号括起来。键值对之间使用一个空格分隔。 注意事项： 为结构体编写Tag时，必须严格遵守键值对的规则。结构体标签的解析代码的容错能力很差，一旦格式写错，编译和运行时都不会提示任何错误，通过反射也无法正确取值。例如不要在key和value之间添加空格。</p>
+
+<p>例如我们为Student结构体的每个字段定义json序列化时使用的Tag：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">//Student 学生
+type Student struct {
+    ID     int    `json:&#34;id&#34;` //通过指定tag实现json序列化该字段时的key
+    Gender string //json序列化是默认使用字段名作为key
+    name   string //私有不能被json包访问
+}
+
+func main() {
+    s1 := Student{
+        ID:     1,
+        Gender: &#34;男&#34;,
+        name:   &#34;沙河娜扎&#34;,
+    }
+    data, err := json.Marshal(s1)
+    if err != nil {
+        fmt.Println(&#34;json marshal failed!&#34;)
+        return
+    }
+    fmt.Printf(&#34;json str:%s\n&#34;, data) //json str:{&#34;id&#34;:1,&#34;Gender&#34;:&#34;男&#34;}
+}</pre></td></tr></table>
+</div>
+</div>
+<h2 id="示例">示例</h2>
+
+<p>//结构体基础</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+
+<span class="c1">//结构体定义及传参
+</span><span class="c1"></span>
+<span class="kd">type</span> <span class="nx">student</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">id</span> <span class="kt">int</span>
+    <span class="nx">name</span> <span class="kt">string</span>
+    <span class="nx">age</span>  <span class="kt">int</span>
+    <span class="nx">sex</span> <span class="kt">byte</span>
+    <span class="nx">addr</span> <span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">temStudent1</span><span class="p">(</span><span class="nx">tmp</span> <span class="nx">student</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="nx">tmp</span><span class="p">.</span><span class="nx">age</span> <span class="p">=</span> <span class="mi">200</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;tmp=&#34;</span><span class="p">,</span><span class="nx">tmp</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="kd">func</span> <span class="nf">temStudent2</span><span class="p">(</span><span class="nx">p</span> <span class="o">*</span><span class="nx">student</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">id</span> <span class="p">=</span> <span class="mi">300</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;p=&#34;</span><span class="p">,</span><span class="nx">p</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">s1</span> <span class="p">=</span> <span class="nx">student</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="s">&#34;Eleven&#34;</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="sc">&#39;m&#39;</span><span class="p">,</span><span class="s">&#34;BJ&#34;</span><span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s1</span><span class="p">)</span>
+
+    <span class="c1">//指定某些字段赋值
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">s2</span> <span class="p">=</span> <span class="nx">student</span><span class="p">{</span><span class="nx">id</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nx">name</span><span class="p">:</span><span class="s">&#34;sfd&#34;</span><span class="p">,</span><span class="nx">age</span><span class="p">:</span><span class="mi">13</span><span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s2</span><span class="p">)</span>
+
+    <span class="c1">//作为指针变量初始化
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">s3</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">student</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="s">&#34;cc&#34;</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="sc">&#39;m&#39;</span><span class="p">,</span><span class="s">&#34;SH&#34;</span><span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s3</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s3</span><span class="p">.</span><span class="nx">age</span><span class="p">)</span>
+
+    <span class="c1">//传递只针对象
+</span><span class="c1"></span>    <span class="nf">temStudent2</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">s1</span><span class="p">)</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<p>//面向对象-方法</p>
+
+<p>//匿名字段
+    package main</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">import &#34;fmt&#34;
+type Person 结构体 {
+    name string
+    sex string
+    age int
+}
+//自定义类型
+type myint int
+
+type stu 结构体 {
+    *Person  //可以定义为指针类型
+    id int
+    addr string
+    //同名字段
+    name string
+    cc myint   //也可以使用自定义类型
+}
+
+func main()  {                                                              //给子类赋值   //自定义类型的
+    s1 := stu{&amp;Person{&#34;qwe&#34;,&#34;man&#34;,18},65454,&#34;BJ&#34;,&#34;cc&#34;,6846}
+    fmt.Println(s1)
+
+    s2 := stu{Person:&amp;Person{&#34;qwe&#34;,&#34;man&#34;,18}}
+    fmt.Println(s2)
+    s3 := stu{Person:&amp;Person{name:&#34;qwe&#34;}}
+    fmt.Println(s3)
+}</pre></td></tr></table>
+</div>
+</div>
+<p>//方法: 基础类型作为接收者</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+<span class="kd">type</span> <span class="nx">MyInt</span> <span class="kt">int</span>
+
+<span class="kd">func</span> <span class="nf">Add</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span> <span class="nx">MyInt</span><span class="p">)</span><span class="nx">MyInt</span>  <span class="p">{</span>
+    <span class="k">return</span>  <span class="nx">a</span><span class="o">+</span><span class="nx">b</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">a</span> <span class="nx">MyInt</span><span class="p">)</span><span class="nf">Add</span><span class="p">(</span><span class="nx">b</span> <span class="nx">MyInt</span><span class="p">)</span><span class="nx">MyInt</span>  <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">a</span><span class="o">+</span><span class="nx">b</span>
+<span class="p">}</span>
+
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">a</span> <span class="nx">MyInt</span> <span class="p">=</span> <span class="mi">1</span>
+    <span class="kd">var</span> <span class="nx">b</span> <span class="nx">MyInt</span>  <span class="p">=</span><span class="mi">2</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Add(a,b)=&#34;</span><span class="p">,</span><span class="nf">Add</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span><span class="p">))</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nx">b</span><span class="p">))</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<p>//方法: 结构体作为接收者</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+<span class="kd">type</span> <span class="nx">Person</span> <span class="nx">结构体</span> <span class="p">{</span>
+    <span class="nx">name</span> <span class="kt">string</span>
+    <span class="nx">sex</span> <span class="kt">string</span>
+    <span class="nx">age</span> <span class="kt">int</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="nx">Person</span><span class="p">)</span><span class="nf">PrinfInfo</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span><span class="nx">p</span><span class="p">.</span><span class="nx">sex</span><span class="p">,</span><span class="nx">p</span><span class="p">.</span><span class="nx">age</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nx">p</span> <span class="o">:=</span> <span class="nx">Person</span><span class="p">{</span><span class="s">&#34;Eleven&#34;</span><span class="p">,</span><span class="s">&#34;man&#34;</span><span class="p">,</span><span class="mi">18</span><span class="p">}</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nf">PrinfInfo</span><span class="p">()</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<p>//方法: 值语义和引用语义</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+<span class="kd">type</span> <span class="nx">Person</span> <span class="nx">结构体</span> <span class="p">{</span>
+    <span class="nx">name</span> <span class="kt">string</span>
+    <span class="nx">sex</span> <span class="kt">string</span>
+    <span class="nx">age</span> <span class="kt">int</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="nx">Person</span><span class="p">)</span><span class="nf">SetInfoValue</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">name</span> <span class="p">=</span> <span class="s">&#34;Eleven&#34;</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">sex</span> <span class="p">=</span> <span class="s">&#34;man&#34;</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">age</span> <span class="p">=</span> <span class="mi">18</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="o">*</span><span class="nx">Person</span><span class="p">)</span><span class="nf">SetIntoPointer</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="p">(</span><span class="o">*</span><span class="nx">p</span><span class="p">).</span><span class="nx">name</span> <span class="p">=</span> <span class="s">&#34;CCC&#34;</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">sex</span> <span class="p">=</span> <span class="s">&#34;wuman&#34;</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">age</span> <span class="p">=</span> <span class="mi">23</span>
+<span class="p">}</span>
+
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="c1">//引用语义,调用改编
+</span><span class="c1"></span>    <span class="nx">p1</span> <span class="o">:=</span> <span class="nx">Person</span><span class="p">{</span><span class="s">&#34;BBB&#34;</span><span class="p">,</span> <span class="s">&#34;wma&#34;</span><span class="p">,</span><span class="mi">18</span><span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;函数调用前&#34;</span><span class="p">,</span><span class="nx">p1</span><span class="p">)</span>
+    <span class="p">(</span><span class="o">&amp;</span><span class="nx">p1</span><span class="p">).</span><span class="nf">SetIntoPointer</span><span class="p">()</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;函数调用后&#34;</span><span class="p">,</span><span class="nx">p1</span><span class="p">)</span>
+
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">()</span>
+    <span class="c1">//值语义,调用不改变
+</span><span class="c1"></span>    <span class="nx">p2</span> <span class="o">:=</span> <span class="nx">Person</span><span class="p">{</span><span class="s">&#34;djhf&#34;</span><span class="p">,</span> <span class="s">&#34;jsh&#34;</span><span class="p">,</span><span class="mi">2345</span><span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;函数调用前&#34;</span><span class="p">,</span><span class="nx">p2</span><span class="p">)</span>
+    <span class="nx">p2</span><span class="p">.</span><span class="nf">SetInfoValue</span><span class="p">()</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;函数调用后&#34;</span><span class="p">,</span><span class="nx">p2</span><span class="p">)</span>
+
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<p>//方法重写</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+<span class="kd">type</span> <span class="nx">Person</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">name</span> <span class="kt">string</span>
+    <span class="nx">sex</span> <span class="kt">string</span>
+    <span class="nx">age</span> <span class="kt">int</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="o">*</span><span class="nx">Person</span><span class="p">)</span><span class="nf">SetIntoPointer</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="p">(</span><span class="o">*</span><span class="nx">p</span><span class="p">).</span><span class="nx">name</span> <span class="p">=</span> <span class="s">&#34;CCC&#34;</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">sex</span> <span class="p">=</span> <span class="s">&#34;wuman&#34;</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nx">age</span> <span class="p">=</span> <span class="mi">23</span>
+<span class="p">}</span>
+
+
+<span class="kd">type</span> <span class="nx">stu</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">Person</span>
+    <span class="nx">id</span> <span class="kt">int</span>
+    <span class="nx">addr</span> <span class="kt">string</span>
+<span class="p">}</span>
+<span class="c1">//名字必须与父类形同
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="o">*</span><span class="nx">stu</span><span class="p">)</span><span class="nf">SetIntoPointer</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;stu:&#34;</span><span class="p">,</span><span class="nx">s</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span><span class="nx">s</span><span class="p">.</span><span class="nx">sex</span><span class="p">,</span><span class="nx">s</span><span class="p">.</span><span class="nx">age</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nx">p</span> <span class="o">:=</span> <span class="nx">Person</span><span class="p">{</span><span class="s">&#34;bbb&#34;</span><span class="p">,</span><span class="s">&#34;sfsf&#34;</span><span class="p">,</span><span class="mi">18</span><span class="p">}</span>
+    <span class="nx">p</span><span class="p">.</span><span class="nf">SetIntoPointer</span><span class="p">()</span>
+
+    <span class="nx">s</span> <span class="o">:=</span> <span class="nx">stu</span><span class="p">{</span><span class="nx">Person</span><span class="p">{</span><span class="s">&#34;sz&#34;</span><span class="p">,</span><span class="s">&#34;ff&#34;</span><span class="p">,</span><span class="mi">56</span><span class="p">},</span><span class="mi">64</span><span class="p">,</span><span class="s">&#34;SH&#34;</span><span class="p">}</span>
+    <span class="nx">s</span><span class="p">.</span><span class="nf">SetIntoPointer</span><span class="p">()</span>
+    <span class="c1">//子类调用父类
+</span><span class="c1"></span>    <span class="nx">s</span><span class="p">.</span><span class="nx">Person</span><span class="p">.</span><span class="nf">SetIntoPointer</span><span class="p">()</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<h3 id="练习">练习</h3>
+
+<p>实现一个简单的学生管理系统，每个学生有分数、年级、性别、名字等字段，用户可以在控制台输入1添加学生、输入2修改学生信息、输入3打印所有学生列表，输入4结束程序.
+    cat student.go</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kd">type</span> <span class="nx">Student</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">Name</span>  <span class="kt">string</span>
+    <span class="nx">Sex</span>   <span class="kt">int</span>
+    <span class="nx">Score</span> <span class="kt">float32</span>
+    <span class="nx">Grade</span> <span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">NewStudent</span><span class="p">(</span><span class="nx">Name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">Sex</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">Score</span> <span class="kt">float32</span><span class="p">,</span> <span class="nx">Grade</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">stu</span> <span class="o">*</span><span class="nx">Student</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="nx">stu</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">Student</span><span class="p">{</span>
+        <span class="nx">Name</span><span class="p">:</span>  <span class="nx">Name</span><span class="p">,</span>
+        <span class="nx">Sex</span><span class="p">:</span>   <span class="nx">Sex</span><span class="p">,</span>
+        <span class="nx">Score</span><span class="p">:</span> <span class="nx">Score</span><span class="p">,</span>
+        <span class="nx">Grade</span><span class="p">:</span> <span class="nx">Grade</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+
+
+<span class="nx">cat</span> <span class="nx">main</span><span class="p">.</span><span class="k">go</span>
+
+<span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+    <span class="s">&#34;os&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">AllStudents</span> <span class="p">[]</span><span class="o">*</span><span class="nx">Student</span>
+
+
+<span class="c1">// 循环打印帮助信息
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">showMenu</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;1.添加学生&#34;</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;2.修改学生&#34;</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;3.打印学生&#34;</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;4.结束程序&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+
+
+<span class="c1">// 用户输入的方法
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">inputStudent</span><span class="p">()</span> <span class="o">*</span><span class="nx">Student</span> <span class="p">{</span>
+    <span class="c1">// 定义输入的接收变量
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="p">(</span>
+        <span class="nx">username</span> <span class="kt">string</span>
+        <span class="nx">sex</span>      <span class="kt">int</span>
+        <span class="nx">score</span>    <span class="kt">float32</span>
+        <span class="nx">grade</span>    <span class="kt">string</span>
+    <span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;请输入学生姓名：&#34;</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Scanf</span><span class="p">(</span><span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">username</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;请输入学生性别：[0|1]&#34;</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Scanf</span><span class="p">(</span><span class="s">&#34;%d\n&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">sex</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;请输入学生分数：[0-100]&#34;</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Scanf</span><span class="p">(</span><span class="s">&#34;%f\n&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">score</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;请输入年级：&#34;</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Scanf</span><span class="p">(</span><span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">grade</span><span class="p">)</span>
+    <span class="c1">// 创建对象
+</span><span class="c1"></span>    <span class="nx">stu</span> <span class="o">:=</span> <span class="nf">NewStudent</span><span class="p">(</span><span class="nx">username</span><span class="p">,</span> <span class="nx">sex</span><span class="p">,</span> <span class="nx">score</span><span class="p">,</span> <span class="nx">grade</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">stu</span>
+<span class="p">}</span>
+
+
+<span class="c1">//所有添加修改学生都是需要输入
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">stu</span> <span class="p">=</span> <span class="nf">inputStudent</span><span class="p">()</span>
+
+
+<span class="c1">// 添加学生的方法
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">AddStudent</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 假设没有重名的学生，名字若一样，则做更新
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">AllStudents</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">v</span><span class="p">.</span><span class="nx">Name</span> <span class="o">==</span> <span class="nx">stu</span><span class="p">.</span><span class="nx">Name</span> <span class="p">{</span>
+            <span class="c1">// 做更新
+</span><span class="c1"></span>            <span class="nx">AllStudents</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="p">=</span> <span class="nx">stu</span>
+            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;更新成功&#34;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// 不重名直接加
+</span><span class="c1"></span>    <span class="nx">AllStudents</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">AllStudents</span><span class="p">,</span> <span class="nx">stu</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;学生插入成功&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+
+
+<span class="c1">// 修改学生
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">ModifyStudent</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="c1">// 假设没有重名的学生，名字若一样，则做更新
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">AllStudents</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">v</span><span class="p">.</span><span class="nx">Name</span> <span class="o">==</span> <span class="nx">stu</span><span class="p">.</span><span class="nx">Name</span> <span class="p">{</span>
+            <span class="c1">// 做更新
+</span><span class="c1"></span>            <span class="nx">AllStudents</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="p">=</span> <span class="nx">stu</span>
+            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;更新成功&#34;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;学生插入成功&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 打印学生列表
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">ShowAllStudent</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 遍历切片打印
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">AllStudents</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;学生:%s 信息: %#v\n&#34;</span><span class="p">,</span> <span class="nx">v</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// 写主函数
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">{</span>
+        <span class="c1">// 1.展现信息
+</span><span class="c1"></span>        <span class="nf">showMenu</span><span class="p">()</span>
+        <span class="c1">// 2.接收用户输入
+</span><span class="c1"></span>        <span class="kd">var</span> <span class="nx">i</span> <span class="kt">int</span>
+        <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Scanf</span><span class="p">(</span><span class="s">&#34;%d\n&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">i</span><span class="p">)</span>
+        <span class="k">switch</span> <span class="nx">i</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="nf">AddStudent</span><span class="p">()</span>
+        <span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="nf">ModifyStudent</span><span class="p">()</span>
+        <span class="k">case</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="nf">ShowAllStudent</span><span class="p">()</span>
+        <span class="k">case</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://veh47.github.io/tags/golang/">Golang</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/go%E6%8E%A5%E5%8F%A3%E7%A4%BA%E4%BE%8B/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Go接口示例</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/go%E6%8C%87%E9%92%88%E7%A4%BA%E4%BE%8B/">
+            <span class="next-text nav-default">Go指针示例</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  <div id="comments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 700);
+              clearInterval(checkExist);
+            }
+        }, 10);
+    }
+  </script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#comments' ,
+        appId: 'UsB52d49clgSaLyt9W25ff6J-gzGzoHsz',
+        appKey: 'A7x1tqpCpuAXKQX5BwcwXGdF',
+        notify:  false , 
+        verify:  false , 
+        avatar:'mm', 
+        placeholder: '',
+        visitor:  false 
+    });
+  </script>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:13522339471@163.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://github.com/veh47" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://www.weibo.com/u/5706670145/" rel="me noopener" class="iconfont"
+      title="weibo"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M385.714286 733.714286q12-19.428571 6.285714-39.428571t-25.714286-28.571429q-19.428571-8-41.714286-0.571429t-34.285714 26.285714q-12.571429 19.428571-7.428571 39.142857t24.571429 28.857143 42.571429 1.428571 35.714286-27.142857zm53.714286-69.142857q4.571429-7.428571 2-15.142857t-10-10.571429q-8-2.857143-16.285714 2.857143t-12.285714 10.571429q-9.714286 17.714286 7.428571 25.714286 8 2.857143 16.571429 2.857143t12.571429-10.571429zm99.428571 61.142857q-25.714286 58.285714-90.285714 85.714286t-128 6.857143q-61.142857-19.428571-84.285714-72.285714t3.714286-107.142857q26.857143-53.142857 86.571429-79.428571t120.285714-10.857143q63.428571 16.571429 90.571429 68.285714t1.428571 108.857143zm178.285714-91.428571q-5.142857-54.857143-50.857143-97.142857t-119.142857-62.285714-156.857143-12q-127.428571 13.142857-211.142857 80.857143t-75.714286 151.142857q5.142857 54.857143 50.857143 97.142857t119.142857 62.285714 156.857143 12q127.428571-13.142857 211.142857-80.857143t75.714286-151.142857zm176 2.285714q0 38.857143-21.142857 79.714286t-62.285714 78.285714-96.285714 67.142857-129.142857 47.428571-154.571429 17.714286-157.142857-19.142857-137.428571-53.142857-98-86.285714-37.142857-114q0-65.714286 39.714286-140t112.857143-147.428571q96.571429-96.571429 195.142857-134.857143t140.857143 4q37.142857 36.571429 11.428571 119.428571-2.285714 8-0.571429 11.428571t5.714286 4 8.285714 2.857143 7.714286-2l3.428571-1.142857q79.428571-33.714286 140.571429-33.714286t87.428571 34.857143q25.714286 36 0 101.714286-1.142857 7.428571-2.571429 11.428571t2.571429 7.142857 6.857143 4.285714 9.714286 3.428571q32.571429 10.285714 58.857143 26.857143t45.714286 46.571429 19.428571 66.571429zm-42.285714-356.571429q24 26.857143 31.142857 62t-3.714286 67.142857q-4.571429 13.142857-16.857143 19.428571t-25.428571 2.285714q-13.142857-4.571429-19.428571-16.857143t-2.285714-25.428571q11.428571-36-13.714286-63.428571t-61.142857-20q-13.714286 2.857143-25.714286-4.571429t-14.285714-21.142857q-2.857143-13.714286 4.571429-25.428571t21.142857-14.571429q34.285714-7.428571 68 3.142857t57.714286 37.428571zm103.428571-93.142857q49.714286 54.857143 64.285714 127.142857t-7.714286 138q-5.142857 15.428571-19.428571 22.857143t-29.714286 2.285714-22.857143-19.428571-2.857143-29.714286q16-46.857143 5.714286-98.285714t-45.714286-90.285714q-35.428571-39.428571-84.571429-54.571429t-98.857143-4.857143q-16 3.428571-29.714286-5.428571t-17.142857-24.857143 5.428571-29.428571 24.857143-16.857143q70.285714-14.857143 139.428571 6.571429t118.857143 76.857143z"></path>
+</svg>
+
+    </a>
+
+
+<a href="http://veh47.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+
+  <span class="copyright-year">
+    &copy;
+    
+       -
+    2019
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Eleven
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css"
+    integrity="sha384-BdGj8xC2eZkQaxoQ8nSLefg4AV4/AwB3Fj+8SUSo7pnKP6Eoy18liIKTPn9oBYNG"
+    crossorigin="anonymous">
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.js"
+    integrity="sha384-JiKN5O8x9Hhs/UE5cT5AAJqieYlOZbGT3CHws/y97o3ty4R7/O5poG9F3JoiOYw1"
+    crossorigin="anonymous"></script>
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+    crossorigin="anonymous" onload="renderMathInElement(document.body);">
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        
+      });
+    });
+  </script>
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    $("#openSearch, #openSearchMobile").click(function(){
+      $(".modal-dialog").addClass("visible");
+    });
+
+    $("#closeSearch").click(function(){
+      $(".modal-dialog").removeClass("visible");
+    });
+
+    $(document).click(function(event) {
+    
+      if (!$(event.target).closest(".modal-content, #openSearch, #openSearchMobile").length) {
+        $("body").find(".modal-dialog").removeClass("visible");
+      }
+    });
+  </script>
+
+
+
+
+
+</body>
+</html>

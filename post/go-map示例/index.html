@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Nginx性能优化 - Eleven</title>
+  <title>Go map示例 - Eleven</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,7 +23,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="Eleven" />
-  <meta name="description" content="写这篇文章的目的是我的第一个博客系统就是用的LNMP&#43;wordpress, 其中nginx优化尤其重要, 毕竟是直接面对的wordpress. 并且当下很多公司也在使用Nginx, 他的反向代理, web服务, 在性能上都超过tomcat
+  <meta name="description" content="Go语言中提供的映射关系容器为map，其内部使用散列表（hash）实现。
+map是一种无序的基于key-value的数据结构，Go语言中的map是引用类型，必须初始化才能使用。 Map 是go内置的数据结构，是一种无序的键值对的集合，可以通过key快速找到value的值
 " />
 
   <meta name="keywords" content="Eleven" />
@@ -36,7 +37,7 @@
 <meta name="generator" content="Hugo 0.58.3" />
 
 
-<link rel="canonical" href="http://veh47.github.io/post/nginx%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" />
+<link rel="canonical" href="http://veh47.github.io/post/go-map%E7%A4%BA%E4%BE%8B/" />
 
 
 
@@ -60,29 +61,35 @@
 
 
 
-<meta property="og:title" content="Nginx性能优化" />
-<meta property="og:description" content="写这篇文章的目的是我的第一个博客系统就是用的LNMP&#43;wordpress, 其中nginx优化尤其重要, 毕竟是直接面对的wordpress. 并且当下很多公司也在使用Nginx, 他的反向代理,
-web服务, 在性能上都超过tomcat" />
+<meta property="og:title" content="Go map示例" />
+<meta property="og:description" content="Go语言中提供的映射关系容器为map，其内部使用散列表（hash）实现。
+
+map是一种无序的基于key-value的数据结构，Go语言中的map是引用类型，必须初始化才能使用。
+Map 是go内置的数据结构，是一种无序的键值对的集合，可以通过key快速找到value的值" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://veh47.github.io/post/nginx%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" />
-<meta property="article:published_time" content="2019-12-31T10:45:07+08:00" />
-<meta property="article:modified_time" content="2019-12-31T10:45:07+08:00" />
-<meta itemprop="name" content="Nginx性能优化">
-<meta itemprop="description" content="写这篇文章的目的是我的第一个博客系统就是用的LNMP&#43;wordpress, 其中nginx优化尤其重要, 毕竟是直接面对的wordpress. 并且当下很多公司也在使用Nginx, 他的反向代理,
-web服务, 在性能上都超过tomcat">
+<meta property="og:url" content="http://veh47.github.io/post/go-map%E7%A4%BA%E4%BE%8B/" />
+<meta property="article:published_time" content="2019-12-31T15:07:24+08:00" />
+<meta property="article:modified_time" content="2019-12-31T15:07:24+08:00" />
+<meta itemprop="name" content="Go map示例">
+<meta itemprop="description" content="Go语言中提供的映射关系容器为map，其内部使用散列表（hash）实现。
+
+map是一种无序的基于key-value的数据结构，Go语言中的map是引用类型，必须初始化才能使用。
+Map 是go内置的数据结构，是一种无序的键值对的集合，可以通过key快速找到value的值">
 
 
-<meta itemprop="datePublished" content="2019-12-31T10:45:07&#43;08:00" />
-<meta itemprop="dateModified" content="2019-12-31T10:45:07&#43;08:00" />
-<meta itemprop="wordCount" content="6629">
+<meta itemprop="datePublished" content="2019-12-31T15:07:24&#43;08:00" />
+<meta itemprop="dateModified" content="2019-12-31T15:07:24&#43;08:00" />
+<meta itemprop="wordCount" content="2731">
 
 
 
-<meta itemprop="keywords" content="Nginx," />
+<meta itemprop="keywords" content="Golang," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Nginx性能优化"/>
-<meta name="twitter:description" content="写这篇文章的目的是我的第一个博客系统就是用的LNMP&#43;wordpress, 其中nginx优化尤其重要, 毕竟是直接面对的wordpress. 并且当下很多公司也在使用Nginx, 他的反向代理,
-web服务, 在性能上都超过tomcat"/>
+<meta name="twitter:title" content="Go map示例"/>
+<meta name="twitter:description" content="Go语言中提供的映射关系容器为map，其内部使用散列表（hash）实现。
+
+map是一种无序的基于key-value的数据结构，Go语言中的map是引用类型，必须初始化才能使用。
+Map 是go内置的数据结构，是一种无序的键值对的集合，可以通过key快速找到value的值"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -399,14 +406,14 @@ web服务, 在性能上都超过tomcat"/>
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">Nginx性能优化</h1>
+      <h1 class="post-title">Go map示例</h1>
       
       <div class="post-meta">
         <time datetime="2019-12-31" class="post-time">
           2019-12-31
         </time>
         <div class="post-category">
-            <a href="http://veh47.github.io/categories/%E8%BF%90%E7%BB%B4/"> 运维 </a>
+            <a href="http://veh47.github.io/categories/golang/"> Golang </a>
             
           </div>
         
@@ -430,18 +437,14 @@ web服务, 在性能上都超过tomcat"/>
 <ul>
 <li>
 <ul>
-<li><a href="#1-nginx运行工作进程数量">1、Nginx运行工作进程数量</a></li>
-<li><a href="#2-nginx运行cpu亲和力">2、Nginx运行CPU亲和力</a></li>
-<li><a href="#3-nginx最大打开文件数">3、Nginx最大打开文件数</a></li>
-<li><a href="#4-nginx事件处理模型">4、Nginx事件处理模型</a></li>
-<li><a href="#5-开启高效传输模式">5、开启高效传输模式</a></li>
-<li><a href="#6-连接超时时间">6、连接超时时间</a></li>
-<li><a href="#7-fastcgi-调优">7、fastcgi 调优</a></li>
-<li><a href="#8-gzip-调优">8、gzip 调优</a></li>
-<li><a href="#9-expires-缓存调优">9、expires 缓存调优</a></li>
-<li><a href="#10-防盗链">10、防盗链</a></li>
-<li><a href="#11-内核参数优化">11、内核参数优化</a></li>
-<li><a href="#12-关于系统连接数的优化">12、关于系统连接数的优化</a></li>
+<li><a href="#map定义">map定义</a></li>
+<li><a href="#map基本使用">map基本使用</a></li>
+<li><a href="#判断某个键是否存在">判断某个键是否存在</a></li>
+<li><a href="#map的遍历">map的遍历</a></li>
+<li><a href="#使用delete-函数删除键值对">使用delete()函数删除键值对</a></li>
+<li><a href="#按照指定顺序遍历map">按照指定顺序遍历map</a></li>
+<li><a href="#元素为map类型的切片">元素为map类型的切片</a></li>
+<li><a href="#值为切片类型的map">值为切片类型的map</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -451,12 +454,40 @@ web服务, 在性能上都超过tomcat"/>
 
     
     <div class="post-content">
-      <p>写这篇文章的目的是我的第一个博客系统就是用的LNMP+wordpress, 其中nginx优化尤其重要, 毕竟是直接面对的wordpress. 并且当下很多公司也在使用Nginx, 他的反向代理,
-web服务, 在性能上都超过tomcat</p>
+      <p>Go语言中提供的映射关系容器为map，其内部使用散列表（hash）实现。</p>
 
-<h3 id="1-nginx运行工作进程数量">1、Nginx运行工作进程数量</h3>
+<p>map是一种无序的基于key-value的数据结构，Go语言中的map是引用类型，必须初始化才能使用。
+Map 是go内置的数据结构，是一种无序的键值对的集合，可以通过key快速找到value的值</p>
 
-<p>Nginx运行工作进程个数一般设置CPU的核心或者核心数x2。如果不了解cpu的核数，可以top命令之后按1看出来，也可以查看/proc/cpuinfo文件 grep ^processor /proc/cpuinfo | wc -l。</p>
+<h3 id="map定义">map定义</h3>
+
+<p>Go语言中 map的定义语法如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">map[KeyType]ValueType</pre></td></tr></table>
+</div>
+</div>
+<p>其中，</p>
+
+<p>KeyType:表示键的类型。<br />
+ValueType:表示键对应的值的类型。<br />
+map类型的变量默认初始值为nil，需要使用make()函数来分配内存。语法为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">make(map[KeyType]ValueType, [cap])</pre></td></tr></table>
+</div>
+</div>
+<p>其中cap表示map的容量，该参数虽然不是必须的，但是我们应该在初始化map的时候就为其指定一个合适的容量。</p>
+
+<h3 id="map基本使用">map基本使用</h3>
+
+<p>map中的数据都是成对出现的，map的基本使用示例代码如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -467,94 +498,32 @@ web服务, 在性能上都超过tomcat</p>
 </span><span class="lnt">6
 </span><span class="lnt">7
 </span><span class="lnt">8
-</span><span class="lnt">9
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">[root@lx~]# vi/usr/local/nginx1.10/conf/nginx.conf
-worker_processes 4;
-[root@lx~]# /usr/local/nginx1.10/sbin/nginx-s reload
-[root@lx~]# ps -aux | grep nginx |grep -v grep
-root 9834 0.0 0.0 47556 1948 ?     Ss 22:36 0:00 nginx: master processnginx
-www 10135 0.0 0.0 50088 2004 ?       S   22:58 0:00 nginx: worker process
-www 10136 0.0 0.0 50088 2004 ?       S   22:58 0:00 nginx: worker process
-www 10137 0.0 0.0 50088 2004 ?       S   22:58 0:00 nginx: worker process
-www 10138 0.0 0.0 50088 2004 ?       S   22:58 0:00 nginx: worker process</pre></td></tr></table>
+<pre class="chroma">func main() {
+    scoreMap := make(map[string]int, 8)
+    scoreMap[&#34;张三&#34;] = 90
+    scoreMap[&#34;小明&#34;] = 100
+    fmt.Println(scoreMap)
+    fmt.Println(scoreMap[&#34;小明&#34;])
+    fmt.Printf(&#34;type of a:%T\n&#34;, scoreMap)
+}</pre></td></tr></table>
 </div>
 </div>
-<h3 id="2-nginx运行cpu亲和力">2、Nginx运行CPU亲和力</h3>
-
-<p>比如4核配置：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">worker_processes 4;
-worker_cpu_affinity 0001 0010 0100 1000</pre></td></tr></table>
-</div>
-</div>
-<p>比如8核配置：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">worker_processes 8;
-worker_cpu_affinity 00000001 00000010 00000100 0000100000010000 00100000 01000000 10000000;</pre></td></tr></table>
-</div>
-</div>
-<p>worker_processes最多开启8个，8个以上性能提升不会再提升了，而且稳定性变得更低，所以8个进程够用了。</p>
-
-<h3 id="3-nginx最大打开文件数">3、Nginx最大打开文件数</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">worker_rlimit_nofile 65535;</pre></td></tr></table>
-</div>
-</div>
-<p>这个指令是指当一个nginx进程打开的最多文件描述符数目，理论值应该是最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n的值保持一致。</p>
-
-<p>注：文件资源限制的配置可以在/etc/security/limits.conf设置，针对root/user等各个用户或者*代表所有用户来设置。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">*   soft nofile   65535
-*   hard nofile   65535</pre></td></tr></table>
-</div>
-</div>
-<p>用户重新登录生效（ulimit -n）</p>
-
-<h3 id="4-nginx事件处理模型">4、Nginx事件处理模型</h3>
+<p>输出：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">events {
-  use epoll;
-  worker_connections 65535;
-  multi_accept on;
-}</pre></td></tr></table>
+<pre class="chroma">map[小明:100 张三:90]
+100
+type of a:map[string]int</pre></td></tr></table>
 </div>
 </div>
-<p>nginx采用epoll事件模型，处理效率高。<br />
-work_connections是单个worker进程允许客户端最大连接数，这个数值一般根据服务器性能和内存来制定，实际最大值就是worker进程数乘以work_connections。<br />
-实际我们填入一个65535，足够了，这些都算并发值，一个网站的并发达到这么大的数量，也算一个大站了！</p>
-
-<p>multi_accept 告诉nginx收到一个新连接通知后接受尽可能多的连接，默认是on，设置为on后，多个worker按串行方式来处理连接，也就是一个连接只有一个worker被唤醒，其他的处于休眠状态，设置为off后，多个worker按并行方式来处理连接，也就是一个连接会唤醒所有的worker，直到连接分配完毕，没有取得连接的继续休眠。当你的服务器连接数不多时，开启这个参数会让负载有一定的降低，但是当服务器的吞吐量很大时，为了效率，可以关闭这个参数。</p>
-
-<h3 id="5-开启高效传输模式">5、开启高效传输模式</h3>
+<p>map也支持在声明的时候填充元素，例如：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -564,29 +533,29 @@ work_connections是单个worker进程允许客户端最大连接数，这个数�
 </span><span class="lnt">5
 </span><span class="lnt">6
 </span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">http {
-  include mime.types;
-  default_type application/octet-stream;
-  ……
-
-  sendfile on;
-  tcp_nopush on;
-  ……
+<pre class="chroma">func main() {
+    userInfo := map[string]string{
+        &#34;username&#34;: &#34;Eleven&#34;,
+        &#34;password&#34;: &#34;123456&#34;,
+    }
+    fmt.Println(userInfo) //
 }</pre></td></tr></table>
 </div>
 </div>
-<p>Include mime.types ：媒体类型,include 只是一个在当前文件中包含另一个文件内容的指令。<br />
-default_type application/octet-stream ：默认媒体类型足够。<br />
-sendfile on：开启高效文件传输模式，sendfile指令指定nginx是否调用sendfile函数来输出文件，对于普通应用设为 on，如果用来进行下载等应用磁盘IO重负载应用，可设置为off，以平衡磁盘与网络I/O处理速度，降低系统的负载。注意：如果图片显示不正常把这个改成off。<br />
-tcp_nopush on：必须在sendfile开启模式才有效，防止网路阻塞，积极的减少网络报文段的数量（将响应头和正文的开始部分一起发送，而不一个接一个的发送。）</p>
+<h3 id="判断某个键是否存在">判断某个键是否存在</h3>
 
-<h3 id="6-连接超时时间">6、连接超时时间</h3>
-
-<p>主要目的是保护服务器资源，CPU，内存，控制连接数，因为建立连接也是需要消耗资源的。</p>
+<p>Go语言中有个判断map中键是否存在的特殊写法，格式如下:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">value, ok := map[key]</pre></td></tr></table>
+</div>
+</div>
+<p>举个例子：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -603,232 +572,23 @@ tcp_nopush on：必须在sendfile开启模式才有效，防止网路阻塞，�
 </span><span class="lnt">12
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">keepalive_timeout 60;
-tcp_nodelay on;
-client_header_buffer_size 4k;
-open_file_cache max=102400 inactive=20s;
-open_file_cache_valid 30s;
-open_file_cache_min_uses 1;
-client_header_timeout 15;
-client_body_timeout 15;
-reset_timedout_connection on;
-send_timeout 15;
-server_tokens off;
-client_max_body_size 10m;</pre></td></tr></table>
+<pre class="chroma">func main() {
+    scoreMap := make(map[string]int)
+    scoreMap[&#34;张三&#34;] = 90
+    scoreMap[&#34;小明&#34;] = 100
+    // 如果key存在ok为true,v为对应的值；不存在ok为false,v为值类型的零值
+    v, ok := scoreMap[&#34;张三&#34;]
+    if ok {
+        fmt.Println(v)
+    } else {
+        fmt.Println(&#34;查无此人&#34;)
+    }
+}   </pre></td></tr></table>
 </div>
 </div>
-<p>keepalived_timeout ：客户端连接保持会话超时时间，超过这个时间，服务器断开这个链接。</p>
+<h3 id="map的遍历">map的遍历</h3>
 
-<p>tcp_nodelay：也是防止网络阻塞，不过要包涵在keepalived参数才有效。</p>
-
-<p>client_header_buffer_size 4k：客户端请求头部的缓冲区大小，这个可以根据你的系统分页大小来设置，一般一个请求头的大小不会超过 1k，不过由于一般系统分页都要大于1k，所以这里设置为分页大小。分页大小可以用命令getconf PAGESIZE取得。</p>
-
-<p>open_file_cache max=102400 inactive=20s ：这个将为打开文件指定缓存，默认是没有启用的，max指定缓存数量，建议和打开文件数一致，inactive 是指经过多长时间文件没被请求后删除缓存。</p>
-
-<p>open_file_cache_valid 30s：这个是指多长时间检查一次缓存的有效信息。</p>
-
-<p>open_file_cache_min_uses 1 ：open_file_cache指令中的inactive 参数时间内文件的最少使用次数，如果超过这个数字，文件描述符一直是在缓存中打开的，如上例，如果有一个文件在inactive 时间内一次没被使用，它将被移除。</p>
-
-<p>client_header_timeout ：设置请求头的超时时间。我们也可以把这个设置低些，如果超过这个时间没有发送任何数据，nginx将返回request time out的错误。</p>
-
-<p>client_body_timeout设置请求体的超时时间。我们也可以把这个设置低些，超过这个时间没有发送任何数据，和上面一样的错误提示。</p>
-
-<p>reset_timeout_connection ：告诉nginx关闭不响应的客户端连接。这将会释放那个客户端所占有的内存空间。</p>
-
-<p>send_timeout ：响应客户端超时时间，这个超时时间仅限于两个活动之间的时间，如果超过这个时间，客户端没有任何活动，nginx关闭连接。</p>
-
-<p>server_tokens ：并不会让nginx执行的速度更快，但它可以关闭在错误页面中的nginx版本数字，这样对于安全性是有好处的。</p>
-
-<p>client_max_body_size：上传文件大小限制。</p>
-
-<h3 id="7-fastcgi-调优">7、fastcgi 调优</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">fastcgi_connect_timeout 600;
-fastcgi_send_timeout 600;
-fastcgi_read_timeout 600;
-fastcgi_buffer_size 64k;
-fastcgi_buffers 4 64k;
-fastcgi_busy_buffers_size 128k;
-fastcgi_temp_file_write_size 128k;
-fastcgi_temp_path/usr/local/nginx1.10/nginx_tmp;
-fastcgi_intercept_errors on;
-fastcgi_cache_path/usr/local/nginx1.10/fastcgi_cache levels=1:2 keys_zone=cache_fastcgi:128minactive=1d max_size=10g;</pre></td></tr></table>
-</div>
-</div>
-<p>fastcgi_connect_timeout 600 ：指定连接到后端FastCGI的超时时间。</p>
-
-<p>fastcgi_send_timeout 600 ：向FastCGI传送请求的超时时间。</p>
-
-<p>fastcgi_read_timeout 600 ：指定接收FastCGI应答的超时时间。</p>
-
-<p>fastcgi_buffer_size 64k ：指定读取FastCGI应答第一部分需要用多大的缓冲区，默认的缓冲区大小为。fastcgi_buffers指令中的每块大小，可以将这个值设置更小。</p>
-
-<p>fastcgi_buffers 4 64k ：指定本地需要用多少和多大的缓冲区来缓冲FastCGI的应答请求，如果一个php脚本所产生的页面大小为256KB，那么会分配4个64KB的缓冲区来缓存，如果页面大小大于256KB，那么大于256KB的部分会缓存到fastcgi_temp_path指定的路径中，但是这并不是好方法，因为内存中的数据处理速度要快于磁盘。一般这个值应该为站点中php脚本所产生的页面大小的中间值，如果站点大部分脚本所产生的页面大小为256KB，那么可以把这个值设置为“8 32K”、“4 64k”等。</p>
-
-<p>fastcgi_busy_buffers_size 128k ：建议设置为fastcgi_buffers的两倍，繁忙时候的buffer。</p>
-
-<p>fastcgi_temp_file_write_size 128k ：在写入fastcgi_temp_path时将用多大的数据块，默认值是fastcgi_buffers的两倍，该数值设置小时若负载上来时可能报502BadGateway。</p>
-
-<p>fastcgi_temp_path  ：缓存临时目录。</p>
-
-<p>fastcgi_intercept_errors on ：这个指令指定是否传递4xx和5xx错误信息到客户端，或者允许nginx使用error_page处理错误信息。注：静态文件不存在会返回404页面，但是php页面则返回空白页！</p>
-
-<p>fastcgi_cache_path /usr/local/nginx1.10/fastcgi_cachelevels=1:2 keys_zone=cache_fastcgi:128minactive=1d max_size=10g ：fastcgi_cache缓存目录，可以设置目录层级，比如1:2会生成16*256个子目录，cache_fastcgi是这个缓存空间的名字，cache是用多少内存（这样热门的内容nginx直接放内存，提高访问速度），inactive表示默认失效时间，如果缓存数据在失效时间内没有被访问,将被删除，max_size表示最多用多少硬盘空间。</p>
-
-<p>fastcgi_cache cache_fastcgi ：#表示开启FastCGI缓存并为其指定一个名称。开启缓存非常有用，可以有效降低CPU的负载，并且防止502的错误放生。cache_fastcgi为proxy_cache_path指令创建的缓存区名称。</p>
-
-<p>fastcgi_cache_valid 200 302 1h ：#用来指定应答代码的缓存时间，实例中的值表示将200和302应答缓存一小时，要和fastcgi_cache配合使用。</p>
-
-<p>fastcgi_cache_valid 301 1d ：将301应答缓存一天。</p>
-
-<p>fastcgi_cache_valid any 1m ：将其他应答缓存为1分钟。</p>
-
-<p>fastcgi_cache_min_uses 1 ：该指令用于设置经过多少次请求的相同URL将被缓存。</p>
-
-<p>fastcgi_cache_key http://$host$request_uri ：该指令用来设置web缓存的Key值,nginx根据Key值md5哈希存储.一般根据$host(域名)、$request_uri(请求的路径)等变量组合成proxy_cache_key 。</p>
-
-<p>fastcgi_pass  ：指定FastCGI服务器监听端口与地址，可以是本机或者其它。</p>
-
-<p>总结：</p>
-
-<p>nginx的缓存功能有：proxy_cache / fastcgi_cache</p>
-
-<p>proxy_cache的作用是缓存后端服务器的内容，可能是任何内容，包括静态的和动态。</p>
-
-<p>fastcgi_cache的作用是缓存fastcgi生成的内容，很多情况是php生成的动态的内容。</p>
-
-<p>proxy_cache缓存减少了nginx与后端通信的次数，节省了传输时间和后端宽带。</p>
-
-<p>fastcgi_cache缓存减少了nginx与php的通信的次数，更减轻了php和数据库(mysql)的压力。</p>
-
-<h3 id="8-gzip-调优">8、gzip 调优</h3>
-
-<p>使用gzip压缩功能，可能为我们节约带宽，加快传输速度，有更好的体验，也为我们节约成本，所以说这是一个重点。</p>
-
-<p>Nginx启用压缩功能需要你来ngx_http_gzip_module模块，apache使用的是mod_deflate。</p>
-
-<p>一般我们需要压缩的内容有：文本，js，html，css，对于图片，视频，flash什么的不压缩，同时也要注意，我们使用gzip的功能是需要消耗CPU的！</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">gzip on;
-gzip_min_length 2k;
-gzip_buffers   4 32k;
-gzip_http_version 1.1;
-gzip_comp_level 6;
-gzip_typestext/plain text/css text/javascriptapplication/json application/javascript application/x-javascriptapplication/xml;
-gzip_vary on;
-gzip_proxied any;</pre></td></tr></table>
-</div>
-</div>
-<p>gzip on;   #开启压缩功能</p>
-
-<p>gzip_min_length 1k ：设置允许压缩的页面最小字节数，页面字节数从header头的Content-Length中获取，默认值是0，不管页面多大都进行压缩，建议设置成大于1K，如果小与1K可能会越压越大。</p>
-
-<p>gzip_buffers 4 32k ：压缩缓冲区大小，表示申请4个单位为32K的内存作为压缩结果流缓存，默认值是申请与原始数据大小相同的内存空间来存储gzip压缩结果。</p>
-
-<p>gzip_http_version 1.1 ：压缩版本，用于设置识别HTTP协议版本，默认是1.1，目前大部分浏览器已经支持GZIP解压，使用默认即可。</p>
-
-<p>gzip_comp_level 6 ：压缩比例，用来指定GZIP压缩比，1压缩比最小，处理速度最快，9压缩比最大，传输速度快，但是处理慢，也比较消耗CPU资源。</p>
-
-<p>gzip_types text/css text/xml application/javascript ：用来指定压缩的类型，‘text/html’类型总是会被压缩。默认值: gzip_types text/html (默认不对js/css文件进行压缩)</p>
-
-<p>压缩类型，匹配MIME型进行压缩；</p>
-
-<p>不能用通配符 text/*；</p>
-
-<p>text/html默认已经压缩 (无论是否指定)；</p>
-
-<p>设置哪压缩种文本文件可参考 conf/mime.types。</p>
-
-<p>gzip_vary on ：varyheader支持，改选项可以让前端的缓存服务器缓存经过GZIP压缩的页面，例如用Squid缓存经过nginx压缩的数据。</p>
-
-<h3 id="9-expires-缓存调优">9、expires 缓存调优</h3>
-
-<p>缓存，主要针对于图片，css，js等元素更改机会比较少的情况下使用，特别是图片，占用带宽大，我们完全可以设置图片在浏览器本地缓存365d，css，js，html可以缓存个10来天，这样用户第一次打开加载慢一点，第二次，就非常快了！缓存的时候，我们需要将需要缓存的拓展名列出来， Expires缓存配置在server字段里面。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">location ~* \.(ico|jpe?g|gif|png|bmp|swf|flv)$ {
-expires 30d;
-#log_not_found off;
-access_log off;
-}
-
-location ~* \.(js|css)$ {
-expires 7d;
-log_not_found off;
-access_log off;
-}</pre></td></tr></table>
-</div>
-</div>
-<p>注：log_not_found off;是否在error_log中记录不存在的错误。默认是。</p>
-
-<p>总结：</p>
-
-<p>expire功能优点：</p>
-
-<p>expires可以降低网站购买的带宽，节约成本；</p>
-
-<p>同时提升用户访问体验；</p>
-
-<p>减轻服务的压力，节约服务器成本，是web服务非常重要的功能。</p>
-
-<p>expire功能缺点：</p>
-
-<p>被缓存的页面或数据更新了，用户看到的可能还是旧的内容，反而影响用户体验。</p>
-
-<p>解决办法：第一个缩短缓存时间，例如：1天，但不彻底，除非更新频率大于1天；第二个对缓存的对象改名。</p>
-
-<p>网站不希望被缓存的内容：</p>
-
-<p>网站流量统计工具；</p>
-
-<p>更新频繁的文件（google的logo）。</p>
-
-<h3 id="10-防盗链">10、防盗链</h3>
-
-<p>防止别人直接从你网站引用图片等链接，消耗了你的资源和网络流量，那么我们的解决办法由几种：</p>
-
-<p>水印，品牌宣传，你的带宽，服务器足够；</p>
-
-<p>防火墙，直接控制，前提是你知道IP来源；</p>
-
-<p>防盗链策略下面的方法是直接给予404的错误提示。</p>
+<p>Go语言中使用for range遍历map。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -842,64 +602,491 @@ access_log off;
 </span><span class="lnt">9
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">location ~*^.+\.(jpg|gif|png|swf|flv|wma|wmv|asf|mp3|mmf|zip|rar)$ {
-valid_referers noneblocked www.benet.com benet.com;
-if($invalid_referer) {
-  #return 302 http://www.benet.com/img/nolink.jpg;
-  return 404;
-  break;
-}
-access_log off;
+<pre class="chroma">func main() {
+    scoreMap := make(map[string]int)
+    scoreMap[&#34;张三&#34;] = 90
+    scoreMap[&#34;小明&#34;] = 100
+    scoreMap[&#34;娜扎&#34;] = 60
+    for k, v := range scoreMap {
+        fmt.Println(k, v)
+    }
 }</pre></td></tr></table>
 </div>
 </div>
-<p>参数可以使如下形式：</p>
+<p>但我们只想遍历key的时候，可以按下面的写法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func main() {
+    scoreMap := make(map[string]int)
+    scoreMap[&#34;张三&#34;] = 90
+    scoreMap[&#34;小明&#34;] = 100
+    scoreMap[&#34;娜扎&#34;] = 60
+    for k := range scoreMap {
+        fmt.Println(k)
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>注意： 遍历map时的元素顺序与添加键值对的顺序无关。</p>
 
-<p>none  ：意思是不存在的Referer头(表示空的，也就是直接访问，比如直接在浏览器打开一个图片)。</p>
+<h3 id="使用delete-函数删除键值对">使用delete()函数删除键值对</h3>
 
-<p>blocked  ：意为根据防火墙伪装Referer头，如：“Referer:XXXXXXX”。</p>
+<p>使用delete()内建函数从map中删除一组键值对，delete()函数的格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">delete(map, key)</pre></td></tr></table>
+</div>
+</div>
+<p>其中，</p>
 
-<p>server_names  ：为一个或多个服务器的列表，0.5.33版本以后可以在名称中使用“*”通配符。</p>
+<p>map:表示要删除键值对的map<br />
+key:表示要删除的键值对的键<br />
+示例代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func main(){
+    scoreMap := make(map[string]int)
+    scoreMap[&#34;张三&#34;] = 90
+    scoreMap[&#34;小明&#34;] = 100
+    scoreMap[&#34;娜扎&#34;] = 60
+    delete(scoreMap, &#34;小明&#34;)//将小明:100从map中删除
+    for k,v := range scoreMap{
+        fmt.Println(k, v)
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="按照指定顺序遍历map">按照指定顺序遍历map</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func main() {
+    rand.Seed(time.Now().UnixNano()) //初始化随机数种子
 
-<h3 id="11-内核参数优化">11、内核参数优化</h3>
+    var scoreMap = make(map[string]int, 200)
 
-<p>fs.file-max = 999999：这个参数表示进程（比如一个worker进程）可以同时打开的最大句柄数，这个参数直线限制最大并发连接数，需根据实际情况配置。</p>
+    for i := 0; i &lt; 100; i++ {
+        key := fmt.Sprintf(&#34;stu%02d&#34;, i) //生成stu开头的字符串
+        value := rand.Intn(100)          //生成0~99的随机整数
+        scoreMap[key] = value
+    }
+    //取出map中的所有key存入切片keys
+    var keys = make([]string, 0, 200)
+    for key := range scoreMap {
+        keys = append(keys, key)
+    }
+    //对切片进行排序
+    sort.Strings(keys)
+    //按照排序后的key遍历map
+    for _, key := range keys {
+        fmt.Println(key, scoreMap[key])
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="元素为map类型的切片">元素为map类型的切片</h3>
 
-<p>net.ipv4.tcp_max_tw_buckets = 6000 ：这个参数表示操作系统允许TIME_WAIT套接字数量的最大值，如果超过这个数字，TIME_WAIT套接字将立刻被清除并打印警告信息。该参数默认为180000，过多的TIME_WAIT套接字会使Web服务器变慢。注：主动关闭连接的服务端会产生TIME_WAIT状态的连接</p>
+<p>下面的代码演示了切片中的元素为map类型时的操作：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func main() {
+    var mapSlice = make([]map[string]string, 3)
+    for index, value := range mapSlice {
+        fmt.Printf(&#34;index:%d value:%v\n&#34;, index, value)
+    }
+    fmt.Println(&#34;after init&#34;)
+    // 对切片中的map元素进行初始化
+    mapSlice[0] = make(map[string]string, 10)
+    mapSlice[0][&#34;name&#34;] = &#34;小王子&#34;
+    mapSlice[0][&#34;password&#34;] = &#34;123456&#34;
+    mapSlice[0][&#34;address&#34;] = &#34;沙河&#34;
+    for index, value := range mapSlice {
+        fmt.Printf(&#34;index:%d value:%v\n&#34;, index, value)
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="值为切片类型的map">值为切片类型的map</h3>
 
-<p>net.ipv4.ip_local_port_range = 1024 65000  ：允许系统打开的端口范围。</p>
+<p>下面的代码演示了map中值为切片类型的操作：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func main() {
+    var sliceMap = make(map[string][]string, 3)
+    fmt.Println(sliceMap)
+    fmt.Println(&#34;after init&#34;)
+    key := &#34;中国&#34;
+    value, ok := sliceMap[key]
+    if !ok {
+        value = make([]string, 0, 2)
+    }
+    value = append(value, &#34;北京&#34;, &#34;上海&#34;)
+    sliceMap[key] = value
+    fmt.Println(sliceMap)
+}</pre></td></tr></table>
+</div>
+</div>
+<p><strong><em>示例</em></strong></p>
 
-<p>net.ipv4.tcp_tw_recycle = 1 ：启用timewait快速回收。</p>
+<p>//map基础操作</p>
 
-<p>net.ipv4.tcp_tw_reuse = 1 ：开启重用。允许将TIME-WAIT sockets重新用于新的TCP连接。这对于服务器来说很有意义，因为服务器上总会有大量TIME-WAIT状态的连接。</p>
+<p>package main</p>
 
-<p>net.ipv4.tcp_keepalive_time = 30：这个参数表示当keepalive启用时，TCP发送keepalive消息的频度。默认是2小时，若将其设置的小一些，可以更快地清理无效的连接。</p>
+<p>import &ldquo;fmt&rdquo;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func main()  {
+    var a map[string]int
+    a = map[string]int{
+        &#34;百因必有果&#34;:123,
+        &#34;你的报应就是我&#34;:456,
+    }
+    fmt.Println(a)
 
-<p>net.ipv4.tcp_syncookies = 1 ：开启SYN Cookies，当出现SYN等待队列溢出时，启用cookies来处理。</p>
+    //修改键值对
+    a[&#34;百因必有果&#34;] = 54
+    a[&#34;你的报应就是我&#34;] = 684
+    fmt.Println(a)
 
-<p>net.core.somaxconn = 40960  ：web 应用中 listen 函数的 backlog 默认会给我们内核参数的。</p>
+    //遍历map
+    for k,v := range a{
+        fmt.Println(k,v)
+    }
 
-<p>net.core.somaxconn  ：限制到128，而nginx定义的NGX_LISTEN_BACKLOG 默认为511，所以有必要调整这个值。注：对于一个TCP连接，Server与Client需要通过三次握手来建立网络连接.当三次握手成功后,我们可以看到端口的状态由LISTEN转变为ESTABLISHED,接着这条链路上就可以开始传送数据了.每一个处于监听(Listen)状态的端口,都有自己的监听队列.监听队列的长度与如somaxconn参数和使用该端口的程序中listen()函数有关。somaxconn定义了系统中每一个端口最大的监听队列的长度,这是个全局的参数,默认值为128，对于一个经常处理新连接的高负载 web服务环境来说，默认的 128 太小了。大多数环境这个值建议增加到 1024 或者更多。大的侦听队列对防止拒绝服务 DoS 攻击也会有所帮助。</p>
+    //判断key是否存在
+    value,ok := a[&#34;你的报应就是我&#34;]
+    fmt.Println(&#34;value=&#34;, value, &#34;,ok=&#34;, ok)
 
-<p>net.core.netdev_max_backlog = 262144  ：每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。</p>
+}</pre></td></tr></table>
+</div>
+</div>
+<p>//map进行排序</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
 
-<p>net.ipv4.tcp_max_syn_backlog = 262144 ：这个参数标示TCP三次握手建立阶段接受SYN请求队列的最大长度，默认为1024，将其设置得大一些可以使出现Nginx繁忙来不及accept新连接的情况时，Linux不至于丢失客户端发起的连接请求。</p>
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
 
-<p>net.ipv4.tcp_rmem = 10240 87380 12582912 ：这个参数定义了TCP接受缓存（用于TCP接受滑动窗口）的最小值、默认值、最大值。</p>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nx">rand</span><span class="p">.</span><span class="nf">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">().</span><span class="nf">UnixNano</span><span class="p">())</span>
+    <span class="kd">var</span> <span class="nx">a</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="p">&lt;</span><span class="mi">5</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="nx">k</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprint</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+        <span class="nx">v</span> <span class="o">:=</span> <span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="nx">a</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="p">=</span> <span class="nx">v</span>
+    <span class="p">}</span>
 
-<p>net.ipv4.tcp_wmem = 10240 87380 12582912：这个参数定义了TCP发送缓存（用于TCP发送滑动窗口）的最小值、默认值、最大值。</p>
+    <span class="c1">//用于存map的切片
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">keys</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
 
-<p>net.core.rmem_default = 6291456：这个参数表示内核套接字接受缓存区默认的大小。</p>
+    <span class="k">for</span> <span class="nx">k</span><span class="p">,</span><span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">a</span><span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">k</span><span class="p">,</span><span class="nx">v</span><span class="p">)</span>
+    <span class="nx">keys</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">keys</span><span class="p">,</span><span class="nx">k</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="c1">//排序
+</span><span class="c1"></span>    <span class="nx">sort</span><span class="p">.</span><span class="nf">Strings</span><span class="p">(</span><span class="nx">keys</span><span class="p">)</span>
 
-<p>net.core.wmem_default = 6291456：这个参数表示内核套接字发送缓存区默认的大小。</p>
+    <span class="c1">//keys是个切片,
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span><span class="nx">k</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">keys</span><span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;key:%s val%d\n&#34;</span><span class="p">,</span><span class="nx">k</span><span class="p">,</span><span class="nx">a</span><span class="p">[</span><span class="nx">k</span><span class="p">])</span>
+    <span class="p">}</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<p>//map类型的切片
+    package main</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">import &#34;fmt&#34;
 
-<p>net.core.rmem_max = 12582912：这个参数表示内核套接字接受缓存区的最大大小。</p>
+func main()  {
+    var a []map[int]string
+    //初始化外层切片
+    a = make([]map[int]string, 5,10)
+    for i ,v := range a{
+        fmt.Println(i,v)
+    }
+    fmt.Println()
+    //初始化内层map, 每个key都得初始化
+    a[0] = make(map[int]string)
+    a[1] = make(map[int]string)
+    a[0][1001] = &#34;stu1&#34;
+    a[0][1002] = &#34;stu2&#34;
+    a[1][1101] = &#34;aaa&#34;
+    a[1][1102] = &#34;bbb&#34;
+    for i,v :=range a {
+        fmt.Println(i,v)
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>//切片类型的map
+    package main</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">import &#34;fmt&#34;
 
-<p>net.core.wmem_max = 12582912：这个参数表示内核套接字发送缓存区的最大大小。</p>
+func main()  {
+    var a map[int][]string
+    a = make(map[int][]string,10)
 
-<p>net.ipv4.tcp_syncookies = 1：该参数与性能无关，用于解决TCP的SYN攻击。</p>
+    key := 1000
+    value,ok := a[key]
+    if !ok {
+        a[key] = make([]string,0,10)
+        value = a[key]
+    }
+    value = append(value,&#34;stu1&#34;)
+    value = append(value,&#34;stu2&#34;)
+    value = append(value,&#34;stu3&#34;)
+    a[key] = value
+    fmt.Println(&#34;map=&#34;,a)
+}</pre></td></tr></table>
+</div>
+</div>
+<p>//写一个程序，统计一个字符串每个单词出现的次数，例如统计s=”hello ni hao hello hello”，输出hello=3 ni=1 hao=1
+    package main</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">import &#34;fmt&#34;
+func word(str string)map[string]int  {
+    wordlds := strings.Split(str,&#34; &#34;)
 
-<p>下面贴一个完整的内核优化设置：</p>
+    //返回的map
+    var result = make(map[string]int,16)
+    for _,v := range wordlds{
+        count,ok := result[v]
+        if !ok {
+            result[v]= 1
+
+        }else {
+            result[v] = count + 1
+        }
+    }
+    return result
+}
+
+func main()  {
+    var str = &#34;fs skf fs kdjhg lsuhf ksjhf&#34;
+    res := word(str)
+    for k,v := range res{
+        fmt.Println(k,v)
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>//有100枚金币，需要分配给以下用户，分配规则如下：
+//名字中包含a或A，分配1枚金币
+//名字中包含e或E，分配1枚金币
+//名字中包含i或I，分配2枚金币
+//名字中包含o或O，分配3枚金币
+//名字中包含u或U，分配5枚金币</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -936,74 +1123,102 @@ access_log off;
 </span><span class="lnt">32
 </span><span class="lnt">33
 </span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">fs.file-max = 999999
-net.ipv4.ip_forward = 0
-net.ipv4.conf.default.rp_filter = 1
-net.ipv4.conf.default.accept_source_route = 0
-kernel.sysrq = 0
-kernel.core_uses_pid = 1
-net.ipv4.tcp_syncookies = 1
-kernel.msgmnb = 65536
-kernel.msgmax = 65536
-kernel.shmmax = 68719476736
-kernel.shmall = 4294967296
-net.ipv4.tcp_max_tw_buckets = 6000
-net.ipv4.tcp_sack = 1
-net.ipv4.tcp_window_scaling = 1
-net.ipv4.tcp_rmem = 10240 87380 12582912
-net.ipv4.tcp_wmem = 10240 87380 12582912
-net.core.wmem_default = 8388608
-net.core.rmem_default = 8388608
-net.core.rmem_max = 16777216
-net.core.wmem_max = 16777216
-net.core.netdev_max_backlog = 262144
-net.core.somaxconn = 40960
-net.ipv4.tcp_max_orphans = 3276800
-net.ipv4.tcp_max_syn_backlog = 262144
-net.ipv4.tcp_timestamps = 0
-net.ipv4.tcp_synack_retries = 1
-net.ipv4.tcp_syn_retries = 1
-net.ipv4.tcp_tw_recycle = 1
-net.ipv4.tcp_tw_reuse = 1
-net.ipv4.tcp_mem = 94500000 915000000 927000000
-net.ipv4.tcp_fin_timeout = 1
-net.ipv4.tcp_keepalive_time = 30
-net.ipv4.ip_local_port_range = 1024 65000
-执行sysctl  -p使内核修改生效。</pre></td></tr></table>
-</div>
-</div>
-<h3 id="12-关于系统连接数的优化">12、关于系统连接数的优化</h3>
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
 
-<p>linux 默认值 open files为1024。查看当前系统值：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma"># ulimit -n
-1024</pre></td></tr></table>
-</div>
-</div>
-<p>说明server只允许同时打开1024个文件。</p>
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
 
-<p>使用ulimit -a 可以查看当前系统的所有限制值，使用ulimit -n 可以查看当前的最大打开文件数。</p>
+<span class="kd">var</span> <span class="p">(</span>
+    <span class="c1">// 金币总数
+</span><span class="c1"></span>    <span class="nx">coins</span> <span class="p">=</span> <span class="mi">100</span>
+    <span class="c1">// 所有名字
+</span><span class="c1"></span>    <span class="nx">users</span> <span class="p">=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span>
+        <span class="s">&#34;Matthew&#34;</span><span class="p">,</span> <span class="s">&#34;Sarah&#34;</span><span class="p">,</span> <span class="s">&#34;Augustus&#34;</span><span class="p">,</span> <span class="s">&#34;Heidi&#34;</span><span class="p">,</span> <span class="s">&#34;Emilie&#34;</span><span class="p">,</span>
+        <span class="s">&#34;Peter&#34;</span><span class="p">,</span> <span class="s">&#34;Giana&#34;</span><span class="p">,</span> <span class="s">&#34;Adriano&#34;</span><span class="p">,</span> <span class="s">&#34;Aaron&#34;</span><span class="p">,</span> <span class="s">&#34;Elizabeth&#34;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="c1">// 存放分配结果的map
+</span><span class="c1"></span>    <span class="nx">distribution</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">users</span><span class="p">))</span>
+<span class="p">)</span>
 
-<p>新装的linux 默认只有1024 ，当作负载较大的服务器时，很容易遇到error: too many open files。因此，需要将其改大，在/etc/security/limits.conf最后增加：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">*       soft    nofile         65535
-*       hard    nofile         65535
-*       soft    noproc         65535
-*       hard    noproc         65535</pre></td></tr></table>
+<span class="kd">func</span> <span class="nf">mycoin</span><span class="p">()</span><span class="kt">int</span><span class="p">{</span>
+    <span class="c1">//记录数
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">num</span> <span class="p">=</span><span class="nx">coins</span>
+    <span class="c1">//遍历名字
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span><span class="nx">username</span> <span class="o">:=</span><span class="k">range</span> <span class="nx">users</span><span class="p">{</span>
+        <span class="nx">allCoin</span> <span class="o">:=</span> <span class="nf">mycoin2</span><span class="p">(</span><span class="nx">username</span><span class="p">)</span>
+        <span class="nx">num</span> <span class="o">-=</span> <span class="nx">allCoin</span>
+
+        <span class="c1">//存放到map
+</span><span class="c1"></span>        <span class="nx">valus</span> <span class="p">,</span><span class="nx">ok</span> <span class="o">:=</span> <span class="nx">distribution</span><span class="p">[</span><span class="nx">username</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">!</span><span class="nx">ok</span><span class="p">{</span>
+            <span class="nx">distribution</span><span class="p">[</span><span class="nx">username</span><span class="p">]</span> <span class="p">=</span><span class="nx">allCoin</span>
+        <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+            <span class="nx">distribution</span><span class="p">[</span><span class="nx">username</span><span class="p">]</span> <span class="p">=</span> <span class="nx">allCoin</span> <span class="o">+</span> <span class="nx">valus</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">num</span>
+<span class="p">}</span>
+
+<span class="c1">//抽取分金币地址
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">mycoin2</span><span class="p">(</span><span class="nx">username</span> <span class="kt">string</span><span class="p">)</span><span class="kt">int</span>  <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">sum</span> <span class="p">=</span><span class="mi">0</span>
+    <span class="c1">//根据名字分
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span><span class="nx">char</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">username</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="nx">char</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="sc">&#39;a&#39;</span><span class="p">,</span><span class="sc">&#39;A&#39;</span><span class="p">:</span>
+            <span class="nx">sum</span> <span class="p">=</span> <span class="nx">sum</span> <span class="o">+</span><span class="mi">1</span>
+        <span class="k">case</span> <span class="sc">&#39;e&#39;</span><span class="p">,</span><span class="sc">&#39;E&#39;</span><span class="p">:</span>
+            <span class="nx">sum</span> <span class="p">=</span> <span class="nx">sum</span> <span class="o">+</span><span class="mi">1</span>
+        <span class="k">case</span> <span class="sc">&#39;i&#39;</span><span class="p">,</span><span class="sc">&#39;I&#39;</span><span class="p">:</span>
+            <span class="nx">sum</span> <span class="p">=</span> <span class="nx">sum</span> <span class="o">+</span><span class="mi">2</span>
+        <span class="k">case</span> <span class="sc">&#39;o&#39;</span><span class="p">,</span><span class="sc">&#39;O&#39;</span><span class="p">:</span>
+            <span class="nx">sum</span> <span class="p">=</span> <span class="nx">sum</span> <span class="o">+</span><span class="mi">3</span>
+        <span class="k">case</span> <span class="sc">&#39;u&#39;</span><span class="p">,</span><span class="sc">&#39;U&#39;</span><span class="p">:</span>
+            <span class="nx">sum</span> <span class="p">=</span> <span class="nx">sum</span> <span class="o">+</span><span class="mi">5</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">sum</span>
+<span class="p">}</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nx">num</span> <span class="o">:=</span> <span class="nf">mycoin</span><span class="p">()</span>
+    <span class="c1">//遍历map
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">username</span> <span class="p">,</span><span class="nx">coin</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">distribution</span><span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;用户%s有%d个金币\n&#34;</span><span class="p">,</span><span class="nx">username</span><span class="p">,</span><span class="nx">coin</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;剩余金币&#34;</span><span class="p">,</span><span class="nx">num</span><span class="p">)</span>
+<span class="p">}</span></pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -1017,14 +1232,14 @@ net.ipv4.ip_local_port_range = 1024 65000
 
     <footer class="post-footer">
       <div class="post-tags">
-          <a href="http://veh47.github.io/tags/nginx/">Nginx</a>
+          <a href="http://veh47.github.io/tags/golang/">Golang</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/go%E5%87%BD%E6%95%B0%E7%A4%BA%E4%BE%8B/">
+          <a class="prev" href="/post/go%E6%8C%87%E9%92%88%E7%A4%BA%E4%BE%8B/">
             
             <i class="iconfont">
               <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -1034,12 +1249,12 @@ net.ipv4.ip_local_port_range = 1024 65000
 </svg>
 
             </i>
-            <span class="prev-text nav-default">函数示例</span>
+            <span class="prev-text nav-default">Go指针示例</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         
-          <a class="next" href="/post/sql%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/">
-            <span class="next-text nav-default">SQL基础命令</span>
+          <a class="next" href="/post/go%E5%88%87%E7%89%87%E7%A4%BA%E4%BE%8B/">
+            <span class="next-text nav-default">Go切片示例</span>
             <span class="prev-text nav-mobile">Next</span>
             
             <i class="iconfont">

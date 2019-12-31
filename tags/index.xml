@@ -5,10 +5,19 @@
     <link>http://veh47.github.io/tags/</link>
     <description>Recent content in Tags on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 31 Dec 2019 10:45:07 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 31 Dec 2019 18:14:47 +0800</lastBuildDate>
     
 	<atom:link href="http://veh47.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Golang</title>
+      <link>http://veh47.github.io/tags/golang/</link>
+      <pubDate>Tue, 31 Dec 2019 18:14:47 +0800</pubDate>
+      
+      <guid>http://veh47.github.io/tags/golang/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Nginx</title>
@@ -79,15 +88,6 @@
       <pubDate>Mon, 14 Oct 2019 09:57:34 +0800</pubDate>
       
       <guid>http://veh47.github.io/tags/blog/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Golang</title>
-      <link>http://veh47.github.io/tags/golang/</link>
-      <pubDate>Sun, 06 Oct 2019 14:47:28 +0800</pubDate>
-      
-      <guid>http://veh47.github.io/tags/golang/</guid>
       <description></description>
     </item>
     
