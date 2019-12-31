@@ -5,10 +5,20 @@
     <link>http://veh47.github.io/post/</link>
     <description>Recent content in Posts on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 13 Dec 2019 17:11:21 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 31 Dec 2019 10:45:07 +0800</lastBuildDate>
     
 	<atom:link href="http://veh47.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Nginx性能优化</title>
+      <link>http://veh47.github.io/post/nginx%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Tue, 31 Dec 2019 10:45:07 +0800</pubDate>
+      
+      <guid>http://veh47.github.io/post/nginx%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</guid>
+      <description>&lt;p&gt;写这篇文章的目的是我的第一个博客系统就是用的LNMP+wordpress, 其中nginx优化尤其重要, 毕竟是直接面对的wordpress. 并且当下很多公司也在使用Nginx, 他的反向代理,
+web服务, 在性能上都超过tomcat&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>SQL基础命令</title>
@@ -202,15 +212,6 @@ OpenvSwitch简称OVS，正如其官网 (&lt;a href=&#34;http://openvswitch.org/&
       
       <guid>http://veh47.github.io/post/go%E5%9F%BA%E7%A1%80%E4%BB%8B%E7%BB%8D-1/</guid>
       <description>&lt;p&gt;数据类型介绍&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Shell脚本 函数及数组(七)</title>
-      <link>http://veh47.github.io/post/shell%E8%84%9A%E6%9C%AC-%E5%87%BD%E6%95%B0%E5%8F%8A%E6%95%B0%E7%BB%84%E4%B8%83/</link>
-      <pubDate>Sun, 29 Sep 2019 17:19:09 +0800</pubDate>
-      
-      <guid>http://veh47.github.io/post/shell%E8%84%9A%E6%9C%AC-%E5%87%BD%E6%95%B0%E5%8F%8A%E6%95%B0%E7%BB%84%E4%B8%83/</guid>
-      <description>&lt;p&gt;函数及数组&lt;/p&gt;</description>
     </item>
     
   </channel>
