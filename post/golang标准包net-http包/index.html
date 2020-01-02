@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Golang文件操作 - Eleven</title>
+  <title>Golang标准包nethttp包 - Eleven</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,7 +23,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="Eleven" />
-  <meta name="description" content="本文主要介绍了Go语言中文件读写的相关操作。 文件是什么？ 计算机中的文件是存储在外部介质（通常是磁盘）上的数据集合，文件分为文本文件和二进制文" />
+  <meta name="description" content="Go语言内置的net/http包十分的优秀，提供了HTTP客户端和服务端的实现。 HTTP协议 超文本传输协议（HTTP，HyperText Transfer P" />
 
   <meta name="keywords" content="Eleven" />
 
@@ -35,7 +35,7 @@
 <meta name="generator" content="Hugo 0.58.3" />
 
 
-<link rel="canonical" href="http://veh47.github.io/post/golang%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" />
+<link rel="canonical" href="http://veh47.github.io/post/golang%E6%A0%87%E5%87%86%E5%8C%85net-http%E5%8C%85/" />
 
 
 
@@ -59,26 +59,26 @@
 
 
 
-<meta property="og:title" content="Golang文件操作" />
-<meta property="og:description" content="本文主要介绍了Go语言中文件读写的相关操作。 文件是什么？ 计算机中的文件是存储在外部介质（通常是磁盘）上的数据集合，文件分为文本文件和二进制文" />
+<meta property="og:title" content="Golang标准包nethttp包" />
+<meta property="og:description" content="Go语言内置的net/http包十分的优秀，提供了HTTP客户端和服务端的实现。 HTTP协议 超文本传输协议（HTTP，HyperText Transfer P" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://veh47.github.io/post/golang%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" />
-<meta property="article:published_time" content="2019-12-31T16:58:23+08:00" />
-<meta property="article:modified_time" content="2019-12-31T16:58:23+08:00" />
-<meta itemprop="name" content="Golang文件操作">
-<meta itemprop="description" content="本文主要介绍了Go语言中文件读写的相关操作。 文件是什么？ 计算机中的文件是存储在外部介质（通常是磁盘）上的数据集合，文件分为文本文件和二进制文">
+<meta property="og:url" content="http://veh47.github.io/post/golang%E6%A0%87%E5%87%86%E5%8C%85net-http%E5%8C%85/" />
+<meta property="article:published_time" content="2020-01-02T10:02:22+08:00" />
+<meta property="article:modified_time" content="2020-01-02T10:02:22+08:00" />
+<meta itemprop="name" content="Golang标准包nethttp包">
+<meta itemprop="description" content="Go语言内置的net/http包十分的优秀，提供了HTTP客户端和服务端的实现。 HTTP协议 超文本传输协议（HTTP，HyperText Transfer P">
 
 
-<meta itemprop="datePublished" content="2019-12-31T16:58:23&#43;08:00" />
-<meta itemprop="dateModified" content="2019-12-31T16:58:23&#43;08:00" />
-<meta itemprop="wordCount" content="2383">
+<meta itemprop="datePublished" content="2020-01-02T10:02:22&#43;08:00" />
+<meta itemprop="dateModified" content="2020-01-02T10:02:22&#43;08:00" />
+<meta itemprop="wordCount" content="2053">
 
 
 
 <meta itemprop="keywords" content="Golang," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Golang文件操作"/>
-<meta name="twitter:description" content="本文主要介绍了Go语言中文件读写的相关操作。 文件是什么？ 计算机中的文件是存储在外部介质（通常是磁盘）上的数据集合，文件分为文本文件和二进制文"/>
+<meta name="twitter:title" content="Golang标准包nethttp包"/>
+<meta name="twitter:description" content="Go语言内置的net/http包十分的优秀，提供了HTTP客户端和服务端的实现。 HTTP协议 超文本传输协议（HTTP，HyperText Transfer P"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -395,11 +395,11 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">Golang文件操作</h1>
+      <h1 class="post-title">Golang标准包nethttp包</h1>
       
       <div class="post-meta">
-        <time datetime="2019-12-31" class="post-time">
-          2019-12-31
+        <time datetime="2020-01-02" class="post-time">
+          2020-01-02
         </time>
         <div class="post-category">
             <a href="http://veh47.github.io/categories/golang/"> Golang </a>
@@ -426,26 +426,26 @@
 <ul>
 <li>
 <ul>
-<li><a href="#打开和关闭文件">打开和关闭文件</a></li>
-<li><a href="#读取文件">读取文件</a>
+<li><a href="#http协议">HTTP协议</a></li>
+<li><a href="#http客户端">HTTP客户端</a>
 <ul>
-<li><a href="#file-read">file.Read()</a></li>
-<li><a href="#循环读取">循环读取</a></li>
-<li><a href="#bufio读取文件">bufio读取文件</a></li>
-<li><a href="#ioutil读取整个文件">ioutil读取整个文件</a></li>
-<li><a href="#文件写入操作">文件写入操作</a></li>
-<li><a href="#write和writestring">Write和WriteString</a></li>
-<li><a href="#bufio-newwriter">bufio.NewWriter</a></li>
+<li><a href="#基本的http-https请求">基本的HTTP/HTTPS请求</a></li>
+<li><a href="#get请求示例">GET请求示例</a></li>
+<li><a href="#带参数的get请求示例">带参数的GET请求示例</a></li>
+<li><a href="#post请求示例">Post请求示例</a></li>
+<li><a href="#自定义client">自定义Client</a></li>
+<li><a href="#自定义transport">自定义Transport</a></li>
 </ul></li>
-<li><a href="#ioutil-writefile">ioutil.WriteFile</a></li>
-<li><a href="#练习">练习</a>
+<li><a href="#服务端">服务端</a>
 <ul>
-<li><a href="#copyfile">copyFile</a></li>
-<li><a href="#实现一个cat命令">实现一个cat命令</a></li>
+<li><a href="#默认的server">默认的Server</a></li>
+<li><a href="#默认的server示例">默认的Server示例</a></li>
+<li><a href="#自定义server">自定义Server</a></li>
 </ul></li>
 <li><a href="#示例">示例</a>
 <ul>
-<li><a href="#文件操作的api">文件操作的API</a></li>
+<li><a href="#server端">server端</a></li>
+<li><a href="#client-端">client 端</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -458,73 +458,60 @@
     <div class="post-content">
       
 
-<p>本文主要介绍了Go语言中文件读写的相关操作。</p>
-
-<p>文件是什么？</p>
-
-<p>计算机中的文件是存储在外部介质（通常是磁盘）上的数据集合，文件分为文本文件和二进制文件。
+<p>Go语言内置的net/http包十分的优秀，提供了HTTP客户端和服务端的实现。
 <!---more---></p>
 
-<h3 id="打开和关闭文件">打开和关闭文件</h3>
+<h3 id="http协议">HTTP协议</h3>
 
-<p>os.Open()函数能够打开一个文件，返回一个*File和一个err。对得到的文件实例调用close()方法能够关闭文件。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+<p>超文本传输协议（HTTP，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络传输协议，所有的WWW文件都必须遵守这个标准。设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。</p>
 
-<span class="kn">import</span> <span class="p">(</span>
-    <span class="s">&#34;fmt&#34;</span>
-    <span class="s">&#34;os&#34;</span>
-<span class="p">)</span>
+<h3 id="http客户端">HTTP客户端</h3>
 
-<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// 只读方式打开当前目录下的main.go文件
-</span><span class="c1"></span>    <span class="nx">file</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;./main.go&#34;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;open file failed!, err:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="p">}</span>
-    <span class="c1">// 关闭文件
-</span><span class="c1"></span>    <span class="nx">file</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
-<span class="p">}</span></pre></td></tr></table>
-</div>
-</div>
-<p>为了防止文件忘记关闭，我们通常使用defer注册文件关闭语句。</p>
+<h4 id="基本的http-https请求">基本的HTTP/HTTPS请求</h4>
 
-<h3 id="读取文件">读取文件</h3>
-
-<h4 id="file-read">file.Read()</h4>
-
-<p>基本使用<br />
-Read方法定义如下：</p>
+<p>Get、Head、Post和PostForm函数发出HTTP/HTTPS请求。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">func (f *File) Read(b []byte) (n int, err error)</pre></td></tr></table>
+<pre class="chroma">resp, err := http.Get(&#34;http://example.com/&#34;)
+...
+resp, err := http.Post(&#34;http://example.com/upload&#34;, &#34;image/jpeg&#34;, &amp;buf)
+...
+resp, err := http.PostForm(&#34;http://example.com/form&#34;,
+    url.Values{&#34;key&#34;: {&#34;Value&#34;}, &#34;id&#34;: {&#34;123&#34;}})</pre></td></tr></table>
 </div>
 </div>
-<p>它接收一个字节切片，返回读取的字节数和可能的具体错误，读到文件末尾时会返回0和io.EOF。 举个例子：</p>
+<p>程序在使用完response后必须关闭回复的主体。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">resp, err := http.Get(&#34;http://example.com/&#34;)
+if err != nil {
+    // handle error
+}
+defer resp.Body.Close()
+body, err := ioutil.ReadAll(resp.Body)
+// ...</pre></td></tr></table>
+</div>
+</div>
+<h4 id="get请求示例">GET请求示例</h4>
+
+<p>使用net/http包编写一个简单的发送HTTP请求的Client端，代码如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -549,183 +536,6 @@ Read方法定义如下：</p>
 </span><span class="lnt">20
 </span><span class="lnt">21
 </span><span class="lnt">22
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">func main() {
-    // 只读方式打开当前目录下的main.go文件
-    file, err := os.Open(&#34;./main.go&#34;)
-    if err != nil {
-        fmt.Println(&#34;open file failed!, err:&#34;, err)
-        return
-    }
-    defer file.Close()
-    // 使用Read方法读取数据
-    var tmp = make([]byte, 128)
-    n, err := file.Read(tmp)
-    if err == io.EOF {
-        fmt.Println(&#34;文件读完了&#34;)
-        return
-    }
-    if err != nil {
-        fmt.Println(&#34;read file failed, err:&#34;, err)
-        return
-    }
-    fmt.Printf(&#34;读取了%d字节数据\n&#34;, n)
-    fmt.Println(string(tmp[:n]))
-}</pre></td></tr></table>
-</div>
-</div>
-<h4 id="循环读取">循环读取</h4>
-
-<p>使用for循环读取文件中的所有数据。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">func main() {
-    // 只读方式打开当前目录下的main.go文件
-    file, err := os.Open(&#34;./main.go&#34;)
-    if err != nil {
-        fmt.Println(&#34;open file failed!, err:&#34;, err)
-        return
-    }
-    defer file.Close()
-    // 循环读取文件
-    var content []byte
-    var tmp = make([]byte, 128)
-    for {
-        n, err := file.Read(tmp)
-        if err == io.EOF {
-            fmt.Println(&#34;文件读完了&#34;)
-            break
-        }
-        if err != nil {
-            fmt.Println(&#34;read file failed, err:&#34;, err)
-            return
-        }
-        content = append(content, tmp[:n]...)
-    }
-    fmt.Println(string(content))
-}</pre></td></tr></table>
-</div>
-</div>
-<h4 id="bufio读取文件">bufio读取文件</h4>
-
-<p>bufio是在file的基础上封装了一层API，支持更多的功能。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-    <span class="s">&#34;bufio&#34;</span>
-    <span class="s">&#34;fmt&#34;</span>
-    <span class="s">&#34;io&#34;</span>
-    <span class="s">&#34;os&#34;</span>
-<span class="p">)</span>
-
-<span class="c1">// bufio按行读取示例
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">file</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;./main.go&#34;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;open file failed, err:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="p">}</span>
-    <span class="k">defer</span> <span class="nx">file</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
-    <span class="nx">reader</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nf">NewReader</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
-    <span class="k">for</span> <span class="p">{</span>
-        <span class="nx">line</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">reader</span><span class="p">.</span><span class="nf">ReadString</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">)</span> <span class="c1">//注意是字符
-</span><span class="c1"></span>        <span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="nx">io</span><span class="p">.</span><span class="nx">EOF</span> <span class="p">{</span>
-            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;文件读完了&#34;</span><span class="p">)</span>
-            <span class="k">break</span>
-        <span class="p">}</span>
-        <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;read file failed, err:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
-            <span class="k">return</span>
-        <span class="p">}</span>
-        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span></pre></td></tr></table>
-</div>
-</div>
-<h4 id="ioutil读取整个文件">ioutil读取整个文件</h4>
-
-<p>io/ioutil包的ReadFile方法能够读取完整的文件，只需要将文件名作为参数传入。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
 </span></pre></td>
 <td class="lntd">
 <pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
@@ -733,111 +543,30 @@ Read方法定义如下：</p>
 <span class="kn">import</span> <span class="p">(</span>
     <span class="s">&#34;fmt&#34;</span>
     <span class="s">&#34;io/ioutil&#34;</span>
+    <span class="s">&#34;net/http&#34;</span>
 <span class="p">)</span>
 
-<span class="c1">// ioutil.ReadFile读取整个文件
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">content</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ioutil</span><span class="p">.</span><span class="nf">ReadFile</span><span class="p">(</span><span class="s">&#34;./main.go&#34;</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">resp</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">http</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;https://www.liwenzhou.com/&#34;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;read file failed, err:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;get failed, err:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="p">}</span>
-    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">content</span><span class="p">))</span>
+    <span class="k">defer</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+    <span class="nx">body</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ioutil</span><span class="p">.</span><span class="nf">ReadAll</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;read from resp.Body failed,err:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">body</span><span class="p">))</span>
 <span class="p">}</span></pre></td></tr></table>
 </div>
 </div>
-<h4 id="文件写入操作">文件写入操作</h4>
+<p>将上面的代码保存之后编译成可执行文件，执行之后就能在终端打印liwenzhou.com网站首页的内容了，我们的浏览器其实就是一个发送和接收HTTP协议数据的客户端，我们平时通过浏览器访问网页其实就是从网站的服务器接收HTTP数据，然后浏览器会按照HTML、CSS等规则将网页渲染展示出来。</p>
 
-<p>os.OpenFile()函数能够以指定模式打开文件，从而实现文件写入相关功能。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">func OpenFile(name string, flag int, perm FileMode) (*File, error) {
-    ...
-}</pre></td></tr></table>
-</div>
-</div>
-<p>其中：</p>
+<h4 id="带参数的get请求示例">带参数的GET请求示例</h4>
 
-<p>name：要打开的文件名 flag：打开文件的模式。 模式有以下几种：</p>
-
-<table>
-<thead>
-<tr>
-<th>模式</th>
-<th align="center">含义</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>os.O_WRONLY</td>
-<td align="center">只写</td>
-</tr>
-
-<tr>
-<td>os.O_CREATE</td>
-<td align="center">创建文件</td>
-</tr>
-
-<tr>
-<td>os.O_RDONLY</td>
-<td align="center">只读</td>
-</tr>
-
-<tr>
-<td>os.O_RDWR</td>
-<td align="center">只读</td>
-</tr>
-
-<tr>
-<td>os.O_TRUNC</td>
-<td align="center">清空</td>
-</tr>
-
-<tr>
-<td>os.O_APPEND</td>
-<td align="center">追加</td>
-</tr>
-</tbody>
-</table>
-
-<p>perm：文件权限，一个八进制数。r（读）04，w（写）02，x（执行）01。</p>
-
-<h4 id="write和writestring">Write和WriteString</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">func main() {
-    file, err := os.OpenFile(&#34;xx.txt&#34;, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0666)
-    if err != nil {
-        fmt.Println(&#34;open file failed, err:&#34;, err)
-        return
-    }
-    defer file.Close()
-    str := &#34;hello 沙河&#34;
-    file.Write([]byte(str))       //写入字节切片数据
-    file.WriteString(&#34;hello 小王子&#34;) //直接写入字符串数据
-}</pre></td></tr></table>
-</div>
-</div>
-<h4 id="bufio-newwriter">bufio.NewWriter</h4>
+<p>关于GET请求的参数需要使用Go语言内置的net/url这个标准库来处理。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -853,24 +582,48 @@ Read方法定义如下：</p>
 </span><span class="lnt">11
 </span><span class="lnt">12
 </span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
 </span></pre></td>
 <td class="lntd">
 <pre class="chroma">func main() {
-    file, err := os.OpenFile(&#34;xx.txt&#34;, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0666)
+    apiUrl := &#34;http://127.0.0.1:9090/get&#34;
+    // URL param
+    data := url.Values{}
+    data.Set(&#34;name&#34;, &#34;小王子&#34;)
+    data.Set(&#34;age&#34;, &#34;18&#34;)
+    u, err := url.ParseRequestURI(apiUrl)
     if err != nil {
-        fmt.Println(&#34;open file failed, err:&#34;, err)
+        fmt.Printf(&#34;parse url requestUrl failed,err:%v\n&#34;, err)
+    }
+    u.RawQuery = data.Encode() // URL encode
+    fmt.Println(u.String())
+    resp, err := http.Get(u.String())
+    if err != nil {
+        fmt.Println(&#34;post failed, err:%v\n&#34;, err)
         return
     }
-    defer file.Close()
-    writer := bufio.NewWriter(file)
-    for i := 0; i &lt; 10; i++ {
-        writer.WriteString(&#34;hello沙河\n&#34;) //将数据先写入缓存
+    defer resp.Body.Close()
+    b, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        fmt.Println(&#34;get resp failed,err:%v\n&#34;, err)
+        return
     }
-    writer.Flush() //将缓存中的内容写入文件
+    fmt.Println(string(b))
 }</pre></td></tr></table>
 </div>
 </div>
-<h3 id="ioutil-writefile">ioutil.WriteFile</h3>
+<p>对应的Server端HandlerFunc如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt">1
@@ -883,82 +636,19 @@ Read方法定义如下：</p>
 </span><span class="lnt">8
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">func main() {
-    str := &#34;hello 沙河&#34;
-    err := ioutil.WriteFile(&#34;./xx.txt&#34;, []byte(str), 0666)
-    if err != nil {
-        fmt.Println(&#34;write file failed, err:&#34;, err)
-        return
-    }
+<pre class="chroma">func getHandler(w http.ResponseWriter, r *http.Request) {
+    defer r.Body.Close()
+    data := r.URL.Query()
+    fmt.Println(data.Get(&#34;name&#34;))
+    fmt.Println(data.Get(&#34;age&#34;))
+    answer := `{&#34;status&#34;: &#34;ok&#34;}`
+    w.Write([]byte(answer))
 }</pre></td></tr></table>
 </div>
 </div>
-<h3 id="练习">练习</h3>
+<h4 id="post请求示例">Post请求示例</h4>
 
-<h4 id="copyfile">copyFile</h4>
-
-<p>借助io.Copy()实现一个拷贝文件函数。</p>
-
-<p>// CopyFile 拷贝文件函数</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">func CopyFile(dstName, srcName string) (written int64, err error) {
-    // 以读方式打开源文件
-    src, err := os.Open(srcName)
-    if err != nil {
-        fmt.Printf(&#34;open %s failed, err:%v.\n&#34;, srcName, err)
-        return
-    }
-    defer src.Close()
-    // 以写|创建的方式打开目标文件
-    dst, err := os.OpenFile(dstName, os.O_WRONLY|os.O_CREATE, 0644)
-    if err != nil {
-        fmt.Printf(&#34;open %s failed, err:%v.\n&#34;, dstName, err)
-        return
-    }
-    defer dst.Close()
-    return io.Copy(dst, src) //调用io.Copy()拷贝内容
-}
-func main() {
-    _, err := CopyFile(&#34;dst.txt&#34;, &#34;src.txt&#34;)
-    if err != nil {
-        fmt.Println(&#34;copy file failed, err:&#34;, err)
-        return
-    }
-    fmt.Println(&#34;copy done!&#34;)
-}</pre></td></tr></table>
-</div>
-</div>
-<h4 id="实现一个cat命令">实现一个cat命令</h4>
-
-<p>使用文件操作相关知识，模拟实现linux平台cat命令的功能。</p>
+<p>上面演示了使用net/http包发送GET请求的示例，发送POST请求的示例代码如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -993,119 +683,43 @@ func main() {
 </span><span class="lnt">30
 </span><span class="lnt">31
 </span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
 </span></pre></td>
 <td class="lntd">
 <pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
-    <span class="s">&#34;bufio&#34;</span>
-    <span class="s">&#34;flag&#34;</span>
     <span class="s">&#34;fmt&#34;</span>
-    <span class="s">&#34;io&#34;</span>
-    <span class="s">&#34;os&#34;</span>
+    <span class="s">&#34;io/ioutil&#34;</span>
+    <span class="s">&#34;net/http&#34;</span>
+    <span class="s">&#34;strings&#34;</span>
 <span class="p">)</span>
 
-<span class="c1">// cat命令实现
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">cat</span><span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">bufio</span><span class="p">.</span><span class="nx">Reader</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">{</span>
-        <span class="nx">buf</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nf">ReadBytes</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">)</span> <span class="c1">//注意是字符
-</span><span class="c1"></span>        <span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="nx">io</span><span class="p">.</span><span class="nx">EOF</span> <span class="p">{</span>
-            <span class="k">break</span>
-        <span class="p">}</span>
-        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Fprintf</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span> <span class="s">&#34;%s&#34;</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
+<span class="c1">// net/http post demo
+</span><span class="c1"></span>
 <span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">flag</span><span class="p">.</span><span class="nf">Parse</span><span class="p">()</span> <span class="c1">// 解析命令行参数
-</span><span class="c1"></span>    <span class="k">if</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">NArg</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
-        <span class="c1">// 如果没有参数默认从标准输入读取内容
-</span><span class="c1"></span>        <span class="nf">cat</span><span class="p">(</span><span class="nx">bufio</span><span class="p">.</span><span class="nf">NewReader</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdin</span><span class="p">))</span>
+    <span class="nx">url</span> <span class="o">:=</span> <span class="s">&#34;http://127.0.0.1:9090/post&#34;</span>
+    <span class="c1">// 表单数据
+</span><span class="c1"></span>    <span class="c1">//contentType := &#34;application/x-www-form-urlencoded&#34;
+</span><span class="c1"></span>    <span class="c1">//data := &#34;name=小王子&amp;age=18&#34;
+</span><span class="c1"></span>    <span class="c1">// json
+</span><span class="c1"></span>    <span class="nx">contentType</span> <span class="o">:=</span> <span class="s">&#34;application/json&#34;</span>
+    <span class="nx">data</span> <span class="o">:=</span> <span class="s">`{&#34;name&#34;:&#34;小王子&#34;,&#34;age&#34;:18}`</span>
+    <span class="nx">resp</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">http</span><span class="p">.</span><span class="nf">Post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">contentType</span><span class="p">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">NewReader</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;post failed, err:%v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+        <span class="k">return</span>
     <span class="p">}</span>
-    <span class="c1">// 依次读取每个指定文件的内容并打印到终端
-</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">NArg</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-        <span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="nx">flag</span><span class="p">.</span><span class="nf">Arg</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
-        <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Fprintf</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span> <span class="s">&#34;reading from %s failed, err:%v\n&#34;</span><span class="p">,</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">Arg</span><span class="p">(</span><span class="nx">i</span><span class="p">),</span> <span class="nx">err</span><span class="p">)</span>
-            <span class="k">continue</span>
-        <span class="p">}</span>
-        <span class="nf">cat</span><span class="p">(</span><span class="nx">bufio</span><span class="p">.</span><span class="nf">NewReader</span><span class="p">(</span><span class="nx">f</span><span class="p">))</span>
+    <span class="k">defer</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+    <span class="nx">b</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ioutil</span><span class="p">.</span><span class="nf">ReadAll</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;get resp failed,err:%v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+        <span class="k">return</span>
     <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">b</span><span class="p">))</span>
 <span class="p">}</span></pre></td></tr></table>
 </div>
 </div>
-<h3 id="示例">示例</h3>
-
-<h4 id="文件操作的api">文件操作的API</h4>
-
-<table>
-<thead>
-<tr>
-<th>API</th>
-<th align="center">描述</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>func Create(name string) (file *File, err Error)</td>
-<td align="center">根据提供的文件名创建新的文件，返回一个文件对象，默认权限是0666</td>
-</tr>
-
-<tr>
-<td>func NewFile(fd uintptr, name string) *File</td>
-<td align="center">根据文件描述符创建相应的文件，返回一个文件对象</td>
-</tr>
-
-<tr>
-<td>func Open(name string) (file *File, err Error)</td>
-<td align="center">只读方式打开一个名称为name的文件</td>
-</tr>
-
-<tr>
-<td>func OpenFile(name string, flag int, perm uint32) (file *File, err Error)</td>
-<td align="center">打开名称为name的文件，flag是打开的方式，只读、读写等，perm是权限</td>
-</tr>
-
-<tr>
-<td>func (file *File) Write(b []byte) (n int, err Error)</td>
-<td align="center">写入byte类型的信息到文件</td>
-</tr>
-
-<tr>
-<td>func (file *File) WriteAt(b []byte, off int64) (n int, err Error)</td>
-<td align="center">在指定位置开始写入byte类型的信息</td>
-</tr>
-
-<tr>
-<td>func (file *File) WriteString(s string) (ret int, err Error)</td>
-<td align="center">写入string信息到文件</td>
-</tr>
-
-<tr>
-<td>func (file *File) Read(b []byte) (n int, err Error)</td>
-<td align="center">读取数据到b中</td>
-</tr>
-
-<tr>
-<td>func (file *File) ReadAt(b []byte, off int64) (n int, err Error)</td>
-<td align="center">从off开始读取数据到b中</td>
-</tr>
-
-<tr>
-<td>func Remove(name string) Error</td>
-<td align="center">删除文件名为name的文件</td>
-</tr>
-</tbody>
-</table>
-
-<p>//读文件
-    package main</p>
+<p>对应的Server端HandlerFunc如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -1124,32 +738,168 @@ func main() {
 </span><span class="lnt">14
 </span><span class="lnt">15
 </span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">import (
-    &#34;fmt&#34;
-    &#34;io&#34;
-    &#34;os&#34;
-)
-
-func main()  {
-    file, err := os.Create(&#34;./src/IO/xxx.txt&#34;)
-    if err != nil{
-        fmt.Println(err)
+<pre class="chroma">func postHandler(w http.ResponseWriter, r *http.Request) {
+    defer r.Body.Close()
+    // 1. 请求类型是application/x-www-form-urlencoded时解析form数据
+    r.ParseForm()
+    fmt.Println(r.PostForm) // 打印form数据
+    fmt.Println(r.PostForm.Get(&#34;name&#34;), r.PostForm.Get(&#34;age&#34;))
+    // 2. 请求类型是application/json时从r.Body读取数据
+    b, err := ioutil.ReadAll(r.Body)
+    if err != nil {
+        fmt.Println(&#34;read request.Body failed, err:%v\n&#34;, err)
         return
     }
-    defer file.Close()
-    for i:=0;i&lt;5;i++{
-        file.WriteString(&#34;ab\n&#34;)
-        file.Write([]byte(&#34;cd\n&#34;))
+    fmt.Println(string(b))
+    answer := `{&#34;status&#34;: &#34;ok&#34;}`
+    w.Write([]byte(answer))
+}</pre></td></tr></table>
+</div>
+</div>
+<h4 id="自定义client">自定义Client</h4>
+
+<p>要管理HTTP客户端的头域、重定向策略和其他设置，创建一个Client：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">client := &amp;http.Client{
+    CheckRedirect: redirectPolicyFunc,
+}
+resp, err := client.Get(&#34;http://example.com&#34;)
+// ...
+req, err := http.NewRequest(&#34;GET&#34;, &#34;http://example.com&#34;, nil)
+// ...
+req.Header.Add(&#34;If-None-Match&#34;, `W/&#34;wyzzy&#34;`)
+resp, err := client.Do(req)
+// ...</pre></td></tr></table>
+</div>
+</div>
+<h4 id="自定义transport">自定义Transport</h4>
+
+<p>要管理代理、TLS配置、keep-alive、压缩和其他设置，创建一个Transport：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">tr := &amp;http.Transport{
+    TLSClientConfig:    &amp;tls.Config{RootCAs: pool},
+    DisableCompression: true,
+}
+client := &amp;http.Client{Transport: tr}
+resp, err := client.Get(&#34;https://example.com&#34;)</pre></td></tr></table>
+</div>
+</div>
+<p>Client和Transport类型都可以安全的被多个goroutine同时使用。出于效率考虑，应该一次建立、尽量重用。</p>
+
+<h3 id="服务端">服务端</h3>
+
+<h4 id="默认的server">默认的Server</h4>
+
+<p>ListenAndServe使用指定的监听地址和处理器启动一个HTTP服务端。处理器参数通常是nil，这表示采用包变量DefaultServeMux作为处理器。</p>
+
+<p>Handle和HandleFunc函数可以向DefaultServeMux添加处理器。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">http.Handle(&#34;/foo&#34;, fooHandler)
+http.HandleFunc(&#34;/bar&#34;, func(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, &#34;Hello, %q&#34;, html.EscapeString(r.URL.Path))
+})
+log.Fatal(http.ListenAndServe(&#34;:8080&#34;, nil))</pre></td></tr></table>
+</div>
+</div>
+<h4 id="默认的server示例">默认的Server示例</h4>
+
+<p>使用Go语言中的net/http包来编写一个简单的接收HTTP请求的Server端示例，net/http包是对net包的进一步封装，专门用来处理HTTP协议的数据。具体的代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// http server
+
+func sayHello(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintln(w, &#34;Hello 沙河！&#34;)
+}
+
+func main() {
+    http.HandleFunc(&#34;/&#34;, sayHello)
+    err := http.ListenAndServe(&#34;:9090&#34;, nil)
+    if err != nil {
+        fmt.Printf(&#34;http server failed, err:%v\n&#34;, err)
+        return
     }
 }</pre></td></tr></table>
 </div>
 </div>
-<p>//读文件
-        package main</p>
+<p>将上面的代码编译之后执行，打开你电脑上的浏览器在地址栏输入127.0.0.1:9090回车，就可以看到 Hello 沙河！</p>
+
+<h4 id="自定义server">自定义Server</h4>
+
+<p>要管理服务端的行为，可以创建一个自定义的Server：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">s := &amp;http.Server{
+    Addr:           &#34;:8080&#34;,
+    Handler:        myHandler,
+    ReadTimeout:    10 * time.Second,
+    WriteTimeout:   10 * time.Second,
+    MaxHeaderBytes: 1 &lt;&lt; 20,
+}
+log.Fatal(s.ListenAndServe())</pre></td></tr></table>
+</div>
+</div>
+<h3 id="示例">示例</h3>
+
+<h4 id="server端">server端</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -1179,45 +929,38 @@ func main()  {
 </span><span class="lnt">25
 </span><span class="lnt">26
 </span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">    import (
-        &#34;fmt&#34;
-        &#34;io&#34;
-        &#34;os&#34;
-    )
-func main()  {
-    file ,err := os.Open(&#34;./src/IO/xxx.txt&#34;)
-    if err != nil {
-        fmt.Println(&#34;Open file is&#34;,err)
-        return
-    }
-    defer file.Close()
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
 
-    //定义接受文件读取的字节数组
-    var  buf [128]byte
-    var content []byte
-    for {
-        n,err := file.Read(buf[:])
-        if err == io.EOF{
-            break
-        }
-        if err != nil{
-            fmt.Println(&#34;Read file is &#34;, err)
-            return
-        }
-        content = append(content,buf[:n]...)
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+    <span class="s">&#34;net/http&#34;</span>
+<span class="p">)</span>
 
-    }
-    fmt.Println(string(content))
-}</pre></td></tr></table>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="c1">//回调函数
+</span><span class="c1"></span>    <span class="nx">http</span><span class="p">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s">&#34;/go&#34;</span><span class="p">,</span><span class="nx">myHandler</span><span class="p">)</span>
+
+    <span class="c1">//addr 监听地址
+</span><span class="c1"></span>    <span class="c1">//handler 回调函数
+</span><span class="c1"></span>    <span class="nx">http</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">(</span><span class="s">&#34;127.0.0.1:8080&#34;</span><span class="p">,</span><span class="kc">nil</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">//HandleFunc函数
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">myHandler</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">r</span><span class="p">.</span><span class="nx">RemoteAddr</span><span class="p">,</span> <span class="s">&#34;连接成功&#34;</span><span class="p">)</span>
+    <span class="c1">//请求方式
+</span><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;method&#34;</span><span class="p">,</span><span class="nx">r</span><span class="p">.</span><span class="nx">Method</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;url&#34;</span><span class="p">,</span><span class="nx">r</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">Path</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;header&#34;</span><span class="p">,</span><span class="nx">r</span><span class="p">.</span><span class="nx">Header</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;budy&#34;</span><span class="p">,</span><span class="nx">r</span><span class="p">.</span><span class="nx">Body</span><span class="p">)</span>
+    <span class="c1">//回复客户端
+</span><span class="c1"></span>    <span class="nx">w</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;qwe&#34;</span><span class="p">))</span>
+<span class="p">}</span></pre></td></tr></table>
 </div>
 </div>
-<p>//拷贝文件
-        package main</p>
+<h4 id="client-端">client 端</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><span class="lnt"> 1
@@ -1251,59 +994,39 @@ func main()  {
 </span><span class="lnt">29
 </span><span class="lnt">30
 </span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
 </span></pre></td>
 <td class="lntd">
-<pre class="chroma">    import (
-        &#34;fmt&#34;
-        &#34;io&#34;
-        &#34;os&#34;
-    )
-func main()  {
-    //打开源文件
-    file,err := os.Open(&#34;./src/IO/xxx.txt&#34;)
-    if err != nil{
-        fmt.Println(err)
-        return
-    }
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
 
-    //创建新文件
-    dstfile,err2 := os.Create(&#34;./src/IO/ttt.txt&#34;)
-    if err2 != nil{
-        fmt.Println(err2)
-        return
-    }
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+    <span class="s">&#34;io&#34;</span>
+    <span class="s">&#34;net/http&#34;</span>
+<span class="p">)</span>
 
-    //缓冲读数据
-    buf := make([]byte,1024)
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nx">resp</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">http</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;http://127.0.0.1:8080/go&#34;</span><span class="p">)</span>
+    <span class="k">defer</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Status</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Header</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">TLS</span><span class="p">)</span>
 
-    for {
-        //从源文件读数据
-        n,err := file.Read(buf)
-        if err == io.EOF{
-            fmt.Println(&#34;读取完毕&#34;)
-            break
-        }
-        if err != nil{
-            fmt.Println(err)
-            return
-        }
+    <span class="nx">buf</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="mi">1024</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">{</span>
+        <span class="c1">//接受服务端信息
+</span><span class="c1"></span>        <span class="nx">n</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="nx">err</span> <span class="o">!=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">EOF</span><span class="p">{</span>
+            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;读取完毕&#34;</span><span class="p">)</span>
+            <span class="nx">res</span> <span class="o">:=</span> <span class="nb">string</span><span class="p">(</span><span class="nx">buf</span><span class="p">[:</span><span class="nx">n</span><span class="p">])</span>
+            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="p">}</span>
 
-        //写出去
-        _, _ = dstfile.Write(buf[:n])
-    }
-    _ = file.Close()
-    _ = dstfile.Close()
-}</pre></td></tr></table>
+    <span class="p">}</span>
+<span class="p">}</span></pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -1324,7 +1047,7 @@ func main()  {
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/go%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F/">
+          <a class="prev" href="/post/golang%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/">
             
             <i class="iconfont">
               <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -1334,12 +1057,12 @@ func main()  {
 </svg>
 
             </i>
-            <span class="prev-text nav-default">Go数据格式</span>
+            <span class="prev-text nav-default">Golang网络编程基础</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         
-          <a class="next" href="/post/go%E6%A0%87%E5%87%86%E5%BA%93log/">
-            <span class="next-text nav-default">Go标准库log</span>
+          <a class="next" href="/post/golang%E6%A0%87%E5%87%86%E5%8C%85contest/">
+            <span class="next-text nav-default">Golang标准包contest</span>
             <span class="prev-text nav-mobile">Next</span>
             
             <i class="iconfont">

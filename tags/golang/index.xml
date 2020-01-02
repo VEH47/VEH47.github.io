@@ -5,10 +5,37 @@
     <link>http://veh47.github.io/tags/golang/</link>
     <description>Recent content in Golang on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 31 Dec 2019 18:14:47 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jan 2020 10:17:44 +0800</lastBuildDate>
     
 	<atom:link href="http://veh47.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Golang网络编程基础</title>
+      <link>http://veh47.github.io/post/golang%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Thu, 02 Jan 2020 10:17:44 +0800</pubDate>
+      
+      <guid>http://veh47.github.io/post/golang%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/</guid>
+      <description>现在我们几乎每天都在使用互联网，我们前面已经学习了如何编写Go语言程序，但是如何才能让我们的程序通过网络互相通信呢？本章我们就一起来学习下G</description>
+    </item>
+    
+    <item>
+      <title>Golang标准包nethttp包</title>
+      <link>http://veh47.github.io/post/golang%E6%A0%87%E5%87%86%E5%8C%85net-http%E5%8C%85/</link>
+      <pubDate>Thu, 02 Jan 2020 10:02:22 +0800</pubDate>
+      
+      <guid>http://veh47.github.io/post/golang%E6%A0%87%E5%87%86%E5%8C%85net-http%E5%8C%85/</guid>
+      <description>Go语言内置的net/http包十分的优秀，提供了HTTP客户端和服务端的实现。 HTTP协议 超文本传输协议（HTTP，HyperText Transfer P</description>
+    </item>
+    
+    <item>
+      <title>Golang标准包contest</title>
+      <link>http://veh47.github.io/post/golang%E6%A0%87%E5%87%86%E5%8C%85contest/</link>
+      <pubDate>Thu, 02 Jan 2020 09:49:30 +0800</pubDate>
+      
+      <guid>http://veh47.github.io/post/golang%E6%A0%87%E5%87%86%E5%8C%85contest/</guid>
+      <description>在 Go http包的Server中，每一个请求在都有一个对应的 goroutine 去处理。请求处理函数通常会启动额外的 goroutine 用来访问后端服务，比如数据库和RPC服务。</description>
+    </item>
     
     <item>
       <title>Go语言中的单元测试</title>
@@ -172,28 +199,6 @@ Map 是go内置的数据结构，是一种无序的键值对的集合，可以�
       
       <guid>http://veh47.github.io/post/go%E5%B8%B8%E9%87%8F-3/</guid>
       <description>&lt;p&gt;常量是一个简单值的标识符，在程序运行时，永远是只读的，不能修改。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Go运算符及格式华操作 2</title>
-      <link>http://veh47.github.io/post/go%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8F%8A%E6%A0%BC%E5%BC%8F%E5%8D%8E%E6%93%8D%E4%BD%9C-2/</link>
-      <pubDate>Sun, 06 Oct 2019 14:47:11 +0800</pubDate>
-      
-      <guid>http://veh47.github.io/post/go%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8F%8A%E6%A0%BC%E5%BC%8F%E5%8D%8E%E6%93%8D%E4%BD%9C-2/</guid>
-      <description>&lt;p&gt;运算符用于在程序运行时执行数学或逻辑运算&lt;/p&gt;
-
-&lt;p&gt;Go 语言内置的运算符有：算术运算符、关系运算符、逻辑运算符、位运算符、赋值运算符、其他运算符。&lt;/p&gt;
-
-&lt;p&gt;Go 语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如 C#和 Java）不同，下面是我整理的一些常用的格式化操作。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Go基础介绍 1</title>
-      <link>http://veh47.github.io/post/go%E5%9F%BA%E7%A1%80%E4%BB%8B%E7%BB%8D-1/</link>
-      <pubDate>Sun, 06 Oct 2019 13:45:35 +0800</pubDate>
-      
-      <guid>http://veh47.github.io/post/go%E5%9F%BA%E7%A1%80%E4%BB%8B%E7%BB%8D-1/</guid>
-      <description>&lt;p&gt;数据类型介绍&lt;/p&gt;</description>
     </item>
     
   </channel>
