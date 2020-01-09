@@ -1,0 +1,2358 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Go语言操作MySQL - Eleven</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Eleven" />
+  <meta name="description" content="MySQL是常用的关系型数据库，本文介绍了Go语言如何操作MySQL数据库。 Go语言中的database/sql包提供了保证SQL或类SQL" />
+
+  <meta name="keywords" content="Eleven" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="canonical" href="http://veh47.github.io/post/go%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9Cmysql/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Go语言操作MySQL" />
+<meta property="og:description" content="MySQL是常用的关系型数据库，本文介绍了Go语言如何操作MySQL数据库。 Go语言中的database/sql包提供了保证SQL或类SQL" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://veh47.github.io/post/go%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9Cmysql/" />
+<meta property="article:published_time" content="2020-01-09T11:14:01+08:00" />
+<meta property="article:modified_time" content="2020-01-09T11:14:01+08:00" />
+<meta itemprop="name" content="Go语言操作MySQL">
+<meta itemprop="description" content="MySQL是常用的关系型数据库，本文介绍了Go语言如何操作MySQL数据库。 Go语言中的database/sql包提供了保证SQL或类SQL">
+
+
+<meta itemprop="datePublished" content="2020-01-09T11:14:01&#43;08:00" />
+<meta itemprop="dateModified" content="2020-01-09T11:14:01&#43;08:00" />
+<meta itemprop="wordCount" content="6520">
+
+
+
+<meta itemprop="keywords" content="Golang," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Go语言操作MySQL"/>
+<meta name="twitter:description" content="MySQL是常用的关系型数据库，本文介绍了Go语言如何操作MySQL数据库。 Go语言中的database/sql包提供了保证SQL或类SQL"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Eleven</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+        
+      </li>
+    
+
+    
+      <li class="mobile-menu-item">
+        <a id="openSearchMobile" class="mobile-menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+    
+<div class="modal-dialog">
+    
+    <div class="modal-content">
+      <div id="closeSearch" title="Close" class="close">X</div>
+      <div class="modal-header">
+        <div class="modal-title">Search</div>
+      </div>
+      <div class="modal-body">
+          <script>
+            (function() {
+              var cx = '012427586116641581695:iilii6hg9u2';
+              var gcse = document.createElement('script');
+              gcse.type = 'text/javascript';
+              gcse.async = true;
+              gcse.src = (document.location.protocol == 'https:' ? 'https:' :
+                  'http:') +
+                '//cse.google.com/cse.js?cx=' + cx;
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(gcse, s);
+            })();
+          </script>
+          <gcse:search></gcse:search>
+      </div>
+    </div>
+</div>
+
+  
+
+  
+    <style>
+      .fork-me-on-github {
+        position: absolute; top: 0; left: 0; border: 0;
+      }
+      @media (max-width: 1080px) {
+        .fork-me-on-github {
+          display: none;
+        }
+      }
+    </style>
+
+    <a href="https://github.com/veh47">
+      <img class="fork-me-on-github"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"
+        alt="Fork me on GitHub">
+    </a>
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Eleven
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+      <li class="menu-item">
+        <a id="openSearch" class="menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Go语言操作MySQL</h1>
+      
+      <div class="post-meta">
+        <time datetime="2020-01-09" class="post-time">
+          2020-01-09
+        </time>
+        <div class="post-category">
+            <a href="http://veh47.github.io/categories/golang/"> Golang </a>
+            
+          </div>
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#下载依赖">下载依赖</a></li>
+<li><a href="#使用mysql驱动">使用MySQL驱动</a></li>
+<li><a href="#初始化连接">初始化连接</a></li>
+<li><a href="#setmaxopenconns">SetMaxOpenConns</a></li>
+<li><a href="#setmaxidleconns">SetMaxIdleConns</a></li>
+<li><a href="#crud">CRUD</a>
+<ul>
+<li><a href="#建库建表">建库建表</a></li>
+</ul></li>
+<li><a href="#查询">查询</a>
+<ul>
+<li><a href="#单行查询">单行查询</a></li>
+<li><a href="#多行查询">多行查询</a></li>
+<li><a href="#插入数据">插入数据</a></li>
+<li><a href="#更新数据">更新数据</a></li>
+<li><a href="#删除数据">删除数据</a></li>
+</ul></li>
+<li><a href="#mysql预处理">MySQL预处理</a></li>
+<li><a href="#go实现mysql预处理">Go实现MySQL预处理</a></li>
+<li><a href="#go实现mysql事务">Go实现MySQL事务</a>
+<ul>
+<li><a href="#事务相关方法">事务相关方法</a></li>
+</ul></li>
+<li><a href="#sqlx使用">sqlx使用</a></li>
+<li><a href="#基本使用">基本使用</a></li>
+<li><a href="#sql注入">SQL注入</a></li>
+<li><a href="#示例1">示例1</a></li>
+<li><a href="#示例2">示例2</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p>MySQL是常用的关系型数据库，本文介绍了Go语言如何操作MySQL数据库。
+<!---more---></p>
+
+<p>Go语言中的database/sql包提供了保证SQL或类SQL数据库的泛用接口，并不提供具体的数据库驱动。使用database/sql包时必须注入（至少）一个数据库驱动。</p>
+
+<p>我们常用的数据库基本上都有完整的第三方实现。例如：<a href="https://github.com/go-sql-driver/mysql">MySQL驱动</a></p>
+
+<h3 id="下载依赖">下载依赖</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">go get -u github.com/go-sql-driver/mysql</pre></td></tr></table>
+</div>
+</div>
+<h3 id="使用mysql驱动">使用MySQL驱动</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func Open(driverName, dataSourceName string) (*DB, error)</pre></td></tr></table>
+</div>
+</div>
+<p>Open打开一个dirverName指定的数据库，dataSourceName指定数据源，一般包至少括数据库文件名和（可能的）连接信息。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">import (
+    &#34;database/sql&#34;
+
+    _ &#34;github.com/go-sql-driver/mysql&#34;
+)
+
+func main() {
+   // DSN:Data Source Name
+    dsn := &#34;user:password@tcp(127.0.0.1:3306)/dbname&#34;
+    db, err := sql.Open(&#34;mysql&#34;, dsn)
+    if err != nil {
+        panic(err)
+    }
+    defer db.Close()  // 注意
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="初始化连接">初始化连接</h3>
+
+<p>Open函数可能只是验证其参数，而不创建与数据库的连接。如果要检查数据源的名称是否合法，应调用返回值的Ping方法。</p>
+
+<p>返回的DB可以安全的被多个goroutine同时使用，并会维护自身的闲置连接池。这样一来，Open函数只需调用一次。很少需要关闭DB。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// 定义一个全局对象db
+var db *sql.DB
+
+// 定义一个初始化数据库的函数
+func initDB() (err error) {
+    // DSN:Data Source Name
+    dsn := &#34;user:password@tcp(127.0.0.1:3306)/test&#34;
+    // 不会校验账号密码是否正确
+    // 注意！！！这里不要使用:=，我们是给全局变量赋值，然后在main函数中使用全局变量db
+    db, err = sql.Open(&#34;mysql&#34;, dsn)
+    if err != nil {
+        return err
+    }
+    // 尝试与数据库建立连接（校验dsn是否正确）
+    err = db.Ping()
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
+func main() {
+    err := initDB() // 调用输出化数据库的函数
+    if err != nil {
+        fmt.Printf(&#34;init db failed,err:%v\n&#34;, err)
+        return
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>其中sql.DB是一个数据库（操作）句柄，代表一个具有零到多个底层连接的连接池。它可以安全的被多个go程同时使用。database/sql包会自动创建和释放连接；它也会维护一个闲置连接的连接池。</p>
+
+<h3 id="setmaxopenconns">SetMaxOpenConns</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func (db *DB) SetMaxOpenConns(n int)</pre></td></tr></table>
+</div>
+</div>
+<p>SetMaxOpenConns设置与数据库建立连接的最大数目。 如果n大于0且小于最大闲置连接数，会将最大闲置连接数减小到匹配最大开启连接数的限制。 如果n&lt;=0，不会限制最大开启连接数，默认为0（无限制）。</p>
+
+<h3 id="setmaxidleconns">SetMaxIdleConns</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func (db *DB) SetMaxIdleConns(n int)</pre></td></tr></table>
+</div>
+</div>
+<p>SetMaxIdleConns设置连接池中的最大闲置连接数。 如果n大于最大开启连接数，则新的最大闲置连接数会减小到匹配最大开启连接数的限制。 如果n&lt;=0，不会保留闲置连接。</p>
+
+<h3 id="crud">CRUD</h3>
+
+<h4 id="建库建表">建库建表</h4>
+
+<p>我们先在MySQL中创建一个名为sql_test的数据库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">CREATE DATABASE sql_test;</pre></td></tr></table>
+</div>
+</div>
+<p>进入该数据库:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">use sql_test;</pre></td></tr></table>
+</div>
+</div>
+<p>执行以下命令创建一张用于测试的数据表：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">CREATE TABLE `user` (
+    `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(20) DEFAULT &#39;&#39;,
+    `age` INT(11) DEFAULT &#39;0&#39;,
+    PRIMARY KEY(`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;</pre></td></tr></table>
+</div>
+</div>
+<h3 id="查询">查询</h3>
+
+<h4 id="单行查询">单行查询</h4>
+
+<p>单行查询db.QueryRow()执行一次查询，并期望返回最多一行结果（即Row）。QueryRow总是返回非nil的值，直到返回值的Scan方法被调用时，才会返回被延迟的错误。（如：未找到结果）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func (db *DB) QueryRow(query string, args ...interface{}) *Row
+具体示例代码：
+
+// 查询单条数据示例
+func queryRowDemo() {
+    sqlStr := &#34;select id, name, age from user where id=?&#34;
+    var u user
+    // 非常重要：确保QueryRow之后调用Scan方法，否则持有的数据库链接不会被释放
+    err := db.QueryRow(sqlStr, 1).Scan(&amp;u.id, &amp;u.name, &amp;u.age)
+    if err != nil {
+        fmt.Printf(&#34;scan failed, err:%v\n&#34;, err)
+        return
+    }
+    fmt.Printf(&#34;id:%d name:%s age:%d\n&#34;, u.id, u.name, u.age)
+}</pre></td></tr></table>
+</div>
+</div>
+<h4 id="多行查询">多行查询</h4>
+
+<p>多行查询db.Query()执行一次查询，返回多行结果（即Rows），一般用于执行select命令。参数args表示query中的占位参数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func (db *DB) Query(query string, args ...interface{}) (*Rows, error)
+具体示例代码：
+
+// 查询多条数据示例
+func queryMultiRowDemo() {
+    sqlStr := &#34;select id, name, age from user where id &gt; ?&#34;
+    rows, err := db.Query(sqlStr, 0)
+    if err != nil {
+        fmt.Printf(&#34;query failed, err:%v\n&#34;, err)
+        return
+    }
+    // 非常重要：关闭rows释放持有的数据库链接
+    defer rows.Close()
+
+    // 循环读取结果集中的数据
+    for rows.Next() {
+        var u user
+        err := rows.Scan(&amp;u.id, &amp;u.name, &amp;u.age)
+        if err != nil {
+            fmt.Printf(&#34;scan failed, err:%v\n&#34;, err)
+            return
+        }
+        fmt.Printf(&#34;id:%d name:%s age:%d\n&#34;, u.id, u.name, u.age)
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<h4 id="插入数据">插入数据</h4>
+
+<p>插入、更新和删除操作都使用方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func (db *DB) Exec(query string, args ...interface{}) (Result, error)
+Exec执行一次命令（包括查询、删除、更新、插入等），返回的Result是对已执行的SQL命令的总结。参数args表示query中的占位参数。
+
+具体插入数据示例代码如下：
+
+// 插入数据
+func insertRowDemo() {
+    sqlStr := &#34;insert into user(name, age) values (?,?)&#34;
+    ret, err := db.Exec(sqlStr, &#34;王五&#34;, 38)
+    if err != nil {
+        fmt.Printf(&#34;insert failed, err:%v\n&#34;, err)
+        return
+    }
+    theID, err := ret.LastInsertId() // 新插入数据的id
+    if err != nil {
+        fmt.Printf(&#34;get lastinsert ID failed, err:%v\n&#34;, err)
+        return
+    }
+    fmt.Printf(&#34;insert success, the id is %d.\n&#34;, theID)
+}</pre></td></tr></table>
+</div>
+</div>
+<h4 id="更新数据">更新数据</h4>
+
+<p>具体更新数据示例代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// 更新数据
+func updateRowDemo() {
+    sqlStr := &#34;update user set age=? where id = ?&#34;
+    ret, err := db.Exec(sqlStr, 39, 3)
+    if err != nil {
+        fmt.Printf(&#34;update failed, err:%v\n&#34;, err)
+        return
+    }
+    n, err := ret.RowsAffected() // 操作影响的行数
+    if err != nil {
+        fmt.Printf(&#34;get RowsAffected failed, err:%v\n&#34;, err)
+        return
+    }
+    fmt.Printf(&#34;update success, affected rows:%d\n&#34;, n)
+}</pre></td></tr></table>
+</div>
+</div>
+<h4 id="删除数据">删除数据</h4>
+
+<p>具体删除数据的示例代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// 删除数据
+func deleteRowDemo() {
+    sqlStr := &#34;delete from user where id = ?&#34;
+    ret, err := db.Exec(sqlStr, 3)
+    if err != nil {
+        fmt.Printf(&#34;delete failed, err:%v\n&#34;, err)
+        return
+    }
+    n, err := ret.RowsAffected() // 操作影响的行数
+    if err != nil {
+        fmt.Printf(&#34;get RowsAffected failed, err:%v\n&#34;, err)
+        return
+    }
+    fmt.Printf(&#34;delete success, affected rows:%d\n&#34;, n)
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="mysql预处理">MySQL预处理</h3>
+
+<p>什么是预处理？<br />
+普通SQL语句执行过程：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">客户端对SQL语句进行占位符替换得到完整的SQL语句。
+客户端发送完整SQL语句到MySQL服务端
+MySQL服务端执行完整的SQL语句并将结果返回给客户端。</pre></td></tr></table>
+</div>
+</div>
+<p>预处理执行过程：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">把SQL语句分成两部分，命令部分与数据部分。
+先把命令部分发送给MySQL服务端，MySQL服务端进行SQL预处理。
+然后把数据部分发送给MySQL服务端，MySQL服务端对SQL语句进行占位符替换。
+MySQL服务端执行完整的SQL语句并将结果返回给客户端。</pre></td></tr></table>
+</div>
+</div>
+<p>为什么要预处理？<br />
+优化MySQL服务器重复执行SQL的方法，可以提升服务器性能，提前让服务器编译，一次编译多次执行，节省后续编译的成本。<br />
+避免SQL注入问题。</p>
+
+<h3 id="go实现mysql预处理">Go实现MySQL预处理</h3>
+
+<p>Go中的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func (db *DB) Prepare(query string) (*Stmt, error)</pre></td></tr></table>
+</div>
+</div>
+<p>Prepare方法会先将sql语句发送给MySQL服务端，返回一个准备好的状态用于之后的查询和命令。返回值可以同时执行多个查询和命令。</p>
+
+<p>查询操作的预处理示例代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// 预处理查询示例
+func prepareQueryDemo() {
+    sqlStr := &#34;select id, name, age from user where id &gt; ?&#34;
+    stmt, err := db.Prepare(sqlStr)
+    if err != nil {
+        fmt.Printf(&#34;prepare failed, err:%v\n&#34;, err)
+        return
+    }
+    defer stmt.Close()
+    rows, err := stmt.Query(0)
+    if err != nil {
+        fmt.Printf(&#34;query failed, err:%v\n&#34;, err)
+        return
+    }
+    defer rows.Close()
+    // 循环读取结果集中的数据
+    for rows.Next() {
+        var u user
+        err := rows.Scan(&amp;u.id, &amp;u.name, &amp;u.age)
+        if err != nil {
+            fmt.Printf(&#34;scan failed, err:%v\n&#34;, err)
+            return
+        }
+        fmt.Printf(&#34;id:%d name:%s age:%d\n&#34;, u.id, u.name, u.age)
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>插入、更新和删除操作的预处理十分类似，这里以插入操作的预处理为例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// 预处理插入示例
+func prepareInsertDemo() {
+    sqlStr := &#34;insert into user(name, age) values (?,?)&#34;
+    stmt, err := db.Prepare(sqlStr)
+    if err != nil {
+        fmt.Printf(&#34;prepare failed, err:%v\n&#34;, err)
+        return
+    }
+    defer stmt.Close()
+    _, err = stmt.Exec(&#34;小王子&#34;, 18)
+    if err != nil {
+        fmt.Printf(&#34;insert failed, err:%v\n&#34;, err)
+        return
+    }
+    _, err = stmt.Exec(&#34;沙河娜扎&#34;, 18)
+    if err != nil {
+        fmt.Printf(&#34;insert failed, err:%v\n&#34;, err)
+        return
+    }
+    fmt.Println(&#34;insert success.&#34;)
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="go实现mysql事务">Go实现MySQL事务</h3>
+
+<p>什么是事务？<br />
+事务：一个最小的不可再分的工作单元；通常一个事务对应一个完整的业务(例如银行账户转账业务，该业务就是一个最小的工作单元)，同时这个完整的业务需要执行多次的DML(insert、update、delete)语句共同联合完成。A转账给B，这里面就需要执行两次update操作。</p>
+
+<p>在MySQL中只有使用了Innodb数据库引擎的数据库或表才支持事务。事务处理可以用来维护数据库的完整性，保证成批的SQL语句要么全部执行，要么全部不执行。</p>
+
+<p>事务的ACID<br />
+通常事务必须满足4个条件（ACID）：原子性（Atomicity，或称不可分割性）、一致性（Consistency）、隔离性（Isolation，又称独立性）、持久性（Durability）。</p>
+
+<p>原子性: 一个事务（transaction）中的所有操作，要么全部完成，要么全部不完成，不会结束在中间某个环节。事务在执行过程中发生错误，会被回滚（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样。</p>
+
+<p>一致性: 在事务开始之前和事务结束以后，数据库的完整性没有被破坏。这表示写入的资料必须完全符合所有的预设规则，这包含资料的精确度、串联性以及后续数据库可以自发性地完成预定的工作。</p>
+
+<p>隔离性: 数据库允许多个并发事务同时对其数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致。事务隔离分为不同级别，包括读未提交（Read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（Serializable）。</p>
+
+<p>持久性: 事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。</p>
+
+<h4 id="事务相关方法">事务相关方法</h4>
+
+<p>Go语言中使用以下三个方法实现MySQL中的事务操作。 开始事务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func (db *DB) Begin() (*Tx, error)</pre></td></tr></table>
+</div>
+</div>
+<p>提交事务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func (tx *Tx) Commit() error</pre></td></tr></table>
+</div>
+</div>
+<p>回滚事务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func (tx *Tx) Rollback() error</pre></td></tr></table>
+</div>
+</div>
+<p>事务示例<br />
+下面的代码演示了一个简单的事务操作，该事物操作能够确保两次更新操作要么同时成功要么同时失败，不会存在中间状态。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// 事务操作示例
+func transactionDemo() {
+    tx, err := db.Begin() // 开启事务
+    if err != nil {
+        if tx != nil {
+            tx.Rollback() // 回滚
+        }
+        fmt.Printf(&#34;begin trans failed, err:%v\n&#34;, err)
+        return
+    }
+    sqlStr1 := &#34;Update user set age=30 where id=?&#34;
+    _, err = tx.Exec(sqlStr1, 2)
+    if err != nil {
+        tx.Rollback() // 回滚
+        fmt.Printf(&#34;exec sql1 failed, err:%v\n&#34;, err)
+        return
+    }
+    sqlStr2 := &#34;Update user set age=40 where id=?&#34;
+    _, err = tx.Exec(sqlStr2, 4)
+    if err != nil {
+        tx.Rollback() // 回滚
+        fmt.Printf(&#34;exec sql2 failed, err:%v\n&#34;, err)
+        return
+    }
+    err = tx.Commit() // 提交事务
+    if err != nil {
+        tx.Rollback() // 回滚
+        fmt.Printf(&#34;commit failed, err:%v\n&#34;, err)
+        return
+    }
+    fmt.Println(&#34;exec trans success!&#34;)
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="sqlx使用">sqlx使用</h3>
+
+<p>第三方库sqlx能够简化操作，提高开发效率。</p>
+
+<p>安装</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">go get github.com/jmoiron/sqlx</pre></td></tr></table>
+</div>
+</div>
+<h3 id="基本使用">基本使用</h3>
+
+<p>连接数据库</p>
+
+<p>var db *sqlx.DB</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func initDB() (err error) {
+    dsn := &#34;user:password@tcp(127.0.0.1:3306)/test&#34;
+    // 也可以使用MustConnect连接不成功就panic
+    db, err = sqlx.Connect(&#34;mysql&#34;, dsn)
+    if err != nil {
+        fmt.Printf(&#34;connect DB failed, err:%v\n&#34;, err)
+        return
+    }
+    db.SetMaxOpenConns(20)
+    db.SetMaxIdleConns(10)
+    return
+}</pre></td></tr></table>
+</div>
+</div>
+<p>查询</p>
+
+<p>查询单行数据示例代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// 查询单条数据示例
+func queryRowDemo() {
+    sqlStr := &#34;select id, name, age from user where id=?&#34;
+    var u user
+    err := db.Get(&amp;u, sqlStr, 1)
+    if err != nil {
+        fmt.Printf(&#34;get failed, err:%v\n&#34;, err)
+        return
+    }
+    fmt.Printf(&#34;id:%d name:%s age:%d\n&#34;, u.ID, u.Name, u.Age)
+}</pre></td></tr></table>
+</div>
+</div>
+<p>查询多行数据示例代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// 查询多条数据示例
+func queryMultiRowDemo() {
+    sqlStr := &#34;select id, name, age from user where id &gt; ?&#34;
+    var users []user
+    err := db.Select(&amp;users, sqlStr, 0)
+    if err != nil {
+        fmt.Printf(&#34;query failed, err:%v\n&#34;, err)
+        return
+    }
+    fmt.Printf(&#34;users:%#v\n&#34;, users)
+}</pre></td></tr></table>
+</div>
+</div>
+<p>插入、更新和删除</p>
+
+<p>sqlx中的exec方法与原生sql中的exec使用基本一致：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// 插入数据
+func insertRowDemo() {
+    sqlStr := &#34;insert into user(name, age) values (?,?)&#34;
+    ret, err := db.Exec(sqlStr, &#34;沙河小王子&#34;, 19)
+    if err != nil {
+        fmt.Printf(&#34;insert failed, err:%v\n&#34;, err)
+        return
+    }
+    theID, err := ret.LastInsertId() // 新插入数据的id
+    if err != nil {
+        fmt.Printf(&#34;get lastinsert ID failed, err:%v\n&#34;, err)
+        return
+    }
+    fmt.Printf(&#34;insert success, the id is %d.\n&#34;, theID)
+}</pre></td></tr></table>
+</div>
+</div>
+<p>// 更新数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func updateRowDemo() {
+    sqlStr := &#34;update user set age=? where id = ?&#34;
+    ret, err := db.Exec(sqlStr, 39, 6)
+    if err != nil {
+        fmt.Printf(&#34;update failed, err:%v\n&#34;, err)
+        return
+    }
+    n, err := ret.RowsAffected() // 操作影响的行数
+    if err != nil {
+        fmt.Printf(&#34;get RowsAffected failed, err:%v\n&#34;, err)
+        return
+    }
+    fmt.Printf(&#34;update success, affected rows:%d\n&#34;, n)
+}</pre></td></tr></table>
+</div>
+</div>
+<p>// 删除数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func deleteRowDemo() {
+    sqlStr := &#34;delete from user where id = ?&#34;
+    ret, err := db.Exec(sqlStr, 6)
+    if err != nil {
+        fmt.Printf(&#34;delete failed, err:%v\n&#34;, err)
+        return
+    }
+    n, err := ret.RowsAffected() // 操作影响的行数
+    if err != nil {
+        fmt.Printf(&#34;get RowsAffected failed, err:%v\n&#34;, err)
+        return
+    }
+    fmt.Printf(&#34;delete success, affected rows:%d\n&#34;, n)
+}</pre></td></tr></table>
+</div>
+</div>
+<p>事务操作</p>
+
+<p>对于事务操作，我们可以使用sqlx中提供的db.Beginx()和tx.MustExec()方法来简化错误处理过程。示例代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func transactionDemo() {
+    tx, err := db.Beginx() // 开启事务
+    if err != nil {
+        if tx != nil {
+            tx.Rollback()
+        }
+        fmt.Printf(&#34;begin trans failed, err:%v\n&#34;, err)
+        return
+    }
+    sqlStr1 := &#34;Update user set age=40 where id=?&#34;
+    tx.MustExec(sqlStr1, 2)
+    sqlStr2 := &#34;Update user set age=50 where id=?&#34;
+    tx.MustExec(sqlStr2, 4)
+    err = tx.Commit() // 提交事务
+    if err != nil {
+        tx.Rollback() // 回滚
+        fmt.Printf(&#34;commit failed, err:%v\n&#34;, err)
+        return
+    }
+    fmt.Println(&#34;exec trans success!&#34;)
+}</pre></td></tr></table>
+</div>
+</div>
+<p>注意事项</p>
+
+<p>SQL中的占位符</p>
+
+<p>不同的数据库中，SQL语句使用的占位符语法不尽相同。</p>
+
+<table>
+<thead>
+<tr>
+<th>数据库</th>
+<th align="center">占位符语法</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>MySQL</td>
+<td align="center">?</td>
+</tr>
+
+<tr>
+<td>PostgreSQL</td>
+<td align="center">$1, $2等</td>
+</tr>
+
+<tr>
+<td>SQLite</td>
+<td align="center">? 和$1</td>
+</tr>
+
+<tr>
+<td>Oracle</td>
+<td align="center">:name</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="sql注入">SQL注入</h3>
+
+<p>我们任何时候都不应该自己拼接SQL语句！</p>
+
+<p>这里我们演示一个自行拼接SQL语句的示例，编写一个根据name字段查询user表的函数如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// sql注入示例
+func sqlInjectDemo(name string) {
+    sqlStr := fmt.Sprintf(&#34;select id, name, age from user where name=&#39;%s&#39;&#34;, name)
+    fmt.Printf(&#34;SQL:%s\n&#34;, sqlStr)
+
+    var users []user
+    err := db.Select(&amp;users, sqlStr)
+    if err != nil {
+        fmt.Printf(&#34;exec failed, err:%v\n&#34;, err)
+        return
+    }
+    for _, u := range users {
+        fmt.Printf(&#34;user:%#v\n&#34;, u)
+    }
+}</pre></td></tr></table>
+</div>
+</div>
+<p>此时以下输入字符串都可以引发SQL注入问题：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">sqlInjectDemo(&#34;xxx&#39; or 1=1#&#34;)
+sqlInjectDemo(&#34;xxx&#39; union select * from user #&#34;)
+sqlInjectDemo(&#34;xxx&#39; and (select count(*) from user) &lt;10 #&#34;)                                                                                                                                                                                                                                                                                 </pre></td></tr></table>
+</div>
+</div>
+<h3 id="示例1">示例1</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+    <span class="nx">_</span> <span class="s">&#34;github.com/go-sql-driver/mysql&#34;</span>
+    <span class="s">&#34;github.com/jmoiron/sqlx&#34;</span>
+    <span class="s">&#34;time&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">//增删改
+</span><span class="c1"></span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//连接数据库
+</span><span class="c1"></span>    <span class="nx">db</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">sqlx</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;root:123123@tcp(127.0.0.1:3306)/test&#34;</span><span class="p">)</span>
+    <span class="k">defer</span> <span class="nx">db</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+    <span class="c1">//添加数据
+</span><span class="c1"></span>    <span class="nx">result</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">db</span><span class="p">.</span><span class="nf">Exec</span><span class="p">(</span><span class="s">&#34;insert into person(name, age,money,birthday)value (?,?,?,?)&#34;</span><span class="p">,</span> <span class="s">&#34;Eleven&#34;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">100.5</span><span class="p">,</span> <span class="mi">20191218</span><span class="p">)</span>
+    <span class="c1">//得到受应先得行数
+</span><span class="c1"></span>    <span class="nx">row</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">result</span><span class="p">.</span><span class="nf">RowsAffected</span><span class="p">()</span>
+    <span class="c1">//返回受影响得最后一个ID
+</span><span class="c1"></span>    <span class="nx">lastid</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">result</span><span class="p">.</span><span class="nf">LastInsertId</span><span class="p">()</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;受影响行数&#34;</span><span class="p">,</span> <span class="nx">row</span><span class="p">,</span> <span class="s">&#34;之后一个ID&#34;</span><span class="p">,</span><span class="nx">lastid</span><span class="p">)</span>
+    <span class="c1">//修改数据
+</span><span class="c1"></span>    <span class="nx">db</span><span class="p">.</span><span class="nf">Exec</span><span class="p">(</span><span class="s">&#34;update person set name=? where id=?&#34;</span><span class="p">,</span> <span class="s">&#34;cc&#34;</span><span class="p">,</span> <span class="s">&#34;1&#34;</span><span class="p">)</span>
+    <span class="c1">//删除数据
+</span><span class="c1"></span>    <span class="nx">db</span><span class="p">.</span><span class="nf">Exec</span><span class="p">(</span><span class="s">&#34;delete from person where id = ?&#34;</span><span class="p">,</span> <span class="s">&#34;2&#34;</span><span class="p">)</span>
+
+    <span class="c1">//事务操作
+</span><span class="c1"></span>    <span class="nx">tx</span> <span class="o">:=</span><span class="nx">db</span><span class="p">.</span><span class="nf">MustBegin</span><span class="p">()</span>
+    <span class="nx">tx</span><span class="p">.</span><span class="nf">MustExec</span><span class="p">(</span><span class="s">&#34;insert&#34;</span><span class="p">)</span>
+    <span class="nx">err</span> <span class="o">:=</span> <span class="nx">tx</span><span class="p">.</span><span class="nf">Commit</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;err&#34;</span><span class="p">)</span>
+        <span class="nx">tx</span><span class="p">.</span><span class="nf">Rollback</span><span class="p">()</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+
+
+<span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+    <span class="nx">_</span> <span class="s">&#34;github.com/go-sql-driver/mysql&#34;</span>
+    <span class="s">&#34;github.com/jmoiron/sqlx&#34;</span>
+    <span class="s">&#34;time&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">//查
+</span><span class="c1">//抽象对象
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Person</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">Id</span>       <span class="kt">int</span>       <span class="s">`db:&#34;id&#34;`</span>
+    <span class="nx">Name</span>     <span class="kt">string</span>    <span class="s">`db:&#34;name&#34;`</span>
+    <span class="nx">Age</span>      <span class="kt">int</span>       <span class="s">`db:&#34;age&#34;`</span>
+    <span class="nx">Money</span>    <span class="kt">float32</span>   <span class="s">`db:&#34;money&#34;`</span>
+    <span class="nx">Birthday</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Time</span> <span class="s">`db:&#34;birthday&#34;`</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//连接数据库
+</span><span class="c1"></span>    <span class="nx">db</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">sqlx</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;root:123123@tcp(127.0.0.1:3306)&#34;</span> <span class="o">+</span>
+        <span class="s">&#34;/test?parseTime=true&#34;</span><span class="p">)</span>
+    <span class="c1">//查询
+</span><span class="c1"></span>    <span class="c1">//传入切片
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">ps</span> <span class="p">[]</span><span class="nx">Person</span>
+    <span class="nx">err</span> <span class="o">:=</span> <span class="nx">db</span><span class="p">.</span><span class="nf">Select</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ps</span><span class="p">,</span><span class="s">&#34;select id,name,age,money,birthday from person where id = ?&#34;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;err&#34;</span><span class="p">,</span><span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">ps</span><span class="p">)</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<h3 id="示例2">示例2</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;bufio&#34;</span>
+    <span class="s">&#34;fmt&#34;</span>
+    <span class="nx">_</span> <span class="s">&#34;github.com/go-sql-driver/mysql&#34;</span>
+    <span class="s">&#34;github.com/jmoiron/sqlx&#34;</span>
+    <span class="s">&#34;io&#34;</span>
+    <span class="s">&#34;os&#34;</span>
+    <span class="s">&#34;strings&#34;</span>
+    <span class="s">&#34;time&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">//将表抽象对象
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">KfPerson</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">Id</span>     <span class="kt">int</span>    <span class="s">`db:&#34;id&#34;`</span>
+    <span class="nx">Name</span>   <span class="kt">string</span> <span class="s">`db:&#34;name&#34;`</span>
+    <span class="nx">Idcard</span> <span class="kt">string</span> <span class="s">`db:&#34;idcard&#34;`</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">HandleError</span><span class="p">(</span><span class="nx">err</span> <span class="kt">error</span><span class="p">,</span> <span class="nx">why</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;ERROR&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">why</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//全局变量
+</span><span class="c1"></span><span class="kd">var</span> <span class="p">(</span>
+    <span class="c1">//读写数据管道
+</span><span class="c1"></span>    <span class="nx">chanData</span> <span class="kd">chan</span> <span class="o">*</span><span class="nx">KfPerson</span>
+    <span class="nx">db</span>       <span class="o">*</span><span class="nx">sqlx</span><span class="p">.</span><span class="nx">DB</span>
+<span class="p">)</span>
+
+<span class="c1">//导入文本大数据
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">init2</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="c1">//只是第一次加载
+</span><span class="c1"></span>    <span class="c1">//判断有没有加载过
+</span><span class="c1"></span>    <span class="nx">exists</span><span class="p">,</span> <span class="nx">_</span><span class="o">:=</span> <span class="nf">CheckIfFileExist</span><span class="p">(</span><span class="s">&#34;./src/并发案例/数据/kaifang_Good_done.mark&#34;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">exists</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;数据也已经初始化&#34;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+
+    <span class="c1">//连接数据库
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">err</span> <span class="kt">error</span>
+    <span class="nx">db</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">sqlx</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;root:123456@tcp(192.168.254.200:3306)/kaifang&#34;</span><span class="p">)</span>
+    <span class="nf">HandleError</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&#34;sql open&#34;</span><span class="p">)</span>
+    <span class="k">defer</span> <span class="nx">db</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;数据库已经连接&#34;</span><span class="p">)</span>
+
+    <span class="c1">//建表
+</span><span class="c1"></span>    <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">db</span><span class="p">.</span><span class="nf">Exec</span><span class="p">(</span><span class="s">&#34;create table if not exists kfperson&#34;</span> <span class="o">+</span>
+        <span class="s">&#34;(id int primary key auto_increment,name varchar(20),idcard char(18))&#34;</span><span class="p">)</span>
+    <span class="nf">HandleError</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&#34;create table&#34;</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;表已经创建&#34;</span><span class="p">)</span>
+
+    <span class="c1">//入库方案: 开少量协程, 数据先放入管道, 协程读管道, 数据放入数据库
+</span><span class="c1"></span>    <span class="c1">//初始化数据管道
+</span><span class="c1"></span>    <span class="nx">chanData</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="o">*</span><span class="nx">KfPerson</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">)</span>
+    <span class="c1">//开有限的协程插入数据库
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">101</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="k">go</span> <span class="nf">insertKfPerson</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="c1">//读取kaifang_good.txt数据
+</span><span class="c1"></span>    <span class="nx">file</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;./src/并发案例/数据/kaifang_Good.txt&#34;</span><span class="p">)</span>
+    <span class="nf">HandleError</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&#34;Os Open file&#34;</span><span class="p">)</span>
+    <span class="k">defer</span> <span class="nx">file</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+
+    <span class="c1">//缓冲读数据
+</span><span class="c1"></span>    <span class="nx">reader</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nf">NewReader</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;文本已经打开&#34;</span><span class="p">)</span>
+    <span class="c1">//死循环读数据
+</span><span class="c1"></span>    <span class="k">for</span> <span class="p">{</span>
+        <span class="nx">lineBytes</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">reader</span><span class="p">.</span><span class="nf">ReadLine</span><span class="p">()</span>
+        <span class="nf">HandleError</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&#34;reader.readline&#34;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="nx">io</span><span class="p">.</span><span class="nx">EOF</span> <span class="p">{</span>
+            <span class="c1">//说明数据读完了,关闭管道
+</span><span class="c1"></span>            <span class="nb">close</span><span class="p">(</span><span class="nx">chanData</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="p">}</span>
+        <span class="c1">//入库
+</span><span class="c1"></span>        <span class="nx">lineStr</span> <span class="o">:=</span> <span class="nb">string</span><span class="p">(</span><span class="nx">lineBytes</span><span class="p">)</span>
+        <span class="c1">//切分
+</span><span class="c1"></span>        <span class="nx">fields</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">Split</span><span class="p">(</span><span class="nx">lineStr</span><span class="p">,</span> <span class="s">&#34;,&#34;</span><span class="p">)</span>
+        <span class="nx">name</span><span class="p">,</span> <span class="nx">idcard</span> <span class="o">:=</span> <span class="nx">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1">//去除文本中的空格
+</span><span class="c1"></span>        <span class="nx">name</span> <span class="p">=</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">TrimSpace</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
+        <span class="c1">//如果名字过长, 就丢弃
+</span><span class="c1"></span>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">20</span> <span class="p">{</span>
+            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;名字过程,丢弃&#34;</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="p">}</span>
+        <span class="c1">//正常数据放入管道
+</span><span class="c1"></span>        <span class="nx">KfPerson</span> <span class="o">:=</span> <span class="nx">KfPerson</span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">Idcard</span><span class="p">:</span> <span class="nx">idcard</span><span class="p">}</span>
+        <span class="c1">//数据放入管道
+</span><span class="c1"></span>        <span class="nx">chanData</span> <span class="o">&lt;-</span> <span class="o">&amp;</span><span class="nx">KfPerson</span>
+    <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;数据初始化成功&#34;</span><span class="p">)</span>
+    <span class="c1">//创建标记
+</span><span class="c1"></span>    <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="s">&#34;./src/并发案例/数据/kaifang_Good_done.mark&#34;</span><span class="p">)</span>
+    <span class="nf">HandleError</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&#34;Os.create&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">//判断标记
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">CheckIfFileExist</span><span class="p">(</span><span class="nx">filename</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">exists</span> <span class="kt">bool</span><span class="p">,</span> <span class="nx">info</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//判断文件是否存在
+</span><span class="c1"></span>    <span class="nx">fileInfo</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Stat</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">fileInfo</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">exists</span> <span class="p">=</span> <span class="kc">true</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">exists</span> <span class="p">=</span> <span class="kc">false</span>
+    <span class="p">}</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+
+<span class="c1">//将数据管道的数据插入数据库
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">insertKfPerson</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//遍历管道拿数据
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">kfPerson</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">chanData</span> <span class="p">{</span>
+        <span class="c1">//循环插入数据库
+</span><span class="c1"></span>        <span class="k">for</span> <span class="p">{</span>
+            <span class="nx">result</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">db</span><span class="p">.</span><span class="nf">Exec</span><span class="p">(</span><span class="s">&#34;insert into kfperson(name,idcard) values (?,?)&#34;</span><span class="p">,</span>
+                <span class="nx">kfPerson</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="nx">kfPerson</span><span class="p">.</span><span class="nx">Idcard</span><span class="p">)</span>
+            <span class="nf">HandleError</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&#34;dn insert&#34;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+                <span class="o">&lt;-</span><span class="nx">time</span><span class="p">.</span><span class="nf">After</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="nx">n</span><span class="p">,</span> <span class="nx">e</span> <span class="o">:=</span> <span class="nx">result</span><span class="p">.</span><span class="nf">RowsAffected</span><span class="p">();</span> <span class="nx">e</span> <span class="o">==</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="nx">n</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+                    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;插入%s成功\n&#34;</span><span class="p">,</span> <span class="nx">kfPerson</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span>
+                    <span class="k">break</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+
+<span class="c1">//抽象缓冲结构体
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">QueryResult</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="c1">//包含查询到的数据
+</span><span class="c1"></span>    <span class="nx">value</span> <span class="p">[]</span><span class="nx">KfPerson</span>
+    <span class="c1">//cacheTime 加入缓冲时间
+</span><span class="c1"></span>    <span class="nx">cacheTime</span> <span class="kt">int64</span>
+    <span class="c1">//记录查询次数
+</span><span class="c1"></span>    <span class="nx">count</span> <span class="kt">int</span>
+<span class="p">}</span>
+<span class="c1">//获取对象加入缓存的时间
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">qr</span> <span class="o">*</span><span class="nx">QueryResult</span><span class="p">)</span><span class="nf">GetCachTime</span><span class="p">()</span><span class="kt">int64</span>  <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">qr</span><span class="p">.</span><span class="nx">cacheTime</span>
+<span class="p">}</span>
+
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">db</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">sqlx</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;root:123456@tcp(192.168.254.200:3306)/kaifang&#34;</span><span class="p">)</span>
+    <span class="nf">HandleError</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&#34;sql open&#34;</span><span class="p">)</span>
+    <span class="k">defer</span> <span class="nx">db</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+
+    <span class="c1">//初始化缓存map
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">kfMap</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">QueryResult</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1">//死循环
+</span><span class="c1"></span>    <span class="k">for</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;请输入要查询的姓名&#34;</span><span class="p">)</span>
+        <span class="kd">var</span> <span class="nx">name</span> <span class="kt">string</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Scanf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span><span class="o">&amp;</span><span class="nx">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;exit&#34;</span><span class="p">{</span>
+            <span class="k">break</span>
+        <span class="p">}</span>
+        <span class="c1">//先查缓存
+</span><span class="c1"></span>        <span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;cache&#34;</span><span class="p">{</span>
+            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;共缓存了%d条结果: \n&#34;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">kfMap</span><span class="p">))</span>
+            <span class="k">for</span> <span class="nx">key</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">kfMap</span><span class="p">{</span>
+                <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
+            <span class="p">}</span>
+            <span class="k">continue</span>
+        <span class="p">}</span>
+        <span class="c1">//操作缓存查询
+</span><span class="c1"></span>        <span class="k">if</span> <span class="nx">qr</span> <span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">kfMap</span><span class="p">[</span><span class="nx">name</span><span class="p">];</span><span class="nx">ok</span><span class="p">{</span>
+            <span class="c1">//从缓存来取
+</span><span class="c1"></span>            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;查询到%d条结果: \n&#34;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">qr</span><span class="p">.</span><span class="nx">value</span><span class="p">))</span>
+            <span class="k">continue</span>
+        <span class="p">}</span>
+        <span class="c1">//走数据库
+</span><span class="c1"></span>        <span class="c1">//查询数据库
+</span><span class="c1"></span>        <span class="nx">kfpeople</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">KfPerson</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+        <span class="nx">e</span> <span class="o">:=</span> <span class="nx">db</span><span class="p">.</span><span class="nf">Select</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">kfpeople</span><span class="p">,</span> <span class="s">&#34;select id,name,idcard from kfperson where name = ?&#34;</span><span class="p">,</span><span class="nx">name</span><span class="p">)</span>
+        <span class="nf">HandleError</span><span class="p">(</span><span class="nx">e</span> <span class="p">,</span> <span class="s">&#34;db.select&#34;</span><span class="p">)</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;查询到%d条结果:\n&#34;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">kfpeople</span><span class="p">))</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">kfpeople</span><span class="p">)</span>
+        <span class="c1">//查询结果放入内存, 组装缓存结构体数据
+</span><span class="c1"></span>        <span class="nx">queryResult</span> <span class="o">:=</span> <span class="nx">QueryResult</span><span class="p">{</span><span class="nx">value</span><span class="p">:</span><span class="nx">kfpeople</span><span class="p">}</span>
+        <span class="nx">queryResult</span><span class="p">.</span><span class="nx">cacheTime</span> <span class="p">=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">().</span><span class="nf">UnixNano</span><span class="p">()</span>
+        <span class="nx">queryResult</span><span class="p">.</span><span class="nx">count</span> <span class="p">=</span> <span class="mi">1</span>
+        <span class="nx">kfMap</span><span class="p">[</span><span class="nx">name</span><span class="p">]=</span> <span class="nx">queryResult</span>
+        <span class="c1">//缓存数据若大于2, 则淘汰第一个存入的数据
+</span><span class="c1"></span>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">kfMap</span><span class="p">)&gt;</span><span class="mi">2</span><span class="p">{</span>
+            <span class="nx">delKey</span> <span class="o">:=</span> <span class="nf">UpdateCache</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">kfMap</span><span class="p">)</span>
+            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%s已经被淘汰出缓存:\n&#34;</span><span class="p">,</span><span class="nx">delKey</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;done&#34;</span><span class="p">)</span>
+
+<span class="p">}</span>
+<span class="c1">//实现缓存策略, 删除最早加入的
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">UpdateCache</span><span class="p">(</span><span class="nx">cacheMap</span> <span class="o">*</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">QueryResult</span><span class="p">)(</span><span class="nx">delKey</span> <span class="kt">string</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="c1">//预定义时间
+</span><span class="c1"></span>    <span class="nx">myTime</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">().</span><span class="nf">UnixNano</span><span class="p">()</span>
+    <span class="k">for</span> <span class="nx">key</span> <span class="p">,</span> <span class="nx">timeData</span> <span class="o">:=</span> <span class="k">range</span> <span class="o">*</span><span class="nx">cacheMap</span><span class="p">{</span>
+        <span class="k">if</span> <span class="nx">timeData</span><span class="p">.</span><span class="nf">GetCachTime</span><span class="p">()</span> <span class="p">&lt;</span><span class="nx">myTime</span><span class="p">{</span>
+            <span class="nx">myTime</span> <span class="p">=</span> <span class="nx">timeData</span><span class="p">.</span><span class="nf">GetCachTime</span><span class="p">()</span>
+            <span class="nx">delKey</span> <span class="p">=</span> <span class="nx">key</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nb">delete</span><span class="p">(</span><span class="o">*</span><span class="nx">cacheMap</span><span class="p">,</span><span class="nx">delKey</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">delKey</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://veh47.github.io/tags/golang/">Golang</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/go%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9Credis/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Go语言操作Redis</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/golang%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/">
+            <span class="next-text nav-default">Golang网络编程基础</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  <div id="comments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 700);
+              clearInterval(checkExist);
+            }
+        }, 10);
+    }
+  </script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#comments' ,
+        appId: 'UsB52d49clgSaLyt9W25ff6J-gzGzoHsz',
+        appKey: 'A7x1tqpCpuAXKQX5BwcwXGdF',
+        notify:  false , 
+        verify:  false , 
+        avatar:'mm', 
+        placeholder: '',
+        visitor:  false 
+    });
+  </script>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:13522339471@163.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://github.com/veh47" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://www.weibo.com/u/5706670145/" rel="me noopener" class="iconfont"
+      title="weibo"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M385.714286 733.714286q12-19.428571 6.285714-39.428571t-25.714286-28.571429q-19.428571-8-41.714286-0.571429t-34.285714 26.285714q-12.571429 19.428571-7.428571 39.142857t24.571429 28.857143 42.571429 1.428571 35.714286-27.142857zm53.714286-69.142857q4.571429-7.428571 2-15.142857t-10-10.571429q-8-2.857143-16.285714 2.857143t-12.285714 10.571429q-9.714286 17.714286 7.428571 25.714286 8 2.857143 16.571429 2.857143t12.571429-10.571429zm99.428571 61.142857q-25.714286 58.285714-90.285714 85.714286t-128 6.857143q-61.142857-19.428571-84.285714-72.285714t3.714286-107.142857q26.857143-53.142857 86.571429-79.428571t120.285714-10.857143q63.428571 16.571429 90.571429 68.285714t1.428571 108.857143zm178.285714-91.428571q-5.142857-54.857143-50.857143-97.142857t-119.142857-62.285714-156.857143-12q-127.428571 13.142857-211.142857 80.857143t-75.714286 151.142857q5.142857 54.857143 50.857143 97.142857t119.142857 62.285714 156.857143 12q127.428571-13.142857 211.142857-80.857143t75.714286-151.142857zm176 2.285714q0 38.857143-21.142857 79.714286t-62.285714 78.285714-96.285714 67.142857-129.142857 47.428571-154.571429 17.714286-157.142857-19.142857-137.428571-53.142857-98-86.285714-37.142857-114q0-65.714286 39.714286-140t112.857143-147.428571q96.571429-96.571429 195.142857-134.857143t140.857143 4q37.142857 36.571429 11.428571 119.428571-2.285714 8-0.571429 11.428571t5.714286 4 8.285714 2.857143 7.714286-2l3.428571-1.142857q79.428571-33.714286 140.571429-33.714286t87.428571 34.857143q25.714286 36 0 101.714286-1.142857 7.428571-2.571429 11.428571t2.571429 7.142857 6.857143 4.285714 9.714286 3.428571q32.571429 10.285714 58.857143 26.857143t45.714286 46.571429 19.428571 66.571429zm-42.285714-356.571429q24 26.857143 31.142857 62t-3.714286 67.142857q-4.571429 13.142857-16.857143 19.428571t-25.428571 2.285714q-13.142857-4.571429-19.428571-16.857143t-2.285714-25.428571q11.428571-36-13.714286-63.428571t-61.142857-20q-13.714286 2.857143-25.714286-4.571429t-14.285714-21.142857q-2.857143-13.714286 4.571429-25.428571t21.142857-14.571429q34.285714-7.428571 68 3.142857t57.714286 37.428571zm103.428571-93.142857q49.714286 54.857143 64.285714 127.142857t-7.714286 138q-5.142857 15.428571-19.428571 22.857143t-29.714286 2.285714-22.857143-19.428571-2.857143-29.714286q16-46.857143 5.714286-98.285714t-45.714286-90.285714q-35.428571-39.428571-84.571429-54.571429t-98.857143-4.857143q-16 3.428571-29.714286-5.428571t-17.142857-24.857143 5.428571-29.428571 24.857143-16.857143q70.285714-14.857143 139.428571 6.571429t118.857143 76.857143z"></path>
+</svg>
+
+    </a>
+
+
+<a href="http://veh47.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+
+  <span class="copyright-year">
+    &copy;
+    
+       -
+    2020
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Eleven
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css"
+    integrity="sha384-BdGj8xC2eZkQaxoQ8nSLefg4AV4/AwB3Fj+8SUSo7pnKP6Eoy18liIKTPn9oBYNG"
+    crossorigin="anonymous">
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.js"
+    integrity="sha384-JiKN5O8x9Hhs/UE5cT5AAJqieYlOZbGT3CHws/y97o3ty4R7/O5poG9F3JoiOYw1"
+    crossorigin="anonymous"></script>
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+    crossorigin="anonymous" onload="renderMathInElement(document.body);">
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        
+      });
+    });
+  </script>
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    $("#openSearch, #openSearchMobile").click(function(){
+      $(".modal-dialog").addClass("visible");
+    });
+
+    $("#closeSearch").click(function(){
+      $(".modal-dialog").removeClass("visible");
+    });
+
+    $(document).click(function(event) {
+    
+      if (!$(event.target).closest(".modal-content, #openSearch, #openSearchMobile").length) {
+        $("body").find(".modal-dialog").removeClass("visible");
+      }
+    });
+  </script>
+
+
+
+
+
+</body>
+</html>
