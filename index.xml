@@ -61,7 +61,7 @@
       
       <guid>http://veh47.github.io/post/%E5%85%A8%E6%96%B0%E4%B8%80%E5%8F%B0node%E8%8A%82%E7%82%B9%E5%8A%A0%E5%85%A5%E9%9B%86%E7%BE%A4/</guid>
       
-        <description>基于前面的所有文章完成后，这里介绍一下如何添加一个全新的节点； 对新节点做解析 hosts 文件解析, 分发密钥对 为了方便推送文件， 1 ssh-copy-id -i ~/.ssh/id_rsa.pub node03 推送 CA 证书 1 2</description>
+        <description>基于前面的所有文章完成后，在实际工作中面对很多业务的突然扩大, 流量的增加, 存储, 媒体 服务 等等一系列的增加, 这时候原先的node节点就不够用,</description>
       
     </item>
     
@@ -72,7 +72,7 @@
       
       <guid>http://veh47.github.io/post/coredns%E5%AE%89%E8%A3%85%E9%AA%8C%E8%AF%81/</guid>
       
-        <description>叙述 截止到目前为止，整个集群的核心组件已经安装完成。 此时集群内部还需要 CoreDNS 组件的支持。 安装 CoreDNS 是以 Pod 的形式运行在 k8s 集群内部； 创建下面的 yaml 文件： 1</description>
+        <description>叙述 截止到目前为止，整个集群的核心组件已经安装完成。 此时集群内部还需要 CoreDNS 组件的支持。 coredns已经成为默认dns了。之前是kube-dn</description>
       
     </item>
     

@@ -23,7 +23,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="Eleven" />
-  <meta name="description" content="叙述 截止到目前为止，整个集群的核心组件已经安装完成。 此时集群内部还需要 CoreDNS 组件的支持。 安装 CoreDNS 是以 Pod 的形式运行在 k8s 集群内部； 创建下面的 yaml 文件： 1" />
+  <meta name="description" content="叙述 截止到目前为止，整个集群的核心组件已经安装完成。 此时集群内部还需要 CoreDNS 组件的支持。 coredns已经成为默认dns了。之前是kube-dn" />
 
   <meta name="keywords" content="Eleven" />
 
@@ -60,25 +60,25 @@
 
 
 <meta property="og:title" content="CoreDNS安装验证" />
-<meta property="og:description" content="叙述 截止到目前为止，整个集群的核心组件已经安装完成。 此时集群内部还需要 CoreDNS 组件的支持。 安装 CoreDNS 是以 Pod 的形式运行在 k8s 集群内部； 创建下面的 yaml 文件： 1" />
+<meta property="og:description" content="叙述 截止到目前为止，整个集群的核心组件已经安装完成。 此时集群内部还需要 CoreDNS 组件的支持。 coredns已经成为默认dns了。之前是kube-dn" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://veh47.github.io/post/coredns%E5%AE%89%E8%A3%85%E9%AA%8C%E8%AF%81/" />
 <meta property="article:published_time" content="2020-01-09T22:49:56+08:00" />
 <meta property="article:modified_time" content="2020-01-09T22:49:56+08:00" />
 <meta itemprop="name" content="CoreDNS安装验证">
-<meta itemprop="description" content="叙述 截止到目前为止，整个集群的核心组件已经安装完成。 此时集群内部还需要 CoreDNS 组件的支持。 安装 CoreDNS 是以 Pod 的形式运行在 k8s 集群内部； 创建下面的 yaml 文件： 1">
+<meta itemprop="description" content="叙述 截止到目前为止，整个集群的核心组件已经安装完成。 此时集群内部还需要 CoreDNS 组件的支持。 coredns已经成为默认dns了。之前是kube-dn">
 
 
 <meta itemprop="datePublished" content="2020-01-09T22:49:56&#43;08:00" />
 <meta itemprop="dateModified" content="2020-01-09T22:49:56&#43;08:00" />
-<meta itemprop="wordCount" content="1146">
+<meta itemprop="wordCount" content="1251">
 
 
 
 <meta itemprop="keywords" content="Kubernetes," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="CoreDNS安装验证"/>
-<meta name="twitter:description" content="叙述 截止到目前为止，整个集群的核心组件已经安装完成。 此时集群内部还需要 CoreDNS 组件的支持。 安装 CoreDNS 是以 Pod 的形式运行在 k8s 集群内部； 创建下面的 yaml 文件： 1"/>
+<meta name="twitter:description" content="叙述 截止到目前为止，整个集群的核心组件已经安装完成。 此时集群内部还需要 CoreDNS 组件的支持。 coredns已经成为默认dns了。之前是kube-dn"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -387,7 +387,7 @@
       <p>叙述
 截止到目前为止，整个集群的核心组件已经安装完成。</p>
 
-<p>此时集群内部还需要 CoreDNS 组件的支持。
+<p>此时集群内部还需要 CoreDNS 组件的支持。 coredns已经成为默认dns了。之前是kube-dns。coredns是一个灵活，可扩展的DNS服务器，可以作为Kubernetes集群DNS。与Kubernetes一样，CoreDNS项目由CNCF主持。
 <!---more---></p>
 
 <p>安装</p>
