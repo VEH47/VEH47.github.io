@@ -23,7 +23,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="Eleven" />
-  <meta name="description" content="本集群使用 nginx &#43; keepalived 实现高可用 nginx 安装配置 下载编译nginx nginx 只需要编译一次，把编译后的 文件拷贝到其他master机器上即可 1 2 3 cd /opt/k8s/work wget http://nginx.org/download/nginx-1.15.3.tar.gz tar -xzvf nginx-1.15.3.tar.gz 编" />
+  <meta name="description" content="本集群使用 nginx &#43; keepalived 实现高可用, 使用四层转发, 可以把apiserver schduler controller-manager都能做到高可用, 不至于apiserv" />
 
   <meta name="keywords" content="Eleven" />
 
@@ -60,25 +60,25 @@
 
 
 <meta property="og:title" content="Kube Nginx和keepalived部署安装" />
-<meta property="og:description" content="本集群使用 nginx &#43; keepalived 实现高可用 nginx 安装配置 下载编译nginx nginx 只需要编译一次，把编译后的 文件拷贝到其他master机器上即可 1 2 3 cd /opt/k8s/work wget http://nginx.org/download/nginx-1.15.3.tar.gz tar -xzvf nginx-1.15.3.tar.gz 编" />
+<meta property="og:description" content="本集群使用 nginx &#43; keepalived 实现高可用, 使用四层转发, 可以把apiserver schduler controller-manager都能做到高可用, 不至于apiserv" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://veh47.github.io/post/kube-nginx%E5%92%8Ckeepalived%E9%83%A8%E7%BD%B2%E5%AE%89%E8%A3%85/" />
 <meta property="article:published_time" content="2020-01-09T18:15:29+08:00" />
 <meta property="article:modified_time" content="2020-01-09T18:15:29+08:00" />
 <meta itemprop="name" content="Kube Nginx和keepalived部署安装">
-<meta itemprop="description" content="本集群使用 nginx &#43; keepalived 实现高可用 nginx 安装配置 下载编译nginx nginx 只需要编译一次，把编译后的 文件拷贝到其他master机器上即可 1 2 3 cd /opt/k8s/work wget http://nginx.org/download/nginx-1.15.3.tar.gz tar -xzvf nginx-1.15.3.tar.gz 编">
+<meta itemprop="description" content="本集群使用 nginx &#43; keepalived 实现高可用, 使用四层转发, 可以把apiserver schduler controller-manager都能做到高可用, 不至于apiserv">
 
 
 <meta itemprop="datePublished" content="2020-01-09T18:15:29&#43;08:00" />
 <meta itemprop="dateModified" content="2020-01-09T18:15:29&#43;08:00" />
-<meta itemprop="wordCount" content="1257">
+<meta itemprop="wordCount" content="1338">
 
 
 
 <meta itemprop="keywords" content="Kubernetes," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Kube Nginx和keepalived部署安装"/>
-<meta name="twitter:description" content="本集群使用 nginx &#43; keepalived 实现高可用 nginx 安装配置 下载编译nginx nginx 只需要编译一次，把编译后的 文件拷贝到其他master机器上即可 1 2 3 cd /opt/k8s/work wget http://nginx.org/download/nginx-1.15.3.tar.gz tar -xzvf nginx-1.15.3.tar.gz 编"/>
+<meta name="twitter:description" content="本集群使用 nginx &#43; keepalived 实现高可用, 使用四层转发, 可以把apiserver schduler controller-manager都能做到高可用, 不至于apiserv"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -408,8 +408,9 @@
     <div class="post-content">
       
 
-<p>本集群使用 nginx + keepalived 实现高可用
-<!---more---></p>
+<p>本集群使用 nginx + keepalived 实现高可用, 使用四层转发, 可以把apiserver schduler controller-manager都能做到高可用, 不至于apiserver高可用, 而其他的核心组件一旦宕机, 就无法调用</p>
+
+<!---more--->
 
 <h3 id="nginx-安装配置">nginx 安装配置</h3>
 
