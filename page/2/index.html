@@ -63,7 +63,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://veh47.github.io/" />
 
-<meta property="og:updated_time" content="2020-01-09T11:56:39+08:00" />
+<meta property="og:updated_time" content="2020-01-09T23:40:27+08:00" />
 <meta itemprop="name" content="Eleven">
 <meta itemprop="description" content="Hugo theme jane example site.">
 
@@ -353,15 +353,15 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/golang%E6%A0%87%E5%87%86%E5%8C%85net-http%E5%8C%85/">Golang标准包net-http包</a>
+      <a class="post-link" href="/post/coredns%E5%AE%89%E8%A3%85%E9%AA%8C%E8%AF%81/">CoreDNS安装验证</a>
     </h1>
     
     <div class="post-meta">
-      <time datetime="2020-01-02" class="post-time">
-        2020-01-02
+      <time datetime="2020-01-09" class="post-time">
+        2020-01-09
       </time>
       <div class="post-category">
-          <a href="http://veh47.github.io/categories/golang/"> Golang </a>
+          <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
           
         </div>
       
@@ -373,10 +373,10 @@
   <div class="post-content">
     
     <div class="post-summary">
-      Go语言内置的net/http包十分的优秀，提供了HTTP客户端和服务端的实现。 HTTP协议 超文本传输协议（HTTP，HyperText Transfer P
+      叙述 截止到目前为止，整个集群的核心组件已经安装完成。 此时集群内部还需要 CoreDNS 组件的支持。 安装 CoreDNS 是以 Pod 的形式运行在 k8s 集群内部； 创建下面的 yaml 文件： 1
     </div>
     <div class="read-more">
-      <a href="/post/golang%E6%A0%87%E5%87%86%E5%8C%85net-http%E5%8C%85/" class="read-more-link">Read more</a>
+      <a href="/post/coredns%E5%AE%89%E8%A3%85%E9%AA%8C%E8%AF%81/" class="read-more-link">Read more</a>
     </div>
     
   </div>
@@ -387,15 +387,15 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/golang%E6%A0%87%E5%87%86%E5%8C%85contest/">Golang标准包contest</a>
+      <a class="post-link" href="/post/kube-proxy%E7%BB%84%E4%BB%B6%E9%83%A8%E7%BD%B2/">Kube Proxy组件部署</a>
     </h1>
     
     <div class="post-meta">
-      <time datetime="2020-01-02" class="post-time">
-        2020-01-02
+      <time datetime="2020-01-09" class="post-time">
+        2020-01-09
       </time>
       <div class="post-category">
-          <a href="http://veh47.github.io/categories/golang/"> Golang </a>
+          <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
           
         </div>
       
@@ -407,10 +407,10 @@
   <div class="post-content">
     
     <div class="post-summary">
-      在 Go http包的Server中，每一个请求在都有一个对应的 goroutine 去处理。请求处理函数通常会启动额外的 goroutine 用来访问后端服务，比如数据库和RPC服务。
+      kube-proxy运行在所有节点上，它监听apiserver中service和endpoint的变化情况，创建路由规则提供服务IP和负载均
     </div>
     <div class="read-more">
-      <a href="/post/golang%E6%A0%87%E5%87%86%E5%8C%85contest/" class="read-more-link">Read more</a>
+      <a href="/post/kube-proxy%E7%BB%84%E4%BB%B6%E9%83%A8%E7%BD%B2/" class="read-more-link">Read more</a>
     </div>
     
   </div>
@@ -421,15 +421,15 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Go语言中的单元测试</a>
+      <a class="post-link" href="/post/kubelet%E7%BB%84%E4%BB%B6%E5%AE%89%E8%A3%85/">Kubelet组件安装</a>
     </h1>
     
     <div class="post-meta">
-      <time datetime="2019-12-31" class="post-time">
-        2019-12-31
+      <time datetime="2020-01-09" class="post-time">
+        2020-01-09
       </time>
       <div class="post-category">
-          <a href="http://veh47.github.io/categories/golang/"> Golang </a>
+          <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
           
         </div>
       
@@ -441,10 +441,10 @@
   <div class="post-content">
     
     <div class="post-summary">
-      不写测试的开发不是好程序员。然而可惜的是国内的程序员都不太关注测试这一部分。 这篇文章主要介绍下在Go语言中如何做单元测试和基准测试。 go tes
+      kubelet运行在每个worker节点上，接收kube-apiserver发送的请求，管理Pod容器，执行交互命令, 如果你的master节
     </div>
     <div class="read-more">
-      <a href="/post/go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="read-more-link">Read more</a>
+      <a href="/post/kubelet%E7%BB%84%E4%BB%B6%E5%AE%89%E8%A3%85/" class="read-more-link">Read more</a>
     </div>
     
   </div>
@@ -455,15 +455,15 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Go语言中的并发编程</a>
+      <a class="post-link" href="/post/docker%E5%AE%89%E8%A3%85/">Docker安装</a>
     </h1>
     
     <div class="post-meta">
-      <time datetime="2019-12-31" class="post-time">
-        2019-12-31
+      <time datetime="2020-01-09" class="post-time">
+        2020-01-09
       </time>
       <div class="post-category">
-          <a href="http://veh47.github.io/categories/golang/"> Golang </a>
+          <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
           
         </div>
       
@@ -475,10 +475,10 @@
   <div class="post-content">
     
     <div class="post-summary">
-      Go语言的并发通过goroutine实现。goroutine类似于线程，属于用户态的线程，我们可以根据需要创建成千上万个goroutine并
+      正常操作到这里，k8s 的 master 集群已经安装完成，只需要添加node节点就可以了; 但也要把 master 节点都要通过 work 节点的组件，加入到master集群中； kubernetes
     </div>
     <div class="read-more">
-      <a href="/post/go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" class="read-more-link">Read more</a>
+      <a href="/post/docker%E5%AE%89%E8%A3%85/" class="read-more-link">Read more</a>
     </div>
     
   </div>
@@ -489,15 +489,15 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/go%E5%8F%8D%E5%B0%84/">Go反射</a>
+      <a class="post-link" href="/post/%E7%BD%91%E7%BB%9C%E7%BB%84%E4%BB%B6flannel%E5%AE%89%E8%A3%85/">网络组件flannel安装</a>
     </h1>
     
     <div class="post-meta">
-      <time datetime="2019-12-31" class="post-time">
-        2019-12-31
+      <time datetime="2020-01-09" class="post-time">
+        2020-01-09
       </time>
       <div class="post-category">
-          <a href="http://veh47.github.io/categories/golang/"> Golang </a>
+          <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
           
         </div>
       
@@ -509,10 +509,10 @@
   <div class="post-content">
     
     <div class="post-summary">
-      本文介绍了Go语言反射的意义和基本使用。 变量的内在机制 Go语言中的变量是分为两部分的: 类型信息：预先定义好的元信息。 值信息：程序运行过程中可
+      Kubernetes要求集群内各个节点(包括master)能通过Pod网段互联互通，Flannel使用vxlan技术为各个节点创建一个互通的
     </div>
     <div class="read-more">
-      <a href="/post/go%E5%8F%8D%E5%B0%84/" class="read-more-link">Read more</a>
+      <a href="/post/%E7%BD%91%E7%BB%9C%E7%BB%84%E4%BB%B6flannel%E5%AE%89%E8%A3%85/" class="read-more-link">Read more</a>
     </div>
     
   </div>
@@ -541,65 +541,547 @@
 
   
   
-  <nav class="pagination">
-    <ul>
-      
-      <li >
-        <a href="/">1</a>
-      </li>
-      
-      <li  class="active" >
-        <a href="/page/2/">2</a>
-      </li>
-      
-      <li >
-        <a href="/page/3/">3</a>
-      </li>
-      
-      <li >
-        <a href="/page/4/">4</a>
-      </li>
-      
-      <li >
-        <a href="/page/5/">5</a>
-      </li>
-      
-      <li >
-        <a href="/page/6/">6</a>
-      </li>
-      
-      <li >
-        <a href="/page/7/">7</a>
-      </li>
-      
-      <li >
-        <a href="/page/8/">8</a>
-      </li>
-      
-      <li >
-        <a href="/page/9/">9</a>
-      </li>
-      
-      <li >
-        <a href="/page/10/">10</a>
-      </li>
-      
-      <li >
-        <a href="/page/11/">11</a>
-      </li>
-      
-      <li >
-        <a href="/page/12/">12</a>
-      </li>
-      
-      <li >
-        <a href="/page/13/">13</a>
-      </li>
-      
-    </ul>
-  </nav>
 
-  
+    <nav class="pagination">
+      <ul>
+
+      
+      
+      <li><a href="/">««</a></li>
+      
+
+      
+      
+      <li><a href="/">«</a></li>
+      
+
+      
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/">
+              1
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="active">
+            <a href="/page/2/">
+              2
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/3/">
+              3
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/4/">
+              4
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/5/">
+              5
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/6/">
+              6
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/7/">
+              7
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/8/">
+              8
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/9/">
+              9
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/10/">
+              10
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/11/">
+              11
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/12/">
+              12
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/13/">
+              13
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+
+      
+
+      
+      
+      <li><a href="/page/3/">»</a></li>
+      
+
+      
+      
+      <li><a href="/page/17/">»»</a></li>
+      
+
+      </ul>
+    </nav>
   
 
 

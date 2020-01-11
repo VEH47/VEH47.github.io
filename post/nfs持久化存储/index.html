@@ -1,0 +1,1944 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>NFS持久化存储 - Eleven</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Eleven" />
+  <meta name="description" content="平时我们使用的一些pod都是无状态服务, 但是在生产环境中免不了一些有状态服务, 比如数据库之类的,就需要有专门的挂载存储保障数据的安全 PV 的全称" />
+
+  <meta name="keywords" content="Eleven" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+<link rel="canonical" href="http://veh47.github.io/post/nfs%E6%8C%81%E4%B9%85%E5%8C%96%E5%AD%98%E5%82%A8/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="NFS持久化存储" />
+<meta property="og:description" content="平时我们使用的一些pod都是无状态服务, 但是在生产环境中免不了一些有状态服务, 比如数据库之类的,就需要有专门的挂载存储保障数据的安全 PV 的全称" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://veh47.github.io/post/nfs%E6%8C%81%E4%B9%85%E5%8C%96%E5%AD%98%E5%82%A8/" />
+<meta property="article:published_time" content="2020-01-09T23:40:27+08:00" />
+<meta property="article:modified_time" content="2020-01-09T23:40:27+08:00" />
+<meta itemprop="name" content="NFS持久化存储">
+<meta itemprop="description" content="平时我们使用的一些pod都是无状态服务, 但是在生产环境中免不了一些有状态服务, 比如数据库之类的,就需要有专门的挂载存储保障数据的安全 PV 的全称">
+
+
+<meta itemprop="datePublished" content="2020-01-09T23:40:27&#43;08:00" />
+<meta itemprop="dateModified" content="2020-01-09T23:40:27&#43;08:00" />
+<meta itemprop="wordCount" content="7193">
+
+
+
+<meta itemprop="keywords" content="Kubernetes," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NFS持久化存储"/>
+<meta name="twitter:description" content="平时我们使用的一些pod都是无状态服务, 但是在生产环境中免不了一些有状态服务, 比如数据库之类的,就需要有专门的挂载存储保障数据的安全 PV 的全称"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Eleven</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+        
+      </li>
+    
+
+    
+      <li class="mobile-menu-item">
+        <a id="openSearchMobile" class="mobile-menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+    
+<div class="modal-dialog">
+    
+    <div class="modal-content">
+      <div id="closeSearch" title="Close" class="close">X</div>
+      <div class="modal-header">
+        <div class="modal-title">Search</div>
+      </div>
+      <div class="modal-body">
+          <script>
+            (function() {
+              var cx = '012427586116641581695:iilii6hg9u2';
+              var gcse = document.createElement('script');
+              gcse.type = 'text/javascript';
+              gcse.async = true;
+              gcse.src = (document.location.protocol == 'https:' ? 'https:' :
+                  'http:') +
+                '//cse.google.com/cse.js?cx=' + cx;
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(gcse, s);
+            })();
+          </script>
+          <gcse:search></gcse:search>
+      </div>
+    </div>
+</div>
+
+  
+
+  
+    <style>
+      .fork-me-on-github {
+        position: absolute; top: 0; left: 0; border: 0;
+      }
+      @media (max-width: 1080px) {
+        .fork-me-on-github {
+          display: none;
+        }
+      }
+    </style>
+
+    <a href="https://github.com/veh47">
+      <img class="fork-me-on-github"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"
+        alt="Fork me on GitHub">
+    </a>
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Eleven
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://veh47.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+      <li class="menu-item">
+        <a id="openSearch" class="menu-item-link menu-item-search" href="#">
+          <i class="iconfont">
+            <svg version="1.1" viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M973.81454219 973.81454219a91.78207815 91.78207815 0 0 1-129.80999631 0l-161.97482118-161.97482118a425.48527711 425.48527711 0 0 1-230.35931791 68.16531768 428.3346319 428.3346319 0 1 1 428.3346319-428.3346319 425.48527711 425.48527711 0 0 1-68.16531768 230.35931791l162.02961656 161.97482118a91.83687354 91.83687354 0 0 1-0.05479538 129.80999631zM451.67040679 145.69361559a305.97679241 305.97679241 0 1 0 0 611.95358361 305.97679241 305.97679241 0 0 0 0-611.95358361z">
+  </path>
+</svg>
+
+          </i>
+        </a>
+      </li>
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">NFS持久化存储</h1>
+      
+      <div class="post-meta">
+        <time datetime="2020-01-09" class="post-time">
+          2020-01-09
+        </time>
+        <div class="post-category">
+            <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
+            
+          </div>
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#nfs部署">NFS部署</a>
+<ul>
+<li><a href="#初期准备">初期准备</a></li>
+</ul></li>
+<li><a href="#pv">PV</a>
+<ul>
+<li><a href="#capacity-存储能力">Capacity（存储能力）</a></li>
+<li><a href="#accessmodes-访问模式">AccessModes（访问模式）</a></li>
+<li><a href="#persistentvolumereclaimpolicy-回收策略">persistentVolumeReclaimPolicy（回收策略）</a></li>
+<li><a href="#状态">状态</a></li>
+</ul></li>
+<li><a href="#新建-pvc">新建 PVC</a></li>
+<li><a href="#注意事项">注意事项</a></li>
+<li><a href="#创建-provisioner">创建 Provisioner</a></li>
+<li><a href="#新建-pvc-1">新建 PVC</a></li>
+<li><a href="#测试">测试</a></li>
+<li><a href="#示例">示例</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p>平时我们使用的一些pod都是无状态服务, 但是在生产环境中免不了一些有状态服务, 比如数据库之类的,就需要有专门的挂载存储保障数据的安全</p>
+
+<p>PV 的全称是：PersistentVolume（持久化卷），是对底层的共享存储的一种抽象，PV 由管理员进行创建和配置，它和具体的底层的共享存储技术的实现方式有关，比如 Ceph、GlusterFS、NFS 等，都是通过插件机制完成与共享存储的对接。</p>
+
+<p>PVC 的全称是：PersistentVolumeClaim（持久化卷声明），PVC 是用户存储的一种声明，PVC 和 Pod 比较类似，Pod 消耗的是节点，PVC 消耗的是 PV 资源，Pod 可以请求 CPU 和内存，而 PVC 可以请求特定的存储空间和访问模式。对于真正使用存储的用户不需要关心底层的存储实现细节，只需要直接使用 PVC 即可。</p>
+
+<p>但是通过 PVC 请求到一定的存储空间也很有可能不足以满足应用对于存储设备的各种需求，而且不同的应用程序对于存储性能的要求可能也不尽相同，比如读写速度、并发性能等，为了解决这一问题，Kubernetes 又为我们引入了一个新的资源对象：StorageClass，通过 StorageClass 的定义，管理员可以将存储资源定义为某种类型的资源，比如快速存储、慢速存储等，用户根据 StorageClass 的描述就可以非常直观的知道各种存储资源的具体特性了，这样就可以根据应用的特性去申请合适的存储资源了。
+<!---more---></p>
+
+<p>我们在这里使用NFS作为存储, 同步数据</p>
+
+<p>开通一个节点, IP: 10.4.8.106 用作NFS服务端, 共享目录为/data/nfs</p>
+
+<h3 id="nfs部署">NFS部署</h3>
+
+<h4 id="初期准备">初期准备</h4>
+
+<p>关闭防火墙, 创建/data/nfs 数据目录, 授权该目录755</p>
+
+<p>配置 nfs，nfs 的默认配置文件在 /etc/exports 文件下，在该文件中添加下面的配置信息：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">vim /etc/exports
+/data/nfs  *(rw,sync,no_root_squash)</pre></td></tr></table>
+</div>
+</div>
+<p>配置说明：</p>
+
+<p>/data/nfs：是共享的数据目录<br />
+*：表示任何人都有权限连接，当然也可以是一个网段，一个 IP，也可以是域名<br />
+rw：读写的权限<br />
+sync：表示文件同时写入硬盘和内存<br />
+no_root_squash：当登录 NFS 主机使用共享目录的使用者是 root 时，其权限将被转换成为匿名使用者，通常它的 UID 与 GID，都会变成 nobody 身份<br />
+当然 nfs 的配置还有很多，感兴趣的同学可以在网上去查找一下。<br />
+启动服务 nfs 需要向 rpc 注册，rpc 一旦重启了，注册的文件都会丢失，向他注册的服务都需要重启<br />
+注意启动顺序，先启动 rpcbind</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ systemctl start rpcbind.service
+$ systemctl enable rpcbind</pre></td></tr></table>
+</div>
+</div>
+<p>然后启动 nfs 服务：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ systemctl start nfs.service
+$ systemctl enable nfs</pre></td></tr></table>
+</div>
+</div>
+<p>我们可以通过下面的命令确认下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ rpcinfo -p|grep nfs
+100003    3   tcp   2049  nfs
+100003    4   tcp   2049  nfs
+100227    3   tcp   2049  nfs_acl
+100003    3   udp   2049  nfs
+100003    4   udp   2049  nfs
+100227    3   udp   2049  nfs_acl</pre></td></tr></table>
+</div>
+</div>
+<p>查看具体目录挂载权限：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@NFS ~]# cat /var/lib/nfs/etab
+/data/nfs   *(rw,sync,wdelay,hide,nocrossmnt,secure,no_root_squash,no_all_squash,no_subtree_check,secure_locks,acl,no_pnfs,anonuid=65534,anongid=65534,sec=sys,rw,secure,no_root_squash,no_all_squash)</pre></td></tr></table>
+</div>
+</div>
+<p>到这里我们就把 nfs server 给安装成功了，接下来在各个node节点安装 nfs 的客户端来验证下 nfs. 安装方法与服务端一样</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">yum -y install nfs-utils rpcbind
+systemctl start rpcbind.service
+$ systemctl enable rpcbind.service
+$ systemctl start nfs.service
+$ systemctl enable nfs.service</pre></td></tr></table>
+</div>
+</div>
+<p>首先检查下 nfs 是否有共享目录：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@node01 ~]# showmount -e 10.4.8.106
+Export list for 10.4.8.106:
+/data/nfs            *</pre></td></tr></table>
+</div>
+</div>
+<p>创建挂载目录, 我这里与服务端创建的目录一样</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mkdir -p /data/nfs</pre></td></tr></table>
+</div>
+</div>
+<p>将 nfs 共享目录挂载到上面的目录：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">mount -t nfs 10.4.8.106:/data/nfs /data/nfs</pre></td></tr></table>
+</div>
+</div>
+<p>可以在这个目录下创建个文件, 然后到nfs服务端查看是否存在</p>
+
+<h3 id="pv">PV</h3>
+
+<p>有了上面的 NFS 共享存储，下面我们就可以来使用 PV 和 PVC 了。PV 作为存储资源，主要包括存储能力、访问模式、存储类型、回收策略等关键信息，下面我们来新建一个 PV 对象，使用 nfs 类型的后端存储，1G 的存储空间，访问模式为 ReadWriteOnce，回收策略为 Recyle，对应的 YAML 文件如下：(pv1-demo.yaml)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name:  pv1
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  nfs:
+    path: /data/nfs
+    server: 10.4.8.106</pre></td></tr></table>
+</div>
+</div>
+<p>Kubernetes 支持的 PV 类型有很多，比如常见的 Ceph、GlusterFs、NFS，甚至 HostPath也可以，不过 HostPath 我们之前也说过仅仅可以用于单机测试，更多的支持类型可以前往 Kubernetes PV 官方文档进行查看，因为每种存储类型都有各自的特点，所以我们在使用的时候可以去查看相应的文档来设置对应的参数。</p>
+
+<p>然后同样的，直接使用 kubectl 创建即可：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl create -f pv1-demo.yaml
+persistentvolume &#34;pv1&#34; created
+$ kubectl get pv
+NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM               STORAGECLASS   REASON    AGE
+pv1       1Gi        RWO            Recycle          Available                                                12s</pre></td></tr></table>
+</div>
+</div>
+<p>我们可以看到 pv1 已经创建成功了，状态是 Available，表示 pv1 就绪，可以被 PVC 申请。我们来分别对上面的属性进行一些解读。</p>
+
+<h4 id="capacity-存储能力">Capacity（存储能力）</h4>
+
+<p>一般来说，一个 PV 对象都要指定一个存储能力，通过 PV 的 capacity属性来设置的，目前只支持存储空间的设置，就是我们这里的 storage=1Gi，不过未来可能会加入 IOPS、吞吐量等指标的配置。</p>
+
+<h4 id="accessmodes-访问模式">AccessModes（访问模式）</h4>
+
+<p>AccessModes 是用来对 PV 进行访问模式的设置，用于描述用户应用对存储资源的访问权限，访问权限包括下面几种方式：</p>
+
+<ul>
+<li>ReadWriteOnce（RWO）：读写权限，但是只能被单个节点挂载<br /></li>
+<li>ReadOnlyMany（ROX）：只读权限，可以被多个节点挂载<br /></li>
+<li>ReadWriteMany（RWX）：读写权限，可以被多个节点挂载<br /></li>
+</ul>
+
+<p>注意：一些 PV 可能支持多种访问模式，但是在挂载的时候只能使用一种访问模式，多种访问模式是不会生效的。</p>
+
+<h4 id="persistentvolumereclaimpolicy-回收策略">persistentVolumeReclaimPolicy（回收策略）</h4>
+
+<p>我这里指定的 PV 的回收策略为 Recycle，目前 PV 支持的策略有三种：</p>
+
+<ul>
+<li>Retain（保留）- 保留数据，需要管理员手工清理数据<br /></li>
+<li>Recycle（回收）- 清除 PV 中的数据，效果相当于执行 rm -rf /thevoluem/*<br /></li>
+<li>Delete（删除）- 与 PV 相连的后端存储完成 volume 的删除操作，当然这常见于云服务商的存储服务，比如 ASW EBS。<br /></li>
+</ul>
+
+<p>不过需要注意的是，目前只有 NFS 和 HostPath 两种类型支持回收策略。当然一般来说还是设置为 Retain 这种策略保险一点。</p>
+
+<h4 id="状态">状态</h4>
+
+<p>一个 PV 的生命周期中，可能会处于4中不同的阶段：</p>
+
+<ul>
+<li>Available（可用）：表示可用状态，还未被任何 PVC 绑定<br /></li>
+<li>Bound（已绑定）：表示 PV 已经被 PVC 绑定<br /></li>
+<li>Released（已释放）：PVC 被删除，但是资源还未被集群重新声明<br /></li>
+<li>Failed（失败）： 表示该 PV 的自动回收失败<br /></li>
+</ul>
+
+<p>我们平时真正使用的资源其实是 PVC，就类似于我们的服务是通过 Pod 来运行的，而不是 Node，只是 Pod 跑在 Node 上而已，所以接下来我们就来给大家讲解下 PVC 的使用方法。</p>
+
+<h3 id="新建-pvc">新建 PVC</h3>
+
+<p>同样的，我们来新建一个数据卷声明，我们来请求 1Gi 的存储容量，访问模式也是 ReadWriteOnce，YAML 文件如下：(pvc-nfs.yaml)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi</pre></td></tr></table>
+</div>
+</div>
+<p>我们可以看到我们这里的声明方法几乎和新建 PV 是一样的，在新建 PVC 之前，我们可以看下之前创建的 PV 的状态：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">kubectl get pv
+NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM               STORAGECLASS   REASON    AGE
+pv-nfs    1Gi        RWO            Recycle          Available                                                19m</pre></td></tr></table>
+</div>
+</div>
+<p>我们可以看到当前 pv-nfs 是在 Available 的一个状态，所以这个时候我们的 PVC 可以和这个 PV 进行绑定：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl create -f pvc-nfs.yaml
+persistentvolumeclaim &#34;pvc-nfs&#34; created
+$ kubectl get pvc
+NAME        STATUS    VOLUME    CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+pvc-nfs     Bound     pv-nfs    1Gi        RWO                           12s</pre></td></tr></table>
+</div>
+</div>
+<p>我们可以看到 pvc-nfs 创建成功了，状态是 Bound 状态了，这个时候我们再看下 PV 的状态呢：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl get pv
+NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM               STORAGECLASS   REASON    AGE
+pv-nfs    1Gi        RWO            Recycle          Bound     default/pvc-nfs                              23m</pre></td></tr></table>
+</div>
+</div>
+<p>同样我们可以看到 PV 也是 Bound 状态了，对应的声明是 default/pvc-nfs，就是 default 命名空间下面的 pvc-nfs，证明我们刚刚新建的 pvc-nfs 和我们的 pv-nfs 绑定成功了。</p>
+
+<p>有的同学可能会觉得很奇怪，我们并没有在 pvc-nfs 中指定关于 pv 的什么标志，它们之间是怎么就关联起来了的呢？其实这是系统自动帮我们去匹配的，他会根据我们的声明要求去查找处于 Available 状态的 PV，如果没有找到的话那么我们的 PVC 就会一直处于 Pending 状态，找到了的话当然就会把当前的 PVC 和目标 PV 进行绑定，这个时候状态就会变成 Bound 状态了。比如我们新建一个 PVC，如下：(pvc2-nfs.yaml)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc2-nfs
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  selector:
+    matchLabels:
+      app: nfs</pre></td></tr></table>
+</div>
+</div>
+<p>我们这里声明一个 PV 资源的请求，邀请访问模式是 ReadWriteOnce，存储容量是 2Gi，最后我们还要求匹配具有标签 app=nfs 的 PV，这样要求的 PV 有吗？我们先查看下当前系统的所有 PV：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl get pv
+NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM               STORAGECLASS   REASON    AGE
+pv-nfs    1Gi        RWO            Recycle          Bound     default/pvc-nfs                              43m
+pv001     1Gi        RWO            Recycle          Bound     default/www-web-0                            13d
+pv002     1Gi        RWO            Recycle          Bound     default/www-web-1                            13d</pre></td></tr></table>
+</div>
+</div>
+<p>都是 Bound 状态，并没有 Available 状态的 PV，所以我们可以想象到我们上面新建的 PVC 是没办法选择到合适的 PV 的，我们创建一下看看：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl create -f pvc2-nfs.yaml
+persistentvolumeclaim &#34;pvc2-nfs&#34; created
+$ kubectl get pvc
+NAME        STATUS    VOLUME    CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+pvc-nfs     Bound     pv-nfs    1Gi        RWO                           23m
+pvc2-nfs    Pending                                                      14s</pre></td></tr></table>
+</div>
+</div>
+<p>很显然是 Pending 状态，因为并没有合适的 PV 给你使用，现在我们来新建一个 PV，让上面的 PVC 有合适的 PV 使用：（pv2-nfs.yaml）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv2-nfs
+  labels:
+    app: nfs
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  nfs:
+    server: 10.4.8.106
+    path: /data/nfs</pre></td></tr></table>
+</div>
+</div>
+<p>我们这里新建一个名为 pv2-nfs 的 PV，具有标签 app=nfs，容量也是 2Gi，访问模式是 ReadWraiteOnce，看上去这一切都很适合上面的 PVC，新建试一试：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl create -f pv2-nfs.yaml
+persistentvolume &#34;pv2-nfs&#34; created
+$ kubectl get pv
+NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM               STORAGECLASS   REASON    AGE
+pv-nfs    1Gi        RWO            Recycle          Bound     default/pvc-nfs                              51m
+pv2-nfs   2Gi        RWO            Recycle          Bound     default/pvc2-nfs                             12s</pre></td></tr></table>
+</div>
+</div>
+<p>创建完 pv2-nfs 后，是不是很快就发现该 PV 是 Bound 状态了，对应的 PVC 是 default/pvc2-nfs，证明上面的 pvc2-nfs 终于找到合适的 PV 进行绑定上了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl get pvc
+kubectl get pvc
+NAME        STATUS    VOLUME    CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+pvc-nfs     Bound     pv-nfs    1Gi        RWO                           30m
+pvc2-nfs    Bound     pv2-nfs   2Gi        RWO                           7m</pre></td></tr></table>
+</div>
+</div>
+<p>成功了，对吧！有的同学可能又会说了，我们的 pv2-nfs 声明的容量是 2Gi，如果我 pvc2-nfs 这里声明的容量是 1Gi 的话呢？还能正常绑定吗？如果可以正常绑定的话，那剩下的 1Gi 容量还能使用吗？其实我也不清楚，怎么办？我们去实际测试下就知道了吧，先删除上面的 pvc2-nfs，然后我们把该 PVC 里面的容量改成 1Gi，再新建试一试呢：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl delete pvc pvc2-nfs
+persistentvolumeclaim &#34;pvc2-nfs&#34; deleted
+$ cat pvc2-nfs.yaml
+...
+  resources:
+    requests:
+      storage: 1Gi
+...
+$ kubectl create -f pvc2-nfs.yaml
+persistentvolumeclaim &#34;pvc2-nfs&#34; created
+$ kubectl get pvc
+NAME        STATUS    VOLUME    CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+pvc2-nfs    Bound     pv2-nfs   2Gi        RWO                           7s</pre></td></tr></table>
+</div>
+</div>
+<p>我们可以看到上面的 PVC 依然可以正常的绑定，仔细看 CAPACITY 这一列的数据：2Gi，也就是说我们声明的 1Gi 是没什么用的，我 PV 是 2Gi，你这里声明 1Gi 是不行的，你必须得使用 2Gi。</p>
+
+<h3 id="注意事项">注意事项</h3>
+
+<p>如果这个时候我们把 PV 给删除了，上面持久化的数据还会存在吗？如果是删除的 PVC 呢？在实际使用的工程中，是很有可能出现这种情况的吧？下面我们来实际验证下。</p>
+
+<p>我们先删除上面使用的 PV：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl delete pv pv2-nfs
+persistentvolume &#34;pv2-nfs&#34; deleted</pre></td></tr></table>
+</div>
+</div>
+<p>然后再看看之前创建的 PVC 还会存在吗：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl get pvc
+NAME        STATUS    VOLUME    CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+...
+pvc2-nfs    Bound     pv2-nfs   2Gi        RWO                           1h
+...</pre></td></tr></table>
+</div>
+</div>
+<p>现在我们在恢复到最开始的状态，把 PV 和 PVC 添加回来，如果现在我们把使用 pvc2-nfs 关联的 Pod 都删除，然后再删除该 PVC 的话，那么我们的持久化数据还存在吗？</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl delete -f nfs-pvc-deploy.yaml
+deployment.extensions &#34;nfs-pvc&#34; deleted
+service &#34;nfs-pvc&#34; deleted
+$ kubectl get pvc
+NAME        STATUS    VOLUME    CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+...
+pvc2-nfs    Bound     pv2-nfs   2Gi        RWO                           5m
+...
+$ kubectl delete pvc pvc2-nfs
+persistentvolumeclaim &#34;pvc2-nfs&#34; deleted
+$ kubectl get pv
+NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS     CLAIM               STORAGECLASS   REASON    AGE
+...
+pv2-nfs   2Gi        RWO            Recycle          Released   default/pvc2-nfs                             6m
+...
+$ ls /data/nfs/</pre></td></tr></table>
+</div>
+</div>
+<p>我们可以看到 pv2-nfs 这个 PV 的状态已经变成了 Released 状态了，这个状态是不是表示 PVC 已经被释放了，现在可以被重新绑定了，由于我们设置的 PV 的回收策略是 Recycle，所以我们可以很明显的发现 nfs 的共享数据目录下面已经没有了数据了，这是因为我们把 PVC 给删除掉了，然后回收了数据。</p>
+
+<p>不过大家要注意，并不是所有的存储后端的表现结果都是这样的，我们这里使用的是 nfs，其他存储后端肯能会有不一样的结果。</p>
+
+<p>大家在使用 PV 和 PVC 的时候一定要注意这些细节，不然一不小心就把数据搞丢了。</p>
+
+<p>我们学习了 PV 和 PVC 的使用方法，但是前面的 PV 都是静态的，什么意思？就是我要使用的一个 PVC 的话就必须手动去创建一个 PV，我们也说过这种方式在很大程度上并不能满足我们的需求，比如我们有一个应用需要对存储的并发度要求比较高，而另外一个应用对读写速度又要求比较高，特别是对于 StatefulSet 类型的应用简单的来使用静态的 PV 就很不合适了
+这种情况下我们就需要用到动态 PV，也就是 StorageClass</p>
+
+<h3 id="创建-provisioner">创建 Provisioner</h3>
+
+<p>要使用 StorageClass，我们就得安装对应的自动配置程序，比如我们这里存储后端使用的是 nfs，那么我们就需要使用到一个 nfs-client 的自动配置程序，我们也叫它 Provisioner，这个程序使用我们已经配置好的 nfs 服务器，来自动创建持久卷，也就是自动帮我们创建 PV。</p>
+
+<ul>
+<li>自动创建的 PV 以${namespace}-${pvcName}-${pvName}这样的命名格式创建在 NFS 服务器上的共享数据目录中<br /></li>
+<li>而当这个 PV 被回收后会以archieved-${namespace}-${pvcName}-${pvName}这样的命名格式存在 NFS 服务器上。<br /></li>
+</ul>
+
+<p>第一步：配置 Deployment，将里面的对应的参数替换成我们自己的 nfs 配置（nfs-client.yaml）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master01 /opt/k8s/yaml/storaclass]# cat nfs-client.yaml 
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: nfs-client-provisioner
+  namespace: kube-system
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccountName: nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: quay.io/external_storage/nfs-client-provisioner:latest
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: fuseim.pri/ifs
+            - name: NFS_SERVER
+              value: 10.4.8.106
+            - name: NFS_PATH
+              value: /data/nfs
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: 10.4.8.106
+            path: /data/nfs</pre></td></tr></table>
+</div>
+</div>
+<p>第二步：将环境变量 NFS_SERVER 和 NFS_PATH 替换，当然也包括下面的 nfs 配置，我们可以看到我们这里使用了一个名为 nfs-client-provisioner 的serviceAccount，所以我们也需要创建一个 sa，然后绑定上对应的权限：（nfs-client-sa.yaml）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master01 /opt/k8s/yaml/storaclass]# cat nfs-client-sa.yaml 
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nfs-client-provisioner
+  namespace: kube-system
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-client-provisioner-runner
+  namespace: kube-system
+rules:
+  - apiGroups: [&#34;&#34;]
+    resources: [&#34;persistentvolumes&#34;]
+    verbs: [&#34;get&#34;, &#34;list&#34;, &#34;watch&#34;, &#34;create&#34;, &#34;delete&#34;]
+  - apiGroups: [&#34;&#34;]
+    resources: [&#34;persistentvolumeclaims&#34;]
+    verbs: [&#34;get&#34;, &#34;list&#34;, &#34;watch&#34;, &#34;update&#34;]
+  - apiGroups: [&#34;storage.k8s.io&#34;]
+    resources: [&#34;storageclasses&#34;]
+    verbs: [&#34;get&#34;, &#34;list&#34;, &#34;watch&#34;]
+  - apiGroups: [&#34;&#34;]
+    resources: [&#34;events&#34;]
+    verbs: [&#34;list&#34;, &#34;watch&#34;, &#34;create&#34;, &#34;update&#34;, &#34;patch&#34;]
+  - apiGroups: [&#34;&#34;]
+    resources: [&#34;endpoints&#34;]
+    verbs: [&#34;create&#34;, &#34;delete&#34;, &#34;get&#34;, &#34;list&#34;, &#34;watch&#34;, &#34;patch&#34;, &#34;update&#34;]
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: run-nfs-client-provisioner
+  namespace: kube-system
+subjects:
+  - kind: ServiceAccount
+    name: nfs-client-provisioner
+    namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: nfs-client-provisioner-runner
+  apiGroup: rbac.authorization.k8s.io</pre></td></tr></table>
+</div>
+</div>
+<p>我们这里新建的一个名为 nfs-client-provisioner 的ServiceAccount，然后绑定了一个名为 nfs-client-provisioner-runner 的ClusterRole，而该ClusterRole声明了一些权限，其中就包括对persistentvolumes的增、删、改、查等权限，所以我们可以利用该ServiceAccount来自动创建 PV。</p>
+
+<p>第三步：nfs-client 的 Deployment 声明完成后，我们就可以来创建一个StorageClass对象了：（nfs-client-class.yaml）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master01 /opt/k8s/yaml/storaclass]# cat nfs-client-class.yaml 
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: course-nfs-storage
+  namespace: kube-system
+provisioner: fuseim.pri/ifs # or choose another name, must match deployment&#39;s env PROVISIONER_NAME&#39;</pre></td></tr></table>
+</div>
+</div>
+<p>我们声明了一个名为 course-nfs-storage 的StorageClass对象，注意下面的provisioner对应的值一定要和上面的Deployment下面的 PROVISIONER_NAME 这个环境变量的值一样。</p>
+
+<p>现在我们来创建这些资源对象吧：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl create -f nfs-client.yaml
+$ kubectl create -f nfs-client-sa.yaml
+$ kubectl create -f nfs-client-class.yaml</pre></td></tr></table>
+</div>
+</div>
+<p>创建完成后查看下资源状态：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl get pods
+NAME                                             READY     STATUS             RESTARTS   AGE
+...
+nfs-client-provisioner-7648b664bc-7f9pk          1/1       Running            0          7h
+...
+$ kubectl get storageclass
+NAME                 PROVISIONER      AGE
+course-nfs-storage   fuseim.pri/ifs   11s</pre></td></tr></table>
+</div>
+</div>
+<h3 id="新建-pvc-1">新建 PVC</h3>
+
+<p>上面把StorageClass资源对象创建成功了，接下来我们来通过一个示例测试下动态 PV，首先创建一个 PVC 对象：(test-pvc.yaml)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-pvc
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi</pre></td></tr></table>
+</div>
+</div>
+<p>我们这里声明了一个PVC对象，采用 ReadWriteMany 的访问模式，请求 1Mi 的空间，但是我们可以看到上面的 PVC 文件我们没有标识出任何和 StorageClass 相关联的信息，那么如果我们现在直接创建这个 PVC 对象能够自动绑定上合适的 PV 对象吗？显然是不能的(前提是没有合适的 PV)，我们这里有两种方法可以来利用上面我们创建的 StorageClass 对象来自动帮我们创建一个合适的 PV:</p>
+
+<p>在这个PVC对象中添加一个声明StorageClass对象的标识，这里我们可以利用一个annotations属性来标识，如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-pvc
+  annotations:
+    volume.beta.kubernetes.io/storage-class: &#34;course-nfs-storage&#34;
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
+
+$ kubectl create -f test-pvc.yaml
+persistentvolumeclaim &#34;test-pvc&#34; created
+$ kubectl get pvc
+NAME         STATUS    VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS          AGE
+...
+test-pvc     Bound     pvc-73b5ffd2-8b4b-11e8-b585-525400db4df7   1Mi        RWX            course-nfs-storage    2m
+...</pre></td></tr></table>
+</div>
+</div>
+<p>我们可以看到一个名为 test-pvc 的 PVC 对象创建成功了，状态已经是Bound了，是不是也产生了一个对应的VOLUME 对象，最重要的一栏是STORAGECLASS，现在是不是也有值了，就是我们刚刚创建的StorageClass对象 course-nfs-storage。</p>
+
+<p>然后查看下 PV 对象呢：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl get pv
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                STORAGECLASS          REASON    AGE
+...
+pvc-73b5ffd2-8b4b-11e8-b585-525400db4df7   1Mi        RWX            Delete           Bound       default/test-pvc     course-nfs-storage              8m
+...</pre></td></tr></table>
+</div>
+</div>
+<p>可以看到是不是自动生成了一个关联的 PV 对象，访问模式是RWX，回收策略是 Delete，这个 PV 对象并不是我们手动创建的吧，这是通过我们上面的 StorageClass 对象自动创建的。这就是 StorageClass 的创建方法。</p>
+
+<h3 id="测试">测试</h3>
+
+<p>在实际工作中，使用 StorageClass 更多的是 StatefulSet 类型的服务，StatefulSet类型的服务我们也可以通过一个volumeClaimTemplates属性来直接使用 StorageClass，如下：(test-statefulset-nfs.yaml)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: nfs-web
+spec:
+  serviceName: &#34;nginx&#34;
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nfs-web
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+      annotations:
+        volume.beta.kubernetes.io/storage-class: course-nfs-storage
+    spec:
+      accessModes: [ &#34;ReadWriteOnce&#34; ]
+      resources:
+        requests:
+          storage: 1Gi</pre></td></tr></table>
+</div>
+</div>
+<p>实际上 volumeClaimTemplates 下面就是一个 PVC 对象的模板，就类似于我们这里 StatefulSet 下面的 template，实际上就是一个 Pod 的模板，我们不单独创建成 PVC 对象，而用这种模板就可以动态的去创建了对象了，这种方式在 StatefulSet 类型的服务下面使用得非常多。</p>
+
+<p>直接创建上面的对象：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl create -f test-statefulset-nfs.yaml
+statefulset.apps &#34;nfs-web&#34; created
+$ kubectl get pods
+NAME                                             READY     STATUS              RESTARTS   AGE
+...
+nfs-web-0                                        1/1       Running             0          1m
+nfs-web-1                                        1/1       Running             0          1m
+nfs-web-2                                        1/1       Running             0          33s
+...</pre></td></tr></table>
+</div>
+</div>
+<p>创建完成后可以看到上面的3个 Pod 已经运行成功，然后查看下 PVC 对象：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl get pvc
+NAME            STATUS    VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS          AGE
+...
+www-nfs-web-0   Bound     pvc-cc36b3ce-8b50-11e8-b585-525400db4df7   1Gi        RWO            course-nfs-storage    2m
+www-nfs-web-1   Bound     pvc-d38285f9-8b50-11e8-b585-525400db4df7   1Gi        RWO            course-nfs-storage    2m
+www-nfs-web-2   Bound     pvc-e348250b-8b50-11e8-b585-525400db4df7   1Gi        RWO            course-nfs-storage    1m
+...</pre></td></tr></table>
+</div>
+</div>
+<p>我们可以看到是不是也生成了3个 PVC 对象，名称由模板名称 name 加上 Pod 的名称组合而成，这3个 PVC 对象也都是 绑定状态了，很显然我们查看 PV 也可以看到对应的3个 PV 对象：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">$ kubectl get pv
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                   STORAGECLASS          REASON    AGE
+...                                                        1d
+pvc-cc36b3ce-8b50-11e8-b585-525400db4df7   1Gi        RWO            Delete           Bound       default/www-nfs-web-0   course-nfs-storage              4m
+pvc-d38285f9-8b50-11e8-b585-525400db4df7   1Gi        RWO            Delete           Bound       default/www-nfs-web-1   course-nfs-storage              4m
+pvc-e348250b-8b50-11e8-b585-525400db4df7   1Gi        RWO            Delete           Bound       default/www-nfs-web-2   course-nfs-storage              4m
+...
+查看 nfs 服务器上面的共享数据目录：
+
+$ ls /data/nfs/
+...
+default-www-nfs-web-0-pvc-cc36b3ce-8b50-11e8-b585-525400db4df7
+default-www-nfs-web-1-pvc-d38285f9-8b50-11e8-b585-525400db4df7
+default-www-nfs-web-2-pvc-e348250b-8b50-11e8-b585-525400db4df7
+...</pre></td></tr></table>
+</div>
+</div>
+<h3 id="示例">示例</h3>
+
+<p>我这里用我们线上的pvc声明文件给大家看下, 与上边的区别不太大</p>
+
+<p>这是db的pvc声明, 一般在创建服务的pod之前先把pvc pv存储声明好</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master01 /opt/k8s/yaml/mcs/pvc]# cat mcs-log.yml 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mcs-log    ### 注意这里的名字, 需要与创建服务pod的中声明的名字一致, 不然pod找不到对应的pv
+  namespace: vbn
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: vbn-nfs
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 20Gi
+  phase: Bound
+
+[root@master01 /opt/k8s/yaml/mcs/deployment]# cat mcs-logs.yml 
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: mcs-logs
+  name: mcs-logs
+  namespace: vbn
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: mcs-logs
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: mcs-logs
+    spec:
+      containers:
+      - env:
+        - name: TZ
+          value: Asia/Shanghai
+        image: harbor.noc.com/noc/rsyslog-server:dt0.0.0.6
+        imagePullPolicy: Always
+        name: mcs-logs
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {}
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+        volumeMounts:
+        - mountPath: /etc/localtime
+          name: vol2
+          readOnly: true
+        - mountPath: /usr/share/zoneinfo/Asia/Shanghai
+          name: vol3
+          readOnly: true
+        - mountPath: /logs
+          name: vol1
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: regcred
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - hostPath:
+          path: /etc/localtime
+          type: &#34;&#34;
+        name: vol2
+      - hostPath:
+          path: /usr/share/zoneinfo/Asia/Shanghai
+          type: &#34;&#34;
+        name: vol3
+      - name: vol1
+        persistentVolumeClaim:
+          claimName: mcs-log            ### 注意这里声明的名字与pvc中的名字一致</pre></td></tr></table>
+</div>
+</div>
+<p>以上文件中还有configmap文件, 在这里就不详细贴出来了</p>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://veh47.github.io/tags/kubernetes/">Kubernetes</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9B%91%E6%8E%A7etcd/">
+            <span class="next-text nav-default">自定义监控etcd</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  <div id="comments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 700);
+              clearInterval(checkExist);
+            }
+        }, 10);
+    }
+  </script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#comments' ,
+        appId: 'UsB52d49clgSaLyt9W25ff6J-gzGzoHsz',
+        appKey: 'A7x1tqpCpuAXKQX5BwcwXGdF',
+        notify:  false , 
+        verify:  false , 
+        avatar:'mm', 
+        placeholder: '',
+        visitor:  false 
+    });
+  </script>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:13522339471@163.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://github.com/veh47" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://www.weibo.com/u/5706670145/" rel="me noopener" class="iconfont"
+      title="weibo"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M385.714286 733.714286q12-19.428571 6.285714-39.428571t-25.714286-28.571429q-19.428571-8-41.714286-0.571429t-34.285714 26.285714q-12.571429 19.428571-7.428571 39.142857t24.571429 28.857143 42.571429 1.428571 35.714286-27.142857zm53.714286-69.142857q4.571429-7.428571 2-15.142857t-10-10.571429q-8-2.857143-16.285714 2.857143t-12.285714 10.571429q-9.714286 17.714286 7.428571 25.714286 8 2.857143 16.571429 2.857143t12.571429-10.571429zm99.428571 61.142857q-25.714286 58.285714-90.285714 85.714286t-128 6.857143q-61.142857-19.428571-84.285714-72.285714t3.714286-107.142857q26.857143-53.142857 86.571429-79.428571t120.285714-10.857143q63.428571 16.571429 90.571429 68.285714t1.428571 108.857143zm178.285714-91.428571q-5.142857-54.857143-50.857143-97.142857t-119.142857-62.285714-156.857143-12q-127.428571 13.142857-211.142857 80.857143t-75.714286 151.142857q5.142857 54.857143 50.857143 97.142857t119.142857 62.285714 156.857143 12q127.428571-13.142857 211.142857-80.857143t75.714286-151.142857zm176 2.285714q0 38.857143-21.142857 79.714286t-62.285714 78.285714-96.285714 67.142857-129.142857 47.428571-154.571429 17.714286-157.142857-19.142857-137.428571-53.142857-98-86.285714-37.142857-114q0-65.714286 39.714286-140t112.857143-147.428571q96.571429-96.571429 195.142857-134.857143t140.857143 4q37.142857 36.571429 11.428571 119.428571-2.285714 8-0.571429 11.428571t5.714286 4 8.285714 2.857143 7.714286-2l3.428571-1.142857q79.428571-33.714286 140.571429-33.714286t87.428571 34.857143q25.714286 36 0 101.714286-1.142857 7.428571-2.571429 11.428571t2.571429 7.142857 6.857143 4.285714 9.714286 3.428571q32.571429 10.285714 58.857143 26.857143t45.714286 46.571429 19.428571 66.571429zm-42.285714-356.571429q24 26.857143 31.142857 62t-3.714286 67.142857q-4.571429 13.142857-16.857143 19.428571t-25.428571 2.285714q-13.142857-4.571429-19.428571-16.857143t-2.285714-25.428571q11.428571-36-13.714286-63.428571t-61.142857-20q-13.714286 2.857143-25.714286-4.571429t-14.285714-21.142857q-2.857143-13.714286 4.571429-25.428571t21.142857-14.571429q34.285714-7.428571 68 3.142857t57.714286 37.428571zm103.428571-93.142857q49.714286 54.857143 64.285714 127.142857t-7.714286 138q-5.142857 15.428571-19.428571 22.857143t-29.714286 2.285714-22.857143-19.428571-2.857143-29.714286q16-46.857143 5.714286-98.285714t-45.714286-90.285714q-35.428571-39.428571-84.571429-54.571429t-98.857143-4.857143q-16 3.428571-29.714286-5.428571t-17.142857-24.857143 5.428571-29.428571 24.857143-16.857143q70.285714-14.857143 139.428571 6.571429t118.857143 76.857143z"></path>
+</svg>
+
+    </a>
+
+
+<a href="http://veh47.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+
+  <span class="copyright-year">
+    &copy;
+    
+       -
+    2020
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Eleven
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css"
+    integrity="sha384-BdGj8xC2eZkQaxoQ8nSLefg4AV4/AwB3Fj+8SUSo7pnKP6Eoy18liIKTPn9oBYNG"
+    crossorigin="anonymous">
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.js"
+    integrity="sha384-JiKN5O8x9Hhs/UE5cT5AAJqieYlOZbGT3CHws/y97o3ty4R7/O5poG9F3JoiOYw1"
+    crossorigin="anonymous"></script>
+
+  
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+    crossorigin="anonymous" onload="renderMathInElement(document.body);">
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        
+      });
+    });
+  </script>
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    $("#openSearch, #openSearchMobile").click(function(){
+      $(".modal-dialog").addClass("visible");
+    });
+
+    $("#closeSearch").click(function(){
+      $(".modal-dialog").removeClass("visible");
+    });
+
+    $(document).click(function(event) {
+    
+      if (!$(event.target).closest(".modal-content, #openSearch, #openSearchMobile").length) {
+        $("body").find(".modal-dialog").removeClass("visible");
+      }
+    });
+  </script>
+
+
+
+
+
+</body>
+</html>

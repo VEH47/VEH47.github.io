@@ -63,7 +63,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://veh47.github.io/" />
 
-<meta property="og:updated_time" content="2020-01-09T11:56:39+08:00" />
+<meta property="og:updated_time" content="2020-01-09T23:40:27+08:00" />
 <meta itemprop="name" content="Eleven">
 <meta itemprop="description" content="Hugo theme jane example site.">
 
@@ -353,15 +353,15 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/go%E5%9F%BA%E7%A1%80%E5%8C%85%E7%A4%BA%E4%BE%8B/">Go基础包示例</a>
+      <a class="post-link" href="/post/kubernetes-master%E8%8A%82%E7%82%B9%E9%83%A8%E7%BD%B2%E4%BB%8B%E7%BB%8D%E5%92%8C%E5%89%8D%E7%BD%AE%E5%B7%A5%E4%BD%9C/">Kubernetes Master节点部署介绍和前置工作</a>
     </h1>
     
     <div class="post-meta">
-      <time datetime="2019-12-31" class="post-time">
-        2019-12-31
+      <time datetime="2020-01-09" class="post-time">
+        2020-01-09
       </time>
       <div class="post-category">
-          <a href="http://veh47.github.io/categories/golang/"> Golang </a>
+          <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
           
         </div>
       
@@ -373,10 +373,10 @@
   <div class="post-content">
     
     <div class="post-summary">
-      在工程化的Go语言开发项目中，Go语言的源码复用是建立在包（package）基础之上的。本文介绍了Go语言中如何定义包、如何导出包的内容及如
+      到这里你的etcd基本创建完成, 接下来就该master节点部署 组件介绍 kubernetes master节点运行组件如下: kube-apiserver、kube
     </div>
     <div class="read-more">
-      <a href="/post/go%E5%9F%BA%E7%A1%80%E5%8C%85%E7%A4%BA%E4%BE%8B/" class="read-more-link">Read more</a>
+      <a href="/post/kubernetes-master%E8%8A%82%E7%82%B9%E9%83%A8%E7%BD%B2%E4%BB%8B%E7%BB%8D%E5%92%8C%E5%89%8D%E7%BD%AE%E5%B7%A5%E4%BD%9C/" class="read-more-link">Read more</a>
     </div>
     
   </div>
@@ -387,15 +387,15 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/go%E6%8E%A5%E5%8F%A3%E7%A4%BA%E4%BE%8B/">Go接口示例</a>
+      <a class="post-link" href="/post/kubernetes-etcd%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/">Kubernetes ETCD集群部署</a>
     </h1>
     
     <div class="post-meta">
-      <time datetime="2019-12-31" class="post-time">
-        2019-12-31
+      <time datetime="2020-01-09" class="post-time">
+        2020-01-09
       </time>
       <div class="post-category">
-          <a href="http://veh47.github.io/categories/golang/"> Golang </a>
+          <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
           
         </div>
       
@@ -407,10 +407,10 @@
   <div class="post-content">
     
     <div class="post-summary">
-      接口（interface）定义了一个对象的行为规范，只定义规范不实现，由具体的对象来实现规范的细节。 在Go语言中接口（interface）是
+      etcd在整个集群中担任数据库的角色, 所以一般都使用高可用, 这里使用三台, 也就是三台master节点 下载和分发etcd二进制文件 创建etcd
     </div>
     <div class="read-more">
-      <a href="/post/go%E6%8E%A5%E5%8F%A3%E7%A4%BA%E4%BE%8B/" class="read-more-link">Read more</a>
+      <a href="/post/kubernetes-etcd%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/" class="read-more-link">Read more</a>
     </div>
     
   </div>
@@ -421,15 +421,15 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/go%E7%BB%93%E6%9E%84%E4%BD%93%E7%A4%BA%E4%BE%8B/">Go结构体示例</a>
+      <a class="post-link" href="/post/kubernetes%E9%83%A8%E7%BD%B2%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C/">Kubernetes部署前期准备工作</a>
     </h1>
     
     <div class="post-meta">
-      <time datetime="2019-12-31" class="post-time">
-        2019-12-31
+      <time datetime="2020-01-09" class="post-time">
+        2020-01-09
       </time>
       <div class="post-category">
-          <a href="http://veh47.github.io/categories/golang/"> Golang </a>
+          <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
           
         </div>
       
@@ -441,10 +441,10 @@
   <div class="post-content">
     
     <div class="post-summary">
-      Go语言中没有“类”的概念，也不支持“类”的继承等面向对象的概念。Go语言中通过结构体的内嵌再配合接口比面向对象具有更高的扩展性和灵活性。 G
+      上一篇文章基本把环境准备好了, 这些该做一些前期的准备工作, 再说一次别照抄,自己看着想着,细心点 不然自己找坑 安装cfssl工具集 本文章使用Cl
     </div>
     <div class="read-more">
-      <a href="/post/go%E7%BB%93%E6%9E%84%E4%BD%93%E7%A4%BA%E4%BE%8B/" class="read-more-link">Read more</a>
+      <a href="/post/kubernetes%E9%83%A8%E7%BD%B2%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C/" class="read-more-link">Read more</a>
     </div>
     
   </div>
@@ -455,15 +455,15 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/go%E6%8C%87%E9%92%88%E7%A4%BA%E4%BE%8B/">Go指针示例</a>
+      <a class="post-link" href="/post/kubernetes%E7%8E%AF%E5%A2%83%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/">Kubernetes环境介绍与基础配置</a>
     </h1>
     
     <div class="post-meta">
-      <time datetime="2019-12-31" class="post-time">
-        2019-12-31
+      <time datetime="2020-01-09" class="post-time">
+        2020-01-09
       </time>
       <div class="post-category">
-          <a href="http://veh47.github.io/categories/golang/"> Golang </a>
+          <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
           
         </div>
       
@@ -475,10 +475,10 @@
   <div class="post-content">
     
     <div class="post-summary">
-      区别于C/C++中的指针，Go语言中的指针不能进行偏移和运算，是安全指针。 要搞明白Go语言中的指针需要先知道3个概念：指针地址、指针类型和指
+      简介 本系列文档将介绍如何使用二进制部署 Kubernetes v1.15.6集群的所有部署，而不是使用自动化部署(kubeadm)集群。在部署过程中，将详细列出各
     </div>
     <div class="read-more">
-      <a href="/post/go%E6%8C%87%E9%92%88%E7%A4%BA%E4%BE%8B/" class="read-more-link">Read more</a>
+      <a href="/post/kubernetes%E7%8E%AF%E5%A2%83%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/" class="read-more-link">Read more</a>
     </div>
     
   </div>
@@ -489,12 +489,12 @@
   <header class="post-header">
     <h1 class="post-title">
       
-      <a class="post-link" href="/post/go-map%E7%A4%BA%E4%BE%8B/">Go map示例</a>
+      <a class="post-link" href="/post/go%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">Go性能调优</a>
     </h1>
     
     <div class="post-meta">
-      <time datetime="2019-12-31" class="post-time">
-        2019-12-31
+      <time datetime="2020-01-09" class="post-time">
+        2020-01-09
       </time>
       <div class="post-category">
           <a href="http://veh47.github.io/categories/golang/"> Golang </a>
@@ -509,13 +509,10 @@
   <div class="post-content">
     
     <div class="post-summary">
-      <p>Go语言中提供的映射关系容器为map，其内部使用散列表（hash）实现。</p>
-
-<p>map是一种无序的基于key-value的数据结构，Go语言中的map是引用类型，必须初始化才能使用。
-Map 是go内置的数据结构，是一种无序的键值对的集合，可以通过key快速找到value的值</p>
+      在计算机性能调试领域里，profiling 是指对应用程序的画像，画像就是应用程序使用 CPU 和内存的情况。 Go语言是一个对性能特别看重的语言，因此
     </div>
     <div class="read-more">
-      <a href="/post/go-map%E7%A4%BA%E4%BE%8B/" class="read-more-link">Read more</a>
+      <a href="/post/go%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" class="read-more-link">Read more</a>
     </div>
     
   </div>
@@ -544,65 +541,547 @@ Map 是go内置的数据结构，是一种无序的键值对的集合，可以�
 
   
   
-  <nav class="pagination">
-    <ul>
-      
-      <li >
-        <a href="/">1</a>
-      </li>
-      
-      <li >
-        <a href="/page/2/">2</a>
-      </li>
-      
-      <li >
-        <a href="/page/3/">3</a>
-      </li>
-      
-      <li  class="active" >
-        <a href="/page/4/">4</a>
-      </li>
-      
-      <li >
-        <a href="/page/5/">5</a>
-      </li>
-      
-      <li >
-        <a href="/page/6/">6</a>
-      </li>
-      
-      <li >
-        <a href="/page/7/">7</a>
-      </li>
-      
-      <li >
-        <a href="/page/8/">8</a>
-      </li>
-      
-      <li >
-        <a href="/page/9/">9</a>
-      </li>
-      
-      <li >
-        <a href="/page/10/">10</a>
-      </li>
-      
-      <li >
-        <a href="/page/11/">11</a>
-      </li>
-      
-      <li >
-        <a href="/page/12/">12</a>
-      </li>
-      
-      <li >
-        <a href="/page/13/">13</a>
-      </li>
-      
-    </ul>
-  </nav>
 
-  
+    <nav class="pagination">
+      <ul>
+
+      
+      
+      <li><a href="/">««</a></li>
+      
+
+      
+      
+      <li><a href="/page/3/">«</a></li>
+      
+
+      
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/">
+              1
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/2/">
+              2
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/3/">
+              3
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="active">
+            <a href="/page/4/">
+              4
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/5/">
+              5
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/6/">
+              6
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/7/">
+              7
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/8/">
+              8
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/9/">
+              9
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/10/">
+              10
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/11/">
+              11
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/12/">
+              12
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+              
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+          <li class="">
+            <a href="/page/13/">
+              13
+            </a>
+          </li>
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+
+      
+
+        
+
+        
+        
+
+          
+          
+          
+
+            
+            
+
+          
+          
+          
+
+        
+        
+
+        
+        
+
+      
+
+      
+      
+      <li><a href="/page/5/">»</a></li>
+      
+
+      
+      
+      <li><a href="/page/17/">»»</a></li>
+      
+
+      </ul>
+    </nav>
   
 
 
