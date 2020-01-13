@@ -16,14 +16,14 @@
   </url>
   
   <url>
-    <loc>http://veh47.github.io/tags/kubernetes/</loc>
+    <loc>http://veh47.github.io/categories/kubernetes/</loc>
     <lastmod>2020-01-09T23:40:27+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://veh47.github.io/categories/kubernetes/</loc>
+    <loc>http://veh47.github.io/tags/kubernetes/</loc>
     <lastmod>2020-01-09T23:40:27+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -569,14 +569,14 @@
   </url>
   
   <url>
-    <loc>http://veh47.github.io/categories/shell/</loc>
+    <loc>http://veh47.github.io/tags/shell/</loc>
     <lastmod>2019-09-29T17:19:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://veh47.github.io/tags/shell/</loc>
+    <loc>http://veh47.github.io/categories/shell/</loc>
     <lastmod>2019-09-29T17:19:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -716,14 +716,14 @@
   </url>
   
   <url>
-    <loc>http://veh47.github.io/tags/kvm/</loc>
+    <loc>http://veh47.github.io/categories/kvm/</loc>
     <lastmod>2019-09-29T14:13:51+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://veh47.github.io/categories/kvm/</loc>
+    <loc>http://veh47.github.io/tags/kvm/</loc>
     <lastmod>2019-09-29T14:13:51+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -744,14 +744,14 @@
   </url>
   
   <url>
-    <loc>http://veh47.github.io/tags/docker/</loc>
+    <loc>http://veh47.github.io/categories/docker/</loc>
     <lastmod>2019-09-29T10:48:50+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://veh47.github.io/categories/docker/</loc>
+    <loc>http://veh47.github.io/tags/docker/</loc>
     <lastmod>2019-09-29T10:48:50+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
