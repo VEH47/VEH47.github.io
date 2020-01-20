@@ -71,7 +71,7 @@
 
 <meta itemprop="datePublished" content="2020-01-09T23:34:50&#43;08:00" />
 <meta itemprop="dateModified" content="2020-01-09T23:34:50&#43;08:00" />
-<meta itemprop="wordCount" content="3004">
+<meta itemprop="wordCount" content="3655">
 
 
 
@@ -370,9 +370,8 @@
 <li><a href="#为什么需要prometheus-operator">为什么需要prometheus-operator</a></li>
 <li><a href="#相关crd介绍">相关CRD介绍</a></li>
 <li><a href="#部署prometheus-operator">部署prometheus-operator</a></li>
+<li><a href="#prometheus持久化存储">prometheus持久化存储</a></li>
 </ul></li>
-<li><a href="#protocol-tcp">protocol: TCP</a></li>
-<li><a href="#protocol-tcp-1">protocol: TCP</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -500,8 +499,48 @@ http://NodeIP:30093</pre></td></tr></table>
 并且这里没有对应的ep, 所以需要创建</p>
 
 <p>所以这里我们创建两个管理组建的svc,名字无所谓,关键是svc的label要能被servicemonitor选中,  如果是二进制部署的这俩svc的selector部分不能要</p>
-
-<p>cat &gt; kube-controller-scheduler-svc.yaml &lt;&lt;EOF
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">cat &gt; kube-controller-scheduler-svc.yaml &lt;&lt;EOF
 apiVersion: v1
 kind: Service
 metadata:
@@ -517,11 +556,10 @@ spec:
   ports:
   - name: http-metrics
     port: 10252
-    targetPort: 10252</p>
-
-<h2 id="protocol-tcp">protocol: TCP</h2>
-
-<p>apiVersion: v1
+    targetPort: 10252
+    protocol: TCP
+---
+apiVersion: v1
 kind: Service
 metadata:
   namespace: kube-system
@@ -538,11 +576,53 @@ spec:
     port: 10251
     targetPort: 10251
     protocol: TCP
-EOF</p>
-
+EOF</pre></td></tr></table>
+</div>
+</div>
 <p>二进制的话需要我们手动填入svc对应的ep的属性,我集群是HA的,所有有三个,仅供参考,别傻傻得照抄,另外这个ep的名字得和上面的svc的名字和属性对应上</p>
-
-<p>cat &gt; kube-controller-scheduler-ep.yaml &lt;&lt;EOF
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">cat &gt; kube-controller-scheduler-ep.yaml &lt;&lt;EOF
 apiVersion: v1
 kind: Endpoints
 metadata:
@@ -557,11 +637,10 @@ subsets:
   - ip: 10.4.8.103
   ports:
   - name: http-metrics
-    port: 10252</p>
-
-<h2 id="protocol-tcp-1">protocol: TCP</h2>
-
-<p>apiVersion: v1
+    port: 10252
+    protocol: TCP
+---
+apiVersion: v1
 kind: Endpoints
 metadata:
   labels:
@@ -577,10 +656,151 @@ subsets:
   - name: http-metrics
     port: 10251
     protocol: TCP
-EOF</p>
+EOF
 
-<p>kubectl apply -f  kube-controller-scheduler-svc.yaml    kube-controller-scheduler-ep.yaml</p>
 
+kubectl apply -f  kube-controller-scheduler-svc.yaml    kube-controller-scheduler-ep.yaml</pre></td></tr></table>
+</div>
+</div>
+<h3 id="prometheus持久化存储">prometheus持久化存储</h3>
+
+<p>prometheus-operator 部署后自己使用的是emptyDir 进行挂载的, 我们知道 emptyDir 挂载的数据的生命周期和 Pod 生命周期一致的，所以如果 Pod 挂掉了，数据也就丢失了，这也就是为什么我们重建 Pod 后之前的数据就没有了的原因，对应线上的监控数据肯定需要做数据的持久化的，同样的 prometheus 这个 CRD 资源也为我们提供了数据持久化的配置方法，由于我们的 Prometheus 最终是通过 Statefulset 控制器进行部署的，所以我们这里需要通过 storageclass 来做数据持久化</p>
+
+<p>如果你之前就做过持久化存储, 那么在这里只需要创建sc就可以, 最好是同一命名空间内</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master01 /opt/k8s/yaml/prometheus/sc]# cat nfs-client-class.yaml 
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: prometheus-data-db
+  namespace: monitoring
+provisioner: fuseim.pri/ifs</pre></td></tr></table>
+</div>
+</div>
+<p>这里我们声明一个 StorageClass 对象，其中 provisioner=fuseim.pri/ifs，则是因为我们集群中使用的是 nfs 作为存储后端，而前面我们课程中创建的 nfs-client-provisioner 中指定的 PROVISIONER_NAME 就为 fuseim.pri/ifs，这个名字不能随便更改</p>
+
+<p>然后在 prometheus 的 CRD 资源对象中添加如下配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master01 /opt/k8s/yaml/prometheus/kube-prometheus/manifests]# cat prometheus-prometheus.yaml 
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  labels:
+    prometheus: k8s
+  name: k8s
+  namespace: monitoring
+spec:
+  alerting:
+    alertmanagers:
+    - name: alertmanager-main
+      namespace: monitoring
+      port: web
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: prometheus-data-db
+        resources:
+          requests:
+            storage: 10Gi
+  baseImage: quay.azk8s.cn/prometheus/prometheus
+  nodeSelector:
+    kubernetes.io/os: linux
+  podMonitorNamespaceSelector: {}
+  podMonitorSelector: {}
+  replicas: 2
+  resources:
+    requests:
+      memory: 400Mi
+  ruleSelector:
+    matchLabels:
+      prometheus: k8s
+      role: alert-rules
+  securityContext:
+    fsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 1000
+  additionalScrapeConfigs:
+    name: additional-configs
+    key: prometheus-additional.yaml
+  serviceAccountName: prometheus-k8s
+  serviceMonitorNamespaceSelector: {}
+  serviceMonitorSelector: {}
+  version: v2.11.0</pre></td></tr></table>
+</div>
+</div>
+<p>修改后直接使用apply更新pod, 查看一下pv是否创建成功就可以了</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">[root@master01 /opt/k8s/yaml/prometheus/kube-prometheus/manifests]# kubectl get pv -n monitoring
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                           STORAGECLASS         REASON   AGE
+pvc-0f8510a1-874a-4a1b-9258-49ca7fcb58b2   10Gi       RWO            Delete           Bound    monitoring/prometheus-k8s-db-prometheus-k8s-1   prometheus-data-db            17m
+pvc-f632dfe7-d801-4591-8cb4-81e41014cd46   10Gi       RWO            Delete           Bound    monitoring/prometheus-k8s-db-prometheus-k8s-0   prometheus-data-db            17m</pre></td></tr></table>
+</div>
+</div>
     </div>
 
     

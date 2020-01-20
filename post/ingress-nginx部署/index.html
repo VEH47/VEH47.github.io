@@ -71,7 +71,7 @@
 
 <meta itemprop="datePublished" content="2020-01-16T13:48:39&#43;08:00" />
 <meta itemprop="dateModified" content="2020-01-16T13:48:39&#43;08:00" />
-<meta itemprop="wordCount" content="2468">
+<meta itemprop="wordCount" content="2466">
 
 
 
@@ -1000,11 +1000,11 @@ spec:
           ports:
             - name: http
               containerPort: 80
-          #    hostPort: 80
+              hostPort: 80
               protocol: TCP
             - name: https
               containerPort: 443
-          #    hostPort: 443
+              hostPort: 443
               protocol: TCP
           livenessProbe:
             failureThreshold: 3
