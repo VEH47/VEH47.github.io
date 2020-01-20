@@ -5,10 +5,21 @@
     <link>http://veh47.github.io/</link>
     <description>Recent content on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 16 Jan 2020 13:48:39 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jan 2020 16:32:26 +0800</lastBuildDate>
     
         <atom:link href="http://veh47.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Prometheus Operator 自定义发现</title>
+      <link>http://veh47.github.io/post/prometheus-operaotr%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/</link>
+      <pubDate>Mon, 20 Jan 2020 16:32:26 +0800</pubDate>
+      
+      <guid>http://veh47.github.io/post/prometheus-operaotr%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/</guid>
+      
+        <description>我们在之前的文章中写了prometheus-operator的自定义监控 自定义告警. 但是假如集群中有几十个或几百个service/pod, 如</description>
+      
+    </item>
     
     <item>
       <title>Ingress Nginx部署</title>
@@ -216,17 +227,6 @@
       <guid>http://veh47.github.io/post/kubernetes%E9%83%A8%E7%BD%B2%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C/</guid>
       
         <description>上一篇文章基本把环境准备好了, 这些该做一些前期的准备工作, 再说一次别照抄,自己看着想着,细心点 不然自己找坑 安装cfssl工具集 本文章使用Cl</description>
-      
-    </item>
-    
-    <item>
-      <title>Kubernetes环境介绍与基础配置</title>
-      <link>http://veh47.github.io/post/kubernetes%E7%8E%AF%E5%A2%83%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/</link>
-      <pubDate>Thu, 09 Jan 2020 16:54:33 +0800</pubDate>
-      
-      <guid>http://veh47.github.io/post/kubernetes%E7%8E%AF%E5%A2%83%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/</guid>
-      
-        <description>简介 本系列文档将介绍如何使用二进制部署 Kubernetes v1.15.6集群的所有部署，而不是使用自动化部署(kubeadm)集群。在部署过程中，将详细列出各</description>
       
     </item>
     
