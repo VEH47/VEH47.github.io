@@ -72,7 +72,7 @@
 
 <meta itemprop="datePublished" content="2019-10-06T13:45:35&#43;08:00" />
 <meta itemprop="dateModified" content="2019-10-06T13:45:35&#43;08:00" />
-<meta itemprop="wordCount" content="668">
+<meta itemprop="wordCount" content="1901">
 
 
 
@@ -372,6 +372,11 @@
 <li><a href="#2-37-个保留字">2. 37 个保留字</a></li>
 <li><a href="#3-内置类型">3. 内置类型</a></li>
 <li><a href="#4-内置函数">4. 内置函数</a></li>
+<li><a href="#浮点型">浮点型</a></li>
+<li><a href="#字符串的常用操作">字符串的常用操作</a></li>
+<li><a href="#byte和rune类型">byte和rune类型</a></li>
+<li><a href="#修改字符串">修改字符串</a></li>
+<li><a href="#类型转换">类型转换</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -671,6 +676,213 @@
 <h3 id="4-内置函数">4. 内置函数</h3>
 
 <p>Go 语言拥有一些不需要进行导入操作就可以使用的内置函数。它们有时可以针对不同的类型进行操作，例如：len、cap 和 append，或必须用于系统级的操作，例如：panic。因此，它们需要直接获得编译器的支持。</p>
+
+<h3 id="浮点型">浮点型</h3>
+
+<p>Go语言支持两种浮点型数：float32和float64。这两种浮点型数据格式遵循IEEE 754标准： float32 的浮点数的最大范围约为 3.4e38，可以使用常量定义：math.MaxFloat32。 float64 的浮点数的最大范围约为 1.8e308，可以使用一个常量定义：math.MaxFloat64。</p>
+
+<p>打印浮点数时，可以使用fmt包配合动词%f，代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma"><span class="kn">package</span> <span class="nx">main</span>
+<span class="kn">import</span> <span class="p">(</span>
+        <span class="s">&#34;fmt&#34;</span>
+        <span class="s">&#34;math&#34;</span>
+<span class="p">)</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%f\n&#34;</span><span class="p">,</span> <span class="nx">math</span><span class="p">.</span><span class="nx">Pi</span><span class="p">)</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%.2f\n&#34;</span><span class="p">,</span> <span class="nx">math</span><span class="p">.</span><span class="nx">Pi</span><span class="p">)</span>
+<span class="p">}</span></pre></td></tr></table>
+</div>
+</div>
+<h3 id="字符串的常用操作">字符串的常用操作</h3>
+
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th align="center">介绍</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>len(str)</td>
+<td align="center">求长度</td>
+</tr>
+
+<tr>
+<td>+或fmt.Sprintf</td>
+<td align="center">拼接字符串</td>
+</tr>
+
+<tr>
+<td>strings.Split</td>
+<td align="center">分割</td>
+</tr>
+
+<tr>
+<td>strings.contains</td>
+<td align="center">判断是否包含</td>
+</tr>
+
+<tr>
+<td>strings.HasPrefix,strings.HasSuffix</td>
+<td align="center">前缀/后缀判断</td>
+</tr>
+
+<tr>
+<td>strings.Index(),strings.LastIndex()</td>
+<td align="center">子串出现的位置</td>
+</tr>
+
+<tr>
+<td>strings.Join(a[]string, sep string)</td>
+<td align="center">join操作</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="byte和rune类型">byte和rune类型</h3>
+
+<p>组成每个字符串的元素叫做“字符”，可以通过遍历或者单个获取字符串元素获得字符。 字符用单引号（’）包裹起来，如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">var a := &#39;中&#39;
+var b := &#39;x&#39;</pre></td></tr></table>
+</div>
+</div>
+<p>Go 语言的字符有以下两种：</p>
+
+<p>uint8类型，或者叫 byte 型，代表了ASCII码的一个字符。<br />
+rune类型，代表一个 UTF-8字符。<br />
+当需要处理中文、日文或者其他复合字符时，则需要用到rune类型。rune类型实际是一个int32。</p>
+
+<p>Go 使用了特殊的 rune 类型来处理 Unicode，让基于 Unicode 的文本处理更为方便，也可以使用 byte 型进行默认字符串处理，性能和扩展性都有照顾。</p>
+
+<p>// 遍历字符串</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func traversalString() {
+    s := &#34;hello沙河&#34;
+    for i := 0; i &lt; len(s); i++ { //byte
+        fmt.Printf(&#34;%v(%c) &#34;, s[i], s[i])
+    }
+    fmt.Println()
+    for _, r := range s { //rune
+        fmt.Printf(&#34;%v(%c) &#34;, r, r)
+    }
+    fmt.Println()
+}</pre></td></tr></table>
+</div>
+</div>
+<p>输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">104(h) 101(e) 108(l) 108(l) 111(o) 230(æ) 178(²) 153() 230(æ) 178(²) 179(³) 
+104(h) 101(e) 108(l) 108(l) 111(o) 27801(沙) 27827(河) </pre></td></tr></table>
+</div>
+</div>
+<p>因为UTF8编码下一个中文汉字由3~4个字节组成，所以我们不能简单的按照字节去遍历一个包含中文的字符串，否则就会出现上面输出中第一行的结果。</p>
+
+<p>字符串底层是一个byte数组，所以可以和[]byte类型相互转换。字符串是不能修改的 字符串是由byte字节组成，所以字符串的长度是byte字节的长度。 rune类型用来表示utf8字符，一个rune字符由一个或多个byte组成。</p>
+
+<h3 id="修改字符串">修改字符串</h3>
+
+<p>要修改字符串，需要先将其转换成[]rune或[]byte，完成后再转换为string。无论哪种转换，都会重新分配内存，并复制字节数组。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func changeString() {
+    s1 := &#34;big&#34;
+    // 强制类型转换
+    byteS1 := []byte(s1)
+    byteS1[0] = &#39;p&#39;
+    fmt.Println(string(byteS1))
+
+    s2 := &#34;白萝卜&#34;
+    runeS2 := []rune(s2)
+    runeS2[0] = &#39;红&#39;
+    fmt.Println(string(runeS2))
+}</pre></td></tr></table>
+</div>
+</div>
+<h3 id="类型转换">类型转换</h3>
+
+<p>Go语言中只有强制类型转换，没有隐式类型转换。该语法只能在两个类型之间支持相互转换的时候使用。</p>
+
+<p>强制类型转换的基本语法如下：</p>
+
+<p>T(表达式)</p>
+
+<p>其中，T表示要转换的类型。表达式包括变量、复杂算子和函数返回值等.</p>
+
+<p>比如计算直角三角形的斜边长时使用math包的Sqrt()函数，该函数接收的是float64类型的参数，而变量a和b都是int类型的，这个时候就需要将a和b强制类型转换为float64类型。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">func sqrtDemo() {
+    var a, b = 3, 4
+    var c int
+    // math.Sqrt()接收的参数是float64类型，需要强制转换
+    c = int(math.Sqrt(float64(a*a + b*b)))
+    fmt.Println(c)
+}</pre></td></tr></table>
+</div>
+</div>
     </div>
 
     
