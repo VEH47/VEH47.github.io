@@ -5,10 +5,19 @@
     <link>http://veh47.github.io/categories/kubernetes/</link>
     <description>Recent content in Kubernetes on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 20 Jan 2020 16:32:26 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 25 Mar 2020 19:35:35 +0800</lastBuildDate>
     
 	<atom:link href="http://veh47.github.io/categories/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>K8S yaml文件名词解释</title>
+      <link>http://veh47.github.io/post/k8s-yaml%E6%96%87%E4%BB%B6%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/</link>
+      <pubDate>Wed, 25 Mar 2020 19:35:35 +0800</pubDate>
+      
+      <guid>http://veh47.github.io/post/k8s-yaml%E6%96%87%E4%BB%B6%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/</guid>
+      <description>Deployment 简述 Deployment 为 Pod 和 ReplicaSet 提供了一个声明式定义 (declarative) 方法，用来替代以前的 ReplicationController 更方便的管理应用。 作为最常用的 Kubernetes 对象，Deployment 经常会用来创建 ReplicaSet 和 Po</description>
+    </item>
     
     <item>
       <title>Prometheus Operator 自定义发现</title>
@@ -179,15 +188,6 @@
       
       <guid>http://veh47.github.io/post/kubernetes-etcd%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</guid>
       <description>etcd在整个集群中担任数据库的角色, 所以一般都使用高可用, 这里使用三台, 也就是三台master节点 下载和分发etcd二进制文件 创建etcd</description>
-    </item>
-    
-    <item>
-      <title>Kubernetes部署前期准备工作</title>
-      <link>http://veh47.github.io/post/kubernetes%E9%83%A8%E7%BD%B2%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C/</link>
-      <pubDate>Thu, 09 Jan 2020 17:23:57 +0800</pubDate>
-      
-      <guid>http://veh47.github.io/post/kubernetes%E9%83%A8%E7%BD%B2%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C/</guid>
-      <description>上一篇文章基本把环境准备好了, 这些该做一些前期的准备工作, 再说一次别照抄,自己看着想着,细心点 不然自己找坑 安装cfssl工具集 本文章使用Cl</description>
     </item>
     
   </channel>

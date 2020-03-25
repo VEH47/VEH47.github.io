@@ -63,7 +63,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://veh47.github.io/" />
 
-<meta property="og:updated_time" content="2020-01-20T16:32:26+08:00" />
+<meta property="og:updated_time" content="2020-03-25T20:16:08+08:00" />
 <meta itemprop="name" content="Eleven">
 <meta itemprop="description" content="Hugo theme jane example site.">
 
@@ -378,6 +378,74 @@
   <header class="post-header">
     <h1 class="post-title">
       
+      <a class="post-link" href="/post/kube-proxy%E7%BB%84%E4%BB%B6%E9%83%A8%E7%BD%B2/">Kube Proxy组件部署</a>
+    </h1>
+    
+    <div class="post-meta">
+      <time datetime="2020-01-09" class="post-time">
+        2020-01-09
+      </time>
+      <div class="post-category">
+          <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
+          
+        </div>
+      
+      
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    
+    <div class="post-summary">
+      kube-proxy运行在所有节点上，它监听apiserver中service和endpoint的变化情况，创建路由规则提供服务IP和负载均
+    </div>
+    <div class="read-more">
+      <a href="/post/kube-proxy%E7%BB%84%E4%BB%B6%E9%83%A8%E7%BD%B2/" class="read-more-link">Read more</a>
+    </div>
+    
+  </div>
+</article>
+
+  
+    <article class="post bg-white">
+  <header class="post-header">
+    <h1 class="post-title">
+      
+      <a class="post-link" href="/post/kubelet%E7%BB%84%E4%BB%B6%E5%AE%89%E8%A3%85/">Kubelet组件安装</a>
+    </h1>
+    
+    <div class="post-meta">
+      <time datetime="2020-01-09" class="post-time">
+        2020-01-09
+      </time>
+      <div class="post-category">
+          <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
+          
+        </div>
+      
+      
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    
+    <div class="post-summary">
+      kubelet运行在每个worker节点上，接收kube-apiserver发送的请求，管理Pod容器，执行交互命令, 如果你的master节
+    </div>
+    <div class="read-more">
+      <a href="/post/kubelet%E7%BB%84%E4%BB%B6%E5%AE%89%E8%A3%85/" class="read-more-link">Read more</a>
+    </div>
+    
+  </div>
+</article>
+
+  
+    <article class="post bg-white">
+  <header class="post-header">
+    <h1 class="post-title">
+      
       <a class="post-link" href="/post/docker%E5%AE%89%E8%A3%85/">Docker安装</a>
     </h1>
     
@@ -470,74 +538,6 @@
     </div>
     <div class="read-more">
       <a href="/post/%E9%83%A8%E7%BD%B2%E9%AB%98%E5%8F%AF%E7%94%A8schduler/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/%E9%83%A8%E7%BD%B2kube-controller-manager%E9%AB%98%E5%8F%AF%E7%94%A8/">部署kube Controller Manager高可用</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2020-01-09" class="post-time">
-        2020-01-09
-      </time>
-      <div class="post-category">
-          <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
-          
-        </div>
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      该集群包含三个节点，启动后通过竞争选举机制产生一个leader节点，其他节点为阻塞状态。当leader节点不可用时， 阻塞节点将会在此选举产生
-    </div>
-    <div class="read-more">
-      <a href="/post/%E9%83%A8%E7%BD%B2kube-controller-manager%E9%AB%98%E5%8F%AF%E7%94%A8/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/%E6%B5%8B%E8%AF%95%E8%AE%BF%E9%97%AEapiserver%E7%8A%B6%E6%80%81/">测试访问apiserver状态</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2020-01-09" class="post-time">
-        2020-01-09
-      </time>
-      <div class="post-category">
-          <a href="http://veh47.github.io/categories/kubernetes/"> Kubernetes </a>
-          
-        </div>
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      到这里，ETCD集群、kube-nginx + keepalived、kube-apiserver都已经安装完成。 此时可以测试一下前面安装的是否
-    </div>
-    <div class="read-more">
-      <a href="/post/%E6%B5%8B%E8%AF%95%E8%AE%BF%E9%97%AEapiserver%E7%8A%B6%E6%80%81/" class="read-more-link">Read more</a>
     </div>
     
   </div>

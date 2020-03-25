@@ -5,15 +5,24 @@
     <link>http://veh47.github.io/categories/</link>
     <description>Recent content in Categories on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 20 Jan 2020 16:32:26 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 25 Mar 2020 20:16:08 +0800</lastBuildDate>
     
 	<atom:link href="http://veh47.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>运维</title>
+      <link>http://veh47.github.io/categories/%E8%BF%90%E7%BB%B4/</link>
+      <pubDate>Wed, 25 Mar 2020 20:16:08 +0800</pubDate>
+      
+      <guid>http://veh47.github.io/categories/%E8%BF%90%E7%BB%B4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Kubernetes</title>
       <link>http://veh47.github.io/categories/kubernetes/</link>
-      <pubDate>Mon, 20 Jan 2020 16:32:26 +0800</pubDate>
+      <pubDate>Wed, 25 Mar 2020 19:35:35 +0800</pubDate>
       
       <guid>http://veh47.github.io/categories/kubernetes/</guid>
       <description></description>
@@ -25,15 +34,6 @@
       <pubDate>Thu, 09 Jan 2020 11:56:39 +0800</pubDate>
       
       <guid>http://veh47.github.io/categories/golang/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>运维</title>
-      <link>http://veh47.github.io/categories/%E8%BF%90%E7%BB%B4/</link>
-      <pubDate>Tue, 31 Dec 2019 10:45:07 +0800</pubDate>
-      
-      <guid>http://veh47.github.io/categories/%E8%BF%90%E7%BB%B4/</guid>
       <description></description>
     </item>
     
