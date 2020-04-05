@@ -71,7 +71,7 @@
 
 <meta itemprop="datePublished" content="2020-04-05T13:35:03&#43;08:00" />
 <meta itemprop="dateModified" content="2020-04-05T13:35:03&#43;08:00" />
-<meta itemprop="wordCount" content="15720">
+<meta itemprop="wordCount" content="15750">
 
 
 
@@ -409,7 +409,13 @@
 <ul>
 <li>
 <ul>
-<li><a href="#初级篇">初级篇</a></li>
+<li><a href="#初级篇">初级篇</a>
+<ul>
+<li>
+<ul>
+<li><a href="#1-左大括号-一般不能单独放一行">1. 左大括号 {， 一般不能单独放一行</a></li>
+</ul></li>
+</ul></li>
 <li><a href="#中级篇">中级篇</a></li>
 <li><a href="#高级篇">高级篇</a></li>
 <li><a href="#感谢原作者-kcqon-总结的这篇博客-让我受益匪浅">感谢原作者 kcqon 总结的这篇博客，让我受益匪浅。</a></li>
@@ -432,38 +438,73 @@
 
 <h3 id="初级篇">初级篇</h3>
 
-<ol>
-<li><p>左大括号 {， 一般不能单独放一行
-在其他大多数语言中，{ 的位置你自行决定。Go 比较特别，遵守分号注入规则（automatic semicolon injection）：编译器会在每行代码尾部特定分隔符后加 ; 来分隔多条语句，比如会在 ) 后加分号：</p>
+<h5 id="1-左大括号-一般不能单独放一行">1. 左大括号 {， 一般不能单独放一行</h5>
 
-<p>// 错误示例
-func main()<br />
+<p>在其他大多数语言中，{ 的位置你自行决定。Go 比较特别，遵守分号注入规则（automatic semicolon injection）：编译器会在每行代码尾部特定分隔符后加 ; 来分隔多条语句，比如会在 ) 后加分号：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// 错误示例
+func main()                 
 {
-    println(&ldquo;hello world&rdquo;)
-}</p>
-
-<p>// 等效于
-func main();    // 无函数体<br />
-{
-    println(&ldquo;hello world&rdquo;)
-}</p>
-
-<p>./main.go: missing function body ./main.go: syntax error: unexpected semicolon or newline before {</p>
-
-<p>// 正确示例
-func main() {
-    println(&ldquo;hello world&rdquo;)
+    println(&#34;hello world&#34;)
 }
-注意代码块等特殊情况：</p>
 
-<p>// { 并不遵守分号注入规则，不会在其后边自动加分，此时可换行
+// 等效于
+func main();    // 无函数体                 
+{
+    println(&#34;hello world&#34;)
+}
+
+
+./main.go: missing function body ./main.go: syntax error: unexpected semicolon or newline before {
+
+
+
+// 正确示例
+func main() {
+    println(&#34;hello world&#34;)
+}
+注意代码块等特殊情况：
+
+// { 并不遵守分号注入规则，不会在其后边自动加分，此时可换行
 func main() {
     {
-        println(&ldquo;hello world&rdquo;)
+        println(&#34;hello world&#34;)
     }
-}</p></li>
-</ol>
-
+}</pre></td></tr></table>
+</div>
+</div>
 <p>参考：Golang 中自动加分号的特殊分隔符</p>
 
 <ol>
