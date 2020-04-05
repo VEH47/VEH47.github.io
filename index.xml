@@ -27,7 +27,7 @@
 
 &lt;h3 id=&#34;初级篇&#34;&gt;初级篇&lt;/h3&gt;
 
-&lt;h5 id=&#34;1-左大括号-一般不能单独放一行&#34;&gt;1. 左大括号 {， 一般不能单独放一行&lt;/h5&gt;
+&lt;h6 id=&#34;1-左大括号-一般不能单独放一行&#34;&gt;1. 左大括号 {， 一般不能单独放一行&lt;/h6&gt;
 
 &lt;p&gt;在其他大多数语言中，{ 的位置你自行决定。Go 比较特别，遵守分号注入规则（automatic semicolon injection）：编译器会在每行代码尾部特定分隔符后加 ; 来分隔多条语句，比如会在 ) 后加分号：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -96,9 +96,7 @@ func main() {
 &lt;/div&gt;
 &lt;p&gt;参考：Golang 中自动加分号的特殊分隔符&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;未使用的变量&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;2-未使用的变量&#34;&gt;2. 未使用的变量&lt;/h6&gt;
 
 &lt;p&gt;如果在函数体代码中有未使用的变量，则无法通过编译，不过全局变量声明但不使用是可以的。&lt;/p&gt;
 
@@ -161,9 +159,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;未使用的 import&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;3-未使用的-import&#34;&gt;3. 未使用的 import&lt;/h6&gt;
 
 &lt;p&gt;如果你 import 一个包，但包中的变量、函数、接口和结构体一个都没有用到的话，将编译失败。&lt;/p&gt;
 
@@ -220,21 +216,34 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;简短声明的变量只能在函数内部使用&lt;/p&gt;
-
-&lt;p&gt;// 错误示例
+&lt;h6 id=&#34;4-简短声明的变量只能在函数内部使用&#34;&gt;4. 简短声明的变量只能在函数内部使用&lt;/h6&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;// 错误示例
 myvar := 1  // syntax error: non-declaration statement outside function body
 func main() {
-}&lt;/p&gt;
+}
 
-&lt;p&gt;// 正确示例
+
+// 正确示例
 var  myvar = 1
 func main() {
-}&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;使用简短声明来重复声明变量&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
+}&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h6 id=&#34;5-使用简短声明来重复声明变量&#34;&gt;5. 使用简短声明来重复声明变量&lt;/h6&gt;
 
 &lt;p&gt;不能用简短声明方式来单独为一个变量重复声明， := 左侧至少有一个新变量，才允许多变量的重复声明：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -269,9 +278,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;不能使用简短声明来设置字段的值&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;6-不能使用简短声明来设置字段的值&#34;&gt;6. 不能使用简短声明来设置字段的值&lt;/h6&gt;
 
 &lt;p&gt;struct 的变量字段不能使用 := 来赋值以使用预定义的变量来避免解决：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -338,9 +345,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;不小心覆盖了变量&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;7-不小心覆盖了变量&#34;&gt;7. 不小心覆盖了变量&lt;/h6&gt;
 
 &lt;p&gt;对从动态语言转过来的开发者来说，简短声明很好用，这可能会让人误会 := 是一个赋值操作符。&lt;/p&gt;
 
@@ -395,9 +400,7 @@ main.go:9: declaration of &amp;#34;x&amp;#34; shadows declaration at main.go:5&l
 main.go:10:3:Shadowing variable `x`&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;显式类型的变量无法使用 nil 来初始化&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;8-显式类型的变量无法使用-nil-来初始化&#34;&gt;8. 显式类型的变量无法使用 nil 来初始化&lt;/h6&gt;
 
 &lt;p&gt;nil 是 interface、function、pointer、map、slice 和 channel 类型变量的默认初始值。但声明时不指定类型，编译器也无法推断出变量的具体类型。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -430,9 +433,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;直接使用值为 nil 的 slice、map&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;9-直接使用值为-nil-的-slice-map&#34;&gt;9. 直接使用值为 nil 的 slice、map&lt;/h6&gt;
 
 &lt;p&gt;允许对值为 nil 的 slice 添加元素，但对值为 nil 的 map 添加元素则会造成运行时 panic&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -467,9 +468,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;map 容量&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;10-map-容量&#34;&gt;10. map 容量&lt;/h6&gt;
 
 &lt;p&gt;在创建 map 类型的变量时可以指定容量，但不能像 slice 一样使用 cap() 来检测分配空间的大小：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -488,29 +487,50 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;string 类型的变量值不能为 nil&lt;/p&gt;
+&lt;h6 id=&#34;11-string-类型的变量值不能为-nil&#34;&gt;11. string 类型的变量值不能为 nil&lt;/h6&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;对那些喜欢用 nil 初始化字符串的人来说，这就是坑：
 
-&lt;p&gt;对那些喜欢用 nil 初始化字符串的人来说，这就是坑：&lt;/p&gt;
-
-&lt;p&gt;// 错误示例
+// 错误示例
 func main() {
     var s string = nil  // cannot use nil as type string in assignment
     if s == nil {   // invalid operation: s == nil (mismatched types string and nil)
-        s = &amp;ldquo;default&amp;rdquo;
+        s = &amp;#34;default&amp;#34;
     }
-}&lt;/p&gt;
+}
 
-&lt;p&gt;// 正确示例
+
+// 正确示例
 func main() {
-    var s string    // 字符串类型的零值是空串 &amp;ldquo;&amp;rdquo;
-    if s == &amp;ldquo;&amp;rdquo; {
-        s = &amp;ldquo;default&amp;rdquo;
+    var s string    // 字符串类型的零值是空串 &amp;#34;&amp;#34;
+    if s == &amp;#34;&amp;#34; {
+        s = &amp;#34;default&amp;#34;
     }
-}&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Array 类型的值作为函数参数&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
+}&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h6 id=&#34;12-array-类型的值作为函数参数&#34;&gt;12. Array 类型的值作为函数参数&lt;/h6&gt;
 
 &lt;p&gt;在 C/C++ 中，数组（名）是指针。将数组作为参数传进函数时，相当于传递了数组内存地址的引用，在函数内部会改变该数组的值。&lt;/p&gt;
 
@@ -595,9 +615,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;range 遍历 slice 和 array 时混淆了返回值&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;13-range-遍历-slice-和-array-时混淆了返回值&#34;&gt;13. range 遍历 slice 和 array 时混淆了返回值&lt;/h6&gt;
 
 &lt;p&gt;与其他编程语言中的 for-in 、foreach 遍历语句不同，Go 中的 range 在遍历时会生成 2 个值，第一个是元素索引，第二个是元素的值：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -638,9 +656,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;slice 和 array 其实是一维数据&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;14-slice-和-array-其实是一维数据&#34;&gt;14. slice 和 array 其实是一维数据&lt;/h6&gt;
 
 &lt;p&gt;看起来 Go 支持多维的 array 和 slice，可以创建数组的数组、切片的切片，但其实并不是。&lt;/p&gt;
 
@@ -742,9 +758,7 @@ func main() {
 
 &lt;p&gt;what-is-a-concise-way-to-create-a-2d-slice-in-go&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;访问 map 中不存在的 key&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;15-访问-map-中不存在的-key&#34;&gt;15. 访问 map 中不存在的 key&lt;/h6&gt;
 
 &lt;p&gt;和其他编程语言类似，如果访问了 map 中不存在的 key 则希望能返回 nil，比如在 PHP 中：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -796,9 +810,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;string 类型的值是常量，不可更改&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;16-string-类型的值是常量-不可更改&#34;&gt;16. string 类型的值是常量，不可更改&lt;/h6&gt;
 
 &lt;p&gt;尝试使用索引遍历字符串，来更新字符串中的个别字符，是不允许的。&lt;/p&gt;
 
@@ -864,9 +876,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;string 与 byte slice 之间的转换&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;17-string-与-byte-slice-之间的转换&#34;&gt;17. string 与 byte slice 之间的转换&lt;/h6&gt;
 
 &lt;p&gt;当进行 string 和 byte slice 相互转换时，参与转换的是拷贝的原始值。这种转换的过程，与其他编程语的强制类型转换操作不同，也和新 slice 与旧 slice 共享底层数组不同。&lt;/p&gt;
 
@@ -875,9 +885,7 @@ func main() {
 &lt;p&gt;在 map[string] 中查找 key 时，使用了对应的 []byte，避免做 m[string(key)] 的内存分配
 使用 for range 迭代 string 转换为 []byte 的迭代：for i,v := range []byte(str) {&amp;hellip;}&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;string 与索引操作符&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;18-string-与索引操作符&#34;&gt;18. string 与索引操作符&lt;/h6&gt;
 
 &lt;p&gt;对字符串用索引访问返回的不是字符，而是一个 byte 值。&lt;/p&gt;
 
@@ -920,9 +928,7 @@ func main() {
 &lt;/div&gt;
 &lt;p&gt;如果需要使用 for range 迭代访问字符串中的字符（unicode code point / rune），标准库中有 &amp;ldquo;unicode/utf8&amp;rdquo; 包来做 UTF8 的相关解码编码。另外 utf8string 也有像 func (s *String) At(i int) rune 等很方便的库函数。&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;字符串并不都是 UTF8 文本&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;19-字符串并不都是-utf8-文本&#34;&gt;19. 字符串并不都是 UTF8 文本&lt;/h6&gt;
 
 &lt;p&gt;string 的值不必是 UTF8 文本，可以包含任意的值。只有字符串是文字字面值时才是 UTF8 文本，字串可以通过转义来包含其他数据。&lt;/p&gt;
 
@@ -953,9 +959,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;字符串的长度&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;20-字符串的长度&#34;&gt;20. 字符串的长度&lt;/h6&gt;
 
 &lt;p&gt;在 Python 中：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1021,25 +1025,34 @@ print(len(data)) # 1&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;p&gt;参考：normalization&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;在多行 array、slice、map 语句中缺少 , 号&lt;/p&gt;
-
-&lt;p&gt;func main() {
+&lt;h6 id=&#34;21-在多行-array-slice-map-语句中缺少-号&#34;&gt;21. 在多行 array、slice、map 语句中缺少 , 号&lt;/h6&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;func main() {
     x := []int {
         1,
         2   // syntax error: unexpected newline, expecting comma or }
     }
-    y := []int{1,2,}&lt;br /&gt;
-    z := []int{1,2}
-    // &amp;hellip;
-}&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
+    y := []int{1,2,}    
+    z := []int{1,2} 
+    // ...
+}&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 &lt;p&gt;声明语句中 } 折叠到单行后，尾部的 , 不是必需的。&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;log.Fatal 和 log.Panic 不只是 log&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;22-log-fatal-和-log-panic-不只是-log&#34;&gt;22. log.Fatal 和 log.Panic 不只是 log&lt;/h6&gt;
 
 &lt;p&gt;log 标准库提供了不同的日志记录等级，与其他语言的日志库不同，Go 的 log 包在调用 Fatal&lt;em&gt;()、Panic&lt;/em&gt;() 时能做更多日志外的事，如中断程序的执行等：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1056,17 +1069,13 @@ print(len(data)) # 1&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;对内建数据结构的操作并不是同步的&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;23-对内建数据结构的操作并不是同步的&#34;&gt;23. 对内建数据结构的操作并不是同步的&lt;/h6&gt;
 
 &lt;p&gt;尽管 Go 本身有大量的特性来支持并发，但并不保证并发的数据安全，用户需自己保证变量等数据以原子操作更新。&lt;/p&gt;
 
 &lt;p&gt;goroutine 和 channel 是进行原子操作的好方法，或使用 &amp;ldquo;sync&amp;rdquo; 包中的锁。&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;range 迭代 string 得到的值&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;24-range-迭代-string-得到的值&#34;&gt;24. range 迭代 string 得到的值&lt;/h6&gt;
 
 &lt;p&gt;range 得到的索引是字符值（Unicode point / rune）第一个字节的位置，与其他编程语言不同，这个索引并不直接是字符在字符串中的位置。&lt;/p&gt;
 
@@ -1099,9 +1108,7 @@ print(len(data)) # 1&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;range 迭代 map&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;25-range-迭代-map&#34;&gt;25. range 迭代 map&lt;/h6&gt;
 
 &lt;p&gt;如果你希望以特定的顺序（如按 key 排序）来迭代 map，要注意每次迭代都可能产生不一样的结果。&lt;/p&gt;
 
@@ -1128,9 +1135,7 @@ print(len(data)) # 1&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
 &lt;p&gt;&lt;img src=&#34;data:image/jpeg;base64,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&#34; alt=&#34;images&#34; /&gt;&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;switch 中的 fallthrough 语句&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;26-switch-中的-fallthrough-语句&#34;&gt;26. switch 中的 fallthrough 语句&lt;/h6&gt;
 
 &lt;p&gt;switch 语句中的 case 代码块会默认带上 break，但可以使用 fallthrough 来强制执行下一个 case 代码块。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1196,9 +1201,7 @@ print(len(data)) # 1&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 }   &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;自增和自减运算&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;27-自增和自减运算&#34;&gt;27. 自增和自减运算&lt;/h6&gt;
 
 &lt;p&gt;很多编程语言都自带前置后置的 ++、&amp;ndash; 运算。但 Go 特立独行，去掉了前置操作，同时 ++、— 只作为运算符而非表达式。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1239,9 +1242,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;按位取反&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;28-按位取反&#34;&gt;28. 按位取反&lt;/h6&gt;
 
 &lt;p&gt;很多编程语言使用 ~ 作为一元按位取反（NOT）操作符，Go 重用 ^ XOR 操作符来按位取反：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1329,9 +1330,7 @@ func main() {
 10000010&amp;amp;(^00000010)= 10000000 [A AND (NOT B)]&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;运算符的优先级&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;29-运算符的优先级&#34;&gt;29. 运算符的优先级&lt;/h6&gt;
 
 &lt;p&gt;除了位清除（bit clear）操作符，Go 也有很多和其他语言一样的位操作符，但优先级另当别论。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1391,9 +1390,7 @@ func main() {
     1             ||&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;不导出的 struct 字段无法被 encode&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;30-不导出的-struct-字段无法被-encode&#34;&gt;30. 不导出的 struct 字段无法被 encode&lt;/h6&gt;
 
 &lt;p&gt;以小写字母开头的字段成员是无法被外部直接访问的，所以 struct 在进行 json、xml、gob 等格式的 encode 操作时，这些私有字段会被忽略，导出时得到零值：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1424,9 +1421,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;程序退出时还有 goroutine 在执行&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;31-程序退出时还有-goroutine-在执行&#34;&gt;31. 程序退出时还有 goroutine 在执行&lt;/h6&gt;
 
 &lt;p&gt;程序默认不等所有 goroutine 都执行完才退出，这点需要特别注意：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1626,7 +1621,7 @@ func doIt(workerID int, ch &amp;lt;-chan interface{}, done &amp;lt;-chan struct{
 
 &lt;p&gt;&lt;img src=&#34;data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAC8gIykjHS8pJik1Mi84R3ZMR0FBR5BnbVV2q5azsKiWpaK81P/lvMj/y6Kl6//u////////tuL/////////////2wBDATI1NUc+R4pMTIr/wqXC////////////////////////////////////////////////////////////////////wAARCAI0AlYDASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAIDBAEF/8QALhABAAICAQMBCAICAwEBAAAAAAECAxEEEiExMhMUIjM0QVFxUmFCgSNikSRE/8QAGAEBAQEBAQAAAAAAAAAAAAAAAAECAwT/xAAhEQEBAAIDAQADAQEBAAAAAAAAATFBAhEhUQMSYSITMv/aAAwDAQACEQMRAD8A84BpgB2I34BwSmto8wiIACgAAlSN2X5ccRTcDN5dXpmBKkbtGxURsrjpMfZHNiiKTMDH/Sd9MoA6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOx5Bwb8eGk4dzrbFaNWkEQAAAAAAAAAAAAAAAAAAbsGCvTue+xjlynGMK/jVrNu7b7Gn8YIx1ie0J25X8ss6MmKt66l5+XFOO3fx9npoZccXrO2ZWOHO8a8sTyU6LaQberIAKnj9TVlibUiIZcfqbdxFYmV04/kvVjJ7vf8IXpak92r3iOrWnc1YnHvQTnZfWbFM9TTm+Uy4vU1ZvlGjn/6jElWs2nUOR3lsw0ildz5G+XL9Yz+75PwjbFanmF9uRq2tLY1loMfvymWGI2sjBeY7QtxY4652nkyxj7RAt53vqM/u+T8IWrNZ1LZiye0iezNyPmJTjytvVVADqLKYb5PTDmKvVeIelPTx8e9RsRi9zy/hXkw3xxu0NePl9eSI0s5VOuNf2KwY8N8nphZ7nl/DZM1wYtxHfSmnM3fvAjHek0nUovS5OOt8fVEfZ5yK4AonTHbJPwpRx8k21ruu4XqhrzZKYo3qNl8IwzxMsRvSFcF7TMRHeG/DnjJSZnshg1OW4MFqzSdSljxWyemEuV8xo4P+X6JgrL7G/X067pe7ZN601x9XC7LeuONzEAwTxMsR4UWrNZ1L0cHJ9rfp0o5tYrMTH3QZAFEqUm86jys91yfh3i/Neha8U6e3kR508bJWe8FuLkr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&#34; alt=&#34;images&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;32.向无缓冲的 channel 发送数据，只要 receiver 准备好了就会立刻返回&lt;/p&gt;
+&lt;h6 id=&#34;32-向无缓冲的-channel-发送数据-只要-receiver-准备好了就会立刻返回&#34;&gt;32. 向无缓冲的 channel 发送数据，只要 receiver 准备好了就会立刻返回&lt;/h6&gt;
 
 &lt;p&gt;只有在数据被 receiver 处理时，sender 才会阻塞。因运行环境而异，在 sender 发送完数据后，receiver 的 goroutine 可能没有足够的时间处理下一个数据。如：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1672,9 +1667,7 @@ func doIt(workerID int, ch &amp;lt;-chan interface{}, done &amp;lt;-chan struct{
 Processed: cmd.1&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;向已关闭的 channel 发送数据会造成 panic&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;33-向已关闭的-channel-发送数据会造成-panic&#34;&gt;33. 向已关闭的 channel 发送数据会造成 panic&lt;/h6&gt;
 
 &lt;p&gt;从已关闭的 channel 接收数据是安全的：&lt;/p&gt;
 
@@ -1764,9 +1757,7 @@ Processed: cmd.1&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
 &lt;p&gt;&lt;img src=&#34;data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAC8gIykjHS8pJik1Mi84R3ZMR0FBR5BnbVV2q5azsKiWpaK81P/lvMj/y6Kl6//u////////tuL/////////////2wBDATI1NUc+R4pMTIr/wqXC////////////////////////////////////////////////////////////////////wAARCAFpAokDASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAEDBAIF/8QALBABAAICAQMCBgIDAQEBAAAAAAECAxEEEiExE1EiMjNBUnEUYSM0QpGBJP/EABgBAQEBAQEAAAAAAAAAAAAAAAABAgME/8QAHxEBAQADAAICAwAAAAAAAAAAAAECEUESMQMhMlFh/9oADAMBAAIRAxEAPwDzgTpphA6rG5bcOCvR3jaMZZSMA0cjBNJ3HhQbal2gBVATALqYuqsyqtGp01YfpyoyVtNp7DnL9ql+LD1RtV0Wj7OqZLV7bGr/ABdPHjTPaNTpsxzM03LJl+eRnG3bgTpMUt7SNuR1NJ9kaBA6isz4hPRb2kNuBM1mPMAIAFBMRM+Idenf8ZBwOppaPNZRETM6iAQO/Tv+MuZrNfMaBAlAAJiN+AQOui29ak9O/wCMg5HXTO9anaJrMeYBAmImfEJ6Lb8SDkdTS3tJ6d/xkHImYmPMIABMRvwCB1FLfjJ6dvxkHI69O2t9Mo1M+AQOvTv+MnRaPNZBEd2qnFi2Lq+7NWtp8RLRXNeuPp6ZBmtGpmEJmdzJFZnxGwQOui34ymcdojvWRHAlAAAoOorM+I2n07/jIOBNqzHmNJis28RsHI79O/4y5mJjzAIAEAAAAAAAAAAWYsc5LahrjiV0y4Mvp28N0Zq68wjnncp6cfxawtpXpjUOfVr7w7rbqjbNcMrl0tWLRqWHPhmk7jw3zOo2xcnL1TqCN/FayiRt6UJhCYVGzj96S6tatfLjB2pKjLMzdHLW61fDevZkvHTfTVgiYp3Zsv1JFxaMP02XJ88tWH6bNk+eQx911hx9U9/DTa1McREuOP8AIqz733C/d00RauSNM9sWrxHunjTPW0Wj4oXSfjXMVrjjumuSlp1CvkTOnGCPi2Jrc275MfCytXJ+VlR0x9IB3ijd4gabePx6xXrs7tycdZ1Gk5JmuCNezzqx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&#34; alt=&#34;images&#34; /&gt;&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;用了值为 nil 的 channel&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;34-用了值为-nil-的-channel&#34;&gt;34. 用了值为 nil 的 channel&lt;/h6&gt;
 
 &lt;p&gt;在一个值为 nil 的 channel 上发送和接收数据将永久阻塞：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1887,9 +1878,7 @@ goroutine 1 [chan receive (nil chan)]&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tabl
 
 &lt;p&gt;&lt;img src=&#34;data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAC8gIykjHS8pJik1Mi84R3ZMR0FBR5BnbVV2q5azsKiWpaK81P/lvMj/y6Kl6//u////////tuL/////////////2wBDATI1NUc+R4pMTIr/wqXC////////////////////////////////////////////////////////////////////wAARCAIMAp4DASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAEDBAIF/8QAKxABAAICAQMCBgIDAQEAAAAAAAECAxEEEiExE0EUMjNRUmEigTRCcSOR/8QAGAEBAQEBAQAAAAAAAAAAAAAAAAECAwT/xAAcEQEBAQEAAgMAAAAAAAAAAAAAARECITEDEkH/2gAMAwEAAhEDEQA/APOAaYATEbBA04+NNq72pyY5pPeBmdSuABoAAdVrNpcrcPzCW45tjmvlw18iOzKJzdIjc6WRhmY24rOp200zxMa0J1b+KLYrQrlvvETSZ/TDbyHN1AA2AkEAAAAAAAAAkEAkEAkEAACUAAAAACUAAAAAAAAAAAAAOq0m9tQ5XYLRXJEyDnJhtjjdnDZystb01GmMEAACQRAAoCQQCQQCQQAAAAAAAAAA6rWbTqHLbxK16dz5Rnq5FHw+T7Oq4LxMTpv7I7I435HOLcV7ozYoyR3WCOU6u68zJjmk6lW38mK67+WFqPVzdiAFbF2H5oVLcPzQrPXppvSLeXHw9HeW/TXaiuS028o5TcRlxdPjw4p8zVl742Wnkbl8Ndvpf0wz5bp+l/TFPkThNKTedQ0/D113ThrEV2rzZJ32C225HU8euuzPakxOl+DJMzqVmSsTMLhtntTjwbjus+Ho7vbop2Z65LTbyJtvl3fBWI3DNLdb6f8ATFPlG+bXIA2mtZtOobMXDiY3dxwqbybldys00jVewJ+Dxe21HI49ccfxTxsl7ZY3PZqzV6uwjLg4vVG7x2XRxMMzrc7d5r+ni1H2YK5rxbe0VZn40071jszy9WP54dz9nl5I/lKjkAHVI3bTZ8JE0ia+WTF88PTi8UxRIiqOHj1/Lyqz8amOu4czyberHfttZyM0XrqCDm3GrGKLe8smu70b/wCPX/jz/wDaUitePjUthi0+UYePW82ifZow/wCNDniT/O6o4jhV338OrcPH09t7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&#34; alt=&#34;images&#34; /&gt;&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;若函数 receiver 传参是传值方式，则无法修改参数的原有值&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;35-若函数-receiver-传参是传值方式-则无法修改参数的原有值&#34;&gt;35. 若函数 receiver 传参是传值方式，则无法修改参数的原有值&lt;/h6&gt;
 
 &lt;p&gt;方法 receiver 的参数与一般函数的参数类似：如果声明为值，那方法体得到的是一份参数的值拷贝，此时对参数的任何修改都不会对原有值产生影响。&lt;/p&gt;
 
@@ -1962,9 +1951,7 @@ func main() {
 
 &lt;h3 id=&#34;中级篇&#34;&gt;中级篇&lt;/h3&gt;
 
-&lt;ol&gt;
-&lt;li&gt;关闭 HTTP 的响应体&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;36-关闭-http-的响应体&#34;&gt;36. 关闭 HTTP 的响应体&lt;/h6&gt;
 
 &lt;p&gt;使用 HTTP 标准库发起请求、获取响应时，即使你不从响应中读取任何数据或响应为空，都需要手动关闭响应体。新手很容易忘记手动关闭，或者写在了错误的位置：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -2120,9 +2107,7 @@ func main() {
 &lt;pre class=&#34;chroma&#34;&gt;json.NewDecoder(resp.Body).Decode(&amp;amp;data)&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;关闭 HTTP 连接&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;37-关闭-http-连接&#34;&gt;37. 关闭 HTTP 连接&lt;/h6&gt;
 
 &lt;p&gt;一些支持 HTTP1.1 或 HTTP1.0 配置了 connection: keep-alive 选项的服务器会保持一段时间的长连接。但标准库 &amp;ldquo;net/http&amp;rdquo; 的连接默认只在服务器主动要求关闭时才断开，所以你的程序可能会消耗完 socket 描述符。解决办法有 2 个，请求结束后：&lt;/p&gt;
 
@@ -2357,7 +2342,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;使用 struct 类型将你需要的数据映射为数值型&lt;/p&gt;
+&lt;h6 id=&#34;38-使用-struct-类型将你需要的数据映射为数值型&#34;&gt;38. 使用 struct 类型将你需要的数据映射为数值型&lt;/h6&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre class=&#34;chroma&#34;&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -2461,9 +2446,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;struct、array、slice 和 map 的值比较&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;39-struct-array-slice-和-map-的值比较&#34;&gt;39. struct、array、slice 和 map 的值比较&lt;/h6&gt;
 
 &lt;p&gt;可以使用相等运算符 == 来比较结构体变量，前提是两个结构体的成员都是可比较的类型：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -2676,9 +2659,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;从 panic 中恢复&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;40-从-panic-中恢复&#34;&gt;40. 从 panic 中恢复&lt;/h6&gt;
 
 &lt;p&gt;在一个 defer 延迟执行的函数中调用 recover() ，它便能捕捉 / 中断 panic&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -2748,9 +2729,7 @@ func doRecover() {
 recobered: panic: not good&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;在 range 迭代 slice、array、map 时通过更新引用来更新元素&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;41-在-range-迭代-slice-array-map-时通过更新引用来更新元素&#34;&gt;41. 在 range 迭代 slice、array、map 时通过更新引用来更新元素&lt;/h6&gt;
 
 &lt;p&gt;在 range 迭代中，得到的值其实是元素的一份值拷贝，更新拷贝并不会更改原来的元素，即是拷贝的地址并不是原有元素的地址：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -2815,9 +2794,7 @@ recobered: panic: not good&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;slice 中隐藏的数据&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;42-slice-中隐藏的数据&#34;&gt;42. slice 中隐藏的数据&lt;/h6&gt;
 
 &lt;p&gt;从 slice 中重新切出新 slice 时，新 slice 会引用原 slice 的底层数组。如果跳了这个坑，程序可能会分配大量的临时 slice 来指向原底层数组的部分数据，将导致难以预料的内存使用。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -2877,9 +2854,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;Slice 中数据的误用&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;43-slice-中数据的误用&#34;&gt;43. Slice 中数据的误用&lt;/h6&gt;
 
 &lt;p&gt;举个简单例子，重写文件路径（存储在 slice 中）&lt;/p&gt;
 
@@ -2973,9 +2948,7 @@ func main() {
 &lt;/div&gt;
 &lt;p&gt;第 6 行中第三个参数是用来控制 dir1 的新容量，再往 dir1 中 append 超额元素时，将分配新的 buffer 来保存。而不是覆盖原来的 path 底层数组&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;旧 slice&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;44-旧-slice&#34;&gt;44. 旧 slice&lt;/h6&gt;
 
 &lt;p&gt;当你从一个已存在的 slice 创建新 slice 时，二者的数据指向相同的底层数组。如果你的程序使用这个特性，那需要注意 &amp;ldquo;旧&amp;rdquo;（stale） slice 问题。&lt;/p&gt;
 
@@ -3032,9 +3005,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;类型声明与方法&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;45-类型声明与方法&#34;&gt;45. 类型声明与方法&lt;/h6&gt;
 
 &lt;p&gt;从一个现有的非 interface 类型创建新类型时，并不会继承原有的方法：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -3109,9 +3080,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;跳出 for-switch 和 for-select 代码块&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;46-跳出-for-switch-和-for-select-代码块&#34;&gt;46. 跳出 for-switch 和 for-select 代码块&lt;/h6&gt;
 
 &lt;p&gt;没有指定标签的 break 只会跳出 switch/select 语句，若不能使用 return 语句跳出的话，可为 break 跳出标签指定的代码块：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -3148,9 +3117,7 @@ loop:
 &lt;/div&gt;
 &lt;p&gt;goto 虽然也能跳转到指定位置，但依旧会再次进入 for-switch，死循环。&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;for 语句中的迭代变量与闭包函数&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;47-for-语句中的迭代变量与闭包函数&#34;&gt;47. for 语句中的迭代变量与闭包函数&lt;/h6&gt;
 
 &lt;p&gt;for 语句中的迭代变量在每次迭代中都会重用，即 for 中创建的闭包函数接收到的参数始终是同一个变量，在 goroutine 开始执行时都会得到同一个迭代值：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -3332,9 +3299,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;defer 函数的参数值&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;48-defer-函数的参数值&#34;&gt;48. defer 函数的参数值&lt;/h6&gt;
 
 &lt;p&gt;对 defer 延迟执行的函数，它的参数会在声明时候就会求出具体值，而不是在执行时才求值：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -3357,9 +3322,7 @@ func main() {
 result: 2&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;defer 函数的执行时机&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;49-defer-函数的执行时机&#34;&gt;49. defer 函数的执行时机&lt;/h6&gt;
 
 &lt;p&gt;对 defer 延迟执行的函数，会在调用它的函数结束时执行，而不是在调用它的语句块结束时执行，注意区分开。&lt;/p&gt;
 
@@ -3510,9 +3473,7 @@ func main() {
 &lt;/div&gt;
 &lt;p&gt;当然你也可以去掉 defer，在文件资源使用完毕后，直接调用 f.Close() 来关闭。&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;失败的类型断言&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;50-失败的类型断言&#34;&gt;50. 失败的类型断言&lt;/h6&gt;
 
 &lt;p&gt;在类型断言语句中，断言失败则会返回目标类型的“零值”，断言变量与原来变量混用可能出现异常情况：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -3567,9 +3528,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;阻塞的 gorutinue 与资源泄露&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;51-阻塞的-gorutinue-与资源泄露&#34;&gt;51. 阻塞的 gorutinue 与资源泄露&lt;/h6&gt;
 
 &lt;p&gt;在 2012 年 Google I/O 大会上，Rob Pike 的 Go Concurrency Patterns 演讲讨论 Go 的几种基本并发模式，如 完整代码 中从数据集中获取第一条数据的函数：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -3703,9 +3662,7 @@ func main() {
 
 &lt;h3 id=&#34;高级篇&#34;&gt;高级篇&lt;/h3&gt;
 
-&lt;ol&gt;
-&lt;li&gt;使用指针作为方法的 receiver&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;52-使用指针作为方法的-receiver&#34;&gt;52. 使用指针作为方法的 receiver&lt;/h6&gt;
 
 &lt;p&gt;只要值是可寻址的，就可以在值上直接调用指针方法。即是对一个方法，它的 receiver 是指针就足矣。&lt;/p&gt;
 
@@ -3778,9 +3735,7 @@ data does not implement printer (print method has pointer receiver)
 cannot call pointer method on m[&amp;#34;x&amp;#34;] cannot take the address of m[&amp;#34;x&amp;#34;]&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;更新 map 字段的值&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;53-更新-map-字段的值&#34;&gt;53. 更新 map 字段的值&lt;/h6&gt;
 
 &lt;p&gt;如果 map 一个字段的值是 struct 类型，则无法直接更新该 struct 的单个字段：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -3924,9 +3879,7 @@ func main() {
 panic: runtime error: invalid memory address or nil pointer dereference&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;nil interface 和 nil interface 值&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;54-nil-interface-和-nil-interface-值&#34;&gt;54. nil interface 和 nil interface 值&lt;/h6&gt;
 
 &lt;p&gt;虽然 interface 看起来像指针类型，但它不是。interface 类型的变量只有在类型和值均为 nil 时才为 nil&lt;/p&gt;
 
@@ -4036,9 +3989,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;堆栈变量&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;55-堆栈变量&#34;&gt;55. 堆栈变量&lt;/h6&gt;
 
 &lt;p&gt;你并不总是清楚你的变量是分配到了堆还是栈。&lt;/p&gt;
 
@@ -4050,9 +4001,7 @@ func main() {
 
 &lt;p&gt;&lt;img src=&#34;data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAC8gIykjHS8pJik1Mi84R3ZMR0FBR5BnbVV2q5azsKiWpaK81P/lvMj/y6Kl6//u////////tuL/////////////2wBDATI1NUc+R4pMTIr/wqXC////////////////////////////////////////////////////////////////////wAARCAEzAsUDASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAIDBAEF/8QANRAAAgIBBAIBBAEEAAUEAwEAAAECAxEEEiExE0FRFCIyYXEjM4GRBTRCUqEkU2KxNXKC0f/EABcBAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAcEQEBAAIDAQEAAAAAAAAAAAAAARFBAhIxAyH/2gAMAwEAAhEDEQA/APOANENJOUU8pZNOV5SeqEm+kzh6OnpdUWpYeTPqtPse+P4//RMsT6S3DMACuqbrar35IxW6SRqhFSoW54RXZVDx74PKRXOc9VyVDjBy3J4KTTD/AJaZVVW7Jfr2Fl9yrBpVNUsqMnlEYULlzeEiHeKAaJVV+Nyg28GcLLkBOqt2zUUalp9Pv2bm5BpiBrjpYJzlY8Qizk9PXKpzpk3jvIGUAnXFSmov2BAG56WmM1GUnl9Irnp4KNjTf2vgDKDRRTGyucnnKLfpao1xnOTSaAxA0ammNcYzg8xkZwAOpN9IYfwwOA1V6eCqVl0sJ9HbtPBQjKpt7nhAZDqWXhGt0UVJK2T3fojVVU7/ALZ/ausgFo3tzKai/g4tHKSypJlurqjKbk7Eml0Q0P8Acl/BBlaw2jhPa5WuK7bNP09EMRsm9z+CjGDXLSLz7Iv7UstslHT6ebcYybaAxA11aaDrc7G8Z9FV8aopeNtv3kCkA7jPQHAdw/hm2GkqcIuTabAwg22aWuNcmpNyiYgANGlojapOTxgv+kpWHueGBgBrjpIqUnOWIJidFLplOuTeAKa6XOuU8pbSo2eKp0SlXN8dlOmqVtu2XWAKQbvpqN2ze95jnHZNx+AIgGuOnrhWpXSw30kBkBsnpIuUPG3iXtnfp9O5uuMnvAxAlZB1zcX6IgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC+GqsjFLh4KAGbJfXoae7yRbk0mjPqdRve2L+3/wCy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&#34; alt=&#34;images&#34; /&gt;&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;GOMAXPROCS、Concurrency（并发）and Parallelism（并行）&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;56-gomaxprocs-concurrency-并发-and-parallelism-并行&#34;&gt;56. GOMAXPROCS、Concurrency（并发）and Parallelism（并行）&lt;/h6&gt;
 
 &lt;p&gt;Go 1.4 及以下版本，程序只会使用 1 个执行上下文 / OS 线程，即任何时间都最多只有 1 个 goroutine 在执行。&lt;/p&gt;
 
@@ -4083,9 +4032,7 @@ func main() {
 }&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;读写操作的重新排序&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h6 id=&#34;57-读写操作的重新排序&#34;&gt;57. 读写操作的重新排序&lt;/h6&gt;
 
 &lt;p&gt;Go 可能会重排一些操作的执行顺序，可以保证在一个 goroutine 中操作是顺序执行的，但不保证多 goroutine 的执行顺序：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -4175,7 +4122,7 @@ go run main.go
 &lt;/div&gt;
 &lt;p&gt;如果你想保持多 goroutine 像代码中的那样顺序执行，可以使用 channel 或 sync 包中的锁机制等。&lt;/p&gt;
 
-&lt;p&gt;58.优先调度&lt;/p&gt;
+&lt;h6 id=&#34;58-优先调度&#34;&gt;58.优先调度&lt;/h6&gt;
 
 &lt;p&gt;你的程序可能出现一个 goroutine 在运行时阻止了其他 goroutine 的运行，比如程序中有一个不让调度器运行的 for 循环：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
