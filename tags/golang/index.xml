@@ -5,10 +5,19 @@
     <link>http://veh47.github.io/tags/golang/</link>
     <description>Recent content in Golang on Eleven</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 09 Jan 2020 11:56:39 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 05 Apr 2020 13:35:03 +0800</lastBuildDate>
     
 	<atom:link href="http://veh47.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>让你的go语言少踩一些坑</title>
+      <link>http://veh47.github.io/post/%E8%AE%A9%E4%BD%A0%E7%9A%84go%E8%AF%AD%E8%A8%80%E5%B0%91%E8%B8%A9%E4%B8%80%E4%BA%9B%E5%9D%91/</link>
+      <pubDate>Sun, 05 Apr 2020 13:35:03 +0800</pubDate>
+      
+      <guid>http://veh47.github.io/post/%E8%AE%A9%E4%BD%A0%E7%9A%84go%E8%AF%AD%E8%A8%80%E5%B0%91%E8%B8%A9%E4%B8%80%E4%BA%9B%E5%9D%91/</guid>
+      <description>Go 是一门简单有趣的编程语言，与其他语言一样，在使用时不免会遇到很多坑，不过它们大多不是 Go 本身的设计缺陷。如果你刚从其他语言转到 Go，那这篇文</description>
+    </item>
     
     <item>
       <title>Go性能调优</title>
@@ -181,18 +190,6 @@
       
       <guid>http://veh47.github.io/post/go%E6%8C%87%E9%92%88%E7%A4%BA%E4%BE%8B/</guid>
       <description>区别于C/C++中的指针，Go语言中的指针不能进行偏移和运算，是安全指针。 要搞明白Go语言中的指针需要先知道3个概念：指针地址、指针类型和指</description>
-    </item>
-    
-    <item>
-      <title>Go map示例</title>
-      <link>http://veh47.github.io/post/go-map%E7%A4%BA%E4%BE%8B/</link>
-      <pubDate>Tue, 31 Dec 2019 15:07:24 +0800</pubDate>
-      
-      <guid>http://veh47.github.io/post/go-map%E7%A4%BA%E4%BE%8B/</guid>
-      <description>&lt;p&gt;Go语言中提供的映射关系容器为map，其内部使用散列表（hash）实现。&lt;/p&gt;
-
-&lt;p&gt;map是一种无序的基于key-value的数据结构，Go语言中的map是引用类型，必须初始化才能使用。
-Map 是go内置的数据结构，是一种无序的键值对的集合，可以通过key快速找到value的值&lt;/p&gt;</description>
     </item>
     
   </channel>
